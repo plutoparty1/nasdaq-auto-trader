@@ -1,0 +1,36 @@
+{
+  "mode": "dry_run",
+  "symbols": ["QQQ", "AAPL", "MSFT", "NVDA"],
+  "timeframe": "1Day",
+  "lookback_days": 260,
+  "bar_limit": 1000,
+  "allow_live_trading": false,
+  "alpaca": {
+    "paper": true,
+    "feed": "iex",
+    "timeout": 30
+  },
+  "strategy": {
+    "sma_fast": 20,
+    "sma_slow": 50,
+    "ema_fast": 12,
+    "ema_slow": 26,
+    "rsi_period": 14,
+    "rsi_oversold": 30,
+    "rsi_overbought": 70,
+    "macd_fast": 12,
+    "macd_slow": 26,
+    "macd_signal": 9,
+    "bollinger_period": 20,
+    "buy_score": 3,
+    "sell_score": 3,
+    "stop_loss_pct": 0.07,
+    "take_profit_pct": 0.18
+  },
+  "risk": {
+    "max_position_pct": 0.1,
+    "min_cash_buffer_pct": 0.05,
+    "min_order_notional": 50,
+    "max_order_notional": null
+  }
+}
