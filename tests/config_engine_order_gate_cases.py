@@ -141,6 +141,7 @@ class ConfigEngineOrderGateTests(unittest.TestCase):
         config = AppConfig(
             mode="live",
             allow_live_trading=True,
+            live_environment_authorized=True,
             regular_market_hours_only=False,
             symbols=["QQQ"],
             alpaca=AlpacaCredentials("key", "secret", paper=False),

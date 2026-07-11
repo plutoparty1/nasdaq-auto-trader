@@ -4,6 +4,32 @@ from tests.config_engine_fixtures import *
 
 
 class ConfigEngineConfigTests(unittest.TestCase):
+    def test_live_mode_requires_environment_lock(self):
+        config = AppConfig(
+            mode="live",
+            allow_live_trading=True,
+            alpaca=AlpacaCredentials("key", "secret", paper=False),
+        )
+
+        with self.assertRaisesRegex(ValueError, "environment authorization"):
+            validate_trading_mode(config)
+
+    def test_live_environment_lock_is_loaded_only_from_exact_yes(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "config.json"
+            path.write_text(json.dumps({"mode": "live", "allow_live_trading": True}), encoding="utf-8")
+            config = load_config(
+                path,
+                environ={
+                    "NASDAQ_AUTO_TRADER_ALLOW_LIVE": "YES",
+                    "ALPACA_API_KEY": "key",
+                    "ALPACA_SECRET_KEY": "secret",
+                },
+            )
+
+        self.assertTrue(config.live_environment_authorized)
+        validate_trading_mode(config)
+
     def test_live_mode_requires_explicit_allow_flag(self):
         config = AppConfig(
             mode="live",

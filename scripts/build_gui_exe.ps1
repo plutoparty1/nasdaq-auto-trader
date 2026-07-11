@@ -93,6 +93,7 @@ KIS_CURRENCY=USD
 ALPACA_API_KEY=
 ALPACA_SECRET_KEY=
 ALPACA_DATA_FEED=iex
+NASDAQ_AUTO_TRADER_ALLOW_LIVE=NO
 "@ | Set-Content -LiteralPath $EnvExample -Encoding UTF8
 
 $ProjectEnv = Join-Path $ProjectRoot ".env"

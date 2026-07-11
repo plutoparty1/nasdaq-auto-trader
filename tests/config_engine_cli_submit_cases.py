@@ -44,6 +44,9 @@ class ConfigEngineCliSubmitTests(unittest.TestCase):
                 ),
                 encoding="utf-8",
             )
+            (Path(temp_dir) / ".env").write_text(
+                "NASDAQ_AUTO_TRADER_ALLOW_LIVE=YES\n", encoding="utf-8"
+            )
             output = io.StringIO()
             cli_module.TradingEngine = fake_engine
             try:
@@ -103,6 +106,9 @@ class ConfigEngineCliSubmitTests(unittest.TestCase):
                     }
                 ),
                 encoding="utf-8",
+            )
+            (Path(temp_dir) / ".env").write_text(
+                "NASDAQ_AUTO_TRADER_ALLOW_LIVE=YES\n", encoding="utf-8"
             )
             output = io.StringIO()
             cli_module.TradingEngine = fake_engine

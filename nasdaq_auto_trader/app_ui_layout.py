@@ -114,6 +114,11 @@ class DashboardLayoutMixin:
             text="학습만 실행",
             command=self._start_learning_only,
         )
+        self.cancel_learning_button = self.ttk.Button(
+            button_bar,
+            text="학습 취소",
+            command=self._cancel_learning,
+        )
         self.settings_button = self.ttk.Button(
             button_bar,
             text="설정",
@@ -126,10 +131,17 @@ class DashboardLayoutMixin:
                 self.resume_button,
                 self.refresh_button,
                 self.learning_button,
+                self.cancel_learning_button,
                 self.settings_button,
             ]
         ):
-            button.grid(row=0, column=index, padx=(0, 6), sticky="w")
+            button.grid(
+                row=index // 4,
+                column=index % 4,
+                padx=(0, 6),
+                pady=(0, 4),
+                sticky="w",
+            )
 
         columns = (
             "symbol",

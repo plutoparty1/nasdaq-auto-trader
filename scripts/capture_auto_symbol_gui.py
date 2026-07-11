@@ -19,6 +19,10 @@ from nasdaq_auto_trader.settings_window_dialog import SettingsWindow
 from nasdaq_auto_trader.trading_session_store import TradingSessionStore
 
 
+class CaptureError(RuntimeError):
+    pass
+
+
 def main(output_dir: str) -> int:
     import tkinter as tk
     from tkinter import messagebox, ttk
@@ -137,12 +141,12 @@ def _capture(window, path: Path, top_offset: int = 0) -> None:
             image.save(path)
             return
         _pump(window, 0.5)
-    raise RuntimeError(f"window capture remained incomplete: {path.name}")
+    raise CaptureError(f"window capture remained incomplete: {path.name}")
 
 
 def _black_pixel_ratio(image) -> float:
-    colors = image.getcolors(maxcolors=image.width * image.height) or []
-    black = sum(count for count, color in colors if max(color) < 5)
+    histogram = image.convert("L").histogram()
+    black = sum(histogram[:5])
     return black / (image.width * image.height)
 
 
@@ -153,7 +157,7 @@ def _find_canvas(widget, canvas_type):
         found = _find_canvas_or_none(child, canvas_type)
         if found is not None:
             return found
-    raise RuntimeError("settings canvas not found")
+    raise CaptureError("settings canvas not found")
 
 
 def _find_canvas_or_none(widget, canvas_type):

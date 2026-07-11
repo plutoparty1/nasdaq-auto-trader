@@ -1,29 +1,52 @@
 from __future__ import annotations
 
-import hashlib
 import json
+import threading
+from collections.abc import Callable
 from dataclasses import dataclass, replace
-from datetime import date, timedelta
 from pathlib import Path
 
 from nasdaq_auto_trader.ai_quant_lab.artifact_paths import default_strategy_artifact_paths
 from nasdaq_auto_trader.ai_quant_lab.audit_logger import AuditLogger
 from nasdaq_auto_trader.ai_quant_lab.backtest_engine import BacktestEngine, BacktestRequest
+from nasdaq_auto_trader.ai_quant_lab.backtest_market_data import validate_backtest_market_data
 from nasdaq_auto_trader.ai_quant_lab.config import AIQuantConfig, load_ai_quant_config
-from nasdaq_auto_trader.ai_quant_lab.insane_search_research import (
-    InsaneSearchResearchService,
-    ResearchContext,
-    ResearchResult,
-    SourceMetadata,
-)
 from nasdaq_auto_trader.ai_quant_lab.operator_market_data import BarsBySymbol
 from nasdaq_auto_trader.ai_quant_lab.operator_models import OperatorPaths
 from nasdaq_auto_trader.ai_quant_lab.registry import StrategyRegistry
 from nasdaq_auto_trader.ai_quant_lab.scoring_engine import ScoringEngine
-from nasdaq_auto_trader.ai_quant_lab.strategy_factory import AIStrategyFactory
-from nasdaq_auto_trader.ai_quant_lab.types import JsonValue
+from nasdaq_auto_trader.ai_quant_lab.strategy_schema_validation import parse_strategy_spec_json
 from nasdaq_auto_trader.ai_quant_lab.validation_engine import ValidationEngine
-from nasdaq_auto_trader.quant_data.features import PriceBar
+from nasdaq_auto_trader.file_lock import FileLockTimeout, exclusive_file_lock
+from nasdaq_auto_trader.learning_strategy_template import candidate_payload
+from nasdaq_auto_trader.learning_report import (
+    save_learning_report,
+    save_strategy_artifact,
+)
+
+
+@dataclass(frozen=True, slots=True)
+class LearningProgress:
+    stage: str
+    percent: int
+    detail: str
+
+
+class LearningCancellation:
+    def __init__(self, reporter: Callable[[LearningProgress], None] | None = None) -> None:
+        self._event = threading.Event()
+        self._reporter = reporter
+
+    def cancel(self) -> None:
+        self._event.set()
+
+    @property
+    def cancelled(self) -> bool:
+        return self._event.is_set()
+
+    def report(self, stage: str, percent: int, detail: str = "") -> None:
+        if self._reporter is not None:
+            self._reporter(LearningProgress(stage, percent, detail))
 
 
 @dataclass(frozen=True, slots=True)
@@ -36,62 +59,75 @@ class LearningRunResult:
     artifact_root: Path
 
 
-def run_learning_only(paths: OperatorPaths | None = None) -> LearningRunResult:
+def run_learning_only(
+    paths: OperatorPaths | None = None,
+    bars_by_symbol: BarsBySymbol | None = None,
+    cancellation: LearningCancellation | None = None,
+) -> LearningRunResult:
     runtime_paths = paths or _default_operator_paths()
-    config = _ensure_learning_config(runtime_paths.ai_config_path)
-    audit = AuditLogger(runtime_paths.audit_log_path)
-    research_service = InsaneSearchResearchService(
-        config,
-        _LocalBootstrapResearchRunner(),
-        audit,
-        runtime_paths.spec_dir / "research",
-    )
-    factory = AIStrategyFactory(
-        _LocalBootstrapSpecProvider(),
-        audit,
-        runtime_paths.spec_dir,
-    )
-    registry = StrategyRegistry(
-        runtime_paths.registry_path,
-        runtime_paths.promoted_path,
-        config,
-        audit,
-    )
-    context = research_service.build_research_context_for_strategy_generation()
-    factory_result = factory.generate_candidates(context, config.max_strategy_candidates_per_run)
-    accepted = 0
-    reasons = list(factory_result.rejected_reasons)
-    for spec in factory_result.accepted:
-        registry.register_schema_validated(spec)
-        backtest = BacktestEngine(config, audit).run(BacktestRequest(spec, _local_bars_by_symbol()))
-        validation = ValidationEngine(audit).validate(backtest)
-        score = ScoringEngine(audit).score(backtest, validation)
-        if backtest.success and validation.promotion_eligible and not score.rejection_reasons:
-            registry.record_validation_passed(spec, score)
-            accepted += 1
-        else:
-            reasons.extend(backtest.rejection_reasons)
-            reasons.extend(validation.rejection_reasons)
-            reasons.extend(score.rejection_reasons)
-    return LearningRunResult(
-        status="completed",
-        generated_candidates=len(factory_result.accepted) + len(factory_result.rejected_reasons),
-        accepted_candidates=accepted,
-        reasons=tuple(dict.fromkeys(reasons)),
-        submitted_orders=0,
-        artifact_root=runtime_paths.spec_dir.parent,
-    )
+    control = cancellation or LearningCancellation()
+    if control.cancelled:
+        return _result(runtime_paths, "cancelled", 0, ("learning_cancelled",))
+    try:
+        with exclusive_file_lock(runtime_paths.spec_dir.parent / "learning.lock", 0.0):
+            return _run_locked(runtime_paths, bars_by_symbol or {}, control)
+    except FileLockTimeout:
+        return _result(runtime_paths, "blocked", 0, ("learning_already_running",))
 
 
-def _default_operator_paths() -> OperatorPaths:
-    defaults = default_strategy_artifact_paths()
-    return OperatorPaths(
-        defaults.ai_config_path,
-        defaults.registry_path,
-        defaults.promoted_path,
-        defaults.spec_dir,
-        defaults.audit_log_path,
+def _run_locked(
+    paths: OperatorPaths,
+    bars_by_symbol: BarsBySymbol,
+    control: LearningCancellation,
+) -> LearningRunResult:
+    control.report("data_validation", 10, _data_range(bars_by_symbol))
+    _, market_data_reason = validate_backtest_market_data(bars_by_symbol, 100_000.0)
+    if market_data_reason:
+        return _result(paths, "blocked", 0, (market_data_reason,))
+    if control.cancelled:
+        return _result(paths, "cancelled", 0, ("learning_cancelled",))
+
+    config = _ensure_learning_config(paths.ai_config_path)
+    audit = AuditLogger(paths.audit_log_path)
+    validation = parse_strategy_spec_json(
+        json.dumps(candidate_payload(bars_by_symbol), ensure_ascii=False)
     )
+    if not validation.valid or validation.spec is None:
+        return _result(paths, "failed", 0, validation.reasons)
+    report_path = (
+        paths.spec_dir
+        / "reports"
+        / f"{validation.spec.strategy_id}-{validation.spec.version}.json"
+    )
+    if report_path.exists():
+        return _result(paths, "completed", 0, ("data_unchanged",))
+
+    control.report("backtest", 45, validation.spec.strategy_id)
+    backtest = BacktestEngine(config, audit).run(
+        BacktestRequest(validation.spec, bars_by_symbol)
+    )
+    if control.cancelled:
+        return _result(paths, "cancelled", 0, ("learning_cancelled",))
+    control.report("walk_forward_validation", 70, validation.spec.version)
+    verified = ValidationEngine(audit).validate(backtest)
+    score = ScoringEngine(audit).score(backtest, verified)
+    reasons = tuple(
+        dict.fromkeys(
+            (*backtest.rejection_reasons, *verified.rejection_reasons, *score.rejection_reasons)
+        )
+    )
+    if not backtest.success or not verified.promotion_eligible or reasons:
+        control.report("champion_comparison", 100, "champion_retained")
+        return _result(paths, "completed", 0, reasons)
+    if control.cancelled:
+        return _result(paths, "cancelled", 0, ("learning_cancelled",))
+
+    save_strategy_artifact(paths.spec_dir, validation.spec)
+    save_learning_report(paths.spec_dir / "reports", validation.spec, bars_by_symbol, score)
+    registry = StrategyRegistry(paths.registry_path, paths.promoted_path, config, audit)
+    registry.record_validation_passed(validation.spec, score)
+    control.report("completed", 100, "validation_passed")
+    return _result(paths, "completed", 1, ())
 
 
 def _ensure_learning_config(path: Path | None) -> AIQuantConfig:
@@ -113,127 +149,35 @@ def _ensure_learning_config(path: Path | None) -> AIQuantConfig:
         max_parallel_backtests=1,
     )
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(
+    temporary = path.with_suffix(path.suffix + ".tmp")
+    temporary.write_text(
         json.dumps(safe_config.to_json_object(), ensure_ascii=False, indent=2) + "\n",
         encoding="utf-8",
     )
+    temporary.replace(path)
     return safe_config
 
 
-@dataclass(frozen=True, slots=True)
-class _LocalBootstrapResearchRunner:
-    def is_available(self) -> bool:
-        return True
-
-    def run(self, query: str) -> ResearchResult:
-        research_id = _local_research_id(query)
-        source_id = research_id.replace("research", "source", 1)
-        return ResearchResult(
-            research_id=research_id,
-            provider="insane_search",
-            query=query,
-            created_at="2026-07-11T00:00:00+09:00",
-            sources=(
-                SourceMetadata(
-                    source_id,
-                    "로컬 부트스트랩 검증 근거",
-                    "local://ai-quant-bootstrap",
-                    "2026-07-11",
-                    "로컬 학습 버튼이 사용하는 기본 연구 근거입니다.",
-                ),
-            ),
-            summary="로컬 부트스트랩 학습은 실주문 없이 검증용 후보를 생성합니다.",
-            usable=True,
-            failure_reason="",
-        )
+def _result(
+    paths: OperatorPaths,
+    status: str,
+    accepted: int,
+    reasons: tuple[str, ...],
+) -> LearningRunResult:
+    return LearningRunResult(status, 1 if status == "completed" else 0, accepted, reasons, 0, paths.spec_dir.parent)
 
 
-@dataclass(frozen=True, slots=True)
-class _LocalBootstrapSpecProvider:
-    def request_strategy_specs(
-        self,
-        prompt: str,
-        context: ResearchContext,
-    ) -> tuple[str, ...]:
-        del prompt, context
-        return (json.dumps(_bootstrap_strategy_payload(), ensure_ascii=False),)
+def _data_range(bars_by_symbol: BarsBySymbol) -> str:
+    timestamps = [bar.timestamp for bars in bars_by_symbol.values() for bar in bars]
+    return f"{min(timestamps)} ~ {max(timestamps)}" if timestamps else ""
 
 
-def _local_research_id(query: str) -> str:
-    if "trend_following" in query:
-        return "local-research-trend-following"
-    digest = hashlib.sha256(query.encode("utf-8")).hexdigest()[:12]
-    return f"local-research-{digest}"
-
-
-def _bootstrap_strategy_payload() -> dict[str, JsonValue]:
-    return {
-        "strategy_id": "local_bootstrap_trend",
-        "version": "v1",
-        "strategy_family": "trend_following",
-        "description": "실주문 없이 자동 학습을 시작하기 위한 로컬 추세 추종 검증 후보",
-        "research_basis": {
-            "provider": "insane_search",
-            "research_ids": ["local-research-trend-following"],
-            "source_ids": ["local-source-trend-following"],
-            "summary": "로컬 부트스트랩 연구 근거를 사용한 검증 후보",
-        },
-        "signals": [
-            {"type": "trend_following", "lookback_days": 20, "weight": 1.0},
-        ],
-        "entry_rule": {"type": "weighted_score", "threshold": 0.2, "top_n": 1},
-        "exit_rule": {
-            "stop_loss_mode": "atr_multiple",
-            "stop_loss_atr_multiple": 2.0,
-            "take_profit_mode": "atr_multiple",
-            "take_profit_atr_multiple": 1_000_000.0,
-            "trailing_stop": False,
-            "max_holding_days": 300,
-        },
-        "position_sizing": {
-            "method": "volatility_target",
-            "risk_per_trade_pct": 0.001,
-            "confidence_adjusted": True,
-            "max_single_position_pct": 0.02,
-        },
-        "risk_controls": {
-            "use_kill_switch": True,
-            "block_if_data_stale": True,
-            "block_if_spread_abnormal": True,
-            "block_if_daily_loss_limit": True,
-            "block_before_market_close": True,
-        },
-        "metadata": {
-            "created_by": "ai_quant_lab",
-            "created_at": "2026-07-11T00:00:00+09:00",
-        },
-    }
-
-
-def _local_bars_by_symbol() -> BarsBySymbol:
-    return {
-        "QQQ": _local_price_bars("QQQ", 0.003),
-        "AAPL": _local_price_bars("AAPL", 0.01),
-    }
-
-
-def _local_price_bars(symbol: str, daily_drift: float) -> list[PriceBar]:
-    output: list[PriceBar] = []
-    price = 100.0
-    for index in range(320):
-        price *= 1.0 + daily_drift
-        timestamp = (date(2024, 1, 1) + timedelta(days=index)).isoformat()
-        output.append(
-            PriceBar(
-                symbol,
-                timestamp,
-                price * 0.999,
-                price * 1.003,
-                price * 0.997,
-                price,
-                1_000_000 + index,
-                bid=price - 0.01,
-                ask=price + 0.01,
-            )
-        )
-    return output
+def _default_operator_paths() -> OperatorPaths:
+    defaults = default_strategy_artifact_paths()
+    return OperatorPaths(
+        defaults.ai_config_path,
+        defaults.registry_path,
+        defaults.promoted_path,
+        defaults.spec_dir,
+        defaults.audit_log_path,
+    )

@@ -177,6 +177,7 @@ def _live_engine(paths, guard, broker):
         AppConfig(
             mode="live",
             allow_live_trading=True,
+            live_environment_authorized=True,
             symbols=["POISON"],
             alpaca=AlpacaCredentials("key", "secret", paper=False),
             strategy=compact_strategy_config(),

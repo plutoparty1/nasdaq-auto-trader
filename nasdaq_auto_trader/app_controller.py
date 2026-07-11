@@ -17,6 +17,7 @@ from .config_manager import (
     validate_settings,
 )
 from .engine import TradingEngine
+from .controller_operations import ControllerOperationsMixin
 from .models import Position
 from .quant_data.resources import application_data_root
 from .quant_data.symbol_selector import SelectionReport
@@ -25,7 +26,7 @@ from .session_state_persistence import load_session_state, save_session_state
 from .trading_session_store import SessionStoreError, TradingSessionStore
 
 
-class AutoTradeController:
+class AutoTradeController(ControllerOperationsMixin):
     """Stateful controller shared by the GUI and tests."""
 
     def __init__(
@@ -68,6 +69,7 @@ class AutoTradeController:
         self.last_error: str | None = None
         self.last_selection_report: SelectionReport | None = None
         self._selection_health = AutomaticSelectionHealth()
+        self._initialize_operations()
 
     @property
     def automatic_block_streak(self) -> int:

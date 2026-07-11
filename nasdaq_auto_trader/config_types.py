@@ -35,6 +35,7 @@ class AppConfigDict(TypedDict):
     lookback_days: int
     bar_limit: int
     allow_live_trading: bool
+    live_environment_authorized: bool
     regular_market_hours_only: bool
     alpaca: AlpacaConfigDict
     kis: KISConfigDict

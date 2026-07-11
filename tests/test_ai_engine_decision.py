@@ -38,6 +38,7 @@ class AIEngineDecisionTests(unittest.TestCase):
             AppConfig(
                 mode="dry_run",
                 allow_live_trading=False,
+                live_environment_authorized=True,
                 regular_market_hours_only=True,
                 alpaca=AlpacaCredentials("key", "secret", paper=False),
                 strategy=compact_strategy(),

@@ -31,6 +31,8 @@
 | T13 | Rollback no-trade operator path | Done | PASS | Added registry and CLI rollback support that rewrites promoted strategy to `status=rollback`, `mode=no_trade`, `allowed_for_live=false`, upserts rollback state, and audits `rollback_triggered` |
 | T14 | Automatic degradation monitor rollback | Done | PASS | Added ledger-driven `monitor-degradation` command that rolls back the promoted champion to no-trade on drawdown, daily-loss, missing telemetry, or malformed telemetry breaches |
 | T15 | Mandatory strategy-family research coverage | Done | PASS | Nightly StrategySpec research context now queries insane-search evidence for all 13 required whitelisted strategy families, rejects partial/duplicate source evidence, and rejects StrategySpecs citing out-of-context research IDs |
+| T16 | 공식 캘린더와 운영 상태 머신 | Done | PASS | NASDAQ 일정, 원자적 상태 복구, 장전·장중·장후·장외 전환과 안전 중지 추가 |
+| T17 | 실제 데이터 학습과 실거래 이중 잠금 | Done | PASS | 가짜 부트스트랩 제거, 완료 봉 학습·취소·중복 방지·보고서와 환경 잠금 추가 |
 
 ## Review History
 
@@ -50,3 +52,4 @@
 | 5 | 9 | PASS | 0 | 0 | 1 | T13 continuation: operator rollback now forces promoted strategy to no-trade; automated degradation trigger remains future monitoring scope |
 | 5 | 10 | PASS | 0 | 0 | 1 | T14 continuation: ledger-driven degradation monitoring now triggers rollback automatically; external scheduler/alerting remains production operations scope |
 | 5 | 11 | PASS | 0 | 0 | 1 | T15 continuation: StrategySpec generation context is now backed by all mandatory strategy-family research queries and candidate citations must bind to that audited context; source quality still depends on the configured approved insane-search adapter |
+| 5 | 12 | PASS | 0 | 0 | 1 | T16-T17: 운영 상태와 실제 데이터 학습 경로를 통합했고 전체 357개 테스트를 통과함. 실거래 전 장기 PAPER 검증은 계속 필요함 |

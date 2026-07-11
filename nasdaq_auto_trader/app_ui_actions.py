@@ -8,7 +8,6 @@ from typing import Any, Callable
 
 from .app_types import AppConfigurationError
 from .config_manager import SettingsError, TradingSettings
-from .learning_runner import run_learning_only
 from .settings_window import open_settings_window
 
 
@@ -25,7 +24,7 @@ class DashboardActionsMixin:
             return
 
         self._append_log("자동매매 실행")
-        self._start_task("auto", lambda: self.controller.run_auto_cycle(force=True))
+        self._start_task("auto", lambda: self.controller.run_operating_cycle(force=True))
         self._update_controls()
 
     def _pause_auto_trading(self) -> None:
@@ -41,16 +40,20 @@ class DashboardActionsMixin:
             self._append_log(f"자동매매 재개 실패: {exc}")
             return
         self._append_log("자동매매 재개")
-        self._start_task("auto", lambda: self.controller.run_auto_cycle(force=True))
+        self._start_task("auto", lambda: self.controller.run_operating_cycle(force=True))
         self._update_controls()
 
     def _refresh_now(self) -> None:
         self._start_task("portfolio", self.controller.refresh_portfolio)
 
     def _start_learning_only(self) -> None:
-        if self._start_task("learn", run_learning_only):
+        if self._start_task("learn", self.controller.run_learning_only):
             self._append_log("학습만 실행: 실제 주문 없이 전략 연구와 검증만 실행합니다.")
             self._update_controls()
+
+    def _cancel_learning(self) -> None:
+        self.controller.cancel_learning()
+        self._append_log("학습 취소 요청을 보냈습니다.")
 
     def _open_settings(self) -> None:
         open_settings_window(
@@ -70,7 +73,7 @@ class DashboardActionsMixin:
         now = time.monotonic()
         if self._worker is None:
             if self.controller.is_due():
-                self._start_task("auto", self.controller.run_auto_cycle)
+                self._start_task("auto", self.controller.run_operating_cycle)
             elif now >= self._next_portfolio_refresh:
                 self._start_task("portfolio", self.controller.refresh_portfolio)
         self._update_controls()

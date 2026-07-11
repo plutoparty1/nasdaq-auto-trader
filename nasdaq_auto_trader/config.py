@@ -36,6 +36,7 @@ class AppConfig:
     lookback_days: int = 260
     bar_limit: int = 1000
     allow_live_trading: bool = False
+    live_environment_authorized: bool = False
     regular_market_hours_only: bool = True
     alpaca: AlpacaCredentials = field(
         default_factory=lambda: AlpacaCredentials("", "", True)
@@ -76,6 +77,7 @@ class AppConfig:
             "lookback_days": self.lookback_days,
             "bar_limit": self.bar_limit,
             "allow_live_trading": self.allow_live_trading,
+            "live_environment_authorized": self.live_environment_authorized,
             "regular_market_hours_only": self.regular_market_hours_only,
             "alpaca": alpaca,
             "kis": kis,
@@ -153,6 +155,9 @@ def load_config(
         lookback_days=int(raw.get("lookback_days", 260)),
         bar_limit=int(raw.get("bar_limit", 1000)),
         allow_live_trading=_bool_from_config(raw.get("allow_live_trading"), False),
+        live_environment_authorized=(
+            env.get("NASDAQ_AUTO_TRADER_ALLOW_LIVE", "") == "YES"
+        ),
         regular_market_hours_only=_bool_from_config(
             raw.get("regular_market_hours_only"),
             True,
@@ -234,6 +239,10 @@ def validate_trading_mode(config: AppConfig) -> None:
         raise TradingModeValidationError("broker must be one of alpaca, kis")
     if config.mode == "live" and not config.allow_live_trading:
         raise TradingModeValidationError("live trading requires allow_live_trading=true")
+    if config.mode == "live" and not config.live_environment_authorized:
+        raise TradingModeValidationError(
+            "live trading requires environment authorization"
+        )
     if config.mode in ("paper", "live"):
         if config.broker == "alpaca" and (
             not config.alpaca.api_key or not config.alpaca.secret_key

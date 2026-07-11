@@ -108,11 +108,11 @@ class AIFailureGuidanceTests(unittest.TestCase):
         self.assertEqual(result["response"]["reason"], "ai_provider_unavailable")
         self.assertEqual(result["ai_decision"]["error_code"], "ai_provider_unavailable")
 
-    def test_settings_label_distinguishes_external_ai_from_learned_selection(self):
+    def test_settings_label_identifies_ai_trading_supervisor(self):
         section_title = SETTINGS_SECTIONS_ADVANCED[1][0]
 
-        self.assertIn("외부 AI 추천", section_title)
-        self.assertIn("별도 구성 필요", section_title)
+        self.assertIn("AI Trading Supervisor", section_title)
+        self.assertIn("선택 기능", section_title)
 
 
 if __name__ == "__main__":

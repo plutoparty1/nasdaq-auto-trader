@@ -44,7 +44,7 @@ class GuiLauncherTests(unittest.TestCase):
 
         self.assertIsInstance(app._result_queue, queue.Queue)
         self.assertIsNone(app._worker)
-        self.assertEqual(ttk_module.Button.call_count, 6)
+        self.assertEqual(ttk_module.Button.call_count, 7)
 
     def test_exe_launcher_uses_app_data_settings_path_outside_dist(self):
         original_local_app_data = os.environ.get("LOCALAPPDATA")

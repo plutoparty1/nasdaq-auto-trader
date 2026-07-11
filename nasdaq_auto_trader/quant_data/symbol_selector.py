@@ -34,6 +34,7 @@ PAPER_ELIGIBLE = frozenset(
     }
 )
 MIN_FEATURE_BARS = 20
+DEPRECATED_BOOTSTRAP_PREFIX = "local_bootstrap_"
 
 
 @dataclass(frozen=True, slots=True)
@@ -171,7 +172,9 @@ def _resolve_nonlive(paths: StrategyArtifactPaths) -> StrategyResolution:
     records = tuple(
         record
         for record in registry.load_records()
-        if record.status in PAPER_ELIGIBLE and math.isfinite(record.score)
+        if record.status in PAPER_ELIGIBLE
+        and math.isfinite(record.score)
+        and not record.strategy_id.startswith(DEPRECATED_BOOTSTRAP_PREFIX)
     )
     ordered = sorted(records, key=lambda item: (-item.score, item.strategy_id, item.version))
     for record in ordered:
@@ -195,6 +198,8 @@ def _resolve_live(
         return StrategyResolutionBlock("promoted_strategy_not_allowed_for_live")
     strategy_id = _text(promoted.get("active_strategy_id"))
     version = _text(promoted.get("strategy_version"))
+    if strategy_id.startswith(DEPRECATED_BOOTSTRAP_PREFIX):
+        return StrategyResolutionBlock("deprecated_bootstrap_strategy")
     spec = _load_spec(paths, strategy_id, version)
     if spec is None:
         return StrategyResolutionBlock("strategy_spec_missing_or_invalid")

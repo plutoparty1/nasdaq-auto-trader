@@ -50,7 +50,7 @@ SETTINGS_SECTIONS_ADVANCED = [
         ],
     ),
     (
-        "6. 외부 AI 추천(별도 구성 필요)",
+        "6. AI Trading Supervisor(선택 기능)",
         [
             (
                 "ai_ticker_selection_enabled",
@@ -66,9 +66,9 @@ SETTINGS_SECTIONS_ADVANCED = [
             ),
             (
                 "ai_trade_decision_enabled",
-                "AI가 살지/팔지 판단",
+                "AI Trading Supervisor 사용",
                 "bool",
-                "별도로 구성한 TradingAgents가 매수, 매도, 보유, 건너뛰기를 추천합니다. 직접 주문은 항상 차단됩니다.",
+                "오랜 실전 경험에서 쓰는 자본 보존 원칙을 바탕으로 시장, 모델, 계좌와 리스크를 함께 살펴 거래 허용 또는 보류를 추천합니다. 경력이나 수익을 보장하지 않으며 직접 주문은 항상 차단됩니다.",
             ),
             (
                 "ai_recommend_only",

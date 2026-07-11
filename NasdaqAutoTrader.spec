@@ -11,7 +11,7 @@ a = Analysis(
             'nasdaq_auto_trader\\quant_data\\defaults',
         ),
     ],
-    hiddenimports=[],
+    hiddenimports=['pandas_market_calendars'],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],

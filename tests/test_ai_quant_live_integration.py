@@ -122,6 +122,7 @@ class AIQuantLiveIntegrationTests(unittest.TestCase):
             app_config = AppConfig(
                 mode="live",
                 allow_live_trading=True,
+                live_environment_authorized=True,
                 alpaca=AlpacaCredentials("key", "secret", paper=False),
             )
 
@@ -180,6 +181,7 @@ class AIQuantLiveIntegrationTests(unittest.TestCase):
             app_config = AppConfig(
                 mode="live",
                 allow_live_trading=True,
+                live_environment_authorized=True,
                 alpaca=AlpacaCredentials("key", "secret", paper=False),
             )
 

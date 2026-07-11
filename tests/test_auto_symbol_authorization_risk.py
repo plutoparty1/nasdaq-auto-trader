@@ -201,6 +201,7 @@ def _live_app_config() -> AppConfig:
     return AppConfig(
         mode="live",
         allow_live_trading=True,
+        live_environment_authorized=True,
         regular_market_hours_only=False,
         alpaca=AlpacaCredentials("key", "secret", paper=False),
     )
@@ -221,6 +222,10 @@ def _live_config(root: Path) -> Path:
                 },
             }
         ),
+        encoding="utf-8",
+    )
+    (root / ".env").write_text(
+        "NASDAQ_AUTO_TRADER_ALLOW_LIVE=YES\n",
         encoding="utf-8",
     )
     return path

@@ -14,6 +14,7 @@ class LearningGuiTests(unittest.TestCase):
         app._append_log = logs.append
         app._start_task = lambda label, task: labels.append((label, task)) or True
         app._update_controls = lambda: None
+        app.controller = _Controller()
 
         app._start_learning_only()
 
@@ -26,6 +27,7 @@ class LearningGuiTests(unittest.TestCase):
         app._append_log = logs.append
         app._start_task = lambda label, task: False
         app._update_controls = lambda: None
+        app.controller = _Controller()
 
         app._start_learning_only()
 
@@ -65,6 +67,14 @@ class _Variable:
 
     def set(self, value):
         self.value = value
+
+
+class _Controller:
+    def run_learning_only(self):
+        return None
+
+    def cancel_learning(self):
+        return None
 
 
 if __name__ == "__main__":

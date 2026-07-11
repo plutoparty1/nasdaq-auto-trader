@@ -144,11 +144,15 @@ class DashboardRenderMixin:
     def _update_controls(self) -> None:
         state = self.controller.state
         busy = self._worker is not None
+        progress = self.controller.last_learning_progress
+        if busy and progress is not None:
+            self.status_var.set(f"학습 {progress.percent}% · {progress.stage}")
         self.start_button.configure(state="disabled" if busy or state == "running" else "normal")
         self.pause_button.configure(state="normal" if state == "running" else "disabled")
         self.resume_button.configure(state="normal" if not busy and state == "paused" else "disabled")
         self.refresh_button.configure(state="disabled" if busy else "normal")
         self.learning_button.configure(state="disabled" if busy else "normal")
+        self.cancel_learning_button.configure(state="normal" if busy else "disabled")
         self.settings_button.configure(state="disabled" if busy else "normal")
 
 

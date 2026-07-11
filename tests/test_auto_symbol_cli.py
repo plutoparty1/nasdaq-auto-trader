@@ -267,6 +267,11 @@ def _write_config(root: Path, allow_live: bool) -> Path:
         ),
         encoding="utf-8",
     )
+    if allow_live:
+        (root / ".env").write_text(
+            "NASDAQ_AUTO_TRADER_ALLOW_LIVE=YES\n",
+            encoding="utf-8",
+        )
     return path
 
 
