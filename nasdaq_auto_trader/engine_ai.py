@@ -6,11 +6,13 @@ from datetime import datetime, timedelta
 from .ai_decision_manager import (
     AIDecisionContext,
     AIDecisionManager,
+    AIRecommendationProvider,
     TradingAgentsRecommendationProvider,
     normalize_candidate_tickers,
 )
 from .ai_decision_schema import AITradeRecommendation
 from .ai_trade_guard import guard_ai_recommendation
+from .config_manager import TradingSettings, record_submitted_order
 from .engine_types import EngineCycleItem, JsonObject
 from .models import AccountSnapshot, Bar, Position, TradeDecision
 
@@ -21,7 +23,7 @@ class EngineAIMixin:
         bars_by_symbol: dict[str, list[Bar]],
         account: AccountSnapshot,
         positions: dict[str, Position],
-    ) -> dict | None:
+    ) -> EngineCycleItem | None:
         """Run one AI recommendation cycle or return None for rule fallback."""
 
         settings = self.trading_settings
@@ -59,12 +61,15 @@ class EngineAIMixin:
                 now=now,
             )
         )
-        ai_log = decision_result.to_dict()
+        ai_log: JsonObject = dict(decision_result.to_dict())
         if decision_result.status != "ok" or decision_result.recommendation is None:
             ai_log["final_status"] = "fallback_to_rule" if settings.ai_fail_action == "fallback_to_rule" else "blocked"
             if settings.ai_fail_action == "fallback_to_rule":
                 return None
-            return self._ai_blocked_item("AI", "ai_recommendation_failed", ai_log)
+            failure_reason = (
+                decision_result.error_code or "ai_recommendation_failed"
+            )
+            return self._ai_blocked_item("AI", failure_reason, ai_log)
 
         recommendation = self._effective_ai_recommendation(
             decision_result.recommendation,

@@ -13,6 +13,7 @@ from .ai_decision_schema import (
     parse_ai_trade_recommendation,
 )
 from .ai_decision_types import (
+    AIDecisionErrorCode,
     AIDecisionResultDict,
     TradingAgentsRecommendationUnavailableError,
 )
@@ -31,6 +32,8 @@ class AIRecommendationProvider(Protocol):
         context: "AIDecisionContext",
     ) -> str:
         """Return the AI provider's raw JSON string."""
+
+        ...
 
 
 @dataclass(frozen=True, slots=True)
@@ -55,11 +58,12 @@ class AIDecisionResult:
     raw_response: str | None = None
     recommendation: AITradeRecommendation | None = None
     error: str | None = None
+    error_code: AIDecisionErrorCode | None = None
     parse_success: bool = False
     attempts: int = 0
 
     def to_dict(self) -> AIDecisionResultDict:
-        return {
+        result: AIDecisionResultDict = {
             "status": self.status,
             "candidate_tickers": self.candidate_tickers,
             "raw_response": self.raw_response,
@@ -71,6 +75,9 @@ class AIDecisionResult:
             "attempts": self.attempts,
             "prompt": self.prompt,
         }
+        if self.error_code is not None:
+            result["error_code"] = self.error_code
+        return result
 
 
 class AIDecisionManager:
@@ -110,7 +117,20 @@ class AIDecisionManager:
                     parse_success=True,
                     attempts=attempt,
                 )
-            except (AIDecisionSchemaError, Exception) as exc:
+            except TradingAgentsRecommendationUnavailableError as exc:
+                return AIDecisionResult(
+                    status="error",
+                    prompt=prompt,
+                    candidate_tickers=candidates,
+                    raw_response=last_response,
+                    error=f"{type(exc).__name__}: {exc}",
+                    error_code="ai_provider_unavailable",
+                    parse_success=False,
+                    attempts=attempt,
+                )
+            except AIDecisionSchemaError as exc:
+                last_error = f"{type(exc).__name__}: {exc}"
+            except Exception as exc:  # noqa: BROAD_EXCEPT_OK
                 last_error = f"{type(exc).__name__}: {exc}"
 
         return AIDecisionResult(

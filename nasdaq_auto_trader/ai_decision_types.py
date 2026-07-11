@@ -1,6 +1,9 @@
 from __future__ import annotations
 
-from typing import TypedDict
+from typing import Literal, TypedDict
+
+
+AIDecisionErrorCode = Literal["ai_provider_unavailable"]
 
 
 class AIDecisionResultDict(TypedDict, total=False):
@@ -10,6 +13,7 @@ class AIDecisionResultDict(TypedDict, total=False):
     parse_success: bool
     recommendation: dict[str, str | int | float] | None
     error: str | None
+    error_code: AIDecisionErrorCode
     attempts: int
     prompt: str
     final_status: str

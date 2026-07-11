@@ -3,11 +3,22 @@ from __future__ import annotations
 from .app_types import EngineResult
 
 
+AI_FAILURE_MESSAGES = {
+    "ai_provider_unavailable": (
+        "외부 AI 추천 기능이 준비되지 않았습니다. 학습·검증 데이터로 종목을 자동 선택하려면 "
+        "먼저 적격 학습 전략을 준비한 뒤 설정에서 '과거 데이터 기반 종목 자동 선택'을 켜세요."
+    ),
+    "ai_decision_interval_active": (
+        "설정한 AI 판단 간격이 아직 지나지 않아 이번 실행을 건너뜁니다."
+    ),
+}
+
+
 def _summarize_trade_result(item: EngineResult) -> str:
     ai_decision = item.get("ai_decision")
     if isinstance(ai_decision, dict):
-        recommendation = ai_decision.get("recommendation") or {}
-        if isinstance(recommendation, dict):
+        recommendation = ai_decision.get("recommendation")
+        if isinstance(recommendation, dict) and recommendation:
             response = item.get("response")
             final_status = ai_decision.get("final_status")
             if isinstance(response, dict) and response.get("status") == "blocked":
@@ -22,11 +33,7 @@ def _summarize_trade_result(item: EngineResult) -> str:
                 f"리스크: {recommendation.get('risk', '-')} / "
                 f"최종 상태: {final_status or '-'}"
             )
-        return (
-            "[AI 추천] "
-            f"실패: {ai_decision.get('error', '-')} / "
-            f"최종 상태: {ai_decision.get('final_status', '-')}"
-        )
+        return _summarize_ai_failure(item, ai_decision)
 
     symbol = str(item.get("symbol", "-"))
     decision = item.get("decision")
@@ -55,6 +62,23 @@ def _summarize_trade_result(item: EngineResult) -> str:
         f"{symbol}: action={action}, score={score}, price={_format_optional_currency(price)}, "
         f"{order_text}, response={response_text}"
     )
+
+
+def _summarize_ai_failure(
+    item: EngineResult,
+    ai_decision: EngineResult,
+) -> str:
+    response = item.get("response")
+    reason = ai_decision.get("error_code")
+    final_status = ai_decision.get("final_status") or "실패"
+    if isinstance(response, dict) and response.get("status") == "blocked":
+        reason = response.get("reason") or reason
+        final_status = "주문 차단"
+    message = AI_FAILURE_MESSAGES.get(
+        str(reason),
+        "AI 추천을 만들거나 읽지 못해 이번 실행을 안전하게 건너뜁니다.",
+    )
+    return f"[AI 추천] {message} / 최종 상태: {final_status}"
 
 
 def _mode_label(mode: str) -> str:

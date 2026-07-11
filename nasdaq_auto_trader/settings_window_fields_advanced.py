@@ -50,25 +50,25 @@ SETTINGS_SECTIONS_ADVANCED = [
         ],
     ),
     (
-        "6. AI 자동 판단",
+        "6. 외부 AI 추천(별도 구성 필요)",
         [
             (
                 "ai_ticker_selection_enabled",
                 "AI가 종목 고르기",
                 "bool",
-                "켜면 아래 후보 목록 안에서만 AI가 매매할 종목을 고릅니다.",
+                "TradingAgents를 별도로 구성했을 때만 사용합니다. 과거 데이터 기반 종목 자동 선택과는 다른 기능입니다.",
             ),
             (
                 "ai_order_qty_enabled",
                 "AI가 수량 정하기",
                 "bool",
-                "켜면 AI가 주문 수량을 추천합니다. 그래도 최대 수량과 보유 한도는 다시 검사합니다.",
+                "별도로 구성한 TradingAgents가 주문 수량을 추천합니다. 최대 수량과 보유 한도는 다시 검사합니다.",
             ),
             (
                 "ai_trade_decision_enabled",
                 "AI가 살지/팔지 판단",
                 "bool",
-                "켜면 AI가 매수, 매도, 보유, 건너뛰기 중 하나를 추천합니다.",
+                "별도로 구성한 TradingAgents가 매수, 매도, 보유, 건너뛰기를 추천합니다. 직접 주문은 항상 차단됩니다.",
             ),
             (
                 "ai_recommend_only",
