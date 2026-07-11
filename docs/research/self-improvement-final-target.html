@@ -1,0 +1,498 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="나스닥 자동매매 프로그램의 로컬 자가개선 최종 지향점과 구현 순서">
+  <title>자가개선 자동매매 최종 지향점</title>
+  <style>
+    :root {
+      --paper: #f4f6f5;
+      --surface: #ffffff;
+      --ink: #17201d;
+      --muted: #52605b;
+      --line: #cdd6d2;
+      --green-900: #123b2f;
+      --green-700: #286650;
+      --green-100: #e1eee8;
+      --green-50: #edf5f1;
+      --green-200: #cfe4db;
+      --blue-700: #2457a7;
+      --blue-100: #e7eef9;
+      --focus: #164a91;
+      --gold-500: #d0a449;
+      --surface-muted: #e9efec;
+      --footer-text: #dce9e3;
+      --amber-700: #94520a;
+      --amber-100: #f7ead5;
+      --red-700: #9a3030;
+      --red-100: #f7e4e4;
+      --radius: 6px;
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-5: 24px;
+      --space-6: 32px;
+      --space-7: 48px;
+      --space-8: 64px;
+      --content: 1120px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: Aptos, Pretendard, "Noto Sans KR", "Malgun Gothic", sans-serif;
+      font-size: 16px;
+      line-height: 1.65;
+      letter-spacing: 0;
+      overflow-wrap: break-word;
+    }
+
+    h1, h2, h3 { text-wrap: balance; word-break: keep-all; }
+    code { overflow-wrap: anywhere; }
+
+    a { color: var(--blue-700); text-underline-offset: 3px; }
+    a:hover { text-decoration-thickness: 2px; }
+    a:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: 3px solid var(--focus); outline-offset: 3px; }
+
+    .skip-link {
+      position: fixed;
+      z-index: 10;
+      top: var(--space-2);
+      left: var(--space-2);
+      padding: var(--space-2) var(--space-3);
+      color: var(--surface);
+      background: var(--focus);
+      transform: translateY(-160%);
+    }
+    .skip-link:focus { transform: translateY(0); }
+
+    .masthead {
+      color: var(--surface);
+      background: var(--green-900);
+      border-bottom: 6px solid var(--gold-500);
+    }
+
+    .masthead-inner {
+      width: min(var(--content), calc(100% - 40px));
+      margin: 0 auto;
+      padding: var(--space-7) 0 var(--space-6);
+    }
+
+    .eyebrow {
+      margin: 0 0 var(--space-3);
+      color: var(--green-200);
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    h1, h2, h3 { margin-top: 0; line-height: 1.25; letter-spacing: 0; }
+    h1 { max-width: 820px; margin-bottom: var(--space-4); font-size: 40px; }
+    h2 { margin-bottom: var(--space-4); font-size: 28px; }
+    h3 { margin-bottom: var(--space-2); font-size: 19px; }
+
+    .lead {
+      max-width: 820px;
+      margin: 0;
+      color: var(--green-50);
+      font-size: 20px;
+      font-weight: 500;
+    }
+
+    .meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: var(--space-5);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 3px 9px;
+      border: 1px solid currentColor;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .badge-light { color: var(--surface); background: rgba(255,255,255,0.08); }
+    .badge-good { color: var(--green-900); background: var(--green-100); }
+    .badge-warn { color: var(--amber-700); background: var(--amber-100); }
+    .badge-stop { color: var(--red-700); background: var(--red-100); }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 230px minmax(0, 1fr);
+      gap: var(--space-7);
+      width: min(var(--content), calc(100% - 40px));
+      margin: 0 auto;
+      padding: var(--space-7) 0 var(--space-8);
+    }
+
+    nav {
+      position: sticky;
+      top: 24px;
+      align-self: start;
+      padding: var(--space-4);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    nav strong { display: block; margin-bottom: var(--space-3); }
+    nav a { display: block; padding: 6px 0; color: var(--muted); text-decoration: none; }
+    nav a:hover { color: var(--green-900); text-decoration: underline; }
+
+    main { min-width: 0; }
+
+    section {
+      padding: 0 0 var(--space-7);
+      margin-bottom: var(--space-7);
+      border-bottom: 1px solid var(--line);
+    }
+
+    section:last-child { margin-bottom: 0; border-bottom: 0; }
+
+    .verdict {
+      padding: var(--space-5);
+      border-left: 5px solid var(--green-700);
+      background: var(--surface);
+    }
+
+    .verdict p:last-child { margin-bottom: 0; }
+
+    .metric-grid, .decision-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: var(--space-3);
+    }
+
+    .metric, .decision {
+      min-width: 0;
+      padding: var(--space-4);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .metric strong { display: block; color: var(--green-900); font-size: 24px; }
+    .metric span { color: var(--muted); font-size: 14px; }
+
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: var(--space-3);
+      margin-top: var(--space-5);
+      padding: 0;
+      list-style: none;
+    }
+
+    .flow-step {
+      position: relative;
+      min-height: 118px;
+      padding: var(--space-4);
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--green-700);
+      border-radius: var(--radius);
+      background: var(--surface);
+    }
+
+    .flow-step b { display: block; margin-bottom: var(--space-2); color: var(--green-900); }
+    .flow-step span { color: var(--muted); font-size: 14px; }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); background: var(--surface); }
+
+    table { width: 100%; border-collapse: collapse; min-width: 680px; }
+    caption { padding: var(--space-3) var(--space-4); color: var(--green-900); background: var(--surface); font-weight: 800; text-align: left; }
+    th, td { padding: 12px 14px; border-bottom: 1px solid var(--line); text-align: left; vertical-align: top; }
+    th { color: var(--green-900); background: var(--surface-muted); font-size: 14px; }
+    tr:last-child td { border-bottom: 0; }
+
+    .priority-list { counter-reset: stage; margin: 0; padding: 0; list-style: none; }
+    .priority-list li {
+      counter-increment: stage;
+      display: grid;
+      grid-template-columns: 38px minmax(0, 1fr);
+      gap: var(--space-3);
+      padding: var(--space-4) 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .priority-list li:last-child { border-bottom: 0; }
+    .priority-list li::before {
+      content: counter(stage);
+      display: grid;
+      place-items: center;
+      width: 32px;
+      height: 32px;
+      color: var(--surface);
+      background: var(--green-700);
+      border-radius: 50%;
+      font-weight: 800;
+    }
+
+    .callout {
+      padding: var(--space-4);
+      border-left: 4px solid var(--amber-700);
+      background: var(--amber-100);
+    }
+
+    .space-top { margin-top: var(--space-4); }
+
+    .stop-list { columns: 2; column-gap: var(--space-6); padding-left: 20px; }
+    .stop-list li { break-inside: avoid; margin-bottom: var(--space-2); }
+
+    details { border-top: 1px solid var(--line); padding: var(--space-3) 0; }
+    summary { cursor: pointer; color: var(--green-900); font-weight: 700; }
+
+    footer {
+      padding: var(--space-5) 20px;
+      color: var(--footer-text);
+      background: var(--green-900);
+      text-align: center;
+      font-size: 14px;
+    }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      nav { position: static; }
+      nav a { display: inline-block; margin-right: var(--space-4); }
+      .flow { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 600px) {
+      .masthead-inner, .layout { width: min(100% - 24px, var(--content)); }
+      .masthead-inner { padding: var(--space-6) 0 var(--space-5); }
+      h1 { font-size: 30px; }
+      h2 { font-size: 24px; }
+      .lead { font-size: 18px; }
+      .metric-grid, .decision-grid, .flow { grid-template-columns: 1fr; }
+      .stop-list { columns: 1; }
+      nav { padding: var(--space-3); }
+      .table-wrap { overflow-x: visible; border: 0; background: transparent; }
+      table, tbody, tr, td { display: block; width: 100%; min-width: 0; }
+      table { min-width: 0; }
+      thead {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+      caption { border: 1px solid var(--line); }
+      tr { margin-bottom: var(--space-3); border: 1px solid var(--line); background: var(--surface); }
+      td { border-bottom: 1px solid var(--line); }
+      td:last-child { border-bottom: 0; }
+      td::before { content: attr(data-label); display: block; margin-bottom: var(--space-1); color: var(--green-900); font-size: 13px; font-weight: 800; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+
+    @media print {
+      body { background: var(--surface); }
+      nav { display: none; }
+      .layout { display: block; width: 100%; padding: 24px; }
+      .masthead-inner { width: 100%; padding: 32px 24px; }
+      .masthead, footer { color: var(--ink); background: var(--surface); border-color: var(--ink); }
+      .masthead .eyebrow, .masthead .lead { color: var(--ink); }
+      a { color: var(--ink); }
+      section { break-inside: avoid-page; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">본문으로 바로 이동</a>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <p class="eyebrow">나스닥 자동매매 프로그램 · 심층 조사 최종안</p>
+      <h1>자가개선 자동매매 최종 지향점</h1>
+      <p class="lead">더 거대한 인공지능이 아니라 완전한 증거 원장, 제한된 탐색, 실제 검증, 체결 폐루프, 단계 승격으로 발전하는 로컬 퀀트 운영체계</p>
+      <div class="meta" aria-label="보고서 조건">
+        <span class="badge badge-light">로컬 실행</span>
+        <span class="badge badge-light">로컬 거대 언어 모델 없음</span>
+        <span class="badge badge-light">논리 프로세서 4개</span>
+        <span class="badge badge-light">메모리 15.9기가바이트</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav aria-label="보고서 목차">
+      <strong>목차</strong>
+      <a href="#verdict">최종 결론</a>
+      <a href="#current">현재 상태</a>
+      <a href="#architecture">최종 구조</a>
+      <a href="#learning">발전 방식</a>
+      <a href="#technology">기술 판정</a>
+      <a href="#gpt">외부 언어 모델과 사용자 위임 인증</a>
+      <a href="#resources">자원 정책</a>
+      <a href="#roadmap">구현 순서</a>
+      <a href="#stop">중단 조건</a>
+      <a href="#sources">핵심 근거</a>
+    </nav>
+
+    <main id="main-content">
+      <section id="verdict">
+        <h2>최종 결론</h2>
+        <div class="verdict">
+          <h3>로컬 증거 기반 적응형 퀀트 연구·운영 체계</h3>
+          <p>시간이 지날수록 개선해야 하는 것은 누적 수익의 단조 증가가 아니라 전략 선택 오류, 비용 추정 오차, 주문 중복, 자료 누수, 이상 감지와 복구 시간이다.</p>
+          <p><strong>수익의 단조 증가는 보장할 수 없다.</strong> 새 자료는 챔피언을 곧바로 교체하는 명령이 아니라 도전자의 증거를 누적하는 입력이다. 이는 <a href="https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf">백테스트 과최적화 확률</a>과 <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2460551">축소 샤프비율</a> 연구가 지적하는 선택 편향을 줄이는 방향이다.</p>
+        </div>
+        <div class="metric-grid space-top">
+          <div class="metric"><strong>1개</strong><span>동시에 실행하는 연구 작업</span></div>
+          <div class="metric"><strong>25회</strong><span>초기 자동 탐색 최대 시도</span></div>
+          <div class="metric"><strong>30분</strong><span>초기 1회 연구 시간 상한</span></div>
+          <div class="metric"><strong>0건</strong><span>허용되는 중복 주문·미대사 포지션·위험 위반</span></div>
+        </div>
+      </section>
+
+      <section id="current">
+        <h2>현재 상태</h2>
+        <p>현재 구현은 연구·검증·주문 보호의 뼈대지만 운영 폐루프는 아니다. 이미 구현된 <a href="../../README.md#자동-종목-선택은-어떻게-작동하나요">과거 데이터 기반 종목 자동 선택</a>은 제한된 명령줄 실전 경로에서 영속 주문 고유키·중복 거절·재시작 복구를 적용한다. 아래 우회 문제는 그 경로가 아니라 별도의 인공지능 퀀트 연구실 실전 주기에 한정된다.</p>
+        <div class="decision-grid">
+          <article class="decision"><span class="badge badge-warn">단절</span><h3>후보 생성</h3><p>운영 제공자는 연구 문맥을 버리고 후보 파일만 읽는다.</p></article>
+          <article class="decision"><span class="badge badge-stop">과대표현</span><h3>검증 지표</h3><p>현재 정화 교차검증·조합 정화 교차검증·백테스트 과최적화 확률은 실제 학술 절차가 아니라 다섯 구간 수익과 수익률 부호 변화로 만든 대리점수다.</p></article>
+          <article class="decision"><span class="badge badge-warn">우회</span><h3>별도 연구실 실전 주기</h3><p>인공지능 퀀트 연구실 실전 주기가 자동 종목 선택 경로의 더 강한 영속 주문 허가문과 재시작 뒤 주문 결과 불명 상태 처리를 우회한다. 최종 구조는 기존 보호를 공통 관문으로 승격한다.</p></article>
+          <article class="decision"><span class="badge badge-warn">미연결</span><h3>체결 피드백</h3><p>한국투자증권 주문 제출은 가능하지만 부분체결·취소·실현손익이 야간 개선 작업으로 돌아오지 않는다.</p></article>
+        </div>
+        <div class="callout space-top"><strong>직접 재현:</strong> 선형 상승 자산곡선 하나가 현재 구현에서 정화 교차검증 1.0, 조합 정화 교차검증 1.0, 백테스트 과최적화 확률 0.0, 승격 가능 판정을 받았다.</div>
+      </section>
+
+      <section id="architecture">
+        <h2>최종 구조</h2>
+        <p>대용량 변경 불가 기록은 파케이 파일, 운영 상태는 에스큐엘라이트, 분석은 덕디비, 관계의 기준은 관계형 질의 외래키에 둔다.</p>
+        <ol class="flow" aria-label="자가개선 처리 흐름">
+          <li class="flow-step"><b>1. 증거 수집</b><span>시장자료, 기업행사, 과거 종목군, 한국투자증권 주문과 체결</span></li>
+          <li class="flow-step"><b>2. 제한 탐색</b><span>형식이 정해진 전략 문법과 단일 작업 순차 탐색</span></li>
+          <li class="flow-step"><b>3. 실제 검증</b><span>순차 표본외, 정화·금지기간, 조합 정화 교차검증, 과최적화 확률, 축소 샤프비율, 우월 예측능력 검사</span></li>
+          <li class="flow-step"><b>4. 단계 승격</b><span>종이거래, 그림자거래, 사람 승인, 소액 챔피언</span></li>
+          <li class="flow-step"><b>5. 단일 주문 관문</b><span>영속 허가문, 중복방지, 독립 위험 통제</span></li>
+          <li class="flow-step"><b>6. 한국투자증권 대사</b><span>응답 불명, 부분체결, 정정·취소, 웹 조회 종결 확인</span></li>
+          <li class="flow-step"><b>7. 체결 귀속</b><span>수수료, 체결 미끄러짐, 비용 모델과 전략별 손익</span></li>
+          <li class="flow-step"><b>8. 제한 적응</b><span>가중치 갱신, 변화 경보, 동결과 재검증</span></li>
+        </ol>
+      </section>
+
+      <section id="learning">
+        <h2>시간이 갈수록 발전하는 방식</h2>
+        <div class="table-wrap" role="region" aria-label="시간에 따라 누적되는 증거 표" tabindex="0">
+          <table>
+            <caption>시간이 갈수록 누적되는 증거와 제한</caption>
+            <thead><tr><th scope="col">누적되는 것</th><th scope="col">개선되는 판단</th><th scope="col">자동화 경계</th></tr></thead>
+            <tbody>
+              <tr><td data-label="누적되는 것">모든 탐색 시도와 검증 구간</td><td data-label="개선되는 판단">우연히 좋아 보이는 후보를 거절</td><td data-label="자동화 경계">검증 기준은 실험 전에 고정</td></tr>
+              <tr><td data-label="누적되는 것">주문·부분체결·수수료·체결 미끄러짐</td><td data-label="개선되는 판단">백테스트 비용 모델 보정</td><td data-label="자동화 경계">응답 불명 주문은 재전송 금지</td></tr>
+              <tr><td data-label="누적되는 것">챔피언과 도전자의 동시기 결과</td><td data-label="개선되는 판단">시장 구간별 전략 비중 조절</td><td data-label="자동화 경계">실전 승격과 자본 상향은 사람 승인</td></tr>
+              <tr><td data-label="누적되는 것">자료 품질·손익·특징 변화 경보</td><td data-label="개선되는 판단">이상 시 동결과 재검증</td><td data-label="자동화 경계">경보 하나로 자동 교체·청산 금지</td></tr>
+              <tr><td data-label="누적되는 것">사고·차단·되돌리기 이력</td><td data-label="개선되는 판단">더 빠른 중단과 복구</td><td data-label="자동화 경계">중단 해제는 사람 확인</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="technology">
+        <h2>기술 채택 판정</h2>
+        <div class="table-wrap" role="region" aria-label="기술 채택 판정 표" tabindex="0">
+          <table>
+            <caption>기술별 채택 여부와 역할</caption>
+            <thead><tr><th scope="col">기술</th><th scope="col">판정</th><th scope="col">역할</th></tr></thead>
+            <tbody>
+              <tr><td data-label="기술">관계형 질의·에스큐엘라이트</td><td data-label="판정"><span class="badge badge-good">즉시 채택</span></td><td data-label="역할">하나의 기준 원장, 상태 전이, 감사, 중복방지</td></tr>
+              <tr><td data-label="기술">파케이·덕디비</td><td data-label="판정"><span class="badge badge-good">채택</span></td><td data-label="역할">변경 불가 자료와 제한된 로컬 분석</td></tr>
+              <tr><td data-label="기술">제한된 전략 문법</td><td data-label="판정"><span class="badge badge-good">필수</span></td><td data-label="역할">미래참조·복잡도·임의 코드 실행 차단</td></tr>
+              <tr><td data-label="기술">경량 온톨로지·출처 계보 표준</td><td data-label="판정"><span class="badge badge-warn">제한 채택</span></td><td data-label="역할">종목·전략·지표·사건·계보의 공통 어휘</td></tr>
+              <tr><td data-label="기술">의미 그래프 표준·웹 온톨로지 언어·제약 검사</td><td data-label="판정"><span class="badge badge-warn">보류</span></td><td data-label="역할">여러 기관 의미 충돌과 복잡한 그래프 제약이 생길 때</td></tr>
+              <tr><td data-label="기술">별도 그래프 저장소</td><td data-label="판정"><span class="badge badge-warn">보류</span></td><td data-label="역할">반복 다단계 질의가 관계형 질의의 측정된 병목일 때</td></tr>
+              <tr><td data-label="기술">별도 벡터 저장소</td><td data-label="판정"><span class="badge badge-stop">기본 불채택</span></td><td data-label="역할">연구 검색 평가에서 에스큐엘라이트 전문검색보다 검색 품질이 실제로 나아질 때만</td></tr>
+              <tr><td data-label="기술">로컬 거대 언어 모델</td><td data-label="판정"><span class="badge badge-stop">도입 안 함</span></td><td data-label="역할">현재 자원·목표에 불필요</td></tr>
+              <tr><td data-label="기술">임의 코드 자기수정</td><td data-label="판정"><span class="badge badge-stop">금지</span></td><td data-label="역할">재현성과 위험 경계를 파괴</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="gpt">
+        <h2>외부 언어 모델과 사용자 위임 인증</h2>
+        <p><strong>사용자 위임 인증으로 오픈에이아이 응용프로그램 인터페이스를 추가 과금 없이 사용하는 공식 방법은 확인되지 않았다.</strong> 이 접속 수단은 별도 비밀키를 쓰는 별도 과금 제품이며 챗지피티 구독과 청구 체계가 분리된다. <a href="https://platform.openai.com/docs/quickstart/make-your-first-api-request">공식 빠른 시작</a>과 <a href="https://help.openai.com/en/articles/8156019-is-api-usage-included-in-chatgpt-subscriptions-even-if-i-have-a-paid-chatgpt-account">별도 과금 안내</a>에서 확인할 수 있다.</p>
+        <div class="decision-grid">
+          <article class="decision"><span class="badge badge-good">허용</span><h3>연결되지 않은 연구 보조</h3><p>전략 문법 초안, 실패 실험 요약, 논문 분류. 모든 출력은 검증되지 않은 입력으로 취급해 별도로 검증한다.</p></article>
+          <article class="decision"><span class="badge badge-stop">금지</span><h3>거래 핵심 경로</h3><p>실시간 신호, 직접 주문, 위험 우회, 챔피언 승격, 비밀키와 원시 계좌자료 전송.</p></article>
+        </div>
+        <p>코덱스의 챗지피티 요금제에 포함된 사용량은 개발·검토에만 사용한다. 자동 충전을 끄면 포함량 초과 시 추가 지출을 막을 수 있지만 이를 프로그램에서 쓰는 무료 언어 모델 접속 수단으로 간주하지 않는다. <a href="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan">코덱스 포함 사용량 안내</a>에도 사용량 제한과 별도 크레딧 체계가 명시되어 있다.</p>
+      </section>
+
+      <section id="resources">
+        <h2>현재 컴퓨터 자원 정책</h2>
+        <div class="table-wrap" role="region" aria-label="현재 컴퓨터 연구 자원 기본값 표" tabindex="0">
+          <table>
+            <caption>현재 컴퓨터의 연구 자원 기본값</caption>
+            <thead><tr><th scope="col">항목</th><th scope="col">기본값</th><th scope="col">초과 시 처리</th></tr></thead>
+            <tbody>
+              <tr><td data-label="항목">연구 작업</td><td data-label="기본값">동시 1개</td><td data-label="초과 시 처리">다음 일정으로 미룸</td></tr>
+              <tr><td data-label="항목">덕디비</td><td data-label="기본값">1스레드, 메모리 3기가바이트</td><td data-label="초과 시 처리">작업 실패, 챔피언 유지</td></tr>
+              <tr><td data-label="항목">운영체제 감시</td><td data-label="기본값">실사용 메모리 4기가바이트</td><td data-label="초과 시 처리">연구 작업 종료</td></tr>
+              <tr><td data-label="항목">옵튜나 탐색기</td><td data-label="기본값">병렬 1, 25회 또는 30분</td><td data-label="초과 시 처리">추가 시도 중단</td></tr>
+              <tr><td data-label="항목">동시 도전자</td><td data-label="기본값">1개</td><td data-label="초과 시 처리">기존 평가 완료까지 대기</td></tr>
+              <tr><td data-label="항목">임시 디스크</td><td data-label="기본값">5기가바이트</td><td data-label="초과 시 처리">작업 실패와 정리</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="callout">연구는 거래 프로그램이 정지되어 있고, 장 마감 후 한국투자증권 대사와 감사 기록이 완료됐으며 미확정 주문이 없을 때만 시작한다.</p>
+      </section>
+
+      <section id="roadmap">
+        <h2>구현 순서</h2>
+        <ol class="priority-list">
+          <li><div><h3>주문과 상태 무결성</h3><p>단일 영속 주문 관문, 한국투자증권 상태기계, 웹 조회 대사, 실전 자료 검증, 원자적 레지스트리.</p></div></li>
+          <li><div><h3>자료와 실험 계보</h3><p>변경 불가 스냅숏, 사건·수집시각 분리, 모든 탐색 시도, 비용 모델, 야간 작업 고유키.</p></div></li>
+          <li><div><h3>검증 엔진 교체</h3><p>실제 순차 표본외, 정화·금지기간, 조합 정화 교차검증과 과최적화 확률, 축소 샤프비율, 우월 예측능력 검사, 스트레스 검사.</p></div></li>
+          <li><div><h3>제한 탐색과 단계 승격</h3><p>형식이 정해진 전략 문법, 순차 옵튜나 탐색, 종이·그림자·사람 승인·소액 챔피언.</p></div></li>
+          <li><div><h3>제한적 온라인 적응</h3><p>체결 비용 보정, 비용 포함 기준선, 지수 가중 또는 고정 공유 전문가 결합, 적응 창 변화 경보.</p></div></li>
+          <li><div><h3>선택적 의미 검색과 외부 언어 모델</h3><p>에스큐엘라이트 전문검색부터 시작하고 벡터·그래프·외부 언어 모델이 꺼져도 핵심 경로가 동작하도록 유지.</p></div></li>
+        </ol>
+      </section>
+
+      <section id="stop">
+        <h2>새 주문 즉시 차단 조건</h2>
+        <ul class="stop-list">
+          <li>한국투자증권과 로컬 현금·포지션 불일치</li>
+          <li>미귀속 체결 또는 중복 주문</li>
+          <li>자료 해시·명세·시계 이상</li>
+          <li>위험 통제 상태 불명</li>
+          <li>감사 로그 쓰기 실패</li>
+          <li>백테스트와 실전 재생 결과 불일치</li>
+          <li>비용·슬리피지·회전율 한도 초과</li>
+          <li>일손실·낙폭·노출·주문률 상한 도달</li>
+          <li>한국투자증권 주문 응답 불명 또는 대사 미완료</li>
+          <li>전략·자료·정책 버전 재현 불가</li>
+        </ul>
+      </section>
+
+      <section id="sources">
+        <h2>핵심 근거</h2>
+        <details open><summary>과최적화와 다중검정</summary><p><a href="https://www.davidhbailey.com/dhbpapers/backtest-prob.pdf">백테스트 과최적화 확률</a> · <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=2460551">축소 샤프비율</a> · <a href="https://onlinelibrary.wiley.com/doi/abs/10.1111/1468-0262.00152">화이트 현실성 검사</a> · <a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=264569">한센 우월 예측능력 검사</a></p></details>
+        <details open><summary>온라인 적응과 변화 감지</summary><p><a href="https://www.eecs.harvard.edu/cs286r/courses/fall10/papers/hedge.pdf">지수 가중 전문가 결합</a> · <a href="https://papers.nips.cc/paper_files/paper/2014/file/91ba7292e5388b90b58d0b839a7f19ec-Paper.pdf">비정상 부분관측 다중 선택</a> · <a href="https://epubs.siam.org/doi/abs/10.1137/1.9781611972771.42">적응 창 변화 감지</a> · <a href="https://www.jmlr.org/papers/v22/20-1380.html">리버 온라인 학습 도구</a></p></details>
+        <details open><summary>자료·온톨로지·검색</summary><p><a href="https://duckdb.org/docs/stable/data/parquet/overview">덕디비와 파케이</a> · <a href="https://www.w3.org/TR/prov-o/">세계 웹 표준 기구 출처 계보 표준</a> · <a href="https://www.w3.org/TR/shacl/">세계 웹 표준 기구 그래프 제약 검사</a> · <a href="https://www.sqlite.org/fts5.html">에스큐엘라이트 전문검색</a></p></details>
+        <details open><summary>외부 서비스와 증권사</summary><p><a href="https://help.openai.com/en/articles/8156019-is-api-usage-included-in-chatgpt-subscriptions-even-if-i-have-a-paid-chatgpt-account">챗지피티와 응용프로그램 인터페이스 별도 과금</a> · <a href="https://help.openai.com/en/articles/11369540-using-codex-with-your-chatgpt-plan">코덱스 포함 사용량</a> · <a href="https://github.com/koreainvestment/open-trading-api">한국투자증권 공식 저장소</a> · <a href="https://apiportal.koreainvestment.com/faq-error-code">한국투자증권 오류 코드</a></p></details>
+        <p><a href="self-improvement-final-target.md"><strong>전체 심층 보고서 읽기</strong></a></p>
+      </section>
+    </main>
+  </div>
+
+  <footer>조사 기준일 2026년 7월 11일 · 로컬 실행과 자원 제한을 전제로 한 최종 지향점</footer>
+</body>
+</html>
