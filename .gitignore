@@ -6,8 +6,34 @@ __pycache__/
 
 # Local environments
 .env
+.env.*
+!.env.example
+!.env.sample
+!.env.template
+.kis_token*.json
 .venv/
 venv/
+
+# Local credential-capable configs
+/config.json
+/config.*.json
+/config.*.yaml
+/config.*.yml
+/config.*.toml
+/config.*.ini
+/trading_config.json
+/trading_config.*.json
+!/config.example.json
+!/config.sample.json
+!/config.template.json
+!/trading_config.example.json
+!/trading_config.sample.json
+!/trading_config.template.json
+
+# Local token/cache artifacts
+/.token_cache/
+/token_cache/
+/tokens/
 
 # Build outputs
 build/
@@ -16,3 +42,8 @@ dist/
 
 # Local temp
 .project_tmp/
+logs/
+
+# Local agent and Windows artifacts
+.omo/
+/NUL

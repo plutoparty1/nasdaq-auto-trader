@@ -1,4 +1,4 @@
-"""주문 전에 계좌를 보호하는 기본 위험관리 규칙을 담는다."""
+"""Portfolio and per-trade risk controls."""
 
 from __future__ import annotations
 
@@ -7,22 +7,25 @@ from dataclasses import dataclass
 from .models import AccountSnapshot, OrderRequest, Position, TradeDecision
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class RiskConfig:
-    """한 종목당 최대 투자 비율과 현금 여유분을 설정한다."""
+    """Risk limits used before an order can be sent."""
 
     max_position_pct: float = 0.10
     min_cash_buffer_pct: float = 0.05
     min_order_notional: float = 50.0
     max_order_notional: float | None = None
+    risk_per_trade_pct: float = 0.01
+    order_qty: int | None = None
+    max_position_qty: int | None = None
+    allow_additional_buy: bool = True
+    min_cash_to_buy: float = 0.0
 
 
 class RiskManager:
-    """전략 판단을 실제 주문 가능한 크기로 바꾼다."""
+    """Convert strategy decisions into orders that respect account limits."""
 
     def __init__(self, config: RiskConfig | None = None) -> None:
-        """설정이 없으면 기본 위험 제한을 사용한다."""
-
         self.config = config or RiskConfig()
 
     def build_order(
@@ -32,7 +35,7 @@ class RiskManager:
         position: Position | None,
         latest_price: float,
     ) -> OrderRequest | None:
-        """매수/매도 판단을 위험 제한이 반영된 주문으로 바꾼다."""
+        """Return an order only when action and risk limits allow it."""
 
         if decision.action == "hold":
             return None
@@ -47,7 +50,10 @@ class RiskManager:
         position: Position | None,
         latest_price: float,
     ) -> OrderRequest | None:
-        """계좌 크기와 현금 여유분을 보고 매수 금액을 정한다."""
+        """Cap a buy by target weight, cash buffer, buying power, and ATR risk."""
+
+        if self.config.order_qty is not None:
+            return self._fixed_qty_buy_order(decision, account, position, latest_price)
 
         current_value = position.market_value if position else 0.0
         target_value = account.equity * self.config.max_position_pct
@@ -57,21 +63,79 @@ class RiskManager:
             0.0,
         )
         notional = min(remaining_target, cash_after_buffer, account.buying_power)
+
         if self.config.max_order_notional is not None:
             notional = min(notional, self.config.max_order_notional)
-        notional = round(notional, 2)
 
+        risk_notional = self._risk_limited_notional(decision, account, latest_price)
+        if risk_notional is not None:
+            notional = min(notional, risk_notional)
+
+        notional = round(notional, 2)
         if latest_price <= 0 or notional < self.config.min_order_notional:
             return None
         return OrderRequest(symbol=decision.symbol, side="buy", notional=notional)
+
+    def _fixed_qty_buy_order(
+        self,
+        decision: TradeDecision,
+        account: AccountSnapshot,
+        position: Position | None,
+        latest_price: float,
+    ) -> OrderRequest | None:
+        """Build a fixed-share buy order from GUI settings."""
+
+        if latest_price <= 0 or self.config.order_qty is None or self.config.order_qty <= 0:
+            return None
+        current_qty = position.qty if position is not None else 0
+        if current_qty > 0 and not self.config.allow_additional_buy:
+            return None
+        if (
+            self.config.max_position_qty is not None
+            and current_qty + self.config.order_qty > self.config.max_position_qty
+        ):
+            return None
+
+        required_cash = latest_price * self.config.order_qty
+        if account.cash < self.config.min_cash_to_buy:
+            return None
+        if account.buying_power < required_cash:
+            return None
+        return OrderRequest(
+            symbol=decision.symbol,
+            side="buy",
+            qty=float(self.config.order_qty),
+        )
+
+    def _risk_limited_notional(
+        self,
+        decision: TradeDecision,
+        account: AccountSnapshot,
+        latest_price: float,
+    ) -> float | None:
+        """Return the notional implied by fixed-fraction risk sizing."""
+
+        if (
+            decision.risk_per_share is None
+            or decision.risk_per_share <= 0
+            or self.config.risk_per_trade_pct <= 0
+            or latest_price <= 0
+        ):
+            return None
+        risk_budget = account.equity * self.config.risk_per_trade_pct
+        qty = risk_budget / decision.risk_per_share
+        return max(qty * latest_price, 0.0)
 
     def _sell_order(
         self,
         decision: TradeDecision,
         position: Position | None,
     ) -> OrderRequest | None:
-        """보유 수량이 있을 때만 전량 매도 주문을 만든다."""
+        """Sell the current position only when there is something to close."""
 
         if position is None or position.qty <= 0:
             return None
-        return OrderRequest(symbol=decision.symbol, side="sell", qty=position.qty)
+        qty = position.qty
+        if self.config.order_qty is not None and self.config.order_qty > 0:
+            qty = min(qty, float(self.config.order_qty))
+        return OrderRequest(symbol=decision.symbol, side="sell", qty=qty)

@@ -1,8 +1,25 @@
-"""python -m nasdaq_auto_trader 실행을 CLI로 연결한다."""
+"""Run the CLI with python -m nasdaq_auto_trader."""
 
-from .cli import main
+from __future__ import annotations
+
+import sys
+
+from .config import ConfigLoadError, TradingModeValidationError
 
 
-# 모듈 실행 시 명령줄 입구를 호출한다.
+def main() -> int:
+    try:
+        if len(sys.argv) > 1 and sys.argv[1] == "ai-quant":
+            from .ai_quant_lab.operator_cli import main as ai_quant_main
+
+            return ai_quant_main(sys.argv[2:])
+        from .cli import main as legacy_main
+
+        return legacy_main()
+    except (ConfigLoadError, TradingModeValidationError) as exc:
+        print(str(exc), file=sys.stderr)
+        return 2
+
+
 if __name__ == "__main__":
     raise SystemExit(main())

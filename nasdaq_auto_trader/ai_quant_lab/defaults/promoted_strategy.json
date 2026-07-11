@@ -1,0 +1,20 @@
+{
+  "active_strategy_id": "",
+  "strategy_version": "",
+  "status": "none",
+  "mode": "paper",
+  "allowed_for_live": false,
+  "manual_approval": false,
+  "promoted_at": "",
+  "promotion_reason": "no champion locked",
+  "research_basis": {
+    "provider": "insane_search",
+    "research_ids": [],
+    "source_ids": []
+  },
+  "risk_limits_snapshot": {
+    "max_single_position_pct": 0.05,
+    "max_total_exposure_pct": 0.3,
+    "max_daily_loss_pct": 0.02
+  }
+}

@@ -1,41 +1,52 @@
-"""전략, 시세, 브로커, 위험관리를 이어 붙여 한 번 실행한다."""
-
 from __future__ import annotations
 
-from datetime import datetime, timedelta, timezone
-from typing import Protocol
+from datetime import datetime, timezone
+from typing import Callable
 
-from .broker import AlpacaClient, AlpacaCredentials, DryRunBroker
+from .ai_decision_manager import AIRecommendationProvider
+from .ai_quant_lab.artifact_paths import (
+    StrategyArtifactPaths,
+    default_strategy_artifact_paths,
+)
+from .ai_quant_lab.audit_logger import AuditLogger
+from .automatic_order_guard import AutomaticOrderGuard
+from .automatic_risk import AutomaticRiskLimits
+from .automatic_preflight import automatic_universe_block
+from .broker import AlpacaClient, DryRunBroker, KISClient
 from .config import AppConfig, validate_trading_mode
-from .models import AccountSnapshot, Bar, OrderRequest, Position, TradeDecision
+from .config_manager import TradingSessionState, TradingSettings
+from .dry_run_market_data import DryRunMarketData
+from .engine_ai import EngineAIMixin
+from .engine_clients import build_default_client, use_offline_dry_run_data
+from .engine_cycle import EngineCycleMixin
+from .engine_orders import EngineOrderMixin
+from .engine_portfolio import EnginePortfolioMixin
+from .engine_types import (
+    BrokerLike,
+    BrokerResponsePayload,
+    DecisionPayload,
+    EngineCycleItem,
+    JsonObject,
+    MarketDataLike,
+)
+from .engine_utils import decision_to_dict
+from .models import AccountSnapshot, Position
+from .live_authorization import LiveAuthorizationRequest, create_live_authorization
+from .quant_data.symbol_selector import SelectionReport
+from .quant_data.resources import application_data_root
 from .risk import RiskManager
+from .session_state_persistence import load_session_state
 from .strategy import TechnicalStrategy
+from .trading_session_store import TradingSessionStore
+from .trading_agents import TradingAgentsAdvisor
 
 
-class BrokerLike(Protocol):
-    """실제 브로커와 dry-run 브로커가 지켜야 하는 작은 약속이다."""
-
-    def submit_order(self, order: OrderRequest) -> dict:
-        """주문 하나를 제출한다."""
-
-
-class MarketDataLike(Protocol):
-    """시세 제공자가 지켜야 하는 작은 약속이다."""
-
-    def get_stock_bars(
-        self,
-        symbols: list[str],
-        timeframe: str,
-        start: str,
-        end: str | None = None,
-        limit: int = 1000,
-    ) -> dict[str, list[Bar]]:
-        """종목별 봉 데이터를 가져온다."""
-
-
-class TradingEngine:
-    """한 번 실행할 때 시세 조회부터 주문 제출까지 처리한다."""
-
+class TradingEngine(
+    EngineCycleMixin,
+    EngineAIMixin,
+    EngineOrderMixin,
+    EnginePortfolioMixin,
+):
     def __init__(
         self,
         config: AppConfig,
@@ -43,105 +54,107 @@ class TradingEngine:
         market_data: MarketDataLike | None = None,
         account: AccountSnapshot | None = None,
         positions: dict[str, Position] | None = None,
+        clock: Callable[[], datetime] | None = None,
+        trading_settings: TradingSettings | None = None,
+        trading_session_state: TradingSessionState | None = None,
+        ai_provider: AIRecommendationProvider | None = None,
+        live_order_confirmation: bool = False,
+        strategy_artifact_paths: StrategyArtifactPaths | None = None,
+        automatic_order_guard: AutomaticOrderGuard | None = None,
+        live_authorization_duration_minutes: int = 60,
+        live_authorization_max_cycles: int = 12,
+        live_authorization_started_at: datetime | None = None,
     ) -> None:
-        """테스트에서는 가짜 브로커와 가짜 시세를 넣을 수 있게 한다."""
-
         validate_trading_mode(config)
         self.config = config
         self.strategy = TechnicalStrategy(config.strategy)
         self.risk_manager = RiskManager(config.risk)
+        self.trading_agents = TradingAgentsAdvisor(config.trading_agents)
         self._account = account
         self._positions = positions
-
-        alpaca_client: AlpacaClient | None = None
-        if broker is None or market_data is None:
-            credentials = AlpacaCredentials(
-                config.alpaca.api_key,
-                config.alpaca.secret_key,
-                paper=config.mode != "live",
-                feed=config.alpaca.feed,
-                timeout=config.alpaca.timeout,
+        self._clock = clock or (lambda: datetime.now(timezone.utc))
+        self.trading_settings = trading_settings
+        self.ai_provider = ai_provider
+        self.live_order_confirmation = live_order_confirmation
+        self.strategy_artifact_paths = (
+            strategy_artifact_paths or default_strategy_artifact_paths()
+        )
+        self.last_selection_report: SelectionReport | None = None
+        self.automatic_risk_limits: AutomaticRiskLimits | None = None
+        session_store = (
+            automatic_order_guard.session_store
+            if automatic_order_guard is not None
+            else TradingSessionStore(
+                application_data_root() / "runtime" / "trading_session.json"
             )
-            alpaca_client = AlpacaClient(credentials)
+        )
+        self.automatic_order_guard = automatic_order_guard or AutomaticOrderGuard(
+            self.strategy_artifact_paths,
+            session_store,
+            AuditLogger(self.strategy_artifact_paths.audit_log_path),
+        )
+        automatic_enabled = bool(
+            trading_settings is not None
+            and trading_settings.auto_symbol_selection_enabled
+        )
+        self.automatic_preflight_reason = (
+            automatic_universe_block(config, self._clock())
+            if automatic_enabled
+            else ""
+        )
+        self._persist_automatic_session = (
+            automatic_enabled and trading_session_state is None
+        )
+        if self._persist_automatic_session:
+            session_store.recover_interrupted_claims()
+            self.trading_session_state = load_session_state(session_store)
+        else:
+            self.trading_session_state = trading_session_state or TradingSessionState()
+        if (
+            automatic_enabled
+            and not self.automatic_preflight_reason
+            and config.mode == "live"
+            and live_order_confirmation
+        ):
+            self.automatic_order_guard.set_live_authorization(
+                create_live_authorization(
+                    LiveAuthorizationRequest(
+                        config=config,
+                        paths=self.strategy_artifact_paths,
+                        now=live_authorization_started_at or self._clock(),
+                        duration_minutes=live_authorization_duration_minutes,
+                        max_cycles=live_authorization_max_cycles,
+                    )
+                )
+            )
+
+        default_client: AlpacaClient | KISClient | DryRunMarketData | None = None
+        if self.automatic_preflight_reason:
+            default_client = DryRunMarketData()
+        elif market_data is None:
+            default_client = (
+                DryRunMarketData()
+                if use_offline_dry_run_data(config)
+                else build_default_client(config)
+            )
+        elif broker is None and config.mode != "dry_run":
+            default_client = build_default_client(config)
 
         self.broker = broker or (
-            DryRunBroker() if config.mode == "dry_run" else alpaca_client
+            DryRunBroker()
+            if config.mode == "dry_run" or self.automatic_preflight_reason
+            else default_client
         )
-        self.market_data = market_data or alpaca_client
-
-    def run_once(self) -> list[dict]:
-        """현재 설정으로 모든 종목을 한 번 검사하고 필요한 주문을 보낸다."""
-
-        bars_by_symbol = self._load_recent_bars()
-        account = self._load_account()
-        positions = self._load_positions()
-        results: list[dict] = []
-
-        for symbol in self.config.symbols:
-            bars = bars_by_symbol.get(symbol, [])
-            position = positions.get(symbol)
-            decision = self.strategy.decide(symbol, bars, position)
-            latest_price = decision.latest_price
-            order = self.risk_manager.build_order(
-                decision,
-                account,
-                position,
-                latest_price,
-            )
-
-            response = None
-            if order is not None:
-                response = self.broker.submit_order(order)
-
-            results.append(
-                {
-                    "symbol": symbol,
-                    "decision": decision,
-                    "order": order,
-                    "response": response,
-                }
-            )
-        return results
-
-    def _load_recent_bars(self) -> dict[str, list[Bar]]:
-        """설정된 기간만큼 최근 봉 데이터를 가져온다."""
-
-        end = datetime.now(timezone.utc)
-        start = end - timedelta(days=self.config.lookback_days)
-        return self.market_data.get_stock_bars(
-            self.config.symbols,
-            self.config.timeframe,
-            start.date().isoformat(),
-            end.date().isoformat(),
-            self.config.bar_limit,
-        )
-
-    def _load_account(self) -> AccountSnapshot:
-        """테스트 계좌가 없으면 브로커 계좌를 조회한다."""
-
-        if self._account is not None:
-            return self._account
-        if hasattr(self.broker, "get_account"):
-            return self.broker.get_account()
-        return AccountSnapshot(cash=10_000, equity=10_000, buying_power=10_000)
-
-    def _load_positions(self) -> dict[str, Position]:
-        """테스트 포지션이 없으면 브로커 포지션을 조회한다."""
-
-        if self._positions is not None:
-            return self._positions
-        if hasattr(self.broker, "list_positions"):
-            return self.broker.list_positions()
-        return {}
+        self.market_data = market_data or default_client
 
 
-def decision_to_dict(decision: TradeDecision) -> dict:
-    """CLI 출력용으로 판단 결과를 딕셔너리로 바꾼다."""
-
-    return {
-        "symbol": decision.symbol,
-        "action": decision.action,
-        "score": decision.score,
-        "latest_price": decision.latest_price,
-        "reasons": decision.reasons,
-    }
+__all__ = [
+    "BrokerLike",
+    "BrokerResponsePayload",
+    "DecisionPayload",
+    "EngineCycleItem",
+    "JsonObject",
+    "MarketDataLike",
+    "TradingEngine",
+    "decision_to_dict",
+]

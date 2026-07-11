@@ -1,18 +1,37 @@
-"""자동매매 흐름에서 같이 쓰는 작은 데이터 모양들을 정의한다."""
+"""Shared data structures for market data, decisions, and orders."""
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
-from typing import Literal
+from typing import Literal, TypedDict
 
 
 Action = Literal["buy", "sell", "hold"]
 OrderSide = Literal["buy", "sell"]
 
 
-@dataclass(frozen=True)
+class AlpacaOrderPayload(TypedDict, total=False):
+    symbol: str
+    side: OrderSide
+    type: str
+    time_in_force: str
+    qty: str
+    notional: str
+    limit_price: str
+
+
+@dataclass(frozen=True, slots=True)
+class OrderRequestPayloadError(ValueError):
+    symbol: str
+    reason: str
+
+    def __str__(self) -> str:
+        return f"invalid order payload for {self.symbol}: {self.reason}"
+
+
+@dataclass(frozen=True, slots=True)
 class Bar:
-    """한 시점의 가격 봉 데이터를 담는다."""
+    """OHLCV market data for one symbol at one timestamp."""
 
     symbol: str
     timestamp: str
@@ -24,7 +43,7 @@ class Bar:
 
     @classmethod
     def from_alpaca(cls, symbol: str, payload: dict) -> "Bar":
-        """Alpaca 응답의 짧은 키 이름을 내부 Bar 모양으로 바꾼다."""
+        """Build a Bar from Alpaca's compact stock-bar payload."""
 
         return cls(
             symbol=symbol,
@@ -37,9 +56,9 @@ class Bar:
         )
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class Position:
-    """현재 들고 있는 종목 수량과 평균 매수가를 담는다."""
+    """Current holding state for one symbol."""
 
     symbol: str
     qty: float
@@ -47,29 +66,30 @@ class Position:
     avg_entry_price: float
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class AccountSnapshot:
-    """주문 전에 필요한 현금과 계좌 크기를 담는다."""
+    """Capital values needed before building an order."""
 
     cash: float
     equity: float
     buying_power: float
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class TradeDecision:
-    """전략이 낸 매수, 매도, 대기 판단을 담는다."""
+    """A strategy decision and optional risk distance for position sizing."""
 
     symbol: str
     action: Action
     score: int
     latest_price: float
     reasons: list[str] = field(default_factory=list)
+    risk_per_share: float | None = None
 
 
-@dataclass(frozen=True)
+@dataclass(frozen=True, slots=True)
 class OrderRequest:
-    """브로커에게 보낼 주문 내용을 담는다."""
+    """A broker-neutral order request shaped for Alpaca serialization."""
 
     symbol: str
     side: OrderSide
@@ -77,11 +97,17 @@ class OrderRequest:
     time_in_force: str = "day"
     qty: float | None = None
     notional: float | None = None
+    limit_price: float | None = None
 
-    def to_alpaca_payload(self) -> dict:
-        """Alpaca 주문 API가 받는 JSON 모양으로 바꾼다."""
+    def to_alpaca_payload(self) -> AlpacaOrderPayload:
+        """Return the JSON body accepted by Alpaca's order endpoint."""
 
-        payload = {
+        if self.qty is not None and self.notional is not None:
+            raise OrderRequestPayloadError(
+                self.symbol,
+                "qty and notional are mutually exclusive",
+            )
+        payload: AlpacaOrderPayload = {
             "symbol": self.symbol,
             "side": self.side,
             "type": self.type,
@@ -91,4 +117,6 @@ class OrderRequest:
             payload["qty"] = str(round(self.qty, 8))
         if self.notional is not None:
             payload["notional"] = str(round(self.notional, 2))
+        if self.limit_price is not None:
+            payload["limit_price"] = str(round(self.limit_price, 4))
         return payload
