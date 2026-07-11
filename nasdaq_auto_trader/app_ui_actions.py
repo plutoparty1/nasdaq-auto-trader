@@ -8,6 +8,7 @@ from typing import Any, Callable
 
 from .app_types import AppConfigurationError
 from .config_manager import SettingsError, TradingSettings
+from .learning_runner import run_learning_only
 from .settings_window import open_settings_window
 
 
@@ -45,6 +46,11 @@ class DashboardActionsMixin:
 
     def _refresh_now(self) -> None:
         self._start_task("portfolio", self.controller.refresh_portfolio)
+
+    def _start_learning_only(self) -> None:
+        if self._start_task("learn", run_learning_only):
+            self._append_log("학습만 실행: 실제 주문 없이 전략 연구와 검증만 실행합니다.")
+            self._update_controls()
 
     def _open_settings(self) -> None:
         open_settings_window(
@@ -84,6 +90,8 @@ class DashboardActionsMixin:
             elif kind == "ok" and label == "auto":
                 self._render_auto_results(payload)
                 self._start_task("portfolio", self.controller.refresh_portfolio)
+            elif kind == "ok" and label == "learn":
+                self._render_learning_result(payload)
             elif kind == "error":
                 message, details = payload
                 self.status_var.set("오류")

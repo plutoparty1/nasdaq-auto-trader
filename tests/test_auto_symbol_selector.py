@@ -58,6 +58,17 @@ class AutoSymbolSelectorTests(unittest.TestCase):
         self.assertIsInstance(resolved, ResolvedStrategy)
         self.assertEqual(resolved.spec.strategy_id, "alpha")
 
+    def test_paper_resolver_accepts_validation_passed_learning_record(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            paths = StrategyArtifactPaths.from_root(Path(temp_dir))
+            _write_spec(paths, "learned", "v1", 0.1)
+            _write_registry(paths, [_record(("learned", "v1"), "validation_passed", 0.5)])
+
+            resolved = resolve_strategy("paper", paths)
+
+        self.assertIsInstance(resolved, ResolvedStrategy)
+        self.assertEqual(resolved.spec.strategy_id, "learned")
+
     def test_rollback_blocks_even_when_paper_candidate_exists(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             paths = StrategyArtifactPaths.from_root(Path(temp_dir))

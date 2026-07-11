@@ -109,6 +109,11 @@ class DashboardLayoutMixin:
             text="보유현황 새로고침",
             command=self._refresh_now,
         )
+        self.learning_button = self.ttk.Button(
+            button_bar,
+            text="학습만 실행",
+            command=self._start_learning_only,
+        )
         self.settings_button = self.ttk.Button(
             button_bar,
             text="설정",
@@ -120,6 +125,7 @@ class DashboardLayoutMixin:
                 self.pause_button,
                 self.resume_button,
                 self.refresh_button,
+                self.learning_button,
                 self.settings_button,
             ]
         ):

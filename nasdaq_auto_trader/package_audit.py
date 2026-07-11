@@ -14,6 +14,7 @@ PRIVATE_NAMES = frozenset(
         "promoted_strategy.json",
         "selection_cache.json",
         "strategy_registry.json",
+        "trading_config.json",
         "trading_session.json",
     }
 )

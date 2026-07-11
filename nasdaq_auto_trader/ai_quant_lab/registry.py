@@ -90,6 +90,24 @@ class StrategyRegistry:
         self._upsert(record)
         return decision
 
+    def record_validation_passed(
+        self,
+        spec: StrategySpec,
+        score: StrategyScore,
+    ) -> StrategyRecord:
+        record = StrategyRecord(
+            strategy_id=spec.strategy_id,
+            version=spec.version,
+            status=StrategyStatus.VALIDATION_PASSED,
+            allowed_for_live=False,
+            manual_approval=False,
+            research_basis=spec.research_basis,
+            score=score.final_score,
+            rejection_reasons=(),
+        )
+        self._upsert(record)
+        return record
+
     def lock_champion(
         self,
         record: StrategyRecord,

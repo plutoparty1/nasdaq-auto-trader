@@ -12,6 +12,9 @@ if ($IncludeEnv) {
 }
 
 python -m PyInstaller --version | Out-Null
+if ($LASTEXITCODE -ne 0) {
+    throw "PyInstaller is not available."
+}
 
 $UniverseSource = Join-Path $ProjectRoot "nasdaq_auto_trader\quant_data\defaults\nasdaq_100_universe.json"
 $UniverseTarget = "nasdaq_auto_trader\quant_data\defaults"
@@ -24,6 +27,9 @@ if (-not $SpecText.Contains("nasdaq_100_universe.json") -or -not $SpecText.Conta
 }
 
 python -m PyInstaller --noconfirm --clean NasdaqAutoTrader.spec
+if ($LASTEXITCODE -ne 0) {
+    throw "PyInstaller build failed."
+}
 
 $DistRoot = Join-Path $ProjectRoot "dist"
 $DistDir = Join-Path $ProjectRoot "dist\NasdaqAutoTrader"
@@ -50,6 +56,11 @@ if (Test-Path $StaleTraderLog) {
     Remove-Item -LiteralPath $StaleTraderLog -Force
     Write-Host "Removed stale GUI trader log from dist."
 }
+$StaleTradingConfig = Join-Path $DistDir "trading_config.json"
+if (Test-Path $StaleTradingConfig) {
+    Remove-Item -LiteralPath $StaleTradingConfig -Force
+    Write-Host "Removed stale GUI trading settings from dist."
+}
 $LogsDir = Join-Path $DistDir "logs"
 if ((Test-Path $LogsDir) -and -not (Get-ChildItem -LiteralPath $LogsDir -Force)) {
     Remove-Item -LiteralPath $LogsDir -Force
@@ -60,7 +71,7 @@ if (-not $IncludeEnv -and (Test-Path $DistEnv)) {
     Write-Host "Removed dist .env because -IncludeEnv was not used."
 }
 
-$FilesToCopy = @("config.kis.json", "config.example.json", "trading_config.json")
+$FilesToCopy = @("config.kis.json", "config.example.json")
 foreach ($File in $FilesToCopy) {
     $Source = Join-Path $ProjectRoot $File
     if (Test-Path $Source) {
@@ -95,4 +106,5 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "Built: $(Join-Path $DistDir 'NasdaqAutoTrader.exe')"
-Write-Host "Copied editable config files to: $DistDir"
+Write-Host "Copied editable broker/example config files to: $DistDir"
+Write-Host "GUI settings are stored outside the exe folder: %LOCALAPPDATA%\NasdaqAutoTrader\trading_config.json"

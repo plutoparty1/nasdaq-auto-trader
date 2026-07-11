@@ -12,6 +12,7 @@ from nasdaq_auto_trader.ai_quant_lab.operator_gui_models import OperatorGuiInput
 from nasdaq_auto_trader.ai_quant_lab.operator_gui_presenter import (
     gui_result_explanation,
     gui_status_view,
+    human_reason,
     operator_action_cards,
 )
 from nasdaq_auto_trader.ai_quant_lab.operator_models import OperatorPaths
@@ -142,6 +143,16 @@ class AIQuantOperatorGuiTests(unittest.TestCase):
         self.assertIn("작업: 페이퍼/섀도우 리허설", explanation)
         self.assertIn("제출된 실제 주문: 0건", explanation)
         self.assertIn("가상 체결: 1건", explanation)
+
+    def test_reason_labels_do_not_expose_raw_internal_codes(self):
+        self.assertEqual(
+            human_reason("turnover_too_high"),
+            "거래 회전율이 너무 높음",
+        )
+        self.assertEqual(
+            human_reason("unknown_internal_reason"),
+            "한글 설명이 등록되지 않은 내부 점검 사유입니다.",
+        )
 
     def test_operator_cards_do_not_expose_live_order_execution(self):
         cards = operator_action_cards()

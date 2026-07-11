@@ -7,6 +7,8 @@ import sys
 import traceback
 from pathlib import Path
 
+from nasdaq_auto_trader.quant_data.resources import application_data_root
+
 
 ENV_KEYS = {
     "ALPACA_API_KEY",
@@ -42,7 +44,7 @@ def _default_argv(app_dir: Path) -> list[str]:
         [
             "gui",
             "--trading-config",
-            str(app_dir / "trading_config.json"),
+            str(application_data_root() / "trading_config.json"),
         ]
     )
     return argv

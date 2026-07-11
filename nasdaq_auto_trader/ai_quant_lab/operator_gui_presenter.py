@@ -118,9 +118,58 @@ _COMMAND_LABELS: dict[str, str] = {
 
 _REASON_LABELS: dict[str, str] = {
     "live_trading_disabled": "실거래 기능이 설정에서 꺼져 있음",
+    "dry_run_enabled": "드라이런이 켜져 있어 실주문을 차단함",
+    "controlled_live_disabled": "통제된 실거래 단계가 꺼져 있음",
+    "ai_quant_config_invalid": "인공지능 퀀트 설정 검증 실패",
     "insane_search_unavailable": "리서치 명령이 없어 연구 루프를 실행할 수 없음",
+    "insane_search_command_unavailable": "리서치 명령 실행 파일을 찾을 수 없음",
+    "insane_search_command_failed": "리서치 명령 실행 실패",
     "strategy_record_missing": "해당 전략 ID와 버전을 등록소에서 찾을 수 없음",
     "ai_quant_lab_disabled": "AI Quant Lab 기능이 설정에서 꺼져 있음",
+    "self_improvement_disabled": "자가 개선 기능이 설정에서 꺼져 있음",
+    "research_provider_must_be_insane_search": "리서치 제공자는 검증된 리서치 명령만 사용할 수 있음",
+    "insane_search_command_must_be_string_list": "리서치 명령은 문자열 목록이어야 함",
+    "insane_search_command_must_be_string_tuple": "리서치 명령은 문자열 목록이어야 함",
+    "insane_search_timeout_seconds_must_be_int": "리서치 제한 시간은 정수여야 함",
+    "insane_search_timeout_seconds_must_be_positive": "리서치 제한 시간은 1초 이상이어야 함",
+    "allow_only_insane_search_for_research_must_be_true": "검증된 리서치 경로만 허용해야 함",
+    "disable_research_if_insane_search_unavailable_must_be_true": "리서치 도구가 없으면 연구를 중단하도록 설정해야 함",
+    "allow_ai_direct_order_must_be_false": "인공지능 직접 주문은 꺼져 있어야 함",
+    "allow_dynamic_code_execution_must_be_false": "동적 코드 실행은 꺼져 있어야 함",
+    "max_single_position_pct_out_of_range": "단일 종목 최대 비중 범위 초과",
+    "max_total_exposure_pct_out_of_range": "전체 노출 최대 비중 범위 초과",
+    "max_daily_loss_pct_out_of_range": "일일 손실 제한 범위 초과",
+    "max_order_notional_must_be_positive": "주문 금액 한도는 0보다 커야 함",
+    "max_orders_per_day_must_be_positive": "하루 주문 횟수 한도는 1 이상이어야 함",
+    "max_orders_per_day_must_be_int": "하루 주문 횟수 한도는 정수여야 함",
+    "market_data_missing": "검증할 시장 데이터가 없음",
+    "market_data_timestamp_invalid": "시장 데이터 시간이 올바르지 않음",
+    "market_data_timestamps_not_monotonic": "시장 데이터 시간이 순서대로 정렬되지 않음",
+    "market_data_values_invalid": "시장 데이터 가격 또는 거래량 값이 올바르지 않음",
+    "initial_cash_invalid": "초기 현금 값이 올바르지 않음",
+    "backtest_failed": "백테스트 실패",
+    "insufficient_oos_history": "표본 밖 검증 기간이 부족함",
+    "max_drawdown_too_high": "최대 낙폭이 기준보다 큼",
+    "turnover_too_high": "거래 회전율이 너무 높음",
+    "advanced_overfit_evidence_insufficient": "과적합 검증 근거가 부족함",
+    "purged_cross_validation_score_too_low": "누수 제거 교차검증 점수가 낮음",
+    "cpcv_score_too_low": "조합형 교차검증 점수가 낮음",
+    "pbo_probability_too_high": "과적합 확률이 높음",
+    "deflated_sharpe_ratio_too_low": "보정 샤프 지수가 낮음",
+    "profit_factor_missing": "손익비 지표가 없음",
+    "overfit_metrics_missing": "과적합 점검 지표가 없음",
+    "promotion_score_below_threshold": "승격 점수가 기준보다 낮음",
+    "paper_and_shadow_period_required": "페이퍼와 섀도우 검증 기간이 필요함",
+    "research_provider_not_insane_search": "전략 출처가 검증된 리서치 경로가 아님",
+    "research_sources_missing": "전략 연구 출처가 없음",
+    "manual_approval_required": "수동 승인이 필요함",
+    "allowed_for_live_false": "실거래 허용 플래그가 꺼져 있음",
+    "record_not_champion": "챔피언 전략 상태가 아님",
+    "performance_samples_missing": "성과 표본이 없음",
+    "strategy_drawdown_limit_exceeded": "전략 낙폭 한도 초과",
+    "daily_loss_limit_exceeded": "일일 손실 한도 초과",
+    "audit_log_write_failed": "감사 로그 기록 실패",
+    "rollback_write_failed": "롤백 기록 저장 실패",
 }
 
 
@@ -128,8 +177,12 @@ def _text_value(value: JsonValue | None) -> str:
     return value.strip() if isinstance(value, str) else ""
 
 
+def human_reason(reason: str) -> str:
+    return _REASON_LABELS.get(reason, "한글 설명이 등록되지 않은 내부 점검 사유입니다.")
+
+
 def _human_reason(reason: str) -> str:
-    return _REASON_LABELS.get(reason, reason)
+    return human_reason(reason)
 
 
 def _reasons_text(value: JsonValue | None) -> str:

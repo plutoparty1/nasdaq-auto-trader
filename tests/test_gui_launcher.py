@@ -10,7 +10,7 @@ from unittest.mock import Mock, patch
 from nasdaq_auto_trader.app_ui import DashboardApp, launch_gui
 from nasdaq_auto_trader.config import AppConfig
 from nasdaq_auto_trader.config_manager import SettingsError, TradingSettings
-from nasdaq_auto_trader.gui_launcher import _load_exe_env, _show_error, run
+from nasdaq_auto_trader.gui_launcher import _default_argv, _load_exe_env, _show_error, run
 
 
 class GuiLauncherTests(unittest.TestCase):
@@ -44,7 +44,30 @@ class GuiLauncherTests(unittest.TestCase):
 
         self.assertIsInstance(app._result_queue, queue.Queue)
         self.assertIsNone(app._worker)
-        self.assertEqual(ttk_module.Button.call_count, 5)
+        self.assertEqual(ttk_module.Button.call_count, 6)
+
+    def test_exe_launcher_uses_app_data_settings_path_outside_dist(self):
+        original_local_app_data = os.environ.get("LOCALAPPDATA")
+        try:
+            with tempfile.TemporaryDirectory() as temp_dir:
+                app_dir = Path(temp_dir) / "dist" / "NasdaqAutoTrader"
+                app_dir.mkdir(parents=True)
+                app_data = Path(temp_dir) / "AppData" / "Local"
+                os.environ["LOCALAPPDATA"] = str(app_data)
+
+                argv = _default_argv(app_dir)
+
+            trading_config = argv[argv.index("--trading-config") + 1]
+            self.assertEqual(
+                Path(trading_config),
+                app_data / "NasdaqAutoTrader" / "trading_config.json",
+            )
+            self.assertNotIn(str(app_dir), trading_config)
+        finally:
+            if original_local_app_data is None:
+                os.environ.pop("LOCALAPPDATA", None)
+            else:
+                os.environ["LOCALAPPDATA"] = original_local_app_data
 
     def test_dashboard_app_reports_invalid_interval_without_starting(self):
         app = DashboardApp.__new__(DashboardApp)

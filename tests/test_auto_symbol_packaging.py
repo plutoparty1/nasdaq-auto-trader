@@ -47,6 +47,7 @@ class AutoSymbolPackagingTests(unittest.TestCase):
         self.assertIn("COLLECT", spec)
         self.assertIn("upx=False", spec)
         self.assertIn('"dist\\NasdaqAutoTrader"', script)
+        self.assertIn('$FilesToCopy = @("config.kis.json", "config.example.json")', script)
 
     def test_empty_diagnostic_is_sanitized_and_constructs_no_order_dependencies(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -172,13 +173,15 @@ class AutoSymbolPackagingTests(unittest.TestCase):
             (root / "nested").mkdir()
             secret = root / "nested" / "strategy_registry.json"
             secret.write_text("[]", encoding="utf-8")
+            settings = root / "trading_config.json"
+            settings.write_text("{}", encoding="utf-8")
             (root / "logs").mkdir()
             log = root / "logs" / "trader.log"
             log.write_text("private runtime log", encoding="utf-8")
 
             findings = find_private_package_artifacts(root)
 
-        self.assertEqual(findings, (log, secret))
+        self.assertEqual(findings, (log, secret, settings))
 
 
 def _write_paper_fixture(root: Path) -> None:

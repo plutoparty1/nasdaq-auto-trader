@@ -12,6 +12,8 @@ from .app_format import (
     _summarize_trade_result,
 )
 from .app_types import EngineResult, PortfolioSnapshot
+from .ai_quant_lab.operator_gui_presenter import human_reason
+from .learning_runner import LearningRunResult
 from .selection_presenter import selection_report_lines, selection_report_summary
 from .quant_data.resources import application_data_root
 
@@ -66,6 +68,24 @@ class DashboardRenderMixin:
             self.status_var.set(f"자동매매 1회 실행 완료 ({len(results)}개 종목)")
         for item in results:
             self._append_log(_summarize_trade_result(item))
+
+    def _render_learning_result(self, result: LearningRunResult) -> None:
+        label = "학습 완료" if result.status == "completed" else "학습 중단"
+        self.status_var.set(label)
+        self._append_log(f"{label}: {_learning_status_text(result.status)}")
+        self._append_log(f"학습 저장소: {result.artifact_root}")
+        self._append_log(f"생성 후보: {result.generated_candidates}개")
+        self._append_log(f"검증 통과 후보: {result.accepted_candidates}개")
+        self._append_log(f"제출된 실제 주문: {result.submitted_orders}건")
+        if result.reasons:
+            self._append_log("학습 결과 사유:")
+            for reason in result.reasons:
+                self._append_log(f"  {human_reason(reason)}")
+        if result.accepted_candidates == 0:
+            self._append_log(
+                "자동 선택에 사용할 학습 완료 전략은 아직 없습니다. "
+                "후보 전략과 시장 데이터가 검증을 통과해야 자동 선택이 켜집니다."
+            )
 
     def _render_mode(self) -> None:
         config = self.controller.config
@@ -128,4 +148,14 @@ class DashboardRenderMixin:
         self.pause_button.configure(state="normal" if state == "running" else "disabled")
         self.resume_button.configure(state="normal" if not busy and state == "paused" else "disabled")
         self.refresh_button.configure(state="disabled" if busy else "normal")
+        self.learning_button.configure(state="disabled" if busy else "normal")
         self.settings_button.configure(state="disabled" if busy else "normal")
+
+
+def _learning_status_text(status: str) -> str:
+    labels = {
+        "completed": "상태: 완료",
+        "aborted": "상태: 중단",
+        "blocked": "상태: 차단",
+    }
+    return labels.get(status, "상태: 확인 필요")
