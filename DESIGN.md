@@ -1,31 +1,43 @@
-# Nasdaq Auto Trader Operator GUI
+# 나스닥 자동매매 운영자 화면
 
-This desktop surface is an internal operator console for non-developers.
+이 데스크톱 화면은 개발자가 아닌 사용자를 위한 내부 운영 화면이다.
 
-## Design Contract
+## 디자인 계약
 
-- The GUI must not expose a live-order execution button.
-- The primary state must explain whether live trading is blocked before any action is taken.
-- Risk-changing actions must use plain-language labels, helper text, and confirmation prompts.
-- Every action result must show a human-readable explanation first and raw JSON second.
-- File paths and strategy inputs must be visible on the same screen as the action buttons.
+- 화면에는 실주문 실행 단추를 노출하지 않는다.
+- 사용자가 어떤 동작을 하기 전에 실전 거래가 차단됐는지 주 상태 영역에서 설명한다.
+- 위험을 바꾸는 동작은 쉬운 이름, 도움말, 확인 창을 함께 제공한다.
+- 모든 동작 결과는 사람이 읽을 수 있는 설명을 먼저 보여주고 원시 구조화 자료는 그다음에 보여준다.
+- 파일 경로와 전략 입력값은 동작 단추와 같은 화면에서 확인할 수 있어야 한다.
 
-## Visual Direction
+## 시각 방향
 
-- Operational, calm, and explicit rather than dashboard-dense.
-- Warm paper background, deep green header, high-contrast safety badges.
-- Use Aptos Display for hierarchy, Aptos for labels, and Cascadia Mono for JSON output.
-- Avoid relying on color alone: badge text, status headlines, and checklist text must repeat the safety state.
+- 정보가 빽빽한 계기판보다 차분하고 명확한 운영 도구를 지향한다.
+- 따뜻한 종이색 배경, 짙은 초록 머리말, 대비가 높은 안전 상태표를 사용한다.
+- 제목 계층에는 앱토스 디스플레이, 일반 이름에는 앱토스, 원시 제이슨 출력에는 캐스캐디아 모노 글꼴을 사용한다.
+- 색만으로 상태를 전달하지 않는다. 상태표 글자, 상태 제목, 점검 목록에서 안전 상태를 반복해 설명한다.
 
-## Safety Language
+## 안전 문구
 
-- Prefer "실주문 차단", "주문 없음", "no-trade 롤백", and "차단 사유" over abstract trading jargon.
-- Never label a button "라이브 시작" or "실거래 실행" in this GUI.
-- When a command can change strategy state, say what changes and require a confirmation dialog.
+- 추상적인 거래 용어보다 "실주문 차단", "주문 없음", "거래 없음 되돌리기", "차단 사유"를 우선한다.
+- 이 화면의 단추에 "실전 시작"이나 "실거래 실행"이라는 이름을 붙이지 않는다.
+- 명령이 전략 상태를 바꿀 수 있으면 무엇이 바뀌는지 설명하고 확인 창을 요구한다.
 
-## Dependent Settings
+## 연동 설정
 
-- `과거 데이터 기반 종목 자동 선택` is a checkbox in the symbol section.
-- When enabled, only the manual ticker and legacy AI candidate ticker entries are disabled.
-- Disabled entries retain their saved values and become editable again when the checkbox is cleared.
-- Automatic-selection readiness is written to the existing execution log in plain Korean; it does not add a live action.
+- `과거 데이터 기반 종목 자동 선택`은 종목 영역의 선택 상자다.
+- 이 설정을 켜면 수동 종목 코드와 기존 인공지능 후보 종목 입력칸만 비활성화한다.
+- 비활성화된 입력값은 저장 상태를 유지하며 선택 상자를 끄면 다시 편집할 수 있다.
+- 자동 선택 준비 상태는 기존 실행 기록에 쉬운 한글로 남긴다. 실전 동작을 새로 추가하지 않는다.
+
+## 연구 보고서 디자인 계약
+
+- 연구 보고서는 종이색 `#f4f6f5`, 흰색 표면 `#ffffff`, 본문 `#17201d`, 보조 글자 `#52605b`, 경계선 `#cdd6d2`를 중립색으로 사용한다.
+- 주조색은 짙은 초록 `#123b2f`, 중간 초록 `#286650`, 옅은 초록 `#e1eee8`, `#edf5f1`, `#cfe4db`이며 링크에는 파랑 `#2457a7`과 옅은 파랑 `#e7eef9`을 사용한다.
+- 주의 상태는 `#94520a`와 `#f7ead5`, 중단 상태는 `#9a3030`과 `#f7e4e4`, 머리말 구분선은 `#d0a449`, 표 머리글은 `#e9efec`, 꼬리말 글자는 `#dce9e3`을 사용한다.
+- 키보드 초점선은 흰색과 종이색 모두에서 구별되는 `#164a91`을 사용하고 색만으로 상태를 전달하지 않는다.
+- 주요 배치 간격은 4, 8, 12, 16, 24, 32, 48, 64픽셀 단계를 사용한다. 읽기 폭을 만드는 20·40픽셀 바깥 여백, 6픽셀 목차 링크 안쪽 여백, 3·9픽셀 상태 배지 안쪽 여백은 고정된 예외다.
+- 일반 표면의 모서리 반경은 6픽셀을 넘지 않는다. 상태 배지는 알약 모양, 순서 번호는 원형이라는 의미를 유지하기 위해 각각 `999px`와 `50%`를 예외로 허용한다.
+- 모든 표에는 표 제목과 열 머리글 범위를 넣는다. 화면 너비가 600픽셀 이하이면 가로 스크롤 표가 아니라 이름표가 붙은 세로 행으로 바꾼다.
+- 인쇄할 때 머리말과 꼬리말은 흰 바탕과 짙은 글자로 바꾸며, 근거 세부 항목은 모두 펼친 상태로 제공한다.
+- 한글 제목은 단어 단위 줄바꿈을 우선하고 긴 식별자와 주소만 강제 줄바꿈한다.
