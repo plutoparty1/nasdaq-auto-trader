@@ -1,4 +1,4 @@
-"""NASDAQ 자동매매 도구의 공개 진입점을 모아 둔다."""
+"""Public package entry points for NASDAQ Auto Trader."""
 
 from .config import AppConfig, load_config
 from .engine import TradingEngine

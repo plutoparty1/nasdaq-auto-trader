@@ -1,0 +1,11 @@
+{
+  "max_single_position_pct": 0.05,
+  "max_total_exposure_pct": 0.3,
+  "max_daily_loss_pct": 0.02,
+  "max_strategy_drawdown_pct": 0.1,
+  "max_order_notional": 1000,
+  "max_orders_per_day": 5,
+  "stale_data_seconds": 60,
+  "kill_switch_enabled": true,
+  "fail_closed": true
+}

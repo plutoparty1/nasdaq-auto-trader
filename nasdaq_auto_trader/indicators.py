@@ -1,4 +1,4 @@
-"""유명 기술적 지표들을 외부 라이브러리 없이 계산한다."""
+"""Small, dependency-free technical indicator implementations."""
 
 from __future__ import annotations
 
@@ -7,17 +7,21 @@ from math import sqrt
 from .models import Bar
 
 
+class IndicatorInputError(ValueError):
+    pass
+
+
 def _require_period(values: list[float], period: int) -> None:
-    """기간 값이 말이 되는지 먼저 검사한다."""
+    """Raise when a rolling calculation cannot be computed."""
 
     if period <= 0:
-        raise ValueError("period must be greater than zero")
+        raise IndicatorInputError("period must be greater than zero")
     if len(values) < period:
-        raise ValueError("not enough values for requested period")
+        raise IndicatorInputError("not enough values for requested period")
 
 
 def sma(values: list[float], period: int) -> float:
-    """마지막 period개 값의 단순 이동평균을 계산한다."""
+    """Return the simple moving average of the latest period."""
 
     _require_period(values, period)
     window = values[-period:]
@@ -25,7 +29,7 @@ def sma(values: list[float], period: int) -> float:
 
 
 def _ema_series(values: list[float], period: int) -> list[float]:
-    """EMA 전체 흐름을 만들기 위해 각 지점의 값을 차례로 계산한다."""
+    """Return the EMA series seeded with the first simple average."""
 
     _require_period(values, period)
     multiplier = 2 / (period + 1)
@@ -36,16 +40,18 @@ def _ema_series(values: list[float], period: int) -> list[float]:
 
 
 def ema(values: list[float], period: int) -> float:
-    """마지막 값 기준의 지수 이동평균을 계산한다."""
+    """Return the latest exponential moving average."""
 
     return _ema_series(values, period)[-1]
 
 
 def rsi(values: list[float], period: int = 14) -> float:
-    """최근 상승폭과 하락폭으로 RSI를 계산한다."""
+    """Return the Relative Strength Index on a 0-100 scale."""
 
+    if period <= 0:
+        raise IndicatorInputError("period must be greater than zero")
     if len(values) < period + 1:
-        raise ValueError("not enough values for requested RSI period")
+        raise IndicatorInputError("not enough values for requested RSI period")
 
     gains: list[float] = []
     losses: list[float] = []
@@ -69,10 +75,10 @@ def macd(
     slow: int = 26,
     signal: int = 9,
 ) -> tuple[float, float, float]:
-    """MACD 선, 신호선, 히스토그램을 계산한다."""
+    """Return MACD line, signal line, and histogram."""
 
     if fast >= slow:
-        raise ValueError("fast period must be smaller than slow period")
+        raise IndicatorInputError("fast period must be smaller than slow period")
     _require_period(values, slow + signal)
 
     fast_values = _ema_series(values, fast)
@@ -92,7 +98,7 @@ def bollinger_bands(
     period: int = 20,
     deviations: float = 2.0,
 ) -> tuple[float, float, float]:
-    """볼린저 밴드의 아래선, 중간선, 위선을 계산한다."""
+    """Return lower, middle, and upper Bollinger Bands."""
 
     _require_period(values, period)
     window = values[-period:]
@@ -103,10 +109,12 @@ def bollinger_bands(
 
 
 def atr(bars: list[Bar], period: int = 14) -> float:
-    """가격 변동폭을 보는 ATR 값을 계산한다."""
+    """Return Average True Range using the latest period."""
 
+    if period <= 0:
+        raise IndicatorInputError("period must be greater than zero")
     if len(bars) < period + 1:
-        raise ValueError("not enough bars for requested ATR period")
+        raise IndicatorInputError("not enough bars for requested ATR period")
 
     true_ranges: list[float] = []
     recent = bars[-(period + 1) :]
@@ -119,3 +127,44 @@ def atr(bars: list[Bar], period: int = 14) -> float:
             )
         )
     return sum(true_ranges) / period
+
+
+def rate_of_change(values: list[float], period: int) -> float:
+    """Return percentage price change over the lookback period."""
+
+    if period <= 0:
+        raise IndicatorInputError("period must be greater than zero")
+    if len(values) < period + 1:
+        raise IndicatorInputError("not enough values for requested rate of change period")
+
+    previous = values[-(period + 1)]
+    if previous == 0:
+        raise IndicatorInputError("rate of change is undefined when prior value is zero")
+    return (values[-1] / previous - 1) * 100
+
+
+def donchian_channel(values: list[float], period: int) -> tuple[float, float]:
+    """Return lower and upper channel bounds for the latest period."""
+
+    _require_period(values, period)
+    window = values[-period:]
+    return min(window), max(window)
+
+
+def stochastic_oscillator(bars: list[Bar], period: int = 14) -> float:
+    """Return fast stochastic percent K on a 0-100 scale."""
+
+    _require_period([bar.close for bar in bars], period)
+    window = bars[-period:]
+    lowest_low = min(bar.low for bar in window)
+    highest_high = max(bar.high for bar in window)
+    if highest_high == lowest_low:
+        return 50.0
+    return (window[-1].close - lowest_low) / (highest_high - lowest_low) * 100
+
+
+def average_volume(bars: list[Bar], period: int = 20) -> float:
+    """Return the average volume over the latest period."""
+
+    _require_period([bar.volume for bar in bars], period)
+    return sum(bar.volume for bar in bars[-period:]) / period
