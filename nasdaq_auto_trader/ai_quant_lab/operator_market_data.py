@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from math import isfinite
 from pathlib import Path
 from typing import TypeAlias
 
@@ -60,6 +61,10 @@ def _number(payload: JsonObject, key: str, default: float | None = None) -> floa
     value = payload.get(key)
     if value is None and default is not None:
         return default
-    if isinstance(value, int | float) and not isinstance(value, bool) and value == value:
+    if (
+        isinstance(value, int | float)
+        and not isinstance(value, bool)
+        and isfinite(float(value))
+    ):
         return float(value)
     raise BarsJsonError(f"bars_json_{key}_must_be_number")

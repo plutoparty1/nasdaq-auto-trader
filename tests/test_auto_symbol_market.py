@@ -6,6 +6,7 @@ from pathlib import Path
 from nasdaq_auto_trader.brokers.common import BrokerRequestError
 from nasdaq_auto_trader.brokers.alpaca import AlpacaClient, AlpacaCredentials
 from nasdaq_auto_trader.brokers.kis_client import KISClient, KISCredentials
+from nasdaq_auto_trader.ai_quant_lab.types import JsonObject, JsonValue
 from nasdaq_auto_trader.quant_data.market_quality import filter_tradeable_symbols
 from nasdaq_auto_trader.quant_data.selection_cache import (
     SelectionCache,
@@ -61,6 +62,8 @@ class AutoSymbolMarketTests(unittest.TestCase):
 
         self.assertEqual(symbols, ("TSLA", "AAPL"))
         self.assertEqual(client.calls, 1)
+        self.assertEqual(client.last_params["PRC1"], "")
+        self.assertEqual(client.last_params["PRC2"], "")
 
     def test_kis_exchange_identity_mismatch_blocks_before_request(self):
         client = _RankingKISClient(
@@ -82,11 +85,12 @@ class AutoSymbolMarketTests(unittest.TestCase):
         self.assertEqual(client.calls, 0)
 
     def test_kis_duplicate_or_malformed_rank_payload_fails_whole_shortlist(self):
-        for rows in (
+        invalid_rows: tuple[JsonValue, ...] = (
             [{"symb": "AAPL"}, {"symb": "AAPL"}],
             [{"name": "missing symbol"}],
             "invalid",
-        ):
+        )
+        for rows in invalid_rows:
             with self.subTest(rows=rows):
                 client = _PayloadKISClient(rows)
                 with self.assertRaises(BrokerRequestError):
@@ -206,18 +210,36 @@ class _RankingKISClient(KISClient):
         super().__init__(credentials)
         self.symbols = symbols
         self.calls = 0
+        self.last_params: JsonObject = {}
 
-    def _request(self, method, path, tr_id, params=None, body=None):
+    def _request(
+        self,
+        method: str,
+        path: str,
+        tr_id: str,
+        params: JsonObject | None = None,
+        body: JsonObject | None = None,
+    ) -> JsonObject:
+        del method, path, tr_id, body
         self.calls += 1
+        self.last_params = params or {}
         return {"output2": [{"symb": symbol} for symbol in self.symbols]}
 
 
 class _PayloadKISClient(_RankingKISClient):
-    def __init__(self, rows) -> None:
+    def __init__(self, rows: JsonValue) -> None:
         super().__init__(KISCredentials("app", "secret", "account", paper=False), [])
         self.rows = rows
 
-    def _request(self, method, path, tr_id, params=None, body=None):
+    def _request(
+        self,
+        method: str,
+        path: str,
+        tr_id: str,
+        params: JsonObject | None = None,
+        body: JsonObject | None = None,
+    ) -> JsonObject:
+        del method, path, tr_id, params, body
         self.calls += 1
         return {"output2": self.rows}
 

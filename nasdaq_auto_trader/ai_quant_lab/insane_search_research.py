@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import os
 import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
@@ -44,12 +45,15 @@ class CommandInsaneSearchRunner:
                 capture_output=True,
                 check=False,
                 encoding="utf-8",
+                env=_research_command_environment(),
                 timeout=self.timeout_seconds,
             )
-        except (OSError, subprocess.TimeoutExpired) as error:
-            return failed_research_result(query, str(error))
+        except subprocess.TimeoutExpired:
+            return failed_research_result(query, "insane_search_command_timed_out")
+        except OSError:
+            return failed_research_result(query, "insane_search_command_unavailable")
         if completed.returncode != 0:
-            return failed_research_result(query, completed.stderr.strip())
+            return failed_research_result(query, "insane_search_command_failed")
         return _research_result_from_command_json(query, completed.stdout)
 
 
@@ -240,3 +244,30 @@ def _sources_from_payload(payload: dict[str, JsonValue]) -> list[SourceMetadata]
 
 def _string(value: JsonValue | None) -> str:
     return value.strip() if isinstance(value, str) else ""
+
+
+def _research_command_environment() -> dict[str, str]:
+    allowed = {
+        "APPDATA",
+        "COMSPEC",
+        "HOME",
+        "LANG",
+        "LC_ALL",
+        "LOCALAPPDATA",
+        "PATH",
+        "PATHEXT",
+        "SSL_CERT_DIR",
+        "SSL_CERT_FILE",
+        "SYSTEMROOT",
+        "TEMP",
+        "TMP",
+        "USERPROFILE",
+        "WINDIR",
+    }
+    environment = {
+        key: value
+        for key, value in os.environ.items()
+        if key.upper() in allowed or key.upper().startswith("INSANE_SEARCH_")
+    }
+    environment["PYTHONIOENCODING"] = "utf-8"
+    return environment

@@ -1,8 +1,11 @@
+from datetime import date, timedelta
+
 from nasdaq_auto_trader.ai_quant_lab.backtest_engine import BacktestResult
 from nasdaq_auto_trader.ai_quant_lab.insane_search_research import (
     ResearchResult,
     SourceMetadata,
 )
+from nasdaq_auto_trader.ai_quant_lab.types import JsonObject
 from nasdaq_auto_trader.ai_quant_lab.strategy_schema import validate_strategy_spec
 from nasdaq_auto_trader.ai_quant_lab.validation_engine import ValidationResult
 from nasdaq_auto_trader.execution.position_sizer import PortfolioState
@@ -85,7 +88,7 @@ class FakeBroker:
         return {"status": "submitted"}
 
 
-def valid_spec_payload():
+def valid_spec_payload() -> JsonObject:
     return {
         "strategy_id": "auto_generated_strategy_001",
         "version": "v1",
@@ -141,10 +144,11 @@ def bars(symbol="QQQ"):
     output = []
     for index in range(80):
         close = 100 + index
+        timestamp = (date(2026, 1, 1) + timedelta(days=index)).isoformat()
         output.append(
             PriceBar(
                 symbol,
-                f"2026-01-{index + 1:02d}",
+                timestamp,
                 close - 0.5,
                 close + 1,
                 close - 1,

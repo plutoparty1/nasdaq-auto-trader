@@ -24,7 +24,7 @@
 | T6 | Live Readiness, Authorization, and Audit Guard | Done | PASS | 36 focused tests; live audit, duplicate rejection, and rollback guards passed |
 | T7 | Read-Only and Automatic CLI Surfaces | Done | PASS | 250 tests; preview exit contract, bounded live loop, and sanitized output passed |
 | T8 | Desktop Automatic-Selection Surface | Done | PASS | 259 tests; persistent safety, GUI live block, themed v8 visual QA passed |
-| T9 | EXE Packaging and End-to-End Verification | Done | PASS | 310 tests; rebuilt EXE/package audit passed; settings-validation hotfix reviewers passed |
+| T9 | EXE Packaging and End-to-End Verification | Done | PASS | 325 tests; rebuilt EXE/package audit passed; strategy-validation safety fixes passed |
 
 ## Review History
 
@@ -38,4 +38,4 @@
 | 4 | 3 | PASS (remediated) | 0 | 0 | 0 | Final P2 audit/diagnostic/dependency metadata corrections applied |
 | 6 | 1 | REQUEST CHANGES | - | - | - | Restart safety, authorization, market quality, cache, and package runtime findings |
 | 6 | 2 | REQUEST CHANGES | - | - | - | Order-time binding, state monotonicity, finite data, learned-risk, cache, and terminal truth findings |
-| 6 | 3 | PASS (remediated) | 0 | 0 | 0 | All lanes passed; final 310-test/DFD4 build, package audit, strict checker, and type-error gate passed |
+| 6 | 3 | PASS (remediated) | 0 | 0 | 0 | All lanes passed; final 325-test/1BF9 build, package audit, strict checker, and type-error gate passed |

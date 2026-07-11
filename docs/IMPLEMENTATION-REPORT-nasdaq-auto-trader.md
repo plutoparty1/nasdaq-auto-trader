@@ -290,15 +290,15 @@ Residual limits:
 
 Verification:
 
-- `python -m unittest discover`: PASS, 310 tests.
+- `python -m unittest discover`: PASS, 325 tests.
 - `python -m compileall nasdaq_auto_trader tests`: PASS.
-- Strict no-excuse checker: PASS for all 233 Python and test modules.
+- Strict no-excuse checker: PASS for all 241 Python and test modules.
 - `basedpyright --level error` on the final typed CLI, diagnostic, controller,
   health, and presenter scope: PASS with 0 errors, 0 warnings, and 0 notes.
 - Clean PyInstaller onedir build: PASS at
   `dist\NasdaqAutoTrader\NasdaqAutoTrader.exe`.
 - SHA-256:
-  `DFD405256372C9D6A64D42273FD35DECFF0E95F1DB92030033E8DC2B76C936A3`.
+  `1BF9EE757BE85A33F097969A41D7FAB9EFA9BF35BBE8C5E35178E8A516F953A7`.
 - Disabled legacy AI order sizing no longer blocks unrelated settings when its
   dormant maximum exceeds the active position limit. When AI order sizing is
   enabled, the same safety constraint remains enforced with a Korean message.

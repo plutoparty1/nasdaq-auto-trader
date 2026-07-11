@@ -193,6 +193,8 @@ def _promotion_blockers(
         reasons.append("research_sources_missing")
     if score.rejection_reasons:
         reasons.extend(score.rejection_reasons)
+    if not score.promotion_recommendation:
+        reasons.append("promotion_score_below_threshold")
     if requested_status in (StrategyStatus.CHAMPION, StrategyStatus.SHADOW_LIVE):
         reasons.append("paper_and_shadow_period_required")
     return reasons

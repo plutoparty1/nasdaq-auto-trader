@@ -35,6 +35,8 @@ class KISMarketDataMixin:
                 "EXCD": "NAS",
                 "NDAY": "0",
                 "VOL_RANG": "0",
+                "PRC1": "",
+                "PRC2": "",
                 "KEYB": "",
             },
         )
