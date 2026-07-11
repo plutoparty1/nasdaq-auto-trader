@@ -39,7 +39,11 @@ class AutoSymbolPresenterTests(unittest.TestCase):
         )
 
         self.assertIn("이번 주기 매수 대상 없음", "\n".join(selection_report_lines(no_trade)))
-        self.assertIn("학습 완료 전략 없음", "\n".join(selection_report_lines(blocked)))
+        blocked_text = "\n".join(selection_report_lines(blocked))
+        self.assertIn("학습 완료 전략 없음", blocked_text)
+        self.assertIn("연습 모드에서만 수동 종목을 입력", blocked_text)
+        self.assertIn("새 후보를 백테스트", blocked_text)
+        self.assertIn("탈락 전략 기록을 직접 수정하면 안 됩니다", blocked_text)
         self.assertIn("자동 선택 차단", selection_report_summary(blocked))
         self.assertEqual(
             selection_reason_label("session_store_corrupt"),

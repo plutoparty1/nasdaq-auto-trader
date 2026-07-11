@@ -26,6 +26,14 @@ REASON_LABELS = {
     "liquidity": "거래 유동성",
 }
 
+REASON_GUIDANCE = {
+    "eligible_strategy_unavailable": (
+        "실주문은 하지 말고 자동 선택을 끈 뒤 연습 모드에서만 수동 종목을 입력하거나, "
+        "인공지능 퀀트 연구실에서 새 후보를 백테스트해 모의 후보 상태로 통과시키세요. "
+        "탈락 전략 기록을 직접 수정하면 안 됩니다."
+    ),
+}
+
 SIGNAL_LABELS = {
     "trend_following": "추세 추종",
     "cross_sectional_momentum": "종목 간 모멘텀",
@@ -62,9 +70,11 @@ def selection_report_lines(report: SelectionReport) -> list[str]:
             lines.append("이번 주기 매수 대상 없음 (정상 no-trade)")
         case "blocked":
             reasons = report.blocked_reasons or ("unknown_selection_block",)
-            lines.extend(
-                f"차단 사유: {selection_reason_label(reason)}" for reason in reasons
-            )
+            for reason in reasons:
+                lines.append(f"차단 사유: {selection_reason_label(reason)}")
+                guidance = REASON_GUIDANCE.get(reason)
+                if guidance:
+                    lines.append(f"해결 방법: {guidance}")
         case unexpected:
             assert_never(unexpected)
     lines.extend(
