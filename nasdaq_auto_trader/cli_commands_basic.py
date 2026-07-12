@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 import time
 from datetime import datetime, timedelta, timezone
+from math import isfinite
 from pathlib import Path
 from typing import Literal, overload
 
@@ -151,8 +152,12 @@ def _run_loop(
 ) -> str | None:
     """Repeat decision cycles until interrupted or max_runs is reached."""
 
-    if interval_minutes <= 0:
-        raise CliCommandError("interval-minutes must be greater than zero")
+    if not isfinite(interval_minutes) or interval_minutes <= 0:
+        raise CliCommandError(
+            "interval-minutes must be a finite number greater than zero"
+        )
+    if max_runs is not None and max_runs <= 0:
+        raise CliCommandError("max-runs must be greater than zero")
 
     engine = None
     authorization_started = datetime.now(timezone.utc)

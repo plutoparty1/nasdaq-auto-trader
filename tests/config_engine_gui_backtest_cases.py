@@ -170,8 +170,8 @@ class ConfigEngineGuiBacktestTests(unittest.TestCase):
             csv_path.write_text(
                 "symbol,timestamp,open,high,low,close,volume\n"
                 + "\n".join(
-                    f"{bar.symbol},{bar.timestamp},{bar.open},{bar.high},{bar.low},{bar.close},{bar.volume}"
-                    for bar in bars
+                    f"{bar.symbol},2026-01-{index // 24 + 1:02d}T{index % 24:02d}:00:00+00:00,{bar.open},{bar.high},{bar.low},{bar.close},{bar.volume}"
+                    for index, bar in enumerate(bars)
                 ),
                 encoding="utf-8",
             )

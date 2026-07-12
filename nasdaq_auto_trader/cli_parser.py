@@ -1,6 +1,27 @@
 from __future__ import annotations
 
 import argparse
+from math import isfinite
+
+
+def _positive_float(value: str) -> float:
+    try:
+        parsed = float(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("must be a number") from exc
+    if not isfinite(parsed) or parsed <= 0:
+        raise argparse.ArgumentTypeError("must be a finite number greater than zero")
+    return parsed
+
+
+def _positive_int(value: str) -> int:
+    try:
+        parsed = int(value)
+    except ValueError as exc:
+        raise argparse.ArgumentTypeError("must be an integer") from exc
+    if parsed <= 0:
+        raise argparse.ArgumentTypeError("must be greater than zero")
+    return parsed
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -46,7 +67,12 @@ def build_parser() -> argparse.ArgumentParser:
 
     backtest = subparsers.add_parser("backtest", help="Run a CSV historical backtest")
     backtest.add_argument("--csv", required=True, help="Path to OHLCV CSV bars")
-    backtest.add_argument("--cash", type=float, default=10_000, help="Starting cash")
+    backtest.add_argument(
+        "--cash",
+        type=_positive_float,
+        default=10_000,
+        help="Starting cash",
+    )
 
     once = subparsers.add_parser("once", help="Run one live decision cycle")
     once.add_argument(
@@ -67,8 +93,17 @@ def build_parser() -> argparse.ArgumentParser:
         choices=["dry_run", "paper", "live"],
         help="Temporarily override config mode",
     )
-    loop.add_argument("--interval-minutes", type=float, default=60, help="Loop interval")
-    loop.add_argument("--max-runs", type=int, help="Maximum loop count for testing")
+    loop.add_argument(
+        "--interval-minutes",
+        type=_positive_float,
+        default=60,
+        help="Loop interval",
+    )
+    loop.add_argument(
+        "--max-runs",
+        type=_positive_int,
+        help="Maximum loop count for testing",
+    )
     loop.add_argument(
         "--confirm-live-orders",
         action="store_true",

@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from dataclasses import dataclass, replace
-from math import sqrt
+from math import isfinite, sqrt
 
 from .models import AccountSnapshot, Bar, OrderRequest, Position, TradeDecision
 from .risk import RiskManager
@@ -118,6 +118,8 @@ class Backtester:
     ) -> BacktestResult:
         """Run a close-signal, next-open execution simulation."""
 
+        if not isfinite(starting_cash) or starting_cash <= 0:
+            raise ValueError("starting_cash must be a finite number greater than zero")
         cash = starting_cash
         histories: dict[str, list[Bar]] = defaultdict(list)
         latest_prices: dict[str, float] = {}
