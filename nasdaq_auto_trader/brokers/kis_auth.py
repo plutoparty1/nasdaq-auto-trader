@@ -42,7 +42,7 @@ class KISAuthMixin:
         try:
             return self._open_json(request, "KIS API")
         except RuntimeError as exc:
-            if "EGW00201" not in str(exc):
+            if method != "GET" or "EGW00201" not in str(exc):
                 raise
             time.sleep(1.05)
             return self._open_json(request, "KIS API")

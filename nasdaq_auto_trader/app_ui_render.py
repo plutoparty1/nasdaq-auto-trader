@@ -112,9 +112,11 @@ class DashboardRenderMixin:
             self.selection_var.set(summary)
         else:
             self.selection_var.set(f"수동 종목 모드 | {settings.ticker}")
+        config_name = Path(self.config_path).name
+        settings_name = Path(self.controller.settings_path).name
         self.mode_var.set(
-            f"Config: {self.config_path} | GUI Config: {self.controller.settings_path} | "
-            f"Mode: {mode_label} | Broker: {config.broker} | Symbol: {symbol_mode}"
+            f"설정: {config_name} | GUI 설정: {settings_name} | "
+            f"모드: {mode_label} | 브로커: {config.broker} | 종목: {symbol_mode}"
         )
         self._append_log(f"현재 모드: {mode_label} / 종목: {symbol_mode}")
 

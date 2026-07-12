@@ -5,6 +5,8 @@ from json import JSONDecodeError
 from datetime import datetime, timezone
 from pathlib import Path
 
+from nasdaq_auto_trader.file_lock import exclusive_file_lock
+
 from .audit_logger import AuditEvent, NullAuditLogger
 from .config import AIQuantConfig
 from .registry_io import record_from_json
@@ -147,7 +149,9 @@ class StrategyRegistry:
                 ("audit_log_write_failed",),
             )
         self.promoted_path.parent.mkdir(parents=True, exist_ok=True)
-        self.promoted_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        temporary = self.promoted_path.with_suffix(self.promoted_path.suffix + ".tmp")
+        temporary.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        temporary.replace(self.promoted_path)
         return PromotionDecision(True, StrategyStatus.CHAMPION, ())
 
     def rollback_to_no_trade(self, reason: str) -> PromotionDecision:
@@ -188,15 +192,20 @@ class StrategyRegistry:
         return raw if isinstance(raw, dict) else None
 
     def _upsert(self, record: StrategyRecord) -> None:
-        records = [
-            item
-            for item in self.load_records()
-            if (item.strategy_id, item.version) != (record.strategy_id, record.version)
-        ]
-        records.append(record)
         self.registry_path.parent.mkdir(parents=True, exist_ok=True)
-        payload = [item.to_json_object() for item in records]
-        self.registry_path.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+        lock_path = self.registry_path.with_suffix(self.registry_path.suffix + ".lock")
+        with exclusive_file_lock(lock_path, 2.0):
+            records = [
+                item
+                for item in self.load_records()
+                if (item.strategy_id, item.version)
+                != (record.strategy_id, record.version)
+            ]
+            records.append(record)
+            payload = [item.to_json_object() for item in records]
+            temporary = self.registry_path.with_suffix(self.registry_path.suffix + ".tmp")
+            temporary.write_text(json.dumps(payload, indent=2), encoding="utf-8")
+            temporary.replace(self.registry_path)
 
 
 def _promotion_blockers(
@@ -211,7 +220,10 @@ def _promotion_blockers(
         reasons.append("research_sources_missing")
     if score.rejection_reasons:
         reasons.extend(score.rejection_reasons)
-    if not score.promotion_recommendation:
+    if (
+        requested_status is not StrategyStatus.PAPER_CANDIDATE
+        and not score.promotion_recommendation
+    ):
         reasons.append("promotion_score_below_threshold")
     if requested_status in (StrategyStatus.CHAMPION, StrategyStatus.SHADOW_LIVE):
         reasons.append("paper_and_shadow_period_required")

@@ -98,7 +98,7 @@ def load_config(
     raw: dict[str, Any] = {}
     if config_path is not None:
         try:
-            with config_path.open("r", encoding="utf-8") as file:
+            with config_path.open("r", encoding="utf-8-sig") as file:
                 loaded = json.load(file)
         except json.JSONDecodeError as exc:
             raise ConfigLoadError(config_path, str(exc)) from exc

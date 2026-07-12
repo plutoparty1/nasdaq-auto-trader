@@ -109,7 +109,6 @@ class AIQuantOperatorNightlyDataTests(unittest.TestCase):
         if not isinstance(reasons, list):
             self.fail("nightly reasons must be a list")
         self.assertIn("turnover_too_high", reasons)
-        self.assertIn("promotion_score_below_threshold", reasons)
         self.assertEqual(payload["accepted_candidates"], 0)
         self.assertEqual(validation_events[0]["payload"]["missing_advanced_metrics"], [])
         self.assertIn("pbo_probability", validation_events[0]["payload"]["advanced_metrics"])

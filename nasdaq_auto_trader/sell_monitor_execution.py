@@ -71,14 +71,12 @@ class SellMonitorExecutionMixin:
                 event["event"] = "sell_order_error"
                 event["error"] = f"{type(exc).__name__}:{exc}"
                 self.log.append(event)
-                if self.sell_attempts >= self.config.max_retries:
-                    return self._finish(
-                        "blocked",
-                        "max_sell_retries_reached",
-                        market_date,
-                        {"last_error": event["error"], "snapshot": refreshed.to_dict()},
-                    )
-                continue
+                return self._finish(
+                    "blocked",
+                    "order_submission_outcome_unknown",
+                    market_date,
+                    {"last_error": event["error"], "snapshot": refreshed.to_dict()},
+                )
 
             if not broker_response_submitted(response):
                 response_status = broker_response_status(response)
@@ -86,14 +84,12 @@ class SellMonitorExecutionMixin:
                 event["reason"] = f"order_response_not_submitted:{response_status}"
                 event["response"] = response
                 self.log.append(event)
-                if self.sell_attempts >= self.config.max_retries:
-                    return self._finish(
-                        "blocked",
-                        event["reason"],
-                        market_date,
-                        {"response": response, "snapshot": refreshed.to_dict()},
-                    )
-                continue
+                return self._finish(
+                    "blocked",
+                    event["reason"],
+                    market_date,
+                    {"response": response, "snapshot": refreshed.to_dict()},
+                )
 
             self.accepted_sell_order = True
             event["event"] = "sell_order_submitted"

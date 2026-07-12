@@ -21,6 +21,7 @@ ENV_KEYS = {
     "KIS_ORDER_EXCHANGE_CODE",
     "KIS_PRICE_EXCHANGE_CODE",
     "KIS_CURRENCY",
+    "NASDAQ_AUTO_TRADER_ALLOW_LIVE",
 }
 
 CLI_LAUNCH_ERRORS = (ImportError, KeyError, OSError, RuntimeError, ValueError)

@@ -51,11 +51,12 @@ class AutomationCoordinator:
     ) -> TransitionResult:
         if emergency_stop:
             return self._transition(OperatingState.EMERGENCY_STOP, "emergency_stop_requested", now)
-        blocking_reason = health.blocking_reason()
-        if blocking_reason:
-            return self._transition(OperatingState.SAFE_HALT, blocking_reason, now)
-
         session = regular_market_session(now)
+        blocking_reason = health.blocking_reason()
+        if blocking_reason and (
+            session.is_open or session.reason == "before_regular_open"
+        ):
+            return self._transition(OperatingState.SAFE_HALT, blocking_reason, now)
         if session.is_open:
             return self._transition(OperatingState.LIVE_TRADING, "preflight_passed", now)
         if session.reason == "before_regular_open":
@@ -69,6 +70,9 @@ class AutomationCoordinator:
         if new_data_available:
             return self._transition(OperatingState.OFF_HOURS_LEARNING, "new_data_available", now)
         return self._transition(OperatingState.IDLE, session.reason, now)
+
+    def safe_halt(self, reason: str, now: datetime) -> TransitionResult:
+        return self._transition(OperatingState.SAFE_HALT, reason, now)
 
     def _transition(
         self,

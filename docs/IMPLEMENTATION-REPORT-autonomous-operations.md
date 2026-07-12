@@ -18,7 +18,7 @@
 
 ## 3. 주요 아키텍처와 상태 전환 방식
 
-`AutomationCoordinator`가 UTC 시각을 공식 거래소 일정으로 판정한다. 개장 전에는 `PRE_MARKET_CHECK`, 장중에는 점검 통과 후 `LIVE_TRADING`, 장 마감 뒤에는 `POST_MARKET_RECONCILIATION`, 새 완료 데이터가 있으면 `OFF_HOURS_LEARNING`으로 이동한다. 모델·데이터·브로커·계좌·포지션·리스크 설정·시스템 시각 이상은 `SAFE_HALT`, 긴급 중지는 `EMERGENCY_STOP`으로 전환한다.
+`AutomationCoordinator`가 UTC 시각을 공식 거래소 일정으로 판정한다. 개장 전에는 `PRE_MARKET_CHECK`, 장중에는 점검 통과 후 `LIVE_TRADING`, 장 마감 뒤에는 실제 계좌·포지션 새로고침을 수행하는 `POST_MARKET_RECONCILIATION`, 새 완료 데이터가 있으면 `OFF_HOURS_LEARNING`으로 이동한다. 모델 또는 리스크 설정 이상과 장 마감 계좌 대사 실패는 `SAFE_HALT`, 긴급 중지는 `EMERGENCY_STOP`으로 전환한다. 데이터·브로커의 모든 운영 상태를 독립적으로 사전 진단하는 완전한 헬스체크는 아직 남은 과제다.
 
 ## 4. 수정하거나 추가한 파일 목록
 
@@ -48,13 +48,15 @@ python -m unittest discover -s tests
 python -m compileall -q nasdaq_auto_trader tests
 ```
 
-구현 시점 기준 테스트 358개가 통과했다. 실제 브로커 주문 전송은 금지했고 테스트 더블만 사용했다.
+구현 시점 기준 테스트 373개가 통과했다. 실제 브로커 주문 전송은 금지했고 테스트 더블만 사용했다. 실제 CLI 프로세스, 빌드된 EXE 진단 모드, Tkinter 학습 버튼도 별도로 실행했다.
 
 ## 9. PAPER 모드 확인 방법
 
 실거래를 끄고 연습 모드 또는 브로커 PAPER 계정을 사용한다. `학습만 실행` 결과의 제출 주문 수는 항상 0이어야 한다.
 
 ## 10. LIVE 활성화 절차
+
+현재 배포는 드라이런과 PAPER 운영 준비 범위까지만 승인한다. 데스크톱 LIVE는 차단되며 AI 퀀트 `live-cycle`도 `shared_order_gateway_required`로 중단된다. 아래 값은 향후 제한된 명령줄 LIVE 경로를 검증할 때 필요한 조건이며, 이번 배포에서 LIVE 사용을 승인한다는 의미가 아니다.
 
 1. PAPER 검증과 운영 모델 수동 승인을 완료한다.
 2. 브로커 계정과 리스크 한도를 검증한다.

@@ -52,4 +52,4 @@
 | 5 | 9 | PASS | 0 | 0 | 1 | T13 continuation: operator rollback now forces promoted strategy to no-trade; automated degradation trigger remains future monitoring scope |
 | 5 | 10 | PASS | 0 | 0 | 1 | T14 continuation: ledger-driven degradation monitoring now triggers rollback automatically; external scheduler/alerting remains production operations scope |
 | 5 | 11 | PASS | 0 | 0 | 1 | T15 continuation: StrategySpec generation context is now backed by all mandatory strategy-family research queries and candidate citations must bind to that audited context; source quality still depends on the configured approved insane-search adapter |
-| 5 | 12 | PASS | 0 | 0 | 1 | T16-T17: 운영 상태와 실제 데이터 학습 경로를 통합했고 전체 357개 테스트를 통과함. 실거래 전 장기 PAPER 검증은 계속 필요함 |
+| 5 | 12 | PASS | 0 | 0 | 1 | T16-T17: 운영 상태와 실제 데이터 학습 경로를 통합했고 전체 373개 테스트를 통과함. 실거래 전 장기 PAPER 검증은 계속 필요함 |

@@ -119,7 +119,7 @@ def load_ai_quant_config(path: str | Path | None = None) -> AIQuantConfig:
         return AIQuantConfig()
     config_path = Path(path)
     try:
-        with config_path.open("r", encoding="utf-8") as file:
+        with config_path.open("r", encoding="utf-8-sig") as file:
             raw = json.load(
                 file,
                 parse_constant=reject_non_finite_json,

@@ -42,6 +42,21 @@ class AutomationCoordinatorTests(unittest.TestCase):
         self.assertEqual(first.state, OperatingState.POST_MARKET_RECONCILIATION)
         self.assertEqual(second.state, OperatingState.OFF_HOURS_LEARNING)
 
+    def test_missing_model_after_close_can_enter_recovery_learning(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            coordinator = AutomationCoordinator(
+                OperatingStateStore(Path(temp_dir) / "state.json")
+            )
+
+            result = coordinator.advance(
+                datetime(2026, 6, 26, 21, 0, tzinfo=timezone.utc),
+                PreflightHealth(model_ok=False),
+                reconciliation_complete=True,
+                new_data_available=True,
+            )
+
+        self.assertEqual(result.state, OperatingState.OFF_HOURS_LEARNING)
+
     def test_emergency_stop_has_priority(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             coordinator = AutomationCoordinator(OperatingStateStore(Path(temp_dir) / "state.json"))

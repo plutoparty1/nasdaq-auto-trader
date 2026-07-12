@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from datetime import timedelta
+from dataclasses import replace
+from datetime import timedelta, timezone
 
 from .ai_quant_lab.artifact_paths import default_strategy_artifact_paths
 from .app_types import EngineResult
@@ -14,6 +15,7 @@ from .learning_runner import (
     run_learning_only,
 )
 from .operating_state import OperatingState, OperatingStateStore
+from .market_hours import EASTERN
 from .quant_data.resources import application_data_root
 from .quant_data.symbol_selector import StrategyResolutionBlock, resolve_strategy
 
@@ -33,16 +35,36 @@ class ControllerOperationsMixin:
                 return None
         now = self._clock()
         current = self.operating_store.load()
+        market_date = now.astimezone(EASTERN).date().isoformat()
         transition = self.operating_coordinator.advance(
             now,
             self._operating_health(),
             reconciliation_complete=(
-                current.state is OperatingState.POST_MARKET_RECONCILIATION
+                current.last_reconciled_market_date == market_date
             ),
             new_data_available=True,
         )
         if transition.state is OperatingState.LIVE_TRADING:
             return self.run_auto_cycle(force=force)
+        if transition.state is OperatingState.POST_MARKET_RECONCILIATION:
+            try:
+                self.refresh_portfolio()
+            except Exception as exc:  # noqa: BROAD_EXCEPT_OK
+                halted = self.operating_coordinator.safe_halt(
+                    "account_state_unavailable",
+                    now,
+                )
+                with self._lock:
+                    self.state = "paused"
+                    self.last_error = f"{halted.reason}:{type(exc).__name__}"
+                return []
+            reconciled = self.operating_store.load()
+            self.operating_store.save(
+                replace(
+                    reconciled,
+                    last_reconciled_market_date=market_date,
+                )
+            )
         if transition.state is OperatingState.OFF_HOURS_LEARNING:
             self._execute_learning(
                 LearningCancellation(self._record_learning_progress)
@@ -66,6 +88,14 @@ class ControllerOperationsMixin:
         control = cancellation or LearningCancellation(
             self._record_learning_progress
         )
+        previous_operating_state = self.operating_store.load()
+        self.operating_store.save(
+            replace(
+                previous_operating_state,
+                state=OperatingState.MANUAL_TRAIN_ONLY,
+                entered_at=self._clock().astimezone(timezone.utc),
+            )
+        )
         with self._lock:
             previous_state = self.state
             self.state = "paused" if previous_state == "running" else previous_state
@@ -73,6 +103,20 @@ class ControllerOperationsMixin:
         try:
             return self._execute_learning(control)
         finally:
+            safe_state = (
+                previous_operating_state.state
+                if previous_operating_state.state
+                in (OperatingState.SAFE_HALT, OperatingState.EMERGENCY_STOP)
+                else OperatingState.IDLE
+            )
+            self.operating_store.save(
+                replace(
+                    previous_operating_state,
+                    state=safe_state,
+                    entered_at=self._clock().astimezone(timezone.utc),
+                    active_job_key=None,
+                )
+            )
             with self._lock:
                 self._learning_cancellation = None
 
@@ -101,6 +145,10 @@ class ControllerOperationsMixin:
         return run_learning_only(bars_by_symbol=bars, cancellation=control)
 
     def _operating_health(self) -> PreflightHealth:
+        if not self.trading_settings.auto_symbol_selection_enabled:
+            return PreflightHealth(
+                risk_config_ok=self.settings_error is None and self.session_error is None,
+            )
         paths = default_strategy_artifact_paths()
         mode = "live" if self.config.mode == "live" else "paper"
         resolution = resolve_strategy(mode, paths)

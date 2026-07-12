@@ -14,6 +14,7 @@ from nasdaq_auto_trader.ai_quant_lab.config import AIQuantConfig, load_ai_quant_
 from nasdaq_auto_trader.ai_quant_lab.operator_market_data import BarsBySymbol
 from nasdaq_auto_trader.ai_quant_lab.operator_models import OperatorPaths
 from nasdaq_auto_trader.ai_quant_lab.registry import StrategyRegistry
+from nasdaq_auto_trader.ai_quant_lab.registry_models import StrategyStatus
 from nasdaq_auto_trader.ai_quant_lab.scoring_engine import ScoringEngine
 from nasdaq_auto_trader.ai_quant_lab.strategy_schema_validation import parse_strategy_spec_json
 from nasdaq_auto_trader.ai_quant_lab.validation_engine import ValidationEngine
@@ -99,7 +100,19 @@ def _run_locked(
         / "reports"
         / f"{validation.spec.strategy_id}-{validation.spec.version}.json"
     )
-    if report_path.exists():
+    registry = StrategyRegistry(paths.registry_path, paths.promoted_path, config, audit)
+    artifact_path = paths.spec_dir / f"{validation.spec.strategy_id}-{validation.spec.version}.json"
+    completed_record = next(
+        (
+            record
+            for record in registry.load_records()
+            if record.strategy_id == validation.spec.strategy_id
+            and record.version == validation.spec.version
+            and record.status is StrategyStatus.PAPER_CANDIDATE
+        ),
+        None,
+    )
+    if report_path.exists() and artifact_path.exists() and completed_record is not None:
         return _result(paths, "completed", 0, ("data_unchanged",))
 
     control.report("backtest", 45, validation.spec.strategy_id)
@@ -123,9 +136,14 @@ def _run_locked(
         return _result(paths, "cancelled", 0, ("learning_cancelled",))
 
     save_strategy_artifact(paths.spec_dir, validation.spec)
+    promotion = registry.evaluate_promotion(
+        validation.spec,
+        score,
+        requested_status=StrategyStatus.PAPER_CANDIDATE,
+    )
+    if not promotion.allowed:
+        return _result(paths, "completed", 0, promotion.reasons)
     save_learning_report(paths.spec_dir / "reports", validation.spec, bars_by_symbol, score)
-    registry = StrategyRegistry(paths.registry_path, paths.promoted_path, config, audit)
-    registry.record_validation_passed(validation.spec, score)
     control.report("completed", 100, "validation_passed")
     return _result(paths, "completed", 1, ())
 

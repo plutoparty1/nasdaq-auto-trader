@@ -35,6 +35,7 @@ class RuntimeState:
     active_job_key: str | None = None
     champion_version: str | None = None
     daily_risk_used: float = 0.0
+    last_reconciled_market_date: str = ""
 
     @classmethod
     def idle(cls) -> RuntimeState:
@@ -47,6 +48,7 @@ class RuntimeState:
             "active_job_key": self.active_job_key,
             "champion_version": self.champion_version,
             "daily_risk_used": self.daily_risk_used,
+            "last_reconciled_market_date": self.last_reconciled_market_date,
         }
 
 
@@ -65,6 +67,9 @@ class OperatingStateStore:
                 active_job_key=payload.get("active_job_key"),
                 champion_version=payload.get("champion_version"),
                 daily_risk_used=float(payload.get("daily_risk_used", 0.0)),
+                last_reconciled_market_date=str(
+                    payload.get("last_reconciled_market_date", "")
+                ),
             )
         except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:
             raise StateTransitionError("runtime_state_corrupt") from exc

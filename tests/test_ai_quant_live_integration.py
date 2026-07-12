@@ -85,7 +85,7 @@ class AIQuantLiveIntegrationTests(unittest.TestCase):
         self.assertEqual(result.status, "blocked")
         self.assertEqual(result.blocked_reasons, ("live_trading_disabled",))
 
-    def test_enabled_quant_live_cycle_routes_order_through_existing_broker_adapter(self):
+    def test_enabled_quant_live_cycle_blocks_unsafe_legacy_order_path(self):
         from nasdaq_auto_trader.execution.live_integration import (
             AIQuantRuntimePaths,
             run_ai_quant_live_cycle,
@@ -138,11 +138,10 @@ class AIQuantLiveIntegrationTests(unittest.TestCase):
                 engine_factory=lambda config: FakeLegacyEngine(market_data),
             )
 
-        self.assertEqual(result.status, "completed")
-        self.assertEqual(result.submitted_orders, 1)
-        self.assertEqual(len(market_data.broker.orders), 1)
-        self.assertIsInstance(market_data.broker.orders[0], OrderRequest)
-        self.assertEqual(market_data.broker.orders[0].symbol, "QQQ")
+        self.assertEqual(result.status, "blocked")
+        self.assertEqual(result.submitted_orders, 0)
+        self.assertEqual(result.blocked_reasons, ("shared_order_gateway_required",))
+        self.assertEqual(market_data.broker.orders, [])
 
     def test_live_cycle_submits_zero_orders_when_risk_guard_blocks_order(self):
         from nasdaq_auto_trader.execution.live_integration import (
@@ -199,7 +198,7 @@ class AIQuantLiveIntegrationTests(unittest.TestCase):
 
         self.assertEqual(result.status, "blocked")
         self.assertEqual(result.submitted_orders, 0)
-        self.assertEqual(result.blocked_reasons, ("order_qty_below_minimum",))
+        self.assertEqual(result.blocked_reasons, ("shared_order_gateway_required",))
         self.assertEqual(market_data.broker.orders, [])
 
     def test_market_health_fails_closed_without_quote_when_spread_filter_enabled(self):

@@ -58,7 +58,7 @@ class AutoSymbolSelectorTests(unittest.TestCase):
         self.assertIsInstance(resolved, ResolvedStrategy)
         self.assertEqual(resolved.spec.strategy_id, "alpha")
 
-    def test_paper_resolver_accepts_validation_passed_learning_record(self):
+    def test_paper_resolver_rejects_validation_only_record(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             paths = StrategyArtifactPaths.from_root(Path(temp_dir))
             _write_spec(paths, "learned", "v1", 0.1)
@@ -66,8 +66,8 @@ class AutoSymbolSelectorTests(unittest.TestCase):
 
             resolved = resolve_strategy("paper", paths)
 
-        self.assertIsInstance(resolved, ResolvedStrategy)
-        self.assertEqual(resolved.spec.strategy_id, "learned")
+        self.assertIsInstance(resolved, StrategyResolutionBlock)
+        self.assertEqual(resolved.reason, "eligible_strategy_unavailable")
 
     def test_paper_resolver_ignores_legacy_fake_bootstrap_strategy(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -78,7 +78,7 @@ class AutoSymbolSelectorTests(unittest.TestCase):
                 paths,
                 [
                     _record(("local_bootstrap_trend", "v1"), "validation_passed", 1.0),
-                    _record(("verified", "v2"), "validation_passed", 0.5),
+                    _record(("verified", "v2"), "paper_candidate", 0.5),
                 ],
             )
 

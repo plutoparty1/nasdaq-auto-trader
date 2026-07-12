@@ -198,12 +198,7 @@ def run_ai_quant_live_cycle(
     app_reason = _app_live_block_reason(app_config)
     if app_reason is not None:
         return LiveEngineResult("blocked", 0, (app_reason,))
-
-    engine = engine_factory(app_config)
-    live_engine = build_ai_quant_live_engine(
-        AIQuantLiveEngineContext(app_config, ai_config, runtime_paths, engine)
-    )
-    return live_engine.run_cycle()
+    return LiveEngineResult("blocked", 0, ("shared_order_gateway_required",))
 
 
 def build_ai_quant_live_engine(context: AIQuantLiveEngineContext) -> LiveEngine:

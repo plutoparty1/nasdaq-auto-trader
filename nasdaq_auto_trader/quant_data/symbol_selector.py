@@ -26,7 +26,6 @@ from .universe_snapshot import UniverseSnapshot
 SelectionStatus: TypeAlias = Literal["selected", "no_trade", "blocked"]
 PAPER_ELIGIBLE = frozenset(
     {
-        StrategyStatus.VALIDATION_PASSED,
         StrategyStatus.PAPER_CANDIDATE,
         StrategyStatus.PAPER_TRADING,
         StrategyStatus.SHADOW_LIVE,

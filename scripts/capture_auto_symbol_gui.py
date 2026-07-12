@@ -13,6 +13,7 @@ from nasdaq_auto_trader.app_controller import AutoTradeController
 from nasdaq_auto_trader.app_ui import DashboardApp
 from nasdaq_auto_trader.config import AppConfig
 from nasdaq_auto_trader.config_manager import TradingSettings
+from nasdaq_auto_trader.dry_run_market_data import DryRunMarketData
 from nasdaq_auto_trader.models import AccountSnapshot
 from nasdaq_auto_trader.quant_data.symbol_selector import RankedSymbol, SelectionReport
 from nasdaq_auto_trader.settings_window_dialog import SettingsWindow
@@ -76,6 +77,12 @@ def main(output_dir: str) -> int:
     )
     dashboard_root.attributes("-topmost", True)
     _settle(dashboard_root)
+    app.learning_button.invoke()
+    _pump(dashboard_root, 2.0)
+    learning_log = app.log_text.get("1.0", "end")
+    if "제출된 실제 주문: 0건" not in learning_log:
+        raise CaptureError("learning-only flow did not prove zero submitted orders")
+    _capture(dashboard_root, target / "dashboard-learning.png")
     app.start_button.invoke()
     _pump(dashboard_root, 2.0)
     _settle(dashboard_root)
@@ -92,6 +99,7 @@ class _Factory:
 
 
 class _Engine:
+    market_data = DryRunMarketData()
     last_selection_report = SelectionReport(
         status="selected",
         universe_id="nasdaq_100",

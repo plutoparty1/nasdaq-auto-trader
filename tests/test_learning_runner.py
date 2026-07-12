@@ -51,7 +51,7 @@ class LearningRunnerTests(unittest.TestCase):
         self.assertEqual(result.status, "completed")
         self.assertEqual(result.accepted_candidates, 1)
         self.assertEqual(result.reasons, ())
-        self.assertEqual(records[0].status, StrategyStatus.VALIDATION_PASSED)
+        self.assertEqual(records[0].status, StrategyStatus.PAPER_CANDIDATE)
         self.assertTrue(config.ai_quant_lab_enabled)
         self.assertTrue(config.self_improvement_enabled)
         self.assertTrue(config.dry_run)
@@ -149,6 +149,29 @@ class LearningRunnerTests(unittest.TestCase):
         self.assertEqual(first.accepted_candidates, 1)
         self.assertEqual(second.accepted_candidates, 0)
         self.assertIn("data_unchanged", second.reasons)
+
+    def test_orphan_report_is_recovered_instead_of_skipping_registry(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            paths = OperatorPaths(
+                root / "config.json",
+                root / "registry.json",
+                root / "promoted.json",
+                root / "specs",
+                root / "audit.jsonl",
+            )
+            run_learning_only(paths, _bars())
+            paths.registry_path.unlink()
+
+            recovered = run_learning_only(paths, _bars())
+            records = StrategyRegistry(
+                paths.registry_path,
+                paths.promoted_path,
+                load_ai_quant_config(paths.ai_config_path),
+            ).load_records()
+
+        self.assertEqual(recovered.accepted_candidates, 1)
+        self.assertEqual(len(records), 1)
 
 
 def _bars():
