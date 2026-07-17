@@ -4,7 +4,7 @@
 
 > 학습·검증된 전략으로 나스닥 종목을 고르고, 여러 안전 장치를 거쳐 매매 후보를 만드는 윈도우용 프로그램
 
-기본 상태: **연습 모드** · 데스크톱 LIVE: **꺼짐** · 전체 자동 시험: **458개 통과**
+기본 상태: **연습 모드** · 데스크톱 LIVE: **꺼짐** · 전체 자동 시험: **463개 통과**
 
 > **주의**
 > 이 프로그램은 수익을 보장하지 않습니다. 처음에는 반드시 `실제 돈으로 거래`를 끄고 `연습 모드`를 켜세요.
@@ -817,11 +817,13 @@ dist\NasdaqAutoTrader\NasdaqAutoTrader.exe
 
 설정 창의 `8. 무인 자동운영`에서 자동 시작, 별도 무인 실거래 동의, 점검 간격, 오전 보고 시각을 관리합니다. 저장된 설정에서 무인 운영을 켜면 GUI 시작 직후 시장 상태를 확인하고 장전 보충 학습, 장중 거래 판단 또는 무주문 스캔, 장후 대사·학습을 수행합니다.
 
-배포 폴더에서 현재 사용자 최소 권한 예약 작업을 등록합니다.
+소스 저장소에서는 다음 명령으로 현재 사용자 최소 권한 예약 작업을 등록합니다.
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\operations\install_unattended_task.ps1
+powershell -ExecutionPolicy Bypass -File .\scripts\install_unattended_task.ps1
 ```
+
+빌드된 `dist\NasdaqAutoTrader` 배포 폴더 안에서는 같은 스크립트가 `operations\install_unattended_task.ps1`에 포함됩니다.
 
 예약 작업은 로그인 시와 매일 5분 간격으로 정확한 설치 경로의 프로세스가 있는지 확인하며, 중복 실행은 차단합니다. 전일 보고서는 매일 설정한 오전 시각 이후 `%LOCALAPPDATA%\NasdaqAutoTrader\reports`에 Markdown으로 생성되고 GUI의 `전일 보고서 열기`에서 확인할 수 있습니다.
 
@@ -870,7 +872,7 @@ powershell -ExecutionPolicy Bypass -File .\operations\install_unattended_task.ps
 
 현재 배포 기준:
 
-- 전체 자동 시험 458개 통과
+- 전체 자동 시험 463개 통과
 - 실제 CLI 프로세스 E2E 5개 통과
 - 학습 버튼 실제 Tkinter 실행과 실주문 0건 확인
 - KIS 주문 POST 자동 재시도 금지 확인

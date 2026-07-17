@@ -2,22 +2,23 @@ from __future__ import annotations
 
 import threading
 from datetime import datetime, timedelta, timezone
-from inspect import Parameter, signature
 from pathlib import Path
-from typing import Any, Callable
+from typing import Callable
 
+from .ai_quant_lab.artifact_paths import default_strategy_artifact_paths
+from .ai_quant_lab.audit_logger import AuditLogger
+from .automatic_order_guard import AutomaticOrderGuard
 from .app_types import AppConfigurationError, AutoTradeState, EngineResult, PortfolioSnapshot
 from .config import AppConfig, validate_trading_mode
 from .config_errors import TradingModeValidationError
 from .config_manager import (
-    SettingsError,
-    TradingSessionState,
-    TradingSettings,
+    SettingsError, TradingSessionState, TradingSettings,
     apply_settings_to_app_config,
     default_settings_path,
     validate_settings,
 )
 from .engine import TradingEngine
+from .engine_factory_utils import factory_accepts_argument
 from .engine_errors import PreOrderCycleError
 from .controller_operations import ControllerOperationsMixin
 from .intraday_shadow_scan import IntradayShadowScanReport
@@ -63,6 +64,10 @@ class AutoTradeController(ControllerOperationsMixin):
         self.session_store = session_store or TradingSessionStore(
             application_data_root() / "runtime" / "trading_session.json"
         )
+        strategy_paths = default_strategy_artifact_paths()
+        self.automatic_order_guard = AutomaticOrderGuard(
+            strategy_paths, self.session_store, AuditLogger(strategy_paths.audit_log_path)
+        )
         self.runtime_journal = runtime_journal or NullRuntimeJournal()
         self.runtime_recorder = ControllerRuntimeRecorder(self.runtime_journal)
         self.session_error: str | None = None
@@ -96,6 +101,14 @@ class AutoTradeController(ControllerOperationsMixin):
         result = validate_settings(settings)
         if not result.ok:
             raise SettingsError("\n".join(result.errors))
+        renew_live_authorization = (
+            not self.trading_settings.unattended_live_trading_enabled
+            and settings.unattended_live_trading_enabled
+        )
+        if renew_live_authorization:
+            reset_reason = self.automatic_order_guard.reset_live_authorization()
+            if reset_reason:
+                raise SettingsError(reset_reason)
         with self._lock:
             self.trading_settings = settings
             self.config = apply_settings_to_app_config(self.base_config, settings)
@@ -163,7 +176,7 @@ class AutoTradeController(ControllerOperationsMixin):
             interval_seconds = self.interval_seconds
 
         try:
-            engine = self._create_engine()
+            engine = self._create_engine(authorize_live_orders=True)
             results = engine.run_once()
             report = getattr(engine, "last_selection_report", None)
             if isinstance(report, SelectionReport):
@@ -228,19 +241,23 @@ class AutoTradeController(ControllerOperationsMixin):
         self.runtime_recorder.portfolio(snapshot)
         return snapshot
 
-    def _create_engine(self):
+    def _create_engine(self, *, authorize_live_orders: bool = False):
         engine_kwargs = {}
-        if _factory_accepts_argument(self._engine_factory, "trading_settings"):
+        if factory_accepts_argument(self._engine_factory, "trading_settings"):
             engine_kwargs["trading_settings"] = self.trading_settings
-        if _factory_accepts_argument(self._engine_factory, "trading_session_state"):
+        if factory_accepts_argument(self._engine_factory, "trading_session_state"):
             engine_kwargs["trading_session_state"] = self.session_state
-        if _factory_accepts_argument(self._engine_factory, "live_order_confirmation"):
+        if factory_accepts_argument(self._engine_factory, "automatic_order_guard"):
+            engine_kwargs["automatic_order_guard"] = self.automatic_order_guard
+        if factory_accepts_argument(self._engine_factory, "live_order_confirmation"):
             unattended_live_allowed = (
                 not self.trading_settings.unattended_operation_enabled
                 or self.trading_settings.unattended_live_trading_enabled
             )
             engine_kwargs["live_order_confirmation"] = (
-                self.config.mode == "live" and unattended_live_allowed
+                self.config.mode == "live"
+                and unattended_live_allowed
+                and authorize_live_orders
             )
         return self._engine_factory(self.config, **engine_kwargs)
 
@@ -257,13 +274,3 @@ class AutoTradeController(ControllerOperationsMixin):
                 validate_trading_mode(self.config)
             except TradingModeValidationError as exc:
                 raise SettingsError(str(exc)) from exc
-
-def _factory_accepts_argument(factory: Callable[..., Any], name: str) -> bool:
-    try:
-        parameters = signature(factory).parameters.values()
-    except (TypeError, ValueError):
-        return False
-    return any(
-        parameter.name == name or parameter.kind == Parameter.VAR_KEYWORD
-        for parameter in parameters
-    )

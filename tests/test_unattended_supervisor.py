@@ -119,7 +119,7 @@ class UnattendedSupervisorTests(IsolatedControllerTestCase):
 
         self.assertFalse(factory.kwargs[0]["live_order_confirmation"])
 
-    def test_explicit_unattended_live_consent_enables_existing_authorization_gate(self):
+    def test_live_authorization_is_created_only_for_a_trading_cycle(self):
         factory = CapturingFactory()
         controller = self.create_controller(
             AppConfig(mode="dry_run"),
@@ -134,8 +134,30 @@ class UnattendedSupervisorTests(IsolatedControllerTestCase):
         )
 
         controller._create_engine()
+        controller._create_engine(authorize_live_orders=True)
 
-        self.assertTrue(factory.kwargs[0]["live_order_confirmation"])
+        self.assertFalse(factory.kwargs[0]["live_order_confirmation"])
+        self.assertTrue(factory.kwargs[1]["live_order_confirmation"])
+
+    def test_controller_reuses_one_automatic_order_guard_across_engine_cycles(self):
+        factory = CapturingFactory()
+        controller = self.create_controller(
+            AppConfig(mode="dry_run"),
+            engine_factory=factory,
+            trading_settings=TradingSettings(
+                auto_symbol_selection_enabled=True,
+                unattended_operation_enabled=True,
+            ),
+            session_store=self.session_store(),
+        )
+
+        controller._create_engine()
+        controller._create_engine()
+
+        self.assertIs(
+            factory.kwargs[0]["automatic_order_guard"],
+            factory.kwargs[1]["automatic_order_guard"],
+        )
 
     def test_before_open_runs_missed_learning_before_trade_cycle(self):
         with tempfile.TemporaryDirectory() as temp_dir:

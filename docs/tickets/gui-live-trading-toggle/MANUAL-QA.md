@@ -1,6 +1,6 @@
 # Manual QA: GUI LIVE settings
 
-Date: 2026-07-16
+Date: 2026-07-17
 
 No real broker order was submitted or attempted during QA.
 
@@ -19,11 +19,11 @@ No real broker order was submitted or attempted during QA.
 
 ## Verification summary
 
-- Full suite: `Ran 458 tests ... OK`
+- Full suite: `Ran 463 tests ... OK`
 - Strict Python audit: `no violations in 79 file(s)`
 - PyInstaller build: exit 0
 - Package audit: `[]`
-- Final EXE SHA-256: `23128F6FEEB3E935D9F6069069D5E792FAE23679D31FFE75FD0C87D4ECEC21C0`
+- Final EXE SHA-256: `225FE20C7A5C2C0E0A3E47DB57DECD80712D7FB63285A1B510D3C0E88199B2F1`
 
 The remaining screenshot limitation affects visual confirmation only. The settings-to-engine
 behavior, fail-closed boundaries, package integrity, and executable startup were exercised.

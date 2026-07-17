@@ -8,10 +8,8 @@ from nasdaq_auto_trader.ai_quant_lab.audit_logger import AuditEvent
 from nasdaq_auto_trader.ai_quant_lab.types import JsonObject
 from nasdaq_auto_trader.models import OrderRequest
 from nasdaq_auto_trader.automatic_order_audit import AutomaticOrderAuditor
-from nasdaq_auto_trader.live_authorization import (
-    LiveAuthorizationBlock,
-    LiveAuthorizationEnvelope,
-)
+from nasdaq_auto_trader.live_authorization import LiveAuthorizationBlock, LiveAuthorizationEnvelope
+from nasdaq_auto_trader.live_authorization_store import LiveAuthorizationStore, LiveAuthorizationStoreError
 from nasdaq_auto_trader.market_hours import EASTERN
 from nasdaq_auto_trader.session_claims import ClaimStatus, SignalKey
 from nasdaq_auto_trader.automatic_order_readiness import live_readiness_reason
@@ -36,11 +34,15 @@ class AutomaticOrderGuard:
         paths: StrategyArtifactPaths,
         session_store: TradingSessionStore,
         audit: AuditSink,
+        authorization_store: LiveAuthorizationStore | None = None,
     ) -> None:
         self.paths = paths
         self.session_store = session_store
         self.audit = audit
         self.order_auditor = AutomaticOrderAuditor(audit, session_store)
+        self.authorization_store = authorization_store or LiveAuthorizationStore(
+            session_store.path.with_suffix(".live-authorization.json")
+        )
         self.live_authorization: LiveAuthorizationEnvelope | None = None
         self.authorization_block_reason = ""
         self.authorization_cycles = 0
@@ -53,9 +55,27 @@ class AutomaticOrderGuard:
             self.live_authorization = None
             self.authorization_block_reason = authorization.reason
             return
-        self.live_authorization = authorization
+        try:
+            stored = self.authorization_store.load_or_create(authorization)
+        except LiveAuthorizationStoreError as exc:
+            self.live_authorization = None
+            self.authorization_block_reason = exc.reason
+            self.authorization_cycles = 0
+            return
+        self.live_authorization = stored.envelope
+        self.authorization_block_reason = ""
+        self.authorization_cycles = stored.cycles
+
+    def reset_live_authorization(self) -> str:
+        try:
+            self.authorization_store.clear()
+        except LiveAuthorizationStoreError as exc:
+            self.authorization_block_reason = exc.reason
+            return exc.reason
+        self.live_authorization = None
         self.authorization_block_reason = ""
         self.authorization_cycles = 0
+        return ""
 
     def start_cycle(self, now: datetime) -> str:
         envelope = self.live_authorization
@@ -63,12 +83,12 @@ class AutomaticOrderGuard:
             return self.authorization_block_reason
         if envelope is None:
             return "live_authorization_required"
-        if now >= envelope.expires_at:
-            return "live_authorization_expired"
-        if self.authorization_cycles >= envelope.max_cycles:
-            return "live_authorization_cycle_limit_reached"
-        self.authorization_cycles += 1
-        return ""
+        try:
+            reason, cycles = self.authorization_store.consume_cycle(envelope, now)
+        except LiveAuthorizationStoreError as exc:
+            return exc.reason
+        self.authorization_cycles = cycles
+        return reason
 
     def begin(
         self,

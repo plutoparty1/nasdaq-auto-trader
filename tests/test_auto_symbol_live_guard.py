@@ -171,7 +171,7 @@ class AutoSymbolLiveGuardTests(unittest.TestCase):
         self.assertTrue(any(item["response"]["reason"] == "promoted_strategy_rollback" for item in results))
 
 
-def _live_engine(paths, guard, broker):
+def _live_engine(paths, guard, broker, max_cycles=12):
     now = datetime(2026, 7, 13, 14, 30, tzinfo=timezone.utc)
     return TradingEngine(
         AppConfig(
@@ -197,6 +197,7 @@ def _live_engine(paths, guard, broker):
         live_order_confirmation=True,
         strategy_artifact_paths=paths,
         automatic_order_guard=guard,
+        live_authorization_max_cycles=max_cycles,
     )
 
 

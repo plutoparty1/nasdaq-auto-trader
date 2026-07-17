@@ -27,6 +27,19 @@ class EngineOrderMixin:
             and self.trading_settings is not None
             and self.trading_settings.auto_symbol_selection_enabled
         )
+        unattended_live_without_strategy = bool(
+            self.config.mode == "live"
+            and order.side == "buy"
+            and self.trading_settings is not None
+            and self.trading_settings.unattended_operation_enabled
+            and not self.trading_settings.auto_symbol_selection_enabled
+        )
+        if unattended_live_without_strategy:
+            return {
+                "status": "blocked",
+                "reason": "unattended_live_requires_approved_strategy",
+                "terminal": True,
+            }
         if automatic_live and automatic_context is None:
             return {
                 "status": "blocked",

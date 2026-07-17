@@ -115,6 +115,8 @@ class TradingEngine(
             and not self.automatic_preflight_reason
             and config.mode == "live"
             and live_order_confirmation
+            and self.automatic_order_guard.live_authorization is None
+            and not self.automatic_order_guard.authorization_block_reason
         ):
             self.automatic_order_guard.set_live_authorization(
                 create_live_authorization(
