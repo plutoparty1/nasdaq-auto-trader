@@ -3,6 +3,8 @@ from __future__ import annotations
 import argparse
 from math import isfinite
 
+from .quant_data.resources import application_data_root
+
 
 def _positive_float(value: str) -> float:
     try:
@@ -154,7 +156,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     day_test.add_argument(
         "--record-path",
-        default="logs/day_trade_test_orders.jsonl",
+        default=str(application_data_root() / "logs" / "day_trade_test_orders.jsonl"),
         help="JSONL record path for planned orders and guarded live attempts",
     )
 

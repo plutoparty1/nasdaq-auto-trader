@@ -82,6 +82,13 @@ class TradingSettings:
     save_log: bool = True
     log_path: str = "logs/trader.log"
     stop_on_order_error: bool = True
+    unattended_operation_enabled: bool = False
+    unattended_live_trading_enabled: bool = False
+    unattended_interval_minutes: int = 15
+    daily_report_enabled: bool = True
+    daily_report_hour: int = 8
+    daily_report_minute: int = 0
+    daily_report_retention_days: int = 90
     ai_ticker_selection_enabled: bool = False
     ai_order_qty_enabled: bool = False
     ai_trade_decision_enabled: bool = False

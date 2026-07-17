@@ -15,6 +15,20 @@ class OperatingStateTests(unittest.TestCase):
             recovered = OperatingStateStore(path).load()
         self.assertEqual(recovered, state)
 
+    def test_learning_market_date_survives_restart(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "runtime_state.json"
+            state = RuntimeState(
+                OperatingState.IDLE,
+                datetime(2026, 7, 16, tzinfo=timezone.utc),
+                last_learning_market_date="2026-07-15",
+            )
+
+            OperatingStateStore(path).save(state)
+            recovered = OperatingStateStore(path).load()
+
+        self.assertEqual(recovered.last_learning_market_date, "2026-07-15")
+
     def test_duplicate_job_key_is_rejected(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             store = OperatingStateStore(Path(temp_dir) / "runtime_state.json")

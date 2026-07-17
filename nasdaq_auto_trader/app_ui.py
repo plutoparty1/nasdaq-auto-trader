@@ -4,6 +4,7 @@ import queue
 import threading
 from pathlib import Path
 
+from .ai_quant_lab.artifact_paths import default_strategy_artifact_paths
 from .app_controller import AutoTradeController
 from .app_types import GuiUnavailableError
 from .config import AppConfig
@@ -17,6 +18,9 @@ from .app_ui_actions import DashboardActionsMixin
 from .app_ui_layout import DashboardLayoutMixin
 from .app_ui_render import DashboardRenderMixin
 from .gui_theme import apply_operator_theme
+from .daily_report import DailyReportService
+from .quant_data.resources import application_data_root
+from .runtime_journal import RuntimeJournal
 
 
 def launch_gui(
@@ -42,12 +46,16 @@ def launch_gui(
         trading_settings = TradingSettings()
         settings_error = str(exc)
 
+    runtime_journal = RuntimeJournal(
+        default_strategy_artifact_paths().audit_log_path
+    )
     controller = AutoTradeController(
         config,
         interval_seconds=trade_interval_seconds,
         trading_settings=trading_settings,
         settings_path=settings_file,
         settings_error=settings_error,
+        runtime_journal=runtime_journal,
     )
     root = tk.Tk()
     DashboardApp(
@@ -87,6 +95,11 @@ class DashboardApp(
         self._result_queue: queue.Queue = queue.Queue()
         self._worker: threading.Thread | None = None
         self._next_portfolio_refresh = 0.0
+        self._daily_report_service = DailyReportService(
+            application_data_root() / "reports",
+            default_strategy_artifact_paths().audit_log_path,
+            controller.runtime_journal,
+        )
 
         self.root.title("NASDAQ Auto Trader")
         self.root.geometry("1080x700")
@@ -104,6 +117,7 @@ class DashboardApp(
                 + self.controller.settings_error,
             )
         self._render_mode()
-        self._start_task("portfolio", self.controller.refresh_portfolio)
+        if not self._start_unattended_operation():
+            self._start_task("portfolio", self.controller.refresh_portfolio)
         self._poll_results()
         self._tick()

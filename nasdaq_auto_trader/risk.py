@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from math import isfinite
 
 from .models import AccountSnapshot, OrderRequest, Position, TradeDecision
 
@@ -52,6 +53,18 @@ class RiskManager:
     ) -> OrderRequest | None:
         """Cap a buy by target weight, cash buffer, buying power, and ATR risk."""
 
+        if not all(
+            isfinite(value)
+            for value in (
+                account.cash,
+                account.equity,
+                account.buying_power,
+                latest_price,
+            )
+        ):
+            return None
+        if account.cash < 0 or account.buying_power < 0:
+            return None
         if self.config.order_qty is not None:
             return self._fixed_qty_buy_order(decision, account, position, latest_price)
 
@@ -99,12 +112,16 @@ class RiskManager:
         required_cash = latest_price * self.config.order_qty
         if account.cash < self.config.min_cash_to_buy:
             return None
+        if account.cash < required_cash:
+            return None
         if account.buying_power < required_cash:
             return None
         return OrderRequest(
             symbol=decision.symbol,
             side="buy",
+            type="limit",
             qty=float(self.config.order_qty),
+            limit_price=latest_price,
         )
 
     def _risk_limited_notional(

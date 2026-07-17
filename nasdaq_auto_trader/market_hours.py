@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import TypedDict
 from zoneinfo import ZoneInfo
 
@@ -63,6 +63,20 @@ def regular_market_session(now: datetime | None = None) -> MarketSession:
         opens_at.isoformat(),
         closes_at.isoformat(),
     )
+
+
+def latest_completed_market_date(now: datetime) -> str:
+    normalized = (
+        now.replace(tzinfo=timezone.utc)
+        if now.tzinfo is None
+        else now.astimezone(timezone.utc)
+    )
+    schedule = NASDAQ.schedule(
+        start_date=(normalized - timedelta(days=14)).date(),
+        end_date=normalized.date(),
+    )
+    completed = schedule[schedule["market_close"] <= normalized]
+    return "" if completed.empty else completed.index[-1].date().isoformat()
 
 
 def _to_eastern(value: datetime) -> datetime:

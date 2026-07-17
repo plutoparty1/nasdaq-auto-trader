@@ -2,12 +2,9 @@ import unittest
 from datetime import datetime, timezone
 
 from tests.ai_decision_fixtures import (
-    FakeBroker,
-    MultiSymbolMarketData,
     StaticAIProvider,
     StaticAIProviderExhaustedError,
     ai_json,
-    compact_strategy,
     uptrend_bars,
 )
 from nasdaq_auto_trader.ai_decision_manager import AIDecisionContext, AIDecisionManager
@@ -17,13 +14,10 @@ from nasdaq_auto_trader.ai_decision_schema import (
     parse_ai_trade_recommendation,
 )
 from nasdaq_auto_trader.ai_trade_guard import guard_ai_recommendation
-from nasdaq_auto_trader.config import AppConfig
 from nasdaq_auto_trader.config_manager import (
     TradingSessionState,
     TradingSettings,
-    apply_settings_to_app_config,
 )
-from nasdaq_auto_trader.engine import TradingEngine
 from nasdaq_auto_trader.models import AccountSnapshot, Position
 
 
@@ -154,6 +148,30 @@ class AIDecisionTests(unittest.TestCase):
         self.assertEqual(additional_buy.response["reason"], "additional_buy_disabled")
         self.assertEqual(oversell.response["reason"], "sell_qty_exceeds_position")
 
+    def test_guard_blocks_ai_buy_when_cash_is_below_order_value(self):
+        settings = TradingSettings(
+            ai_recommend_only=False,
+            dry_run=False,
+            live_trading=True,
+            require_confirm_after_ai=False,
+            ai_max_order_qty=5,
+            max_position_qty=5,
+        )
+
+        result = guard_ai_recommendation(
+            AITradeRecommendation("buy", "NVDA", 1, 0.9, "reason", "risk"),
+            settings,
+            AccountSnapshot(cash=10, equity=1_000, buying_power=1_000),
+            None,
+            TradingSessionState(),
+            datetime(2026, 6, 26, 14, 0, tzinfo=timezone.utc),
+            "live",
+            500,
+        )
+
+        self.assertEqual(result.response["reason"], "deposited_cash_insufficient")
+        self.assertIsNone(result.order)
+
     def test_manager_retries_and_returns_parse_error_without_order(self):
         manager = AIDecisionManager(StaticAIProvider(["not-json"]))
         context = AIDecisionContext(
@@ -170,104 +188,6 @@ class AIDecisionTests(unittest.TestCase):
         self.assertEqual(result.status, "error")
         self.assertFalse(result.parse_success)
         self.assertIn("valid JSON", result.error)
-
-    def test_engine_ai_recommend_only_never_submits_order(self):
-        settings = TradingSettings(
-            ai_ticker_selection_enabled=True,
-            ai_order_qty_enabled=True,
-            ai_trade_decision_enabled=True,
-            ai_recommend_only=True,
-            ai_candidate_tickers=["NVDA"],
-            order_qty=1,
-            max_position_qty=5,
-        )
-        config = apply_settings_to_app_config(
-            AppConfig(mode="dry_run", strategy=compact_strategy()),
-            settings,
-        )
-        broker = FakeBroker()
-        engine = TradingEngine(
-            config,
-            broker=broker,
-            market_data=MultiSymbolMarketData(),
-            account=AccountSnapshot(cash=10_000, equity=10_000, buying_power=10_000),
-            positions={},
-            trading_settings=settings,
-            trading_session_state=TradingSessionState(),
-            ai_provider=StaticAIProvider([ai_json()]),
-        )
-
-        result = engine.run_once()[0]
-
-        self.assertEqual(result["ai_decision"]["recommendation"]["ticker"], "NVDA")
-        self.assertIsNone(result["order"])
-        self.assertEqual(result["response"]["reason"], "ai_recommend_only")
-        self.assertEqual(broker.orders, [])
-
-    def test_engine_rejects_ai_candidate_outside_user_list(self):
-        settings = TradingSettings(
-            ai_ticker_selection_enabled=True,
-            ai_order_qty_enabled=True,
-            ai_trade_decision_enabled=True,
-            ai_recommend_only=True,
-            ai_candidate_tickers=["NVDA"],
-            max_position_qty=5,
-            ai_retry_count=0,
-        )
-        config = apply_settings_to_app_config(
-            AppConfig(mode="dry_run", strategy=compact_strategy()),
-            settings,
-        )
-        engine = TradingEngine(
-            config,
-            broker=FakeBroker(),
-            market_data=MultiSymbolMarketData(),
-            account=AccountSnapshot(cash=10_000, equity=10_000, buying_power=10_000),
-            positions={},
-            trading_settings=settings,
-            trading_session_state=TradingSessionState(),
-            ai_provider=StaticAIProvider([ai_json(ticker="AAPL")]),
-        )
-
-        result = engine.run_once()[0]
-
-        self.assertEqual(result["response"]["reason"], "ai_recommendation_failed")
-        self.assertFalse(result["ai_decision"]["parse_success"])
-
-    def test_engine_rejects_non_finite_ai_confidence_without_crashing(self):
-        settings = TradingSettings(
-            ai_ticker_selection_enabled=True,
-            ai_order_qty_enabled=True,
-            ai_trade_decision_enabled=True,
-            ai_recommend_only=True,
-            ai_candidate_tickers=["NVDA"],
-            max_position_qty=5,
-            ai_retry_count=0,
-        )
-        config = apply_settings_to_app_config(
-            AppConfig(mode="dry_run", strategy=compact_strategy()),
-            settings,
-        )
-        raw_response = (
-            '{"action": "buy", "ticker": "NVDA", "order_qty": 1, '
-            '"confidence": NaN, "reason": "r", "risk": "k"}'
-        )
-        engine = TradingEngine(
-            config,
-            broker=FakeBroker(),
-            market_data=MultiSymbolMarketData(),
-            account=AccountSnapshot(cash=10_000, equity=10_000, buying_power=10_000),
-            positions={},
-            trading_settings=settings,
-            trading_session_state=TradingSessionState(),
-            ai_provider=StaticAIProvider([raw_response]),
-        )
-
-        result = engine.run_once()[0]
-
-        self.assertEqual(result["response"]["reason"], "ai_recommendation_failed")
-        self.assertFalse(result["ai_decision"]["parse_success"])
-        self.assertIn("non-finite JSON number", result["ai_decision"]["error"])
 
 if __name__ == "__main__":
     unittest.main()

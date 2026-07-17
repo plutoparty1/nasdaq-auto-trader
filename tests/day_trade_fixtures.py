@@ -1,12 +1,14 @@
 from __future__ import annotations
 
-from nasdaq_auto_trader.models import OrderRequest
+from nasdaq_auto_trader.models import AccountSnapshot, OrderRequest
 
 
 class FakeDayTradeClient:
     def __init__(self):
         self.buying_power_calls = []
+        self.account_calls = []
         self.submitted_orders = []
+        self.cash = 64.0
         self.details = {
             "GOOD": {
                 "name": "Good Test Corp",
@@ -77,6 +79,10 @@ class FakeDayTradeClient:
     def get_overseas_buying_power(self, symbol, order_price=None):
         self.buying_power_calls.append((symbol, order_price))
         return 64.0
+
+    def get_account(self, refresh=False):
+        self.account_calls.append(refresh)
+        return AccountSnapshot(cash=self.cash, equity=self.cash, buying_power=64.0)
 
     def submit_order(self, order):
         self.submitted_orders.append(order)

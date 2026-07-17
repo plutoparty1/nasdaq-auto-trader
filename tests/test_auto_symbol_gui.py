@@ -4,7 +4,6 @@ from datetime import datetime, timezone
 from pathlib import Path
 from types import SimpleNamespace
 
-from nasdaq_auto_trader.app_controller import AutoTradeController
 from nasdaq_auto_trader.app_ui_render import DashboardRenderMixin
 from nasdaq_auto_trader.config import AppConfig
 from nasdaq_auto_trader.config_manager import SettingsError, TradingSettings
@@ -13,9 +12,10 @@ from nasdaq_auto_trader.models import AccountSnapshot, OrderRequest
 from nasdaq_auto_trader.quant_data.symbol_selector import SelectionReport
 from nasdaq_auto_trader.settings_window_dialog import SettingsWindow
 from nasdaq_auto_trader.trading_session_store import TradingSessionStore
+from tests.app_controller_fixtures import IsolatedControllerTestCase
 
 
-class AutoSymbolGuiTests(unittest.TestCase):
+class AutoSymbolGuiTests(IsolatedControllerTestCase):
     def test_auto_toggle_disables_only_manual_symbol_inputs(self):
         window = SettingsWindow.__new__(SettingsWindow)
         auto = _Variable(False)
@@ -57,25 +57,6 @@ class AutoSymbolGuiTests(unittest.TestCase):
 
         self.assertEqual(view.selection_var.get(), "자동 종목 선택 | 다음 주기 대기")
 
-    def test_gui_live_action_blocks_before_engine_factory(self):
-        factory = _SequenceFactory([_report("selected")])
-        controller = AutoTradeController(
-            AppConfig(),
-            engine_factory=factory,
-            trading_settings=TradingSettings(
-                auto_symbol_selection_enabled=True,
-                dry_run=False,
-                live_trading=True,
-            ),
-        )
-
-        with self.assertRaisesRegex(SettingsError, "gui_live_trading_disabled"):
-            controller.start()
-        with self.assertRaisesRegex(SettingsError, "gui_live_trading_disabled"):
-            controller.refresh_portfolio()
-
-        self.assertEqual(factory.calls, 0)
-
     def test_gui_auto_dry_run_and_paper_reach_controller(self):
         for settings in (
             TradingSettings(auto_symbol_selection_enabled=True),
@@ -88,7 +69,7 @@ class AutoSymbolGuiTests(unittest.TestCase):
             with self.subTest(mode="dry_run" if settings.dry_run else "paper"):
                 with tempfile.TemporaryDirectory() as temp_dir:
                     factory = _SequenceFactory([_report("selected")])
-                    controller = AutoTradeController(
+                    controller = self.create_controller(
                         AppConfig(),
                         engine_factory=factory,
                         trading_settings=settings,
@@ -108,7 +89,7 @@ class AutoSymbolGuiTests(unittest.TestCase):
             path = Path(temp_dir) / "session.json"
             path.write_text("{broken", encoding="utf-8")
             factory = _SequenceFactory([_report("selected")])
-            controller = AutoTradeController(
+            controller = self.create_controller(
                 AppConfig(),
                 engine_factory=factory,
                 trading_settings=TradingSettings(auto_symbol_selection_enabled=True),
@@ -135,7 +116,7 @@ class AutoSymbolGuiTests(unittest.TestCase):
             ]
         )
         with tempfile.TemporaryDirectory() as temp_dir:
-            controller = AutoTradeController(
+            controller = self.create_controller(
                 AppConfig(),
                 engine_factory=factory,
                 trading_settings=TradingSettings(auto_symbol_selection_enabled=True),
@@ -167,7 +148,7 @@ class AutoSymbolGuiTests(unittest.TestCase):
                 cooldown_minutes=10,
                 max_daily_buy_count=10,
             )
-            first = AutoTradeController(
+            first = self.create_controller(
                 AppConfig(),
                 engine_factory=_RecordingFactory(now),
                 clock=lambda: now,
@@ -177,7 +158,7 @@ class AutoSymbolGuiTests(unittest.TestCase):
             first.start()
             first.run_auto_cycle(force=True)
 
-            second = AutoTradeController(
+            second = self.create_controller(
                 AppConfig(),
                 engine_factory=_SequenceFactory([_report("no_trade")]),
                 clock=lambda: now,

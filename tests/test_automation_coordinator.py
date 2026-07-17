@@ -8,7 +8,7 @@ from nasdaq_auto_trader.operating_state import OperatingState, OperatingStateSto
 
 
 class AutomationCoordinatorTests(unittest.TestCase):
-    def test_open_market_enters_live_only_after_preflight(self):
+    def test_open_market_missing_model_enters_read_only_shadow_scan(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             coordinator = AutomationCoordinator(OperatingStateStore(Path(temp_dir) / "state.json"))
             now = datetime(2026, 6, 26, 14, 0, tzinfo=timezone.utc)
@@ -16,9 +16,37 @@ class AutomationCoordinatorTests(unittest.TestCase):
             blocked = coordinator.advance(now, PreflightHealth(model_ok=False))
             ready = coordinator.advance(now, PreflightHealth())
 
-        self.assertEqual(blocked.state, OperatingState.SAFE_HALT)
+        self.assertEqual(blocked.state, OperatingState.INTRADAY_SHADOW_SCAN)
         self.assertEqual(blocked.reason, "operating_model_unavailable")
         self.assertEqual(ready.state, OperatingState.LIVE_TRADING)
+
+    def test_open_market_non_model_failure_still_safe_halts(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            coordinator = AutomationCoordinator(
+                OperatingStateStore(Path(temp_dir) / "state.json")
+            )
+
+            result = coordinator.advance(
+                datetime(2026, 6, 26, 14, 0, tzinfo=timezone.utc),
+                PreflightHealth(account_ok=False),
+            )
+
+        self.assertEqual(result.state, OperatingState.SAFE_HALT)
+        self.assertEqual(result.reason, "account_state_unavailable")
+
+    def test_missing_model_does_not_hide_a_second_preflight_failure(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            coordinator = AutomationCoordinator(
+                OperatingStateStore(Path(temp_dir) / "state.json")
+            )
+
+            result = coordinator.advance(
+                datetime(2026, 6, 26, 14, 0, tzinfo=timezone.utc),
+                PreflightHealth(model_ok=False, risk_config_ok=False),
+            )
+
+        self.assertEqual(result.state, OperatingState.SAFE_HALT)
+        self.assertEqual(result.reason, "risk_config_invalid")
 
     def test_before_open_enters_pre_market_check(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -27,6 +55,19 @@ class AutomationCoordinatorTests(unittest.TestCase):
             result = coordinator.advance(
                 datetime(2026, 6, 26, 12, 0, tzinfo=timezone.utc),
                 PreflightHealth(),
+            )
+
+        self.assertEqual(result.state, OperatingState.PRE_MARKET_CHECK)
+
+    def test_before_open_missing_model_stays_ready_for_opening_scan(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            coordinator = AutomationCoordinator(
+                OperatingStateStore(Path(temp_dir) / "state.json")
+            )
+
+            result = coordinator.advance(
+                datetime(2026, 6, 26, 12, 0, tzinfo=timezone.utc),
+                PreflightHealth(model_ok=False),
             )
 
         self.assertEqual(result.state, OperatingState.PRE_MARKET_CHECK)

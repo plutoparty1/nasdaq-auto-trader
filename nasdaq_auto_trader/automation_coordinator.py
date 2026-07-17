@@ -19,15 +19,27 @@ class PreflightHealth:
 
     def blocking_reason(self) -> str:
         checks = (
-            (self.model_ok, "operating_model_unavailable"),
             (self.market_data_ok, "market_data_unavailable"),
             (self.broker_ok, "broker_unavailable"),
             (self.account_ok, "account_state_unavailable"),
             (self.positions_ok, "position_state_mismatch"),
             (self.risk_config_ok, "risk_config_invalid"),
             (self.clock_ok, "system_clock_invalid"),
+            (self.model_ok, "operating_model_unavailable"),
         )
         return next((reason for healthy, reason in checks if not healthy), "")
+
+    def shadow_scan_ready(self) -> bool:
+        return all(
+            (
+                self.market_data_ok,
+                self.broker_ok,
+                self.account_ok,
+                self.positions_ok,
+                self.risk_config_ok,
+                self.clock_ok,
+            )
+        )
 
 
 @dataclass(frozen=True, slots=True)
@@ -53,14 +65,28 @@ class AutomationCoordinator:
             return self._transition(OperatingState.EMERGENCY_STOP, "emergency_stop_requested", now)
         session = regular_market_session(now)
         blocking_reason = health.blocking_reason()
-        if blocking_reason and (
-            session.is_open or session.reason == "before_regular_open"
+        if session.reason == "before_regular_open" and new_data_available:
+            return self._transition(
+                OperatingState.OFF_HOURS_LEARNING,
+                "missed_learning_before_open",
+                now,
+            )
+        if session.reason == "before_regular_open":
+            return self._transition(OperatingState.PRE_MARKET_CHECK, session.reason, now)
+        if (
+            session.is_open
+            and blocking_reason == "operating_model_unavailable"
+            and health.shadow_scan_ready()
         ):
+            return self._transition(
+                OperatingState.INTRADAY_SHADOW_SCAN,
+                blocking_reason,
+                now,
+            )
+        if blocking_reason and session.is_open:
             return self._transition(OperatingState.SAFE_HALT, blocking_reason, now)
         if session.is_open:
             return self._transition(OperatingState.LIVE_TRADING, "preflight_passed", now)
-        if session.reason == "before_regular_open":
-            return self._transition(OperatingState.PRE_MARKET_CHECK, session.reason, now)
         if session.reason == "after_regular_close" and not reconciliation_complete:
             return self._transition(
                 OperatingState.POST_MARKET_RECONCILIATION,

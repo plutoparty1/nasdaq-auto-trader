@@ -124,6 +124,11 @@ class DashboardLayoutMixin:
             text="설정",
             command=self._open_settings,
         )
+        self.report_button = self.ttk.Button(
+            button_bar,
+            text="전일 보고서 열기",
+            command=self._open_latest_report,
+        )
         for index, button in enumerate(
             [
                 self.start_button,
@@ -133,6 +138,7 @@ class DashboardLayoutMixin:
                 self.learning_button,
                 self.cancel_learning_button,
                 self.settings_button,
+                self.report_button,
             ]
         ):
             button.grid(

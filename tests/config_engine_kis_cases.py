@@ -25,7 +25,7 @@ class ConfigEngineKISTests(unittest.TestCase):
                 )
 
         self.assertEqual(client._token_cache_path, expected)
-    def test_kis_balance_uses_output2_summary_and_output1_positions(self):
+    def test_kis_account_uses_present_balance_deposit_and_balance_positions(self):
         test_case = self
 
         class FakeKISClient(KISClient):
@@ -40,6 +40,18 @@ class ConfigEngineKISTests(unittest.TestCase):
                 )
 
             def _request(self, method, path, tr_id, params=None, body=None):
+                if path.endswith("/inquire-present-balance"):
+                    test_case.assertEqual(tr_id, "CTRP6504R")
+                    test_case.assertEqual(params["WCRC_FRCR_DVSN_CD"], "02")
+                    test_case.assertEqual(params["NATN_CD"], "840")
+                    return {
+                        "rt_cd": "0",
+                        "output2": [
+                            {"crcy_cd": "JPY", "frcr_dncl_amt_2": "9000.00"},
+                            {"crcy_cd": "USD", "frcr_dncl_amt_2": "40.00"},
+                        ],
+                        "output3": {"tot_asst_amt": "100000.00"},
+                    }
                 test_case.assertEqual(
                     path,
                     "/uapi/overseas-stock/v1/trading/inquire-balance",
@@ -54,10 +66,7 @@ class ConfigEngineKISTests(unittest.TestCase):
                             "pchs_avg_pric": "3.50",
                         }
                     ],
-                    "output2": {
-                        "ord_psbl_cash": "63.25",
-                        "tot_asst_amt": "100.50",
-                    },
+                    "output2": {"tot_evlu_pfls_amt": "2.50"},
                 }
 
         client = FakeKISClient()
@@ -65,11 +74,38 @@ class ConfigEngineKISTests(unittest.TestCase):
         account = client.get_account()
         positions = client.list_positions()
 
-        self.assertEqual(account.cash, 63.25)
-        self.assertEqual(account.equity, 100.50)
-        self.assertEqual(account.buying_power, 63.25)
+        self.assertEqual(account.cash, 40.00)
+        self.assertEqual(account.equity, 40.00)
+        self.assertEqual(account.buying_power, 40.00)
         self.assertEqual(positions["HIVE"].qty, 2)
         self.assertEqual(positions["HIVE"].market_value, 8.20)
+
+    def test_kis_balance_does_not_treat_orderable_amount_as_deposited_cash(self):
+        class FakeKISClient(KISClient):
+            def _request(self, method, path, tr_id, params=None, body=None):
+                return {
+                    "rt_cd": "0",
+                    "output1": [],
+                    "output2": {
+                        "ovrs_ord_psbl_amt": "1000.00",
+                        "cash": "1000.00",
+                        "tot_asst_amt": "1000.00",
+                    },
+                }
+
+        client = FakeKISClient(
+            KISCredentials(
+                app_key="app",
+                app_secret="secret",
+                account_no="12345678",
+                paper=False,
+            )
+        )
+
+        account = client.get_account()
+
+        self.assertEqual(account.cash, 0.0)
+        self.assertEqual(account.buying_power, 0.0)
 
     def test_kis_buying_power_uses_psamount_endpoint(self):
         class FakeKISClient(KISClient):
@@ -156,6 +192,12 @@ class ConfigEngineKISTests(unittest.TestCase):
                 self.calls.append(("price", symbol))
                 return 101.25
 
+            def get_account(self, refresh=False):
+                return AccountSnapshot(cash=250, equity=250, buying_power=250)
+
+            def get_overseas_buying_power(self, symbol, order_price=None):
+                return 250.0
+
             def _request(self, method, path, tr_id, params=None, body=None):
                 self.calls.append((method, path, tr_id, body))
                 return {"rt_cd": "0", "output": {"ODNO": "1"}}
@@ -189,6 +231,12 @@ class ConfigEngineKISTests(unittest.TestCase):
 
             def get_latest_price(self, symbol):
                 raise AssertionError("explicit limit order should not reprice")
+
+            def get_account(self, refresh=False):
+                return AccountSnapshot(cash=64, equity=64, buying_power=64)
+
+            def get_overseas_buying_power(self, symbol, order_price=None):
+                return 64.0
 
             def _request(self, method, path, tr_id, params=None, body=None):
                 self.calls.append((method, path, tr_id, body))

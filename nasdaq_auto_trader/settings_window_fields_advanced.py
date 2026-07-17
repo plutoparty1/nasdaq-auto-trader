@@ -98,7 +98,7 @@ SETTINGS_SECTIONS_ADVANCED = [
                 "ai_candidate_tickers",
                 "AI 후보 종목",
                 "str",
-                "예: AAPL, MSFT, NVDA, TSLA, QQQ. AI는 이 목록 밖의 종목을 고를 수 없습니다.",
+                "예: AAPL, MSFT, NVDA, TSLA, QQQ. AI 선택은 이 목록 안으로 제한됩니다.",
             ),
             (
                 "ai_decision_interval_minutes",
@@ -170,6 +170,53 @@ SETTINGS_SECTIONS_ADVANCED = [
                 "주문 오류가 나면 자동매매 멈춤",
                 "bool",
                 "켜면 주문/API 오류가 생겼을 때 자동매매를 일시정지합니다.",
+            ),
+        ],
+    ),
+    (
+        "8. 무인 자동운영",
+        [
+            (
+                "unattended_operation_enabled",
+                "컴퓨터가 켜지면 자동운영 시작",
+                "bool",
+                "실행 직후 장 상태를 확인해 자동운영을 시작합니다.",
+            ),
+            (
+                "unattended_live_trading_enabled",
+                "무인 실거래 별도 동의",
+                "bool",
+                "LIVE·환경 승인이 있어야 무인 주문합니다. 전략 승격은 수동입니다.",
+            ),
+            (
+                "unattended_interval_minutes",
+                "자동 점검 간격(분)",
+                "int",
+                "시장·학습·거래 조건 재확인 간격입니다. 기본 15분입니다.",
+            ),
+            (
+                "daily_report_enabled",
+                "매일 오전 전일 보고서 만들기",
+                "bool",
+                "최근 미국 거래일의 학습·주문·차단 결과를 저장합니다.",
+            ),
+            (
+                "daily_report_hour",
+                "보고서 생성 시각(시)",
+                "int",
+                "현지시간 0~23시입니다. 기본 오전 8시입니다.",
+            ),
+            (
+                "daily_report_minute",
+                "보고서 생성 시각(분)",
+                "int",
+                "현지시간 0~59분입니다.",
+            ),
+            (
+                "daily_report_retention_days",
+                "보고서 보관 기간(일)",
+                "int",
+                "보고서 자동 정리 기준입니다. 기본 90일입니다.",
             ),
         ],
     ),

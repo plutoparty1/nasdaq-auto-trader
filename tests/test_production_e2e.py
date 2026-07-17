@@ -7,9 +7,45 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
+
+from nasdaq_auto_trader.cli_parser import build_parser
+
+
+TRADING_ENV_KEYS = (
+    "ALPACA_API_KEY",
+    "ALPACA_SECRET_KEY",
+    "ALPACA_DATA_FEED",
+    "KIS_APP_KEY",
+    "KIS_APP_SECRET",
+    "KIS_ACCOUNT_NO",
+    "KIS_ACCOUNT_PRODUCT_CODE",
+    "KIS_ORDER_EXCHANGE_CODE",
+    "KIS_PRICE_EXCHANGE_CODE",
+    "KIS_CURRENCY",
+    "NASDAQ_AUTO_TRADER_ALLOW_LIVE",
+)
 
 
 class ProductionE2ETests(unittest.TestCase):
+    def test_day_test_default_record_path_uses_local_app_data_and_explicit_path_is_preserved(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            local_app_data = Path(temp_dir) / "local-app-data"
+            with patch.dict(os.environ, {"LOCALAPPDATA": str(local_app_data)}):
+                default_args = build_parser().parse_args(["day-test"])
+                explicit_args = build_parser().parse_args(
+                    ["day-test", "--record-path", "custom/orders.jsonl"]
+                )
+
+        self.assertEqual(
+            Path(default_args.record_path),
+            local_app_data
+            / "NasdaqAutoTrader"
+            / "logs"
+            / "day_trade_test_orders.jsonl",
+        )
+        self.assertEqual(explicit_args.record_path, "custom/orders.jsonl")
+
     def test_cli_help_and_invalid_command_contract(self):
         help_result = _run_cli("--help")
         invalid_result = _run_cli("--definitely-invalid")
@@ -112,6 +148,8 @@ def _run_module(
     local_app_data: Path | None = None,
 ) -> subprocess.CompletedProcess[str]:
     environment = os.environ.copy()
+    for key in TRADING_ENV_KEYS:
+        environment.pop(key, None)
     if local_app_data is not None:
         environment["LOCALAPPDATA"] = str(local_app_data)
     return subprocess.run(

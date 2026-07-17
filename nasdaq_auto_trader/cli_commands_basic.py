@@ -133,7 +133,7 @@ def _run_buying_power_check(
         "required_amount": round(required_amount, 4),
         "available_amount": available_amount,
         "buying_power_source": "kis_inquire_psamount",
-        "buy_possible": available_amount >= required_amount,
+        "buy_possible": min(account.cash, available_amount) >= required_amount,
         "current_position_qty": 0 if position is None else position.qty,
         "sell_possible_without_short": bool(position and position.qty >= qty),
         "account": _account_to_dict(account),

@@ -102,11 +102,13 @@ class AutoSymbolEngineTests(unittest.TestCase):
                 automatic_order_guard=_guard(paths, Path(temp_dir)),
             )
 
-            engine.run_once()
+            results = engine.run_once()
 
-        buy_notional = sum(order.notional or 0 for order in broker.orders if order.side == "buy")
-        self.assertGreaterEqual(len(broker.orders), 2)
+        orders = [item["order"] for item in results if item["order"] is not None]
+        buy_notional = sum(order.notional or 0 for order in orders if order.side == "buy")
+        self.assertGreaterEqual(len(orders), 2)
         self.assertLessEqual(buy_notional, 950)
+        self.assertEqual(broker.orders, [])
 
 
 class _AutoMarketData:

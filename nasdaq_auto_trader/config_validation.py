@@ -52,6 +52,26 @@ def validate_settings(settings: TradingSettings) -> ValidationResult:
     )
     if settings.save_log and not settings.log_path.strip():
         errors.append("log_path must not be empty when save_log is true")
+    _require_int_at_least(
+        errors,
+        "unattended_interval_minutes",
+        settings.unattended_interval_minutes,
+        1,
+    )
+    _require_int_between(errors, "daily_report_hour", settings.daily_report_hour, 0, 23)
+    _require_int_between(
+        errors,
+        "daily_report_minute",
+        settings.daily_report_minute,
+        0,
+        59,
+    )
+    _require_int_at_least(
+        errors,
+        "daily_report_retention_days",
+        settings.daily_report_retention_days,
+        1,
+    )
 
     _require_float_between(errors, "ai_min_confidence", settings.ai_min_confidence, 0, 1)
     _require_int_at_least(errors, "ai_max_order_qty", settings.ai_max_order_qty, 1)
@@ -161,6 +181,22 @@ def _require_float_between(
         errors.append(f"{name} must be a number between {minimum} and {maximum}")
     elif value < minimum or value > maximum:
         errors.append(f"{name} must be between {minimum} and {maximum}")
+
+
+def _require_int_between(
+    errors: list[str],
+    name: str,
+    value: int,
+    minimum: int,
+    maximum: int,
+) -> None:
+    if (
+        not isinstance(value, int)
+        or isinstance(value, bool)
+        or value < minimum
+        or value > maximum
+    ):
+        errors.append(f"{name} must be an integer between {minimum} and {maximum}")
 
 
 def _require_rsi(errors: list[str], name: str, value: float) -> None:

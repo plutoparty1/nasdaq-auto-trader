@@ -1,21 +1,20 @@
 from __future__ import annotations
 
-from .automatic_selection import AutomaticSelectionRequest
-from .automatic_selection_production import prepare_production_automatic_selection
 from .automatic_order_guard import AutomaticOrderContext
 from .automatic_order_types import AutomaticBlockRequest
 from .automatic_risk import CycleReservationLedger
 from .broker_response import broker_response_submitted
+from .brokers.common import BrokerRequestError
 from .config_manager import ai_features_enabled, record_submitted_order
+from .engine_automatic_cycle import EngineAutomaticCycleMixin
+from .engine_errors import PreOrderCycleError
 from .models import AccountSnapshot, Bar, OrderRequest, Position, TradeDecision
 from .live_authorization import risk_config_digest
 from .automatic_risk_config import learned_risk_config_digest
-from .quant_data.symbol_selector import blocked_selection_report_without_snapshot
-from .session_state_persistence import save_session_state
 from .trading_agents import apply_trading_agents_policy
 
 
-class EngineCycleMixin:
+class EngineCycleMixin(EngineAutomaticCycleMixin):
     def run_once(self) -> list[dict]:
         """Load data, score each symbol, and submit allowed orders."""
 
@@ -24,70 +23,21 @@ class EngineCycleMixin:
             and self.trading_settings.auto_symbol_selection_enabled
         ):
             return self._run_automatic_symbol_cycle()
-        bars_by_symbol = self._load_recent_bars(self._data_symbols())
-        account = self._load_account()
-        positions = self._load_positions()
+        try:
+            bars_by_symbol = self._load_recent_bars(self._data_symbols())
+        except (BrokerRequestError, OSError) as exc:
+            raise PreOrderCycleError("market_data_unavailable") from exc
+        try:
+            account = self._load_account()
+            positions = self._load_positions()
+        except (BrokerRequestError, OSError) as exc:
+            raise PreOrderCycleError("account_state_unavailable") from exc
         if self.trading_settings is not None and ai_features_enabled(self.trading_settings):
             ai_result = self._run_ai_decision_cycle(bars_by_symbol, account, positions)
             if ai_result is not None:
                 return [ai_result]
 
         return self._run_rule_decision_cycle(bars_by_symbol, account, positions)
-
-    def _run_automatic_symbol_cycle(self) -> list[dict]:
-        try:
-            return self._execute_automatic_symbol_cycle()
-        finally:
-            if self._persist_automatic_session:
-                save_session_state(
-                    self.automatic_order_guard.session_store,
-                    self.trading_session_state,
-                )
-
-    def _execute_automatic_symbol_cycle(self) -> list[dict]:
-        if self.config.mode == "live":
-            cycle_reason = self.automatic_order_guard.start_cycle(self._clock())
-            if cycle_reason:
-                self.last_selection_report = blocked_selection_report_without_snapshot(
-                    cycle_reason
-                )
-                return []
-        if self.automatic_preflight_reason:
-            self.last_selection_report = blocked_selection_report_without_snapshot(
-                self.automatic_preflight_reason
-            )
-            return []
-        selection = prepare_production_automatic_selection(
-            AutomaticSelectionRequest(
-                self.config,
-                self.market_data,
-                self.strategy_artifact_paths,
-                self._clock(),
-            )
-        )
-        self.last_selection_report = selection.report
-        self.automatic_risk_limits = selection.risk_limits
-        if selection.report.status == "blocked":
-            return []
-        account = self._load_account()
-        positions = self._load_positions()
-        selected = list(selection.report.selected_symbols)
-        symbols = [*selected, *(symbol for symbol in positions if symbol not in selected)]
-        bars_by_symbol = dict(selection.bars_by_symbol)
-        missing = [symbol for symbol in positions if symbol not in bars_by_symbol]
-        if missing:
-            bars_by_symbol.update(self._load_recent_bars(missing))
-        results = self._run_rule_decision_cycle(
-            bars_by_symbol,
-            account,
-            positions,
-            symbols=symbols,
-            entry_symbols=set(selected),
-            automatic_risk_limits=selection.risk_limits,
-        )
-        for item in results:
-            item["selection_report"] = selection.report
-        return results
 
     def _run_rule_decision_cycle(
         self,
@@ -193,7 +143,9 @@ class EngineCycleMixin:
                     submitted = broker_response_submitted(response) or (
                         response.get("broker_submitted") is True
                     )
-                    if order.side == "buy" and submitted:
+                    if order.side == "buy" and (
+                        submitted or self.config.mode == "dry_run"
+                    ):
                         reservations.reserve(order, decision.latest_price)
 
             results.append(

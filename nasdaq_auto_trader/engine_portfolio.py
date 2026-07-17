@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
+from math import isfinite
 
 from .config_manager import ai_features_enabled
 from .engine_utils import _call_with_optional_refresh
@@ -71,9 +72,13 @@ class EnginePortfolioMixin:
         ):
             return account, None
 
-        buying_power = self.market_data.get_overseas_buying_power(symbol, latest_price)
+        raw_buying_power = self.market_data.get_overseas_buying_power(symbol, latest_price)
+        buying_power = raw_buying_power if isfinite(raw_buying_power) else 0.0
+        buying_power = max(buying_power, 0.0)
+        deposited_cash = account.cash if isfinite(account.cash) else 0.0
+        deposited_cash = max(deposited_cash, 0.0)
         effective_account = AccountSnapshot(
-            cash=buying_power,
+            cash=min(deposited_cash, buying_power),
             equity=account.equity if account.equity > 0 else buying_power,
             buying_power=buying_power,
         )
@@ -82,6 +87,11 @@ class EnginePortfolioMixin:
             "symbol": symbol,
             "latest_price": latest_price,
             "available_amount": buying_power,
+            "deposited_cash_ceiling": effective_account.cash,
             "one_share_required": latest_price,
-            "one_share_affordable": latest_price > 0 and buying_power >= latest_price,
+            "one_share_affordable": (
+                latest_price > 0
+                and effective_account.cash >= latest_price
+                and buying_power >= latest_price
+            ),
         }

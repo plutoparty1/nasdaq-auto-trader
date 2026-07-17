@@ -156,6 +156,28 @@ class StrategyAndRiskTests(unittest.TestCase):
 
         self.assertEqual(order.notional, 500)
 
+    def test_fixed_quantity_buy_is_blocked_when_cash_is_below_order_value(self):
+        # Given margin-like buying power covers one share but deposited cash does not.
+        manager = RiskManager(RiskConfig(order_qty=1, min_cash_to_buy=0))
+        account = AccountSnapshot(cash=10, equity=1_000, buying_power=1_000)
+        decision = TradeDecision("QQQ", "buy", 10, 500, ["test"])
+
+        # When the fixed-quantity order is built.
+        order = manager.build_order(decision, account, None, latest_price=500)
+
+        # Then no buy can be created from borrowed buying power.
+        self.assertIsNone(order)
+
+    def test_fixed_quantity_buy_uses_limit_price_as_cash_spending_ceiling(self):
+        manager = RiskManager(RiskConfig(order_qty=1, min_cash_to_buy=0))
+        account = AccountSnapshot(cash=500, equity=1_000, buying_power=1_000)
+        decision = TradeDecision("QQQ", "buy", 10, 500, ["test"])
+
+        order = manager.build_order(decision, account, None, latest_price=500)
+
+        self.assertEqual(order.type, "limit")
+        self.assertEqual(order.limit_price, 500)
+
 
 if __name__ == "__main__":
     unittest.main()

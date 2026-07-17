@@ -56,7 +56,7 @@ python -m compileall -q nasdaq_auto_trader tests
 
 ## 10. LIVE 활성화 절차
 
-현재 배포는 드라이런과 PAPER 운영 준비 범위까지만 승인한다. 데스크톱 LIVE는 차단되며 AI 퀀트 `live-cycle`도 `shared_order_gateway_required`로 중단된다. 아래 값은 향후 제한된 명령줄 LIVE 경로를 검증할 때 필요한 조건이며, 이번 배포에서 LIVE 사용을 승인한다는 의미가 아니다.
+현재 배포의 운영 준비 판정은 드라이런과 PAPER까지다. 데스크톱 LIVE 경로는 설정으로 활성화할 수 있지만 실제 브로커 주문 E2E는 운영자가 소액으로 확인해야 하며, AI 퀀트 `live-cycle`은 계속 `shared_order_gateway_required`로 중단된다. 아래 값은 데스크톱 또는 제한된 명령줄 LIVE 경로에 필요한 조건이며 수익성이나 무인 운영을 승인한다는 의미가 아니다.
 
 1. PAPER 검증과 운영 모델 수동 승인을 완료한다.
 2. 브로커 계정과 리스크 한도를 검증한다.

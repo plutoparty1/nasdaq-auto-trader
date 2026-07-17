@@ -23,12 +23,20 @@ class OrderRecordStore:
         """Return whether a live buy was already submitted for this market date."""
 
         for record in self._records():
+            if record.get("market_date") != market_date:
+                continue
+            if record.get("action") != "buy":
+                continue
             if (
-                record.get("market_date") == market_date
-                and record.get("action") == "buy"
-                and record.get("submitted_order") is True
-                and record.get("dry_run") is False
-                and record.get("live_trading") is True
+                record.get("dry_run") is not False
+                or record.get("live_trading") is not True
+            ):
+                continue
+            if record.get("submitted_order") is True:
+                return True
+            if (
+                record.get("terminal") is True
+                and record.get("reason") == "order_response_reconcile_required"
             ):
                 return True
         return False

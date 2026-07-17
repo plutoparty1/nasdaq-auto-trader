@@ -4,7 +4,7 @@ from dataclasses import asdict, dataclass, field
 from pathlib import Path
 from typing import Any, Protocol
 
-from .models import OrderRequest
+from .models import AccountSnapshot, OrderRequest
 
 
 TAKE_PROFIT_PCT = 1.5
@@ -54,6 +54,9 @@ class DayTradeDataClient(Protocol):
 
 class DayTradeTradingClient(DayTradeDataClient, Protocol):
     """KIS methods needed to submit a guarded live order."""
+
+    def get_account(self, refresh: bool = False) -> AccountSnapshot:
+        ...
 
     def submit_order(self, order: OrderRequest) -> BrokerResponse:
         """Submit a broker order."""

@@ -44,7 +44,7 @@ class GuiLauncherTests(unittest.TestCase):
 
         self.assertIsInstance(app._result_queue, queue.Queue)
         self.assertIsNone(app._worker)
-        self.assertEqual(ttk_module.Button.call_count, 7)
+        self.assertEqual(ttk_module.Button.call_count, 8)
 
     def test_exe_launcher_uses_app_data_settings_path_outside_dist(self):
         original_local_app_data = os.environ.get("LOCALAPPDATA")
@@ -126,6 +126,10 @@ class GuiLauncherTests(unittest.TestCase):
                     patch("nasdaq_auto_trader.gui_launcher._load_exe_env", return_value=[]),
                     patch("nasdaq_auto_trader.gui_launcher._default_argv", return_value=["gui"]),
                     patch("nasdaq_auto_trader.gui_launcher._show_error") as show_error,
+                    patch(
+                        "nasdaq_auto_trader.gui_launcher.SingleInstanceGuard.acquire",
+                        return_value=True,
+                    ),
                     patch("nasdaq_auto_trader.cli.main", side_effect=ValueError("bad config")),
                     patch.object(sys, "argv", ["launcher.exe"]),
                 ):
@@ -137,33 +141,100 @@ class GuiLauncherTests(unittest.TestCase):
         self.assertEqual(show_error.call_count, 1)
         self.assertIn("bad config", show_error.call_args.args[0])
 
+    def test_duplicate_gui_launch_activates_existing_window_without_blocking_dialog(self):
+        original_cwd = Path.cwd()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            app_dir = Path(tmpdir)
+            try:
+                with (
+                    patch("nasdaq_auto_trader.gui_launcher._app_dir", return_value=app_dir),
+                    patch("nasdaq_auto_trader.gui_launcher._load_exe_env", return_value=[]),
+                    patch("nasdaq_auto_trader.gui_launcher._default_argv", return_value=["gui"]),
+                    patch(
+                        "nasdaq_auto_trader.gui_launcher.SingleInstanceGuard.acquire",
+                        return_value=False,
+                    ),
+                    patch(
+                        "nasdaq_auto_trader.gui_launcher._activate_existing_gui"
+                    ) as activate_existing,
+                    patch("nasdaq_auto_trader.gui_launcher._show_error") as show_error,
+                    patch.object(sys, "argv", ["launcher.exe"]),
+                ):
+                    exit_code = run()
+            finally:
+                os.chdir(original_cwd)
+
+        self.assertEqual(exit_code, 0)
+        activate_existing.assert_called_once_with()
+        show_error.assert_not_called()
+
+    def test_invalid_explicit_cli_arguments_exit_without_blocking_dialog(self):
+        original_cwd = Path.cwd()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            app_dir = Path(tmpdir)
+            try:
+                with (
+                    patch("nasdaq_auto_trader.gui_launcher._app_dir", return_value=app_dir),
+                    patch("nasdaq_auto_trader.gui_launcher._load_exe_env", return_value=[]),
+                    patch("nasdaq_auto_trader.gui_launcher._show_error") as show_error,
+                    patch("nasdaq_auto_trader.cli.main", side_effect=SystemExit(2)),
+                ):
+                    exit_code = run(["--definitely-invalid"])
+            finally:
+                os.chdir(original_cwd)
+
+        self.assertEqual(exit_code, 2)
+        show_error.assert_not_called()
+
     def test_exe_launcher_loads_env_next_to_dist_or_parent_without_overriding(self):
-        original_app_key = os.environ.get("KIS_APP_KEY")
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            dist = root / "dist"
+            dist.mkdir()
+            (root / ".env").write_text(
+                "KIS_APP_KEY=from-parent\nKIS_ACCOUNT_NO=12345678\nIGNORED_KEY=x\n",
+                encoding="utf-8",
+            )
+            with patch.dict(
+                os.environ,
+                {
+                    "KIS_APP_KEY": "already-set",
+                    "LOCALAPPDATA": str(root / "private-appdata"),
+                },
+                clear=True,
+            ):
+                loaded = _load_exe_env(dist)
+                self.assertEqual(os.environ["KIS_APP_KEY"], "already-set")
+                self.assertEqual(os.environ["KIS_ACCOUNT_NO"], "12345678")
+                self.assertEqual(loaded, [root / ".env"])
+                self.assertNotIn("IGNORED_KEY", os.environ)
+
+    def test_exe_launcher_prefers_private_app_data_env(self):
         original_account = os.environ.get("KIS_ACCOUNT_NO")
         try:
-            os.environ["KIS_APP_KEY"] = "already-set"
             os.environ.pop("KIS_ACCOUNT_NO", None)
-
             with tempfile.TemporaryDirectory() as tmpdir:
                 root = Path(tmpdir)
-                dist = root / "dist"
-                dist.mkdir()
-                (root / ".env").write_text(
-                    "KIS_APP_KEY=from-parent\nKIS_ACCOUNT_NO=12345678\nIGNORED_KEY=x\n",
+                app_data = root / "AppData" / "Local"
+                private_dir = app_data / "NasdaqAutoTrader"
+                private_dir.mkdir(parents=True)
+                private_env = private_dir / ".env"
+                private_env.write_text(
+                    "KIS_ACCOUNT_NO=87654321\n",
                     encoding="utf-8",
                 )
+                app_dir = root / "dist" / "NasdaqAutoTrader"
+                app_dir.mkdir(parents=True)
 
-                loaded = _load_exe_env(dist)
-
-            self.assertEqual(os.environ["KIS_APP_KEY"], "already-set")
-            self.assertEqual(os.environ["KIS_ACCOUNT_NO"], "12345678")
-            self.assertEqual(len(loaded), 1)
-            self.assertNotIn("IGNORED_KEY", os.environ)
+                with patch.dict(
+                    os.environ,
+                    {"LOCALAPPDATA": str(app_data)},
+                    clear=False,
+                ):
+                    loaded = _load_exe_env(app_dir)
+                    self.assertEqual(loaded, [private_env])
+                    self.assertEqual(os.environ["KIS_ACCOUNT_NO"], "87654321")
         finally:
-            if original_app_key is None:
-                os.environ.pop("KIS_APP_KEY", None)
-            else:
-                os.environ["KIS_APP_KEY"] = original_app_key
             if original_account is None:
                 os.environ.pop("KIS_ACCOUNT_NO", None)
             else:

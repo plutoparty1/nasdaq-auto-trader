@@ -164,7 +164,14 @@ class AutoSymbolAuthorizationRiskTests(unittest.TestCase):
 
             results = engine.run_once()
 
-        self.assertEqual(len(broker.orders), 1)
+        self.assertEqual(broker.orders, [])
+        self.assertTrue(
+            any(
+                item["response"] is not None
+                and item["response"].get("status") == "dry_run"
+                for item in results
+            )
+        )
         self.assertTrue(
             any(
                 item["response"] is not None

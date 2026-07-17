@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import sys
 import time
+import os
 from pathlib import Path
 
 from PIL import ImageGrab
@@ -30,6 +31,7 @@ def main(output_dir: str) -> int:
 
     target = Path(output_dir)
     target.mkdir(parents=True, exist_ok=True)
+    os.environ["LOCALAPPDATA"] = str(target / "appdata")
     root = tk.Tk()
     root.geometry("1x1+0+0")
     root.update()
@@ -51,6 +53,9 @@ def main(output_dir: str) -> int:
     canvas.yview_moveto(0.68)
     _settle(editor.window)
     _capture(editor.window, target / "settings-automatic-ai.png", top_offset=40)
+    canvas.yview_moveto(1.0)
+    _settle(editor.window)
+    _capture(editor.window, target / "settings-unattended.png", top_offset=40)
     editor.window.destroy()
     root.destroy()
 
@@ -58,6 +63,7 @@ def main(output_dir: str) -> int:
     dashboard_settings = TradingSettings(
         auto_symbol_selection_enabled=True,
         save_log=False,
+        daily_report_enabled=False,
     )
     controller = AutoTradeController(
         AppConfig(),
@@ -77,8 +83,9 @@ def main(output_dir: str) -> int:
     )
     dashboard_root.attributes("-topmost", True)
     _settle(dashboard_root)
+    _wait_for_idle(app, dashboard_root)
     app.learning_button.invoke()
-    _pump(dashboard_root, 2.0)
+    _wait_for_idle(app, dashboard_root)
     learning_log = app.log_text.get("1.0", "end")
     if "제출된 실제 주문: 0건" not in learning_log:
         raise CaptureError("learning-only flow did not prove zero submitted orders")
@@ -132,6 +139,16 @@ def _pump(window, seconds: float) -> None:
     while time.monotonic() < deadline:
         window.update()
         time.sleep(0.02)
+
+
+def _wait_for_idle(app: DashboardApp, window, timeout: float = 5.0) -> None:
+    deadline = time.monotonic() + timeout
+    while time.monotonic() < deadline:
+        window.update()
+        if app._worker is None:
+            return
+        time.sleep(0.02)
+    raise CaptureError("dashboard worker did not become idle")
 
 
 def _capture(window, path: Path, top_offset: int = 0) -> None:

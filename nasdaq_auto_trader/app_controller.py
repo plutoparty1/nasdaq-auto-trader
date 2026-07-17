@@ -6,8 +6,9 @@ from inspect import Parameter, signature
 from pathlib import Path
 from typing import Any, Callable
 
-from .app_types import AppConfigurationError, AutoTradeState, EngineResult, PortfolioSnapshot, PositionRow
-from .config import AppConfig
+from .app_types import AppConfigurationError, AutoTradeState, EngineResult, PortfolioSnapshot
+from .config import AppConfig, validate_trading_mode
+from .config_errors import TradingModeValidationError
 from .config_manager import (
     SettingsError,
     TradingSessionState,
@@ -17,13 +18,19 @@ from .config_manager import (
     validate_settings,
 )
 from .engine import TradingEngine
+from .engine_errors import PreOrderCycleError
 from .controller_operations import ControllerOperationsMixin
-from .models import Position
+from .intraday_shadow_scan import IntradayShadowScanReport
+from .portfolio_presenter import position_to_row
 from .quant_data.resources import application_data_root
 from .quant_data.symbol_selector import SelectionReport
 from .selection_health import AutomaticSelectionHealth
 from .session_state_persistence import load_session_state, save_session_state
 from .trading_session_store import SessionStoreError, TradingSessionStore
+from .runtime_journal import NullRuntimeJournal, RuntimeJournalWriter
+from .controller_runtime_recorder import ControllerRuntimeRecorder
+from .unattended_result_policy import terminal_order_failure_reason
+from .unattended_policy import is_recoverable_preorder_failure
 
 
 class AutoTradeController(ControllerOperationsMixin):
@@ -39,6 +46,7 @@ class AutoTradeController(ControllerOperationsMixin):
         settings_path: str | Path | None = None,
         settings_error: str | None = None,
         session_store: TradingSessionStore | None = None,
+        runtime_journal: RuntimeJournalWriter | None = None,
     ) -> None:
         if interval_seconds <= 0:
             raise AppConfigurationError("interval_seconds must be greater than zero")
@@ -55,6 +63,8 @@ class AutoTradeController(ControllerOperationsMixin):
         self.session_store = session_store or TradingSessionStore(
             application_data_root() / "runtime" / "trading_session.json"
         )
+        self.runtime_journal = runtime_journal or NullRuntimeJournal()
+        self.runtime_recorder = ControllerRuntimeRecorder(self.runtime_journal)
         self.session_error: str | None = None
         try:
             self.session_store.recover_interrupted_claims()
@@ -68,6 +78,7 @@ class AutoTradeController(ControllerOperationsMixin):
         self.last_snapshot: PortfolioSnapshot | None = None
         self.last_error: str | None = None
         self.last_selection_report: SelectionReport | None = None
+        self.last_shadow_scan: IntradayShadowScanReport | None = None
         self._selection_health = AutomaticSelectionHealth()
         self._initialize_operations()
 
@@ -151,8 +162,8 @@ class AutoTradeController(ControllerOperationsMixin):
                 return None
             interval_seconds = self.interval_seconds
 
-        engine = self._create_engine()
         try:
+            engine = self._create_engine()
             results = engine.run_once()
             report = getattr(engine, "last_selection_report", None)
             if isinstance(report, SelectionReport):
@@ -162,18 +173,35 @@ class AutoTradeController(ControllerOperationsMixin):
                 self.last_selection_report = None
             if self.trading_settings.auto_symbol_selection_enabled:
                 save_session_state(self.session_store, self.session_state)
+        except PreOrderCycleError:
+            raise
         except Exception as exc:  # noqa: BROAD_EXCEPT_OK
             with self._lock:
                 self.last_error = str(exc)
-                if self.trading_settings.stop_on_order_error:
+                should_pause = (
+                    self.trading_settings.unattended_operation_enabled
+                    or self.trading_settings.stop_on_order_error
+                )
+                if should_pause:
                     self.state = "paused"
+                    self.next_run_at = None
             raise
 
+        terminal_reason = terminal_order_failure_reason(results)
         with self._lock:
             self.last_run_at = now
-            self.next_run_at = now + timedelta(seconds=interval_seconds)
             self.last_results = results
-            self.last_error = self.selection_error
+            if (
+                self.trading_settings.unattended_operation_enabled
+                and terminal_reason is not None
+            ):
+                self.state = "paused"
+                self.next_run_at = None
+                self.last_error = terminal_reason
+            else:
+                self.next_run_at = now + timedelta(seconds=interval_seconds)
+                self.last_error = self.selection_error
+        self.runtime_recorder.trading_cycle(now, self.state, len(results))
         return results
 
     def refresh_portfolio(self) -> PortfolioSnapshot:
@@ -186,25 +214,37 @@ class AutoTradeController(ControllerOperationsMixin):
             mode=self.config.mode,
             broker=self.config.broker,
             account=account,
-            positions=[_position_to_row(position) for position in positions.values()],
+            positions=[position_to_row(position) for position in positions.values()],
         )
         with self._lock:
             self.last_snapshot = snapshot
-            self.last_error = self.selection_error
+            preserve_retry = bool(
+                self.last_error
+                and self.trading_settings.unattended_operation_enabled
+                and is_recoverable_preorder_failure(self.last_error)
+            )
+            if not preserve_retry and (self.state != "paused" or self.last_error is None):
+                self.last_error = self.selection_error
+        self.runtime_recorder.portfolio(snapshot)
         return snapshot
 
     def _create_engine(self):
-        self._ensure_gui_mode()
-        if _factory_accepts_settings(self._engine_factory):
-            return self._engine_factory(
-                self.config,
-                trading_settings=self.trading_settings,
-                trading_session_state=self.session_state,
+        engine_kwargs = {}
+        if _factory_accepts_argument(self._engine_factory, "trading_settings"):
+            engine_kwargs["trading_settings"] = self.trading_settings
+        if _factory_accepts_argument(self._engine_factory, "trading_session_state"):
+            engine_kwargs["trading_session_state"] = self.session_state
+        if _factory_accepts_argument(self._engine_factory, "live_order_confirmation"):
+            unattended_live_allowed = (
+                not self.trading_settings.unattended_operation_enabled
+                or self.trading_settings.unattended_live_trading_enabled
             )
-        return self._engine_factory(self.config)
+            engine_kwargs["live_order_confirmation"] = (
+                self.config.mode == "live" and unattended_live_allowed
+            )
+        return self._engine_factory(self.config, **engine_kwargs)
 
     def _ensure_settings_valid(self) -> None:
-        self._ensure_gui_mode()
         if self.settings_error:
             raise SettingsError(self.settings_error)
         if self.session_error:
@@ -212,45 +252,18 @@ class AutoTradeController(ControllerOperationsMixin):
         result = validate_settings(self.trading_settings)
         if not result.ok:
             raise SettingsError("\n".join(result.errors))
+        if self.config.allow_live_trading:
+            try:
+                validate_trading_mode(self.config)
+            except TradingModeValidationError as exc:
+                raise SettingsError(str(exc)) from exc
 
-    def _ensure_gui_mode(self) -> None:
-        if self.config.mode == "live":
-            raise SettingsError("gui_live_trading_disabled")
-
-
-def _position_to_row(position: Position) -> PositionRow:
-    latest_price = None
-    if position.qty > 0 and position.market_value > 0:
-        latest_price = position.market_value / position.qty
-
-    basis = position.avg_entry_price * position.qty
-    unrealized_pl = None
-    unrealized_pl_pct = None
-    if basis > 0 and position.market_value > 0:
-        unrealized_pl = position.market_value - basis
-        unrealized_pl_pct = (unrealized_pl / basis) * 100
-
-    return PositionRow(
-        symbol=position.symbol,
-        qty=round(position.qty, 8),
-        avg_entry_price=round(position.avg_entry_price, 4),
-        market_value=round(position.market_value, 4),
-        latest_price=_round_optional(latest_price, 4),
-        unrealized_pl=_round_optional(unrealized_pl, 4),
-        unrealized_pl_pct=_round_optional(unrealized_pl_pct, 4),
-    )
-
-
-def _factory_accepts_settings(factory: Callable[..., Any]) -> bool:
+def _factory_accepts_argument(factory: Callable[..., Any], name: str) -> bool:
     try:
         parameters = signature(factory).parameters.values()
     except (TypeError, ValueError):
         return False
     return any(
-        parameter.name == "trading_settings" or parameter.kind == Parameter.VAR_KEYWORD
+        parameter.name == name or parameter.kind == Parameter.VAR_KEYWORD
         for parameter in parameters
     )
-
-
-def _round_optional(value: float | None, digits: int) -> float | None:
-    return None if value is None else round(value, digits)

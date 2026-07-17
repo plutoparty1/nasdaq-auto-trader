@@ -60,4 +60,5 @@ class KISClient(KISAccountMixin, KISOrderMixin, KISMarketDataMixin, KISAuthMixin
         self._access_token: str | None = None
         self._token_expires_at = datetime.min.replace(tzinfo=timezone.utc)
         self._balance_payload: JsonObject | None = None
+        self._present_balance_payload: JsonObject | None = None
         self._token_cache_write_error: OSError | None = None

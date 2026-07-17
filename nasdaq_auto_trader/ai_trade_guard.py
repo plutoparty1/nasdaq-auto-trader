@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import datetime
+from math import isfinite
 from typing import TypedDict, assert_never
 
 from .ai_decision_schema import AITradeRecommendation
@@ -65,7 +66,9 @@ def guard_ai_recommendation(
             order = OrderRequest(
                 symbol=recommendation.ticker,
                 side="buy",
+                type="limit",
                 qty=float(recommendation.order_qty),
+                limit_price=latest_price,
             )
         case "sell":
             order = OrderRequest(
@@ -131,11 +134,18 @@ def _ai_block_reason(
                 return "additional_buy_disabled"
             if position_qty + recommendation.order_qty > settings.max_position_qty:
                 return "max_position_qty_exceeded"
+            if not all(
+                isfinite(value)
+                for value in (latest_price, account.cash, account.buying_power)
+            ):
+                return "cash_or_price_unavailable"
             if latest_price <= 0:
                 return "latest_price_missing"
             required_cash = latest_price * recommendation.order_qty
             if account.cash < settings.min_cash_to_buy:
                 return "min_cash_to_buy_not_met"
+            if account.cash < required_cash:
+                return "deposited_cash_insufficient"
             if account.buying_power < required_cash:
                 return "buying_power_insufficient"
         case "sell":

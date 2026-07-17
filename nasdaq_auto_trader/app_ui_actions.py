@@ -4,6 +4,8 @@ import queue
 import threading
 import time
 import traceback
+import webbrowser
+from datetime import datetime
 from typing import Any, Callable
 
 from .app_types import AppConfigurationError
@@ -12,6 +14,29 @@ from .settings_window import open_settings_window
 
 
 class DashboardActionsMixin:
+    def _start_unattended_operation(self) -> bool:
+        settings = self.controller.trading_settings
+        if settings.unattended_operation_enabled is not True:
+            return False
+        try:
+            self.controller.start(
+                interval_seconds=settings.unattended_interval_minutes * 60
+            )
+        except (AppConfigurationError, SettingsError) as exc:
+            self._append_log(f"무인 자동운영 시작 실패: {exc}")
+            return False
+        self._append_log(
+            f"무인 자동운영 시작: {settings.unattended_interval_minutes}분 간격"
+        )
+        started = self._start_task(
+            "auto",
+            lambda: self.controller.run_operating_cycle(force=True),
+        )
+        if started:
+            self.controller.record_unattended_start()
+        self._update_controls()
+        return started
+
     def _start_auto_trading(self) -> None:
         try:
             interval_minutes = float(self.interval_var.get())
@@ -63,6 +88,17 @@ class DashboardActionsMixin:
             on_save=self._settings_saved,
         )
 
+    def _open_latest_report(self) -> None:
+        path = self._daily_report_service.latest_path()
+        if path is None:
+            self.messagebox.showinfo("전일 보고서", "아직 생성된 전일 보고서가 없습니다.")
+            return
+        if not webbrowser.open(path.resolve().as_uri()):
+            self.messagebox.showerror(
+                "전일 보고서",
+                f"보고서를 열지 못했습니다.\n{path}",
+            )
+
     def _settings_saved(self, settings: TradingSettings) -> None:
         self.controller.update_settings(settings)
         self._append_log("설정 저장 및 내부 설정 갱신 완료")
@@ -72,35 +108,55 @@ class DashboardActionsMixin:
     def _tick(self) -> None:
         now = time.monotonic()
         if self._worker is None:
+            wall_clock = datetime.now().astimezone()
             if self.controller.is_due():
                 self._start_task("auto", self.controller.run_operating_cycle)
+            elif self._daily_report_service.is_due(
+                wall_clock,
+                self.controller.trading_settings,
+            ):
+                self._start_task(
+                    "report",
+                    lambda: self._daily_report_service.generate(
+                        wall_clock,
+                        self.controller.trading_settings,
+                        self.controller.last_snapshot,
+                    ),
+                )
             elif now >= self._next_portfolio_refresh:
                 self._start_task("portfolio", self.controller.refresh_portfolio)
         self._update_controls()
         self.root.after(1000, self._tick)
 
     def _poll_results(self) -> None:
+        handled_result = False
         while True:
             try:
                 kind, label, payload = self._result_queue.get_nowait()
             except queue.Empty:
                 break
 
+            handled_result = True
             self._worker = None
             if kind == "ok" and label == "portfolio":
                 self._render_snapshot(payload)
                 self._next_portfolio_refresh = time.monotonic() + self.portfolio_refresh_seconds
             elif kind == "ok" and label == "auto":
                 self._render_auto_results(payload)
-                self._start_task("portfolio", self.controller.refresh_portfolio)
+                if self.controller.state != "paused":
+                    self._start_task("portfolio", self.controller.refresh_portfolio)
             elif kind == "ok" and label == "learn":
                 self._render_learning_result(payload)
+            elif kind == "ok" and label == "report":
+                self._render_daily_report(payload)
             elif kind == "error":
                 message, details = payload
                 self.status_var.set("오류")
                 self._append_log(f"오류: {message}")
                 self._append_log(details)
                 self._next_portfolio_refresh = time.monotonic() + self.portfolio_refresh_seconds
+        if handled_result:
+            self._update_controls()
         self.root.after(250, self._poll_results)
 
     def _start_task(self, label: str, task: Callable[[], Any]) -> bool:

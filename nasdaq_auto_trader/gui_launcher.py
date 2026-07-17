@@ -8,6 +8,7 @@ import traceback
 from pathlib import Path
 
 from nasdaq_auto_trader.quant_data.resources import application_data_root
+from nasdaq_auto_trader.single_instance import SingleInstanceGuard
 
 
 ENV_KEYS = {
@@ -70,6 +71,22 @@ def _show_error(message: str) -> None:
         print(message, file=sys.stderr)
 
 
+def _activate_existing_gui() -> bool:
+    if os.name != "nt":
+        return False
+
+    import ctypes
+
+    user32 = ctypes.WinDLL("user32", use_last_error=True)
+    window_handle = user32.FindWindowW(None, "NASDAQ Auto Trader")
+    if not window_handle:
+        return False
+    show_window_restore = 9
+    user32.ShowWindow(window_handle, show_window_restore)
+    user32.SetForegroundWindow(window_handle)
+    return True
+
+
 def _read_dotenv(path: Path) -> dict[str, str]:
     if not path.exists():
         return {}
@@ -98,7 +115,11 @@ def _read_dotenv(path: Path) -> dict[str, str]:
 
 def _load_exe_env(app_dir: Path) -> list[Path]:
     loaded_paths: list[Path] = []
-    candidates = [app_dir / ".env", app_dir.parent / ".env"]
+    candidates = [
+        application_data_root() / ".env",
+        app_dir / ".env",
+        app_dir.parent / ".env",
+    ]
     for path in dict.fromkeys(candidates):
         values = _read_dotenv(path)
         if not values:
@@ -144,16 +165,28 @@ def run(arguments: list[str] | None = None) -> int:
     _load_exe_env(app_dir)
     from nasdaq_auto_trader.cli import main as cli_main
 
+    gui_requested = "gui" in argv
+    guard = None
+    if gui_requested:
+        guard = SingleInstanceGuard(
+            application_data_root() / "runtime" / "gui-instance.lock"
+        )
+        if not guard.acquire():
+            _activate_existing_gui()
+            return 0
     try:
         return cli_main(argv)
     except SystemExit as exc:
         code = exc.code if isinstance(exc.code, int) else 1
-        if code:
+        if code and gui_requested:
             _show_error(f"프로그램 실행 옵션을 확인하세요.\n\n종료 코드: {code}")
         return code
     except CLI_LAUNCH_ERRORS as exc:
         _show_error(f"{exc}\n\n자세한 오류:\n{traceback.format_exc()}")
         return 1
+    finally:
+        if guard is not None:
+            guard.release()
 
 
 if __name__ == "__main__":

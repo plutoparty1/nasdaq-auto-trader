@@ -57,6 +57,12 @@ class EngineOrderMixin:
                     "status": "blocked",
                     "reason": "live_order_confirmation_required",
                 }
+        if self.config.mode == "dry_run":
+            return {
+                "status": "dry_run",
+                "reason": "dry_run",
+                "submitted_order": False,
+            }
         if self.config.mode != "dry_run" and self.config.regular_market_hours_only:
             session = regular_market_session(self._clock())
             if not session.is_open:
@@ -110,6 +116,13 @@ class EngineOrderMixin:
         if self.config.mode == "dry_run" or broker_response_submitted(response):
             return response
         response_status = broker_response_status(response)
+        if response_status == "order_response_missing_status":
+            return {
+                "status": "blocked",
+                "reason": "order_response_reconcile_required",
+                "terminal": True,
+                "broker_response": response,
+            }
         return {
             "status": "blocked",
             "reason": f"order_response_not_submitted:{response_status}",

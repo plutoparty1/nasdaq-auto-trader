@@ -4,6 +4,7 @@ import json
 import time
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
+from http.client import RemoteDisconnected
 from typing import Any
 from urllib.error import HTTPError
 from urllib.parse import urlencode
@@ -40,6 +41,11 @@ class KISAuthMixin:
             },
         )
         try:
+            return self._open_json(request, "KIS API")
+        except RemoteDisconnected:
+            if method != "GET":
+                raise
+            time.sleep(0.5)
             return self._open_json(request, "KIS API")
         except RuntimeError as exc:
             if method != "GET" or "EGW00201" not in str(exc):

@@ -4,7 +4,7 @@ from tests.config_engine_fixtures import *
 
 
 class ConfigEngineOrderGateTests(unittest.TestCase):
-    def test_engine_dry_run_can_submit_to_injected_broker(self):
+    def test_engine_dry_run_never_submits_to_injected_broker(self):
         config = AppConfig(
             mode="dry_run",
             symbols=["QQQ"],
@@ -24,15 +24,16 @@ class ConfigEngineOrderGateTests(unittest.TestCase):
 
         self.assertEqual(result["decision"].action, "buy")
         self.assertEqual(result["order"].side, "buy")
-        self.assertEqual(broker.orders[0].notional, 2000)
+        self.assertEqual(result["response"]["status"], "dry_run")
+        self.assertEqual(broker.orders, [])
 
-    def test_kis_dry_run_uses_psamount_for_buy_sizing_without_live_order(self):
+    def test_kis_dry_run_caps_psamount_buy_sizing_by_deposited_cash(self):
         class FakeKISMarketData(FakeMarketData):
             def __init__(self):
                 self.buying_power_calls = []
 
             def get_account(self):
-                return AccountSnapshot(cash=0, equity=640, buying_power=0)
+                return AccountSnapshot(cash=60, equity=640, buying_power=64)
 
             def list_positions(self):
                 return {}
@@ -65,9 +66,11 @@ class ConfigEngineOrderGateTests(unittest.TestCase):
         result = engine.run_once()[0]
 
         self.assertEqual(result["decision"].action, "buy")
-        self.assertEqual(result["order"].notional, 64)
-        self.assertEqual(result["response"]["status"], "fake_submitted")
-        self.assertEqual(broker.orders[0].notional, 64)
+        self.assertEqual(result["order"].notional, 60)
+        self.assertEqual(result["response"]["status"], "dry_run")
+        self.assertEqual(broker.orders, [])
+        self.assertEqual(result["account"].cash, 60)
+        self.assertEqual(result["account"].buying_power, 64)
         self.assertEqual(result["buying_power_check"]["source"], "kis_inquire_psamount")
         self.assertEqual(market_data.buying_power_calls[0][0], "QQQ")
 

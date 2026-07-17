@@ -14,8 +14,10 @@ from .app_format import (
 from .app_types import EngineResult, PortfolioSnapshot
 from .ai_quant_lab.operator_gui_presenter import human_reason
 from .learning_runner import LearningRunResult
+from .daily_report_models import DailyReportResult
 from .selection_presenter import selection_report_lines, selection_report_summary
 from .quant_data.resources import application_data_root
+from .unattended_policy import is_recoverable_preorder_failure
 
 
 class DashboardRenderMixin:
@@ -43,7 +45,15 @@ class DashboardRenderMixin:
             )
         if not snapshot.positions:
             self.positions_tree.insert("", "end", values=("보유 없음", "", "", "", "", "", ""))
-        if self.controller.selection_error:
+        if self.controller.state == "paused" and self.controller.last_error:
+            self.status_var.set(
+                f"자동매매 안전정지: {human_reason(self.controller.last_error)}"
+            )
+        elif _has_recoverable_retry(self.controller):
+            self.status_var.set(
+                f"자동운영 재시도 예약: {human_reason(self.controller.last_error)}"
+            )
+        elif self.controller.selection_error:
             self.status_var.set(self.controller.selection_error)
         else:
             self.status_var.set(f"보유현황 갱신 완료 ({len(snapshot.positions)}개)")
@@ -62,8 +72,30 @@ class DashboardRenderMixin:
             self._append_log("[자동 종목 선택]")
             for line in selection_report_lines(report):
                 self._append_log(f"  {line}")
-        if self.controller.selection_error:
+        shadow = getattr(self.controller, "last_shadow_scan", None)
+        if shadow is not None:
+            self.status_var.set(
+                f"장중 무주문 스캔 완료 ({len(shadow.eligible_symbols)}/{len(shadow.scanned_symbols)}개 통과)"
+            )
+            self._append_log(
+                f"장중 무주문 스캔: {len(shadow.scanned_symbols)}개 검토, "
+                f"{len(shadow.eligible_symbols)}개 통과, 실제 주문 0건"
+            )
+            self._append_log(f"스캔 보고서: {shadow.report_path}")
+        if self.controller.state == "paused" and self.controller.last_error:
+            message = f"자동매매 안전정지: {human_reason(self.controller.last_error)}"
+            self.status_var.set(message)
+            self._append_log(message)
+        elif _has_recoverable_retry(self.controller):
+            message = f"자동운영 재시도 예약: {human_reason(self.controller.last_error)}"
+            self.status_var.set(message)
+            self._append_log(message)
+        elif self.controller.selection_error:
             self.status_var.set(self.controller.selection_error)
+        elif shadow is not None:
+            self.status_var.set(
+                f"장중 무주문 스캔 완료 ({len(shadow.eligible_symbols)}/{len(shadow.scanned_symbols)}개 통과)"
+            )
         else:
             self.status_var.set(f"자동매매 1회 실행 완료 ({len(results)}개 종목)")
         for item in results:
@@ -87,6 +119,13 @@ class DashboardRenderMixin:
                 "후보 전략과 시장 데이터가 검증을 통과해야 자동 선택이 켜집니다."
             )
 
+    def _render_daily_report(self, result: DailyReportResult) -> None:
+        self.status_var.set(f"전일 보고서 생성 완료 ({result.market_date})")
+        self._append_log(
+            f"전일 보고서: {result.path} | 제출 {result.submitted_orders}건, "
+            f"차단 {result.blocked_orders}건"
+        )
+
     def _render_mode(self) -> None:
         config = self.controller.config
         settings = self.controller.trading_settings
@@ -97,7 +136,7 @@ class DashboardRenderMixin:
             else settings.ticker
         )
         safety = (
-            "실주문 차단 | 실거래 설정 감지: 데스크톱의 모든 실행이 차단됩니다."
+            "실거래 활성화 | 환경 승인·현금·주문 안전 잠금이 적용됩니다."
             if config.mode == "live"
             else f"실주문 차단 | 데스크톱 안전 모드: {mode_label}"
         )
@@ -156,6 +195,7 @@ class DashboardRenderMixin:
         self.learning_button.configure(state="disabled" if busy else "normal")
         self.cancel_learning_button.configure(state="normal" if busy else "disabled")
         self.settings_button.configure(state="disabled" if busy else "normal")
+        self.report_button.configure(state="disabled" if busy else "normal")
 
 
 def _learning_status_text(status: str) -> str:
@@ -165,3 +205,13 @@ def _learning_status_text(status: str) -> str:
         "blocked": "상태: 차단",
     }
     return labels.get(status, "상태: 확인 필요")
+
+
+def _has_recoverable_retry(controller) -> bool:
+    reason = controller.last_error
+    return bool(
+        controller.state == "running"
+        and reason
+        and controller.trading_settings.unattended_operation_enabled
+        and is_recoverable_preorder_failure(reason)
+    )

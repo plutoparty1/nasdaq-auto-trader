@@ -154,6 +154,34 @@ class AIQuantOperatorGuiTests(unittest.TestCase):
             "한글 설명이 등록되지 않은 내부 점검 사유입니다.",
         )
 
+    def test_learning_blocker_reason_labels_are_actionable(self):
+        self.assertEqual(
+            human_reason("learning_already_running"),
+            "다른 학습 작업이 이미 실행 중임",
+        )
+        self.assertEqual(
+            human_reason("not_enough_bars"),
+            "학습에 필요한 일봉 데이터가 부족함",
+        )
+        self.assertEqual(
+            human_reason("market_data_timestamps_misaligned"),
+            "종목별 일봉 날짜가 서로 맞지 않음",
+        )
+
+    def test_unattended_failure_reason_labels_are_actionable(self):
+        self.assertEqual(
+            human_reason("order_response_reconcile_required"),
+            "주문 응답을 확인할 수 없어 계좌 대사가 필요함",
+        )
+        self.assertEqual(
+            human_reason("operating_preflight_failed"),
+            "자동운영 사전 점검에 실패함",
+        )
+        self.assertEqual(
+            human_reason("runtime_state_corrupt"),
+            "자동운영 상태 파일을 읽을 수 없음",
+        )
+
     def test_operator_cards_do_not_expose_live_order_execution(self):
         cards = operator_action_cards()
         labels = "\n".join(card.title + "\n" + card.safety_note for card in cards)

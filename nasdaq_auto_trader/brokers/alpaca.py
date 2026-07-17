@@ -2,13 +2,14 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
+from math import isfinite
 from typing import Any
 from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
 from ..models import AccountSnapshot, Bar, OrderRequest, Position
-from .common import BrokerCredentialError, BrokerRequestError, JsonObject
+from .common import BrokerCredentialError, BrokerOrderError, BrokerRequestError, JsonObject
 
 
 @dataclass(frozen=True, slots=True)
@@ -67,11 +68,35 @@ class AlpacaClient:
     def submit_order(self, order: OrderRequest) -> JsonObject:
         """Submit one risk-approved order to Alpaca."""
 
+        if order.side == "buy":
+            required_cash = self._required_buy_cash(order)
+            account = self.get_account()
+            if not isfinite(account.cash) or account.cash < required_cash:
+                raise BrokerOrderError("Alpaca buy exceeds deposited cash")
+            if not isfinite(account.buying_power) or account.buying_power < required_cash:
+                raise BrokerOrderError("Alpaca buy exceeds buying power")
         return self._request(
             "POST",
             self.trading_base_url,
             "/v2/orders",
             body=order.to_alpaca_payload(),
+        )
+
+    @staticmethod
+    def _required_buy_cash(order: OrderRequest) -> float:
+        if order.notional is not None and isfinite(order.notional) and order.notional > 0:
+            return order.notional
+        if (
+            order.qty is not None
+            and order.limit_price is not None
+            and isfinite(order.qty)
+            and isfinite(order.limit_price)
+            and order.qty > 0
+            and order.limit_price > 0
+        ):
+            return order.qty * order.limit_price
+        raise BrokerOrderError(
+            "Alpaca cash-only buy requires positive notional or quantity with limit price"
         )
 
     def get_stock_bars(

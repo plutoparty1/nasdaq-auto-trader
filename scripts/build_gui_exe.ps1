@@ -79,10 +79,24 @@ foreach ($File in $FilesToCopy) {
     }
 }
 
+$OperationsDir = Join-Path $DistDir "operations"
+New-Item -ItemType Directory -Path $OperationsDir -Force | Out-Null
+$OperationalScripts = @(
+    "ensure_unattended_running.ps1",
+    "install_unattended_task.ps1"
+)
+foreach ($File in $OperationalScripts) {
+    $Source = Join-Path $PSScriptRoot $File
+    if (-not (Test-Path -LiteralPath $Source -PathType Leaf)) {
+        throw "Operational script is missing: $Source"
+    }
+    Copy-Item -LiteralPath $Source -Destination $OperationsDir -Force
+}
+
 $EnvExample = Join-Path $DistDir ".env.example"
 @"
-# Rename this file to .env if you move the exe folder away from the project.
-# Keep this file private. It can contain real broker API credentials.
+# Copy this template to %LOCALAPPDATA%\NasdaqAutoTrader\.env.
+# Keep that file private. It can contain real broker API credentials.
 KIS_APP_KEY=
 KIS_APP_SECRET=
 KIS_ACCOUNT_NO=
@@ -98,7 +112,7 @@ NASDAQ_AUTO_TRADER_ALLOW_LIVE=NO
 
 $ProjectEnv = Join-Path $ProjectRoot ".env"
 if (Test-Path $ProjectEnv) {
-    Write-Host "Project .env was not copied. Put a private .env next to the exe only when needed."
+    Write-Host "Project .env was not copied. Put private credentials in %LOCALAPPDATA%\NasdaqAutoTrader\.env only when needed."
 }
 
 python -m nasdaq_auto_trader.package_audit $DistRoot

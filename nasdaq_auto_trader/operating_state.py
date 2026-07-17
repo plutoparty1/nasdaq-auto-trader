@@ -14,6 +14,7 @@ class OperatingState(StrEnum):
     MANUAL_TRAIN_ONLY = "MANUAL_TRAIN_ONLY"
     OFF_HOURS_LEARNING = "OFF_HOURS_LEARNING"
     PRE_MARKET_CHECK = "PRE_MARKET_CHECK"
+    INTRADAY_SHADOW_SCAN = "INTRADAY_SHADOW_SCAN"
     LIVE_TRADING = "LIVE_TRADING"
     POST_MARKET_RECONCILIATION = "POST_MARKET_RECONCILIATION"
     SAFE_HALT = "SAFE_HALT"
@@ -36,6 +37,7 @@ class RuntimeState:
     champion_version: str | None = None
     daily_risk_used: float = 0.0
     last_reconciled_market_date: str = ""
+    last_learning_market_date: str = ""
 
     @classmethod
     def idle(cls) -> RuntimeState:
@@ -49,6 +51,7 @@ class RuntimeState:
             "champion_version": self.champion_version,
             "daily_risk_used": self.daily_risk_used,
             "last_reconciled_market_date": self.last_reconciled_market_date,
+            "last_learning_market_date": self.last_learning_market_date,
         }
 
 
@@ -69,6 +72,9 @@ class OperatingStateStore:
                 daily_risk_used=float(payload.get("daily_risk_used", 0.0)),
                 last_reconciled_market_date=str(
                     payload.get("last_reconciled_market_date", "")
+                ),
+                last_learning_market_date=str(
+                    payload.get("last_learning_market_date", "")
                 ),
             )
         except (OSError, ValueError, KeyError, TypeError, json.JSONDecodeError) as exc:

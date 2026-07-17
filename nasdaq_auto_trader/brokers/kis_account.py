@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from math import isfinite
+
 from ..models import AccountSnapshot, Position
 from .common import JsonObject, _first_float, _format_price
 
@@ -8,35 +10,31 @@ class KISAccountMixin:
     def get_account(self, refresh: bool = False) -> AccountSnapshot:
         """Return a conservative USD account snapshot from KIS overseas balance."""
 
-        payload = self._inquire_balance(refresh=refresh)
-        summary = payload.get("output2") or {}
-        if isinstance(summary, list):
-            summary = summary[0] if summary else {}
+        payload = self._inquire_present_balance(refresh=refresh)
+        raw_summaries = payload.get("output2") or []
+        summaries = raw_summaries if isinstance(raw_summaries, list) else [raw_summaries]
+        summary = next(
+            (
+                item
+                for item in summaries
+                if isinstance(item, dict)
+                and str(item.get("crcy_cd") or self.credentials.currency).upper()
+                == self.credentials.currency.upper()
+            ),
+            {},
+        )
         cash = _first_float(
             summary,
             "frcr_dncl_amt_2",
             "frcr_dncl_amt",
-            "ord_psbl_cash",
-            "ovrs_ord_psbl_amt",
-            "frcr_buy_amt_smtl1",
-            "frcr_buy_amt_smtl2",
-            "cash",
             default=0.0,
         )
-        equity = _first_float(
-            summary,
-            "tot_evlu_pfls_amt",
-            "ovrs_tot_pfls",
-            "tot_asst_amt",
-            default=cash,
+        deposited_cash = cash if isfinite(cash) and cash > 0 else 0.0
+        return AccountSnapshot(
+            cash=deposited_cash,
+            equity=deposited_cash,
+            buying_power=deposited_cash,
         )
-        buying_power = _first_float(
-            summary,
-            "ovrs_ord_psbl_amt",
-            "ord_psbl_cash",
-            default=cash,
-        )
-        return AccountSnapshot(cash=cash, equity=equity or cash, buying_power=buying_power)
 
     def list_positions(self, refresh: bool = False) -> dict[str, Position]:
         """Return open KIS overseas stock positions keyed by symbol."""
@@ -134,3 +132,21 @@ class KISAccountMixin:
             },
         )
         return self._balance_payload
+
+    def _inquire_present_balance(self, refresh: bool = False) -> JsonObject:
+        if self._present_balance_payload is not None and not refresh:
+            return self._present_balance_payload
+        self._present_balance_payload = self._request(
+            "GET",
+            "/uapi/overseas-stock/v1/trading/inquire-present-balance",
+            tr_id="VTRP6504R" if self.credentials.paper else "CTRP6504R",
+            params={
+                "CANO": self.credentials.account_no,
+                "ACNT_PRDT_CD": self.credentials.account_product_code,
+                "WCRC_FRCR_DVSN_CD": "02",
+                "NATN_CD": "840",
+                "TR_MKET_CD": "00",
+                "INQR_DVSN_CD": "00",
+            },
+        )
+        return self._present_balance_payload
