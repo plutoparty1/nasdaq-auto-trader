@@ -1,7 +1,9 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+from math import isfinite
 
+from ..live_canary_policy import CANARY_POLICY
 from ..models import Bar
 from .common import (
     BrokerOrderError,
@@ -14,6 +16,45 @@ from .common import (
 
 
 class KISMarketDataMixin:
+    def get_trade_volume_universe(self, universe: set[str]) -> tuple[str, ...]:
+        payload = self._request(
+            "GET",
+            "/uapi/overseas-stock/v1/ranking/trade-vol",
+            tr_id="HHDFS76310010",
+            params={
+                "AUTH": "",
+                "EXCD": "NAS",
+                "NDAY": "0",
+                "VOL_RANG": "0",
+                "PRC1": "",
+                "PRC2": "",
+                "KEYB": "",
+            },
+        )
+        rows = payload.get("output2")
+        if not isinstance(rows, list):
+            raise BrokerRequestError("kis_trade_volume_response_invalid")
+        selected: list[str] = []
+        seen: set[str] = set()
+        for row in rows[: CANARY_POLICY.rank_top_symbols]:
+            if not isinstance(row, dict):
+                raise BrokerRequestError("kis_trade_volume_response_invalid")
+            raw_symbol = row.get("symb")
+            last = _first_float(row, "last", default=float("nan"))
+            if not isinstance(raw_symbol, str) or not raw_symbol.strip() or not isfinite(last):
+                raise BrokerRequestError("kis_trade_volume_response_invalid")
+            symbol = raw_symbol.strip().upper()
+            if symbol in seen:
+                raise BrokerRequestError("kis_trade_volume_response_duplicate")
+            seen.add(symbol)
+            if (
+                symbol in universe
+                and last <= float(CANARY_POLICY.entry_limit_price_usd)
+                and len(selected) < CANARY_POLICY.deep_inspect_symbols
+            ):
+                selected.append(symbol)
+        return tuple(selected)
+
     def get_liquid_overseas_symbols(
         self,
         universe: set[str],

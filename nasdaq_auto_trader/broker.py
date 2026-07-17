@@ -9,6 +9,12 @@ from .brokers.common import (
 )
 from .brokers.dry_run import DryRunBroker
 from .brokers.kis_client import KISClient, KISCredentials
+from .brokers.kis_reconciliation import (
+    KISCancelOrder,
+    KISCancelResult,
+    KISOpenOrder,
+    KISOrderHistory,
+)
 from .models import OrderRequest
 
 __all__ = [
@@ -21,5 +27,9 @@ __all__ = [
     "JsonObject",
     "KISClient",
     "KISCredentials",
+    "KISCancelOrder",
+    "KISCancelResult",
+    "KISOpenOrder",
+    "KISOrderHistory",
     "OrderRequest",
 ]

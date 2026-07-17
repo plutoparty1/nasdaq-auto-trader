@@ -13,7 +13,8 @@ $resolvedExecutable = (Resolve-Path -LiteralPath $ExecutablePath).Path
 $matchingProcess = Get-CimInstance -ClassName Win32_Process -Filter "Name = 'NasdaqAutoTrader.exe'" |
     Where-Object {
         $_.ExecutablePath -and
-        [StringComparer]::OrdinalIgnoreCase.Equals($_.ExecutablePath, $resolvedExecutable)
+        [StringComparer]::OrdinalIgnoreCase.Equals($_.ExecutablePath, $resolvedExecutable) -and
+        $_.CommandLine -notmatch '(?i)(^|\s)live-canary(\s|$)'
     } |
     Select-Object -First 1
 

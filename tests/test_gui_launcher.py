@@ -186,6 +186,26 @@ class GuiLauncherTests(unittest.TestCase):
         self.assertEqual(exit_code, 2)
         show_error.assert_not_called()
 
+    def test_explicit_cli_runtime_error_prints_without_blocking_dialog(self):
+        original_cwd = Path.cwd()
+        with tempfile.TemporaryDirectory() as tmpdir:
+            app_dir = Path(tmpdir)
+            try:
+                with (
+                    patch("nasdaq_auto_trader.gui_launcher._app_dir", return_value=app_dir),
+                    patch("nasdaq_auto_trader.gui_launcher._load_exe_env", return_value=[]),
+                    patch("nasdaq_auto_trader.gui_launcher._show_error") as show_error,
+                    patch("nasdaq_auto_trader.cli.main", side_effect=PermissionError("denied")),
+                    patch("sys.stderr", new_callable=StringIO) as stderr,
+                ):
+                    exit_code = run(["live-canary"])
+            finally:
+                os.chdir(original_cwd)
+
+        self.assertEqual(exit_code, 1)
+        self.assertIn("denied", stderr.getvalue())
+        show_error.assert_not_called()
+
     def test_exe_launcher_loads_env_next_to_dist_or_parent_without_overriding(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             root = Path(tmpdir)

@@ -1,5 +1,102 @@
 <!-- markdownlint-disable MD013 MD033 -->
 
+# Nasdaq Auto Trader
+
+## 제한형 무인 실거래 카나리
+
+검증된 CHAMPION 전략이 없어도 별도 `live-canary` 역할로 미국 정규장 동안 소액 실거래 E2E를 시험할 수 있습니다. 수익을 보장하지 않으며 기존 GUI·CHAMPION 안전장치를 완화하지 않습니다.
+
+| 통제 항목 | 변경할 수 없는 한도 |
+| --- | ---: |
+| 매수 지정가 / 총 현금 게이트 | USD 19.50 / USD 20.00 |
+| 주문 수량 / 동시 보유 | 1주 / 1종목 |
+| 일일 진입 시도 / 왕복 거래 | 최대 3회 / 최대 3회 |
+| 익절 / 손절 | 평균 진입가 대비 +5% / -5% |
+| 진입 구간 / 강제 청산 시작 | 개장 +15분~마감 -30분 / 마감 -15분 |
+| 재진입 대기 | 청산 확인 후 30분 |
+| 가격 / 보유수량 / 후보 스캔 | 15초 / 60초 / 15분 |
+
+사전점검은 주문·취소 API를 호출하지 않습니다. 유효한 OAuth 토큰이 없으면 인증 토큰 발급용 POST가 발생할 수 있지만 거래 주문은 제출하지 않으며 `submitted_order=false`를 반환합니다.
+
+```powershell
+cd C:\Users\u\Desktop\nasdaq-auto-trader
+python -m nasdaq_auto_trader --config config.kis.json live-canary-preflight
+```
+
+`ready=true`, `cash_gate_met=true`, `position_count=0`, `open_order_count=0`을 모두 확인한 뒤 해당 뉴욕 시장일에 한 번만 승인합니다. `mode=live`, `broker=kis`, `allow_live_trading=true`, `kis.paper=false`, 환경변수 `NASDAQ_AUTO_TRADER_ALLOW_LIVE=YES`가 필요합니다.
+
+```powershell
+python -m nasdaq_auto_trader --config config.kis.json live-canary-arm `
+  --market-date <뉴욕시장일-YYYY-MM-DD> `
+  --confirm "I UNDERSTAND THIS WILL PLACE REAL ORDERS TODAY"
+python -m nasdaq_auto_trader --config config.kis.json live-canary
+```
+
+승인은 시장일·계좌·정책·Windows SID·실행 코드 SHA-256에 묶입니다. 소스 실행은 패키지의 모든 Python 소스를, EXE 실행은 EXE 파일을 해시합니다. 정확한 KIS 주문번호가 없는 POST 응답은 영구 수동조정 상태가 되며 주문을 추정하거나 재제출하지 않습니다.
+
+빌드된 EXE 감시 작업은 다음 명령으로 설치합니다. 감시 작업은 승인 파일을 만들거나 갱신하지 않습니다.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install_live_canary_task.ps1
+```
+
+감사 로그는 `%LOCALAPPDATA%\NasdaqAutoTrader\live_canary\audit`에 저장됩니다. 승인 만료 후 신규 매수는 차단되며, 확인된 1주가 남은 경우에만 다음 정규장에서 매도 전용 `EXIT_ONLY` 복구가 가능합니다.
+
+## 2026-07-17 소액 무인 실거래 카나리
+
+검증된 CHAMPION 전략이 없어도, 별도의 `live-canary` 역할로 오늘 미국 정규장 동안만 소액 실거래 E2E를 시험할 수 있습니다. 이 경로는 기존 GUI 자동매매의 승인 기준을 낮추지 않습니다.
+
+고정 한도는 설정이나 CLI로 완화할 수 없습니다.
+
+| 항목 | 고정값 |
+| --- | ---: |
+| 매수 지정가 상한 | USD 19.50 |
+| 수수료 예비금 포함 현금 게이트 | USD 20.00 |
+| 주문 수량 / 동시 보유 | 1주 / 1종목 |
+| 일일 진입 시도 / 왕복 거래 | 최대 3회 / 최대 3회 |
+| 익절 / 손절 | 진입 평균가 대비 +5% / -5% |
+| 진입 시간 | 개장 15분 후부터 마감 30분 전까지 |
+| 강제 청산 시작 | 마감 15분 전 |
+| 재진입 대기 | 청산 확인 후 30분 |
+| 가격 / 보유수량 / 후보 스캔 | 15초 / 60초 / 15분 |
+
+사전점검의 거래 API는 잔고, 보유종목, 미체결 주문만 GET으로 조회합니다. OAuth 토큰이 없거나 만료되면 토큰 획득 요청은 POST일 수 있지만, 주문은 제출하지 않으며 결과에는 `submitted_order=false`를 유지합니다.
+
+```powershell
+cd C:\Users\u\Desktop\nasdaq-auto-trader
+python -m nasdaq_auto_trader --config config.kis.json live-canary-preflight
+```
+
+`ready: true`, `position_count: 0`, `open_order_count: 0`, `cash_gate_met: true`를 모두 확인한 다음에만 당일 승인을 발급합니다. 설정은 `mode=live`, `broker=kis`, `allow_live_trading=true`, `kis.paper=false`여야 하고 `.env`에는 `NASDAQ_AUTO_TRADER_ALLOW_LIVE=YES`가 필요합니다.
+
+```powershell
+python -m nasdaq_auto_trader --config config.kis.json live-canary-arm `
+  --market-date 2026-07-17 `
+  --confirm "I UNDERSTAND THIS WILL PLACE REAL ORDERS TODAY"
+```
+
+승인은 시장일, 실계좌 지문, 실행 파일 SHA-256, 고정 정책 SHA-256, Windows SID와 만료시각에 결합됩니다. 같은 시장일의 승인 또는 상태 파일이 이미 있으면 재발급하여 거래 횟수를 초기화할 수 없습니다.
+
+직접 실행할 때는 다음 명령을 사용합니다.
+
+```powershell
+python -m nasdaq_auto_trader --config config.kis.json live-canary
+```
+
+빌드된 EXE를 무인 감시하려면 관리자 권한이 아닌 현재 사용자 PowerShell에서 다음 작업을 한 번 설치합니다.
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\scripts\install_live_canary_task.ps1
+```
+
+감시 작업은 승인 파일을 만들거나 갱신하지 않습니다. 프로세스가 종료되면 같은 `live-canary` 역할만 다시 시작합니다. 실행 중에는 계좌 단위 broker lease가 GUI, 기존 자동매매, `day-test`, `sell-monitor` 등 다른 KIS 주문 경로의 POST를 차단합니다.
+
+POST 응답에서 정확한 KIS 주문번호를 받지 못하면 유사 주문을 추측하지 않고 영구 `manual_reconciliation_required`로 전환합니다. 이 상태에서는 신규 주문, 자동 취소, 추정 보유분 자동매도를 하지 않습니다. 확인된 1주가 장 마감 뒤 남으면 매수 권한 없이 `EXIT_ONLY` 상태만 다음 정규장으로 복구됩니다.
+
+감사 로그는 `%LOCALAPPDATA%\NasdaqAutoTrader\live_canary\audit`에 시장일별 JSONL로 저장되며 파일당 10 MiB, 30일 보존 한도가 적용됩니다. 계좌번호, 앱 키, 토큰과 원시 브로커 응답은 기록하지 않습니다.
+
+중단할 때는 예약 작업을 사용 안 함으로 바꾸고 `live-canary` 프로세스를 종료합니다. 보유수량이 남아 있으면 `exit-only-state.json`을 삭제하지 말고 청산 복구가 끝날 때까지 유지해야 합니다.
+
 # 나스닥 자동매매 도우미
 
 > 학습·검증된 전략으로 나스닥 종목을 고르고, 여러 안전 장치를 거쳐 매매 후보를 만드는 윈도우용 프로그램
@@ -22,7 +119,7 @@
 | LIVE | **승인 안 됨** | 수동 승인·승격된 `CHAMPION` 전략이 없고 환경 승인과 런타임 LIVE도 꺼져 있습니다. |
 | 매수 제한 | 현금 이내 | 예수 현금과 증권사 주문 가능액을 모두 확인하며 한도를 넘으면 주문 전에 차단합니다. |
 | 매도 제한 | 보유분 이내 | 매도 수량은 실제 보유 수량과 설정 주문 수량 중 작은 값으로 제한되어 공매도를 만들지 않습니다. |
-| 최종 EXE | 빌드·설치 일치 | SHA-256 `225FE20C7A5C2C0E0A3E47DB57DECD80712D7FB63285A1B510D3C0E88199B2F1` |
+| 오늘 승인된 카나리 EXE | 빌드·설치 일치 | SHA-256 `B81F0CE06B4DAC8A6C614515780A1AE34F64AC479EABE38984D40FD5ADCAF35C` |
 
 현재 상태에서 미국 장이 열리면 프로그램은 자동으로 점검하고 드라이런 판단을 수행하지만 실제 주문은 보내지 않습니다. GUI의 실거래 스위치 하나만 켜거나 `.env`만 바꿔도 주문할 수 없으며, 독립된 모든 LIVE 게이트가 함께 충족되어야 합니다.
 

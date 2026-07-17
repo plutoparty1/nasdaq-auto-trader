@@ -130,6 +130,16 @@ def _load_exe_env(app_dir: Path) -> list[Path]:
     return loaded_paths
 
 
+def _hide_packaged_console_for_gui() -> None:
+    if os.name != "nt" or not getattr(sys, "frozen", False):
+        return
+    import ctypes
+
+    window = ctypes.windll.kernel32.GetConsoleWindow()
+    if window:
+        ctypes.windll.user32.ShowWindow(window, 0)
+
+
 def run(arguments: list[str] | None = None) -> int:
     app_dir = _app_dir()
     os.chdir(app_dir)
@@ -138,6 +148,8 @@ def run(arguments: list[str] | None = None) -> int:
     argv = arguments
     if argv is None:
         argv = sys.argv[1:] if len(sys.argv) > 1 else _default_argv(app_dir)
+    if "gui" in argv:
+        _hide_packaged_console_for_gui()
     from nasdaq_auto_trader.frozen_diagnostic import (
         DiagnosticUsageError,
         parse_diagnostic_request,
@@ -182,7 +194,10 @@ def run(arguments: list[str] | None = None) -> int:
             _show_error(f"프로그램 실행 옵션을 확인하세요.\n\n종료 코드: {code}")
         return code
     except CLI_LAUNCH_ERRORS as exc:
-        _show_error(f"{exc}\n\n자세한 오류:\n{traceback.format_exc()}")
+        if gui_requested:
+            _show_error(f"{exc}\n\n자세한 오류:\n{traceback.format_exc()}")
+        else:
+            print(str(exc), file=sys.stderr)
         return 1
     finally:
         if guard is not None:

@@ -4,12 +4,12 @@ import json
 import time
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
-from http.client import RemoteDisconnected
 from typing import Any
 from urllib.error import HTTPError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
 
+from ..live_canary_policy import CANARY_POLICY
 from .common import BrokerRequestError
 
 
@@ -21,8 +21,13 @@ class KISAuthMixin:
         tr_id: str,
         params: dict[str, Any] | None = None,
         body: dict[str, Any] | None = None,
+        tr_cont: str = "",
+        deadline: float | None = None,
     ) -> Any:
         self._ensure_token()
+        effective_deadline = deadline
+        if effective_deadline is None:
+            effective_deadline = getattr(self, "_reconciliation_deadline", None)
         query = f"?{urlencode(params)}" if params else ""
         data = json.dumps(body).encode("utf-8") if body is not None else None
         request = Request(
@@ -35,23 +40,32 @@ class KISAuthMixin:
                 "appsecret": self.credentials.app_secret,
                 "tr_id": tr_id,
                 "custtype": "P",
-                "tr_cont": "",
+                "tr_cont": tr_cont,
                 "Content-Type": "application/json",
                 "Accept": "application/json",
             },
         )
-        try:
-            return self._open_json(request, "KIS API")
-        except RemoteDisconnected:
-            if method != "GET":
-                raise
-            time.sleep(0.5)
-            return self._open_json(request, "KIS API")
-        except RuntimeError as exc:
-            if method != "GET" or "EGW00201" not in str(exc):
-                raise
-            time.sleep(1.05)
-            return self._open_json(request, "KIS API")
+        for attempt in range(CANARY_POLICY.maximum_get_retries + 1):
+            timeout = self._remaining_timeout(effective_deadline)
+            try:
+                self._active_timeout_seconds = timeout
+                return self._open_json(request, "KIS API")
+            except (ConnectionError, OSError, TimeoutError, BrokerRequestError) as exc:
+                retryable = isinstance(exc, (ConnectionError, OSError, TimeoutError)) or "EGW00201" in str(exc)
+                if (
+                    method != "GET"
+                    or not retryable
+                    or attempt >= CANARY_POLICY.maximum_get_retries
+                ):
+                    raise
+                delay = min(2.0, 0.5 * (2**attempt) + max(0.0, self._retry_jitter()))
+                if effective_deadline is not None and self._retry_clock() + delay >= effective_deadline:
+                    raise BrokerRequestError("KIS GET reconciliation deadline exceeded") from exc
+                sleeper = self._retry_sleep or time.sleep
+                sleeper(delay)
+            finally:
+                self._active_timeout_seconds = None
+        raise BrokerRequestError("KIS GET retry state invalid")
 
     def _ensure_token(self) -> None:
         now = datetime.now(timezone.utc)
@@ -127,9 +141,21 @@ class KISAuthMixin:
         source = f"{self.base_url}|{self.credentials.app_key}"
         return sha256(source.encode("utf-8")).hexdigest()
 
-    def _open_json(self, request: Request, label: str) -> Any:
+    def _open_json(
+        self,
+        request: Request,
+        label: str,
+    ) -> Any:
         try:
-            with urlopen(request, timeout=self.credentials.timeout) as response:
+            timeout = min(
+                float(self.credentials.timeout),
+                float(CANARY_POLICY.max_get_timeout_seconds),
+                self._active_timeout_seconds
+                if self._active_timeout_seconds is not None
+                else float(CANARY_POLICY.max_get_timeout_seconds),
+            )
+            with urlopen(request, timeout=timeout) as response:
+                self._last_tr_cont = response.headers.get("tr_cont", "")
                 text = response.read().decode("utf-8")
         except HTTPError as exc:
             error_text = exc.read().decode("utf-8", errors="replace")
@@ -142,3 +168,11 @@ class KISAuthMixin:
             message = payload.get("msg1") or payload.get("msg_cd") or payload
             raise BrokerRequestError(f"{label} error: {message}")
         return payload
+
+    def _remaining_timeout(self, deadline: float | None) -> float:
+        if deadline is None:
+            return float(CANARY_POLICY.max_get_timeout_seconds)
+        remaining = deadline - self._retry_clock()
+        if remaining <= 0:
+            raise BrokerRequestError("KIS GET reconciliation deadline exceeded")
+        return min(float(CANARY_POLICY.max_get_timeout_seconds), remaining)

@@ -207,6 +207,26 @@ def build_parser() -> argparse.ArgumentParser:
         help="Testing aid: stop after this many monitor loops",
     )
 
+    subparsers.add_parser(
+        "live-canary-preflight",
+        help="Run trading-API GET-only checks; OAuth token POST may occur",
+    )
+    canary_arm = subparsers.add_parser(
+        "live-canary-arm",
+        help="Issue a one-market-date authorization for the bounded live canary",
+    )
+    canary_arm.add_argument("--market-date", required=True)
+    canary_arm.add_argument(
+        "--confirm",
+        choices=["I UNDERSTAND THIS WILL PLACE REAL ORDERS TODAY"],
+        required=True,
+    )
+    canary = subparsers.add_parser(
+        "live-canary",
+        help="Run the unattended bounded KIS live canary role",
+    )
+    canary.add_argument("--max-loops", type=_positive_int, help="Testing aid; production leaves this unset")
+
     trading_agents = subparsers.add_parser(
         "trading-agents",
         help="Run optional TradingAgents analysis without submitting orders",

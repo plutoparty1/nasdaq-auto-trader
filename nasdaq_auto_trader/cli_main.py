@@ -25,6 +25,7 @@ from .cli_formatters import selection_report_to_dict
 from .cli_parser import build_parser
 from .cli_types import CliCommandError
 from .config import load_config, validate_trading_mode
+from .cli_live_canary import run_canary_arm, run_canary_preflight, run_canary_service
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -38,6 +39,21 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "show-config":
         print(json.dumps(config.to_dict(), ensure_ascii=False, indent=2))
         return 0
+
+    if args.command == "live-canary-preflight":
+        result = run_canary_preflight(config)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0 if result["ready"] else 2
+
+    if args.command == "live-canary-arm":
+        result = run_canary_arm(config, args.market_date, args.confirm)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0
+
+    if args.command == "live-canary":
+        result = run_canary_service(config, args.max_loops)
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0 if result["status"] in {"completed", "waiting", "shadow"} else 2
 
     if args.command == "select-symbols":
         config, _ = automatic_runtime_config(

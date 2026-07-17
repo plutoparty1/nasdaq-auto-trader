@@ -83,7 +83,9 @@ $OperationsDir = Join-Path $DistDir "operations"
 New-Item -ItemType Directory -Path $OperationsDir -Force | Out-Null
 $OperationalScripts = @(
     "ensure_unattended_running.ps1",
-    "install_unattended_task.ps1"
+    "install_unattended_task.ps1",
+    "ensure_live_canary_running.ps1",
+    "install_live_canary_task.ps1"
 )
 foreach ($File in $OperationalScripts) {
     $Source = Join-Path $PSScriptRoot $File

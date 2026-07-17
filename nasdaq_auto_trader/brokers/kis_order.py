@@ -3,6 +3,7 @@ from __future__ import annotations
 from math import floor, isfinite
 
 from ..models import OrderRequest
+from ..live_canary_lease import broker_submission_guard
 from .common import BrokerOrderError, JsonObject, _format_price
 
 
@@ -46,12 +47,18 @@ class KISOrderMixin:
             "ORD_SVR_DVSN_CD": "0",
             "ORD_DVSN": "00",
         }
-        return self._request(
-            "POST",
-            "/uapi/overseas-stock/v1/trading/order",
-            tr_id=tr_id,
-            body=body,
-        )
+        with broker_submission_guard(
+            self._broker_lease_path,
+            self.account_fingerprint,
+            order.side,
+            self._broker_live_lease,
+        ):
+            return self._request(
+                "POST",
+                "/uapi/overseas-stock/v1/trading/order",
+                tr_id=tr_id,
+                body=body,
+            )
 
     def _order_tr_id(self, side: str) -> str:
         if side == "buy":
