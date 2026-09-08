@@ -1,0 +1,20 @@
+{
+  "mode": "dry_run",
+  "broker": "kis",
+  "symbols": ["QQQ"],
+  "timeframe": "1Day",
+  "lookback_days": 260,
+  "bar_limit": 1000,
+  "allow_live_trading": false,
+  "regular_market_hours_only": true,
+  "kis": {
+    "paper": false
+  },
+  "risk": {
+    "max_position_pct": 0.01,
+    "min_cash_buffer_pct": 0.1,
+    "min_order_notional": 50,
+    "max_order_notional": 100,
+    "risk_per_trade_pct": 0.001
+  }
+}

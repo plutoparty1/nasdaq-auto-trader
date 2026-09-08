@@ -44,7 +44,12 @@ class GuiLauncherTests(unittest.TestCase):
 
         self.assertIsInstance(app._result_queue, queue.Queue)
         self.assertIsNone(app._worker)
-        self.assertEqual(ttk_module.Button.call_count, 8)
+        button_texts = {call.kwargs.get("text") for call in ttk_module.Button.call_args_list}
+        label_texts = {call.kwargs.get("text") for call in ttk_module.Label.call_args_list}
+        self.assertEqual(len(button_texts), 7)
+        self.assertNotIn("설정", button_texts)
+        self.assertFalse(any("간격" in str(text) for text in label_texts))
+        ttk_module.Spinbox.assert_not_called()
 
     def test_exe_launcher_uses_app_data_settings_path_outside_dist(self):
         original_local_app_data = os.environ.get("LOCALAPPDATA")
@@ -69,18 +74,17 @@ class GuiLauncherTests(unittest.TestCase):
             else:
                 os.environ["LOCALAPPDATA"] = original_local_app_data
 
-    def test_dashboard_app_reports_invalid_interval_without_starting(self):
+    def test_dashboard_app_starts_with_internal_interval(self):
         app = DashboardApp.__new__(DashboardApp)
-        app.interval_var = Mock()
-        app.interval_var.get.return_value = "0"
         app.controller = Mock()
-        app.messagebox = Mock()
         app._append_log = Mock()
+        app._start_task = Mock()
+        app._update_controls = Mock()
 
         app._start_auto_trading()
 
-        app.messagebox.showerror.assert_called_once()
-        app.controller.start.assert_not_called()
+        app.controller.start.assert_called_once_with()
+        app._start_task.assert_called_once()
 
     def test_launch_gui_uses_safe_defaults_when_settings_loading_fails(self):
         root = Mock()

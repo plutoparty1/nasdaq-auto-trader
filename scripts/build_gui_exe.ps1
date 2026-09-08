@@ -85,7 +85,8 @@ $OperationalScripts = @(
     "ensure_unattended_running.ps1",
     "install_unattended_task.ps1",
     "ensure_live_canary_running.ps1",
-    "install_live_canary_task.ps1"
+    "install_live_canary_task.ps1",
+    "run_hidden.vbs"
 )
 foreach ($File in $OperationalScripts) {
     $Source = Join-Path $PSScriptRoot $File
@@ -123,5 +124,5 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 Write-Host "Built: $(Join-Path $DistDir 'NasdaqAutoTrader.exe')"
-Write-Host "Copied editable broker/example config files to: $DistDir"
-Write-Host "GUI settings are stored outside the exe folder: %LOCALAPPDATA%\NasdaqAutoTrader\trading_config.json"
+Write-Host "Copied broker/example config files to: $DistDir"
+Write-Host "Runtime safety state is stored outside the exe folder: %LOCALAPPDATA%\NasdaqAutoTrader\trading_config.json"

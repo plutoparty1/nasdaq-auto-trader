@@ -30,7 +30,10 @@ def safety_block_reason(
 ) -> str:
     if request.side not in ("buy", "sell"):
         return "safety_reservation_side_invalid"
-    if safety.buy_count + safety.sell_count >= request.max_daily_order_count:
+    if (
+        request.max_daily_order_count > 0
+        and safety.buy_count + safety.sell_count >= request.max_daily_order_count
+    ):
         return "learned_daily_order_limit_reached"
     if request.side == "buy":
         if safety.daily_loss_breached or request.daily_loss_breached:
@@ -39,9 +42,16 @@ def safety_block_reason(
             safety.baseline_observed and not request.baseline_available
         ):
             return "daily_loss_state_unavailable"
-        if safety.buy_count >= request.max_daily_buy_count:
+        if (
+            request.max_daily_buy_count > 0
+            and safety.buy_count >= request.max_daily_buy_count
+        ):
             return "max_daily_buy_count_reached"
-    if request.side == "sell" and safety.sell_count >= request.max_daily_sell_count:
+    if (
+        request.side == "sell"
+        and request.max_daily_sell_count > 0
+        and safety.sell_count >= request.max_daily_sell_count
+    ):
         return "max_daily_sell_count_reached"
     if request.cooldown_minutes <= 0 or not safety.last_order_at:
         return ""

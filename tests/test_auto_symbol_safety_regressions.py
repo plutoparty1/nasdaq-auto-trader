@@ -24,6 +24,7 @@ from nasdaq_auto_trader.quant_data.symbol_selector import (
     resolve_strategy,
 )
 from nasdaq_auto_trader.quant_data.universe_snapshot import load_default_universe
+from nasdaq_auto_trader.session_claims import ClaimStatus, SignalKey
 from nasdaq_auto_trader.trading_session_store import (
     PersistedSafetyState,
     SafetyReservationRequest,
@@ -40,6 +41,32 @@ from tests.test_auto_symbol_live_guard import (
 
 
 class AutoSymbolSafetyRegressionTests(unittest.TestCase):
+    def test_terminal_duplicate_reason_precedes_side_limit_without_reservation(self):
+        for status in (ClaimStatus.SUBMITTED, ClaimStatus.REJECTED):
+            with self.subTest(status=status), tempfile.TemporaryDirectory() as temp_dir:
+                store = TradingSessionStore(Path(temp_dir) / "session.json")
+                key = SignalKey(
+                    "2026-07-14",
+                    "alpha",
+                    "v1",
+                    "AAPL",
+                    "buy",
+                    "2026-07-14T14:30:00+00:00",
+                )
+                store.claim(key)
+                store.complete(key, status)
+                store.reserve_safety(_reservation("2026-07-14"))
+
+                decision = store.claim_and_reserve_safety(
+                    key,
+                    _reservation("2026-07-14"),
+                )
+                safety = store.load_safety_state()
+
+                self.assertFalse(decision.granted)
+                self.assertEqual(decision.reason, f"signal_key_{status.value}")
+                self.assertEqual(safety.buy_count, 1)
+
     def test_stale_process_cannot_roll_back_newer_market_date(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             store = TradingSessionStore(Path(temp_dir) / "session.json")

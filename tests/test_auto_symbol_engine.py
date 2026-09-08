@@ -1,7 +1,9 @@
 import json
 import tempfile
 import unittest
+from datetime import datetime, timezone
 from pathlib import Path
+from types import SimpleNamespace
 
 from nasdaq_auto_trader.ai_quant_lab.artifact_paths import StrategyArtifactPaths
 from nasdaq_auto_trader.ai_quant_lab.audit_logger import NullAuditLogger
@@ -16,7 +18,43 @@ from tests.ai_quant_fixtures import valid_spec_payload
 from tests.config_engine_fixtures import compact_strategy_config
 
 
+AUTO_TEST_NOW = datetime(2026, 7, 13, 14, 30, tzinfo=timezone.utc)
+
+
 class AutoSymbolEngineTests(unittest.TestCase):
+    def test_position_mark_take_profit_builds_guarded_sell_before_bar_close(self):
+        bars = [
+            Bar("WBD", f"T{index:03d}", 25.8, 25.8, 25.8, 25.8, 1_000)
+            for index in range(30)
+        ]
+        bars.append(Bar("WBD", "T030", 27.075, 27.075, 27.075, 27.075, 1_000))
+        market = SimpleNamespace(
+            get_stock_bars=lambda *_args, **_kwargs: {"WBD": bars},
+            get_account=lambda: AccountSnapshot(0, 27.18, 0),
+            list_positions=lambda: {
+                "WBD": Position("WBD", 1, 27.18, 25.795)
+            },
+        )
+        broker = _AcceptedBroker()
+        engine = TradingEngine(
+            AppConfig(
+                mode="dry_run",
+                symbols=["WBD"],
+                strategy=compact_strategy_config(take_profit_pct=0.05),
+            ),
+            broker=broker,
+            market_data=market,
+            clock=lambda: AUTO_TEST_NOW,
+        )
+
+        [result] = engine.run_once()
+
+        self.assertEqual(result["decision"].action, "sell")
+        self.assertIn("fixed_take_profit", result["decision"].reasons)
+        self.assertEqual(result["order"].side, "sell")
+        self.assertEqual(result["order"].qty, 1)
+        self.assertEqual(broker.orders, [])
+
     def test_auto_cycle_never_reads_manual_ticker_and_evaluates_held_symbol(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             paths = StrategyArtifactPaths.from_root(Path(temp_dir))
@@ -38,6 +76,7 @@ class AutoSymbolEngineTests(unittest.TestCase):
                 trading_settings=TradingSettings(auto_symbol_selection_enabled=True),
                 strategy_artifact_paths=paths,
                 automatic_order_guard=_guard(paths, Path(temp_dir)),
+                clock=lambda: AUTO_TEST_NOW,
             )
 
             results = engine.run_once()
@@ -60,6 +99,7 @@ class AutoSymbolEngineTests(unittest.TestCase):
                 trading_settings=TradingSettings(auto_symbol_selection_enabled=True),
                 strategy_artifact_paths=paths,
                 automatic_order_guard=_guard(paths, Path(temp_dir)),
+                clock=lambda: AUTO_TEST_NOW,
             )
 
             results = engine.run_once()
@@ -100,6 +140,7 @@ class AutoSymbolEngineTests(unittest.TestCase):
                 ),
                 strategy_artifact_paths=paths,
                 automatic_order_guard=_guard(paths, Path(temp_dir)),
+                clock=lambda: AUTO_TEST_NOW,
             )
 
             results = engine.run_once()
@@ -117,17 +158,22 @@ class _AutoMarketData:
         account: AccountSnapshot | None = None,
         positions: dict[str, Position] | None = None,
         missing_quote_symbol: str = "",
+        close_by_symbol: dict[str, float] | None = None,
     ) -> None:
         self.account = account or AccountSnapshot(10_000, 10_000, 10_000)
         self.positions = positions or {}
         self.bar_requests: list[list[str]] = []
         self.missing_quote_symbol = missing_quote_symbol
+        self.close_by_symbol = close_by_symbol or {}
         self.quote_calls = 0
 
     def get_stock_bars(self, symbols, timeframe, start, end=None, limit=1000):
         del timeframe, start, end, limit
         self.bar_requests.append(list(symbols))
-        return {symbol: _rising_bars(symbol) for symbol in symbols}
+        return {
+            symbol: _rising_bars(symbol, self.close_by_symbol.get(symbol))
+            for symbol in symbols
+        }
 
     def get_latest_quotes(self, symbols):
         self.quote_calls += 1
@@ -155,25 +201,32 @@ class _AcceptedBroker:
         return {"status": "accepted", "id": str(len(self.orders))}
 
 
-def _rising_bars(symbol: str) -> list[Bar]:
+def _rising_bars(symbol: str, final_close: float | None = None) -> list[Bar]:
+    offset = 0 if final_close is None else final_close - 239
     return [
         Bar(
             symbol=symbol,
             timestamp="2026-07-10T16:00:00+00:00",
-            open=100 + index - 0.5,
-            high=100 + index + 1,
-            low=100 + index - 1,
-            close=100 + index,
+            open=100 + index + offset - 0.5,
+            high=100 + index + offset + 1,
+            low=100 + index + offset - 1,
+            close=100 + index + offset,
             volume=1_000_000,
         )
         for index in range(140)
     ]
 
 
-def _write_paper_strategy(paths: StrategyArtifactPaths, top_n: int = 2) -> None:
+def _write_paper_strategy(
+    paths: StrategyArtifactPaths,
+    top_n: int = 2,
+    threshold: float | None = None,
+) -> None:
     payload = valid_spec_payload()
     payload["strategy_id"] = "auto"
     payload["entry_rule"]["top_n"] = top_n
+    if threshold is not None:
+        payload["entry_rule"]["threshold"] = threshold
     paths.spec_dir.mkdir(parents=True, exist_ok=True)
     (paths.spec_dir / "auto-v1.json").write_text(json.dumps(payload), encoding="utf-8")
     paths.registry_path.write_text(

@@ -41,3 +41,9 @@ class ClaimDecision:
     granted: bool
     reason: str
     status: ClaimStatus
+
+
+@dataclass(frozen=True, slots=True)
+class ClaimRecord:
+    status: ClaimStatus
+    market_date: str

@@ -7,6 +7,11 @@
 **Depends On**: T4, T5
 **PRD AC**: AC-1.3, AC-2.4, AC-4.1, AC-4.3, AC-4.7 through AC-4.9
 
+> Authorization timing and consumption were superseded on 2026-08-11 by
+> `PRD-session-scoped-live-authorization.md`: one NASDAQ market date and at
+> most 12 actual order attempts. The audit, binding, and submission-gate
+> requirements in this completed historical ticket remain normative.
+
 ---
 
 ## 1. Objective
@@ -22,8 +27,9 @@ Attach an automatic-order-only readiness/authorization/audit guard to the sole
 - [ ] AC-2: Immediately before broker access, live auto orders reread the
   promoted champion/spec and validate approval, digest, universe age,
   `allow_live_trading`, confirmation, and authorization envelope bindings.
-- [ ] AC-3: Authorization accepts only 1-60 minutes and 1-12 cycles; expiry,
-  exhaustion, or binding change blocks and terminates the automatic loop.
+- [ ] AC-3: Authorization accepts one NASDAQ market date and 1-12 actual order
+  attempts; session/date/attempt exhaustion or binding change blocks the
+  automatic loop. Read-only/no-order cycles do not consume the budget.
 - [ ] AC-4: Intent audit append succeeds before the T5 order claim and broker;
   failure returns `audit_log_write_failed` with zero broker calls.
 - [ ] AC-5: A granted T5 `submitting` claim is terminally updated from the
@@ -52,7 +58,7 @@ Attach an automatic-order-only readiness/authorization/audit guard to the sole
 | # | Test Name | Type | Description | Expected |
 | --- | --- | --- | --- | --- |
 | 1 | `test_auto_guard_reloads_champion_spec_and_stale_universe_before_broker` | Integration | Revoke/change/stale after rank | Exact block, broker zero |
-| 2 | `test_live_authorization_envelope_expires_exhausts_and_binds` | Unit | Vary clock/count/digests | Exact blocks |
+| 2 | `test_live_authorization_envelope_checks_session_attempts_and_bindings` | Unit | Vary session/attempts/digests | Exact blocks |
 | 3 | `test_auto_guard_call_order_is_readiness_audit_claim_broker_outcome` | Integration | Shared ordered ledger | Exact sequence |
 | 4 | `test_intent_audit_failure_makes_zero_broker_and_claim_calls` | Integration | Failing append | `audit_log_write_failed` |
 | 5 | `test_trading_engine_is_only_auto_submit_owner` | Integration | Engine/selector/LiveEngine spies | Engine one, others zero |

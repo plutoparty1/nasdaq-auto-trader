@@ -23,7 +23,7 @@ if ($null -ne $matchingProcess) {
 }
 
 $workingDirectory = Split-Path -Parent $resolvedExecutable
-$process = Start-Process -FilePath $resolvedExecutable -WorkingDirectory $workingDirectory -PassThru
+$process = Start-Process -FilePath $resolvedExecutable -WorkingDirectory $workingDirectory -WindowStyle Hidden -PassThru
 $runtimeDirectory = Join-Path $env:LOCALAPPDATA "NasdaqAutoTrader\runtime"
 New-Item -ItemType Directory -Path $runtimeDirectory -Force | Out-Null
 $line = "{0} watchdog_started pid={1}" -f (Get-Date).ToString("o"), $process.Id

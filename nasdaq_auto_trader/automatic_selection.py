@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, replace
+from dataclasses import dataclass, field, replace
 from datetime import datetime, timedelta
 import math
 from typing import Protocol, runtime_checkable
@@ -18,12 +18,13 @@ from nasdaq_auto_trader.automatic_risk import (
 from nasdaq_auto_trader.quant_data.features import PriceBar
 from nasdaq_auto_trader.quant_data.market_quality import filter_tradeable_symbols
 from nasdaq_auto_trader.quant_data.symbol_selector import (
+    RankedSymbol,
     SelectionReport,
     StrategyResolutionBlock,
     blocked_selection_report,
     blocked_selection_report_without_snapshot,
     resolve_strategy,
-    select_symbols,
+    select_symbols_with_candidates,
 )
 from nasdaq_auto_trader.quant_data.universe_snapshot import (
     UniverseSnapshotError,
@@ -68,6 +69,8 @@ class AutomaticSelectionResult:
     report: SelectionReport
     bars_by_symbol: dict[str, list[Bar]]
     risk_limits: AutomaticRiskLimits | None = None
+    quotes_by_symbol: dict[str, tuple[float, float]] = field(default_factory=dict)
+    prethreshold_ranked: tuple[RankedSymbol, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -76,6 +79,7 @@ class AutomaticSelectionRequest:
     market_data: SelectionMarketData
     paths: StrategyArtifactPaths
     now: datetime
+    daily_forced_order_enabled: bool = False
 
 
 def prepare_automatic_selection(
@@ -146,11 +150,18 @@ def prepare_automatic_selection(
         ),
     )[:30]
     selected_bars = {symbol: price_bars[symbol] for symbol in ranked_quality}
-    report = select_symbols(snapshot, resolution, selected_bars, freshness.warnings)
+    report, candidates = select_symbols_with_candidates(
+        snapshot,
+        resolution,
+        selected_bars,
+        freshness.warnings,
+    )
     return AutomaticSelectionResult(
         report,
         {symbol: legacy_bars[symbol] for symbol in ranked_quality},
         risk_limits,
+        {symbol: quotes[symbol] for symbol in ranked_quality if symbol in quotes},
+        candidates,
     )
 
 

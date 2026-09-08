@@ -278,7 +278,8 @@ Residual limits:
   claims, interrupted-claim recovery, monotonic state merging, and serialized
   audit writes.
 - Bound every live authorization to the exact strategy identity and digest,
-  universe identity, risk digest, execution mode, expiry, and cycle budget.
+  universe identity, risk digest, execution mode, broker identity, NASDAQ
+  market date, and actual-order-attempt budget.
   GUI live orders remain disabled; bounded live automatic execution is CLI-only.
 - Added a 15-minute identity-bound non-live selection cache and sanitized
   selection lifecycle audit events. Live selection bypasses the cache.
@@ -329,10 +330,11 @@ Packaging decision:
 
 Final review remediation:
 
-- CLI live authorization duration and cycle limits now create the exact
-  order-time envelope. Expiry is checked again immediately before broker
-  access, each automatic cycle consumes its budget, and the envelope binds the
-  universe checksum in addition to ID/effective date.
+- Superseded on 2026-08-11: the explicit `authorize-live-session` command now
+  creates the exact market-date envelope. Session and identity are checked
+  again immediately before broker access, only actual order attempts consume
+  its maximum-12 budget, and the envelope binds the universe checksum in
+  addition to ID/effective date.
 - Learned StrategySpec and AI Quant limits now cap single-position exposure,
   total exposure, order notional, daily order count, and per-trade risk. A
   same-cycle ledger reserves accepted buy notional and quantity without reusing

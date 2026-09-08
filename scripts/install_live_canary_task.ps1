@@ -18,10 +18,15 @@ $ConfigPath = [IO.Path]::GetFullPath($ConfigPath)
 $WatchdogPath = [IO.Path]::GetFullPath(
     (Join-Path $PSScriptRoot "ensure_live_canary_running.ps1")
 )
+$HiddenLauncherPath = [IO.Path]::GetFullPath(
+    (Join-Path $PSScriptRoot "run_hidden.vbs")
+)
 $PowerShellPath = Join-Path $PSHOME "powershell.exe"
+$WScriptPath = Join-Path $env:SystemRoot "System32\wscript.exe"
 $CurrentUser = [Security.Principal.WindowsIdentity]::GetCurrent().Name
 $ActionArguments = (
-    "-NoProfile -NonInteractive -ExecutionPolicy Bypass " +
+    "//B //NoLogo `"$HiddenLauncherPath`" `"$PowerShellPath`" " +
+    "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass " +
     "-File `"$WatchdogPath`" -ExecutablePath `"$ExecutablePath`" " +
     "-ConfigPath `"$ConfigPath`""
 )
@@ -29,7 +34,7 @@ $ActionArguments = (
 $Descriptor = [ordered]@{
     task_name = $TaskName
     action = [ordered]@{
-        executable = $PowerShellPath
+        executable = $WScriptPath
         arguments = $ActionArguments
     }
     triggers = @("AtLogOn", "Daily/PT5M")
@@ -59,6 +64,12 @@ if (-not (Test-Path -LiteralPath $ConfigPath -PathType Leaf)) {
 if (-not (Test-Path -LiteralPath $WatchdogPath -PathType Leaf)) {
     throw "Live canary watchdog was not found: $WatchdogPath"
 }
+if (-not (Test-Path -LiteralPath $HiddenLauncherPath -PathType Leaf)) {
+    throw "Hidden launcher was not found: $HiddenLauncherPath"
+}
+if (-not (Test-Path -LiteralPath $WScriptPath -PathType Leaf)) {
+    throw "Windows Script Host was not found: $WScriptPath"
+}
 
 $AppDataRoot = Join-Path $env:LOCALAPPDATA "NasdaqAutoTrader"
 New-Item -ItemType Directory -Path $AppDataRoot -Force | Out-Null
@@ -72,7 +83,7 @@ if ($LASTEXITCODE -ne 0) {
 }
 
 $XmlUser = [Security.SecurityElement]::Escape($CurrentUser)
-$XmlCommand = [Security.SecurityElement]::Escape($PowerShellPath)
+$XmlCommand = [Security.SecurityElement]::Escape($WScriptPath)
 $XmlArguments = [Security.SecurityElement]::Escape($ActionArguments)
 $StartBoundary = (Get-Date).Date.ToString("yyyy-MM-dd'T'HH:mm:ss")
 $TaskXml = @"

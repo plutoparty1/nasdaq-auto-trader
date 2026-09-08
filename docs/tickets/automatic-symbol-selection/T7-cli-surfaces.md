@@ -7,6 +7,10 @@
 **Depends On**: T4, T5, T6
 **PRD AC**: AC-4.3, AC-5.3, AC-5.4
 
+> The old loop-issued minute/cycle envelope was superseded on 2026-08-11 by
+> the explicit `authorize-live-session` / `revoke-live-session` contract in
+> `PRD-session-scoped-live-authorization.md`.
+
 ---
 
 ## 1. Objective
@@ -21,8 +25,9 @@ retaining explicit live gates and one persistent session/claim store per loop.
   makes zero order construction/submission calls.
 - [ ] AC-2: `once` and `loop` accept `--auto-select`; live still requires
   `allow_live_trading=true` and `--confirm-live-orders` independently.
-- [ ] AC-3: Live loop additionally requires 1-60 `--live-auth-minutes` and 1-12
-  `--live-max-cycles`, reuses one T5 store, and terminates on envelope block.
+- [ ] AC-3: Live loop additionally requires a separately issued market-date
+  authorization with a maximum of 12 actual order attempts, reuses one T5
+  store, and blocks on session/date/attempt/binding failure.
 - [ ] AC-4: Missing live flag, confirmation, or valid envelope returns the
   exact block reason, exits/terminates safely, and makes zero broker calls.
 - [ ] AC-5: CLI output includes selection identity/reasons without secrets,
@@ -39,8 +44,8 @@ retaining explicit live gates and one persistent session/claim store per loop.
 | 2 | `test_select_symbols_rejects_live_confirmation_argument` | CLI | Pass forbidden flag | Parser error |
 | 3 | `test_auto_once_live_disabled_makes_zero_broker_calls` | Integration | `allow_live_trading=false` | Exact block |
 | 4 | `test_auto_once_missing_confirmation_makes_zero_broker_calls` | Integration | Omit confirm flag | `live_order_confirmation_required` |
-| 5 | `test_auto_loop_requires_bounded_authorization_args` | CLI | Missing/out-of-range bounds | Command error |
-| 6 | `test_auto_loop_reuses_state_and_terminates_on_envelope_block` | Integration | Multi-cycle fake clock | Bounded calls then stop |
+| 5 | `test_auto_loop_requires_session_authorization` | CLI | Missing/revoked authorization | Typed block |
+| 6 | `test_auto_loop_reuses_state_and_blocks_on_attempt_limit` | Integration | Multi-cycle fake clock | No-order cycles free; 13th order attempt blocked |
 | 7 | `test_cli_selection_output_masks_account_and_secret_values` | Unit | Serialize report/cycle | Sensitive fields absent |
 | 8 | `test_manual_once_and_loop_contract_unchanged` | Regression | No auto flag | Existing output |
 
@@ -80,7 +85,7 @@ retaining explicit live gates and one persistent session/claim store per loop.
 ## 5. Edge Cases
 
 - PRD E3, E7, E13, E20, E22.
-- Missing confirmation independent of envelope, expired loop between cycles.
+- Missing confirmation independent of envelope, market-date/attempt block between cycles.
 
 ## 6. Review Checklist
 

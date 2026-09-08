@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from datetime import datetime, timedelta, timezone
+from datetime import date, datetime, timedelta, timezone
 from typing import TypedDict
 from zoneinfo import ZoneInfo
 
@@ -19,6 +19,14 @@ class MarketSessionDict(TypedDict):
     opens_at: str
     closes_at: str
     timezone: str
+
+
+@dataclass(frozen=True, slots=True)
+class MarketTimeError(ValueError):
+    reason: str
+
+    def __str__(self) -> str:
+        return self.reason
 
 
 @dataclass(frozen=True, slots=True)
@@ -63,6 +71,20 @@ def regular_market_session(now: datetime | None = None) -> MarketSession:
         opens_at.isoformat(),
         closes_at.isoformat(),
     )
+
+
+def authorization_market_date(now: datetime) -> date:
+    if now.tzinfo is None:
+        raise MarketTimeError("market_time_timezone_required")
+    normalized = now.astimezone(timezone.utc)
+    schedule = NASDAQ.schedule(
+        start_date=normalized.date(),
+        end_date=(normalized + timedelta(days=14)).date(),
+    )
+    upcoming = schedule[schedule["market_close"] > normalized]
+    if upcoming.empty:
+        raise MarketTimeError("market_calendar_unavailable")
+    return upcoming.index[0].date()
 
 
 def latest_completed_market_date(now: datetime) -> str:

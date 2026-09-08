@@ -8,6 +8,7 @@ from dataclasses import dataclass
 from datetime import datetime, timezone
 from math import isfinite
 from pathlib import Path
+from typing import TextIO
 
 from .models import Bar
 
@@ -28,12 +29,20 @@ class InvalidCsvDataError(ValueError):
         return self.message
 
 
+@dataclass(frozen=True, slots=True)
+class CsvFileError(OSError):
+    path: Path
+
+    def __str__(self) -> str:
+        return f"CSV file could not be opened: {self.path}"
+
+
 def load_bars_csv(path: str | Path) -> dict[str, list[Bar]]:
     """Load a CSV with symbol,timestamp,open,high,low,close,volume columns."""
 
     bars_by_symbol: dict[str, list[Bar]] = defaultdict(list)
     seen_keys: set[tuple[str, str]] = set()
-    with Path(path).open("r", encoding="utf-8-sig", newline="") as file:
+    with _open_csv(Path(path)) as file:
         reader = csv.DictReader(file)
         required = {"symbol", "timestamp", "open", "high", "low", "close", "volume"}
         missing = required - set(reader.fieldnames or [])
@@ -82,6 +91,13 @@ def load_bars_csv(path: str | Path) -> dict[str, list[Bar]]:
         symbol: sorted(bars, key=lambda bar: bar.timestamp)
         for symbol, bars in bars_by_symbol.items()
     }
+
+
+def _open_csv(path: Path) -> TextIO:
+    try:
+        return path.open("r", encoding="utf-8-sig", newline="")
+    except OSError as error:
+        raise CsvFileError(path) from error
 
 
 def _parse_timestamp(value: str | None) -> str:

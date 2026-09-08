@@ -1,10 +1,30 @@
 import unittest
-from datetime import datetime, timezone
+from datetime import date, datetime, timezone
 
+import nasdaq_auto_trader.market_hours as market_hours
 from nasdaq_auto_trader.market_hours import latest_completed_market_date, regular_market_session
 
 
 class MarketHoursTests(unittest.TestCase):
+    def test_authorization_market_date_uses_current_or_next_session(self):
+        cases = (
+            (datetime(2026, 8, 11, 12, 0, tzinfo=timezone.utc), date(2026, 8, 11)),
+            (datetime(2026, 8, 11, 15, 0, tzinfo=timezone.utc), date(2026, 8, 11)),
+            (datetime(2026, 8, 11, 20, 0, tzinfo=timezone.utc), date(2026, 8, 12)),
+            (datetime(2026, 8, 15, 12, 0, tzinfo=timezone.utc), date(2026, 8, 17)),
+            (datetime(2026, 11, 27, 18, 0, tzinfo=timezone.utc), date(2026, 11, 30)),
+        )
+
+        for now, expected in cases:
+            with self.subTest(now=now):
+                self.assertEqual(market_hours.authorization_market_date(now), expected)
+
+    def test_authorization_market_date_rejects_naive_time(self):
+        with self.assertRaises(market_hours.MarketTimeError) as raised:
+            market_hours.authorization_market_date(datetime(2026, 8, 11, 12, 0))
+
+        self.assertEqual(raised.exception.reason, "market_time_timezone_required")
+
     def test_latest_completed_market_date_ignores_open_session(self):
         completed = latest_completed_market_date(
             datetime(2026, 7, 16, 14, 0, tzinfo=timezone.utc)

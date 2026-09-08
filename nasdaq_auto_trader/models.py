@@ -64,6 +64,13 @@ class Position:
     qty: float
     market_value: float
     avg_entry_price: float
+    high_water_price: float | None = None
+
+
+@dataclass(frozen=True, slots=True)
+class PositionHighWater:
+    avg_entry_price: float
+    high_water_price: float
 
 
 @dataclass(frozen=True, slots=True)

@@ -10,6 +10,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CANARY_WATCHDOG = ROOT / "scripts" / "ensure_live_canary_running.ps1"
 CANARY_INSTALLER = ROOT / "scripts" / "install_live_canary_task.ps1"
 GUI_WATCHDOG = ROOT / "scripts" / "ensure_unattended_running.ps1"
+HIDDEN_LAUNCHER = ROOT / "scripts" / "run_hidden.vbs"
 
 
 class LiveCanaryWindowsTaskTests(unittest.TestCase):
@@ -37,6 +38,11 @@ class LiveCanaryWindowsTaskTests(unittest.TestCase):
 
         self.assertEqual(descriptor["settings"]["multiple_instances"], "IgnoreNew")
         self.assertEqual(descriptor["triggers"], ["AtLogOn", "Daily/PT5M"])
+        self.assertTrue(descriptor["action"]["executable"].lower().endswith("wscript.exe"))
+        self.assertIn("//B //NoLogo", descriptor["action"]["arguments"])
+        self.assertIn(str(HIDDEN_LAUNCHER), descriptor["action"]["arguments"])
+        self.assertIn("powershell.exe", descriptor["action"]["arguments"])
+        self.assertIn("-WindowStyle Hidden", descriptor["action"]["arguments"])
         self.assertIn("ensure_live_canary_running.ps1", descriptor["action"]["arguments"])
         self.assertNotIn("live-canary-arm", completed.stdout)
         self.assertNotIn("KIS_", completed.stdout)
@@ -56,6 +62,7 @@ class LiveCanaryWindowsTaskTests(unittest.TestCase):
 
         self.assertIn("ensure_live_canary_running.ps1", script)
         self.assertIn("install_live_canary_task.ps1", script)
+        self.assertIn("run_hidden.vbs", script)
 
 
 if __name__ == "__main__":

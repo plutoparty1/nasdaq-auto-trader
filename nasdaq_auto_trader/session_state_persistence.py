@@ -17,6 +17,9 @@ def load_session_state(store: TradingSessionStore) -> TradingSessionState:
             persisted.baseline_observed and not persisted.daily_loss_breached
         ),
         last_order_at=_parse_timestamp(persisted.last_order_at),
+        position_high_water=dict(persisted.position_high_water),
+        closed_position_symbols=set(persisted.closed_position_symbols),
+        position_state_versions=dict(persisted.position_state_versions),
     )
 
 
@@ -37,7 +40,10 @@ def save_session_state(
                 state.starting_equity is not None
                 or state.daily_loss_state_unavailable
             ),
-        )
+            position_high_water=dict(state.position_high_water),
+            closed_position_symbols=tuple(sorted(state.closed_position_symbols)),
+            position_state_versions=dict(state.position_state_versions),
+        ),
     )
 
 

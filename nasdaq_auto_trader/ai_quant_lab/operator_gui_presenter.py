@@ -140,7 +140,7 @@ _REASON_LABELS: dict[str, str] = {
     "max_total_exposure_pct_out_of_range": "전체 노출 최대 비중 범위 초과",
     "max_daily_loss_pct_out_of_range": "일일 손실 제한 범위 초과",
     "max_order_notional_must_be_positive": "주문 금액 한도는 0보다 커야 함",
-    "max_orders_per_day_must_be_positive": "하루 주문 횟수 한도는 1 이상이어야 함",
+    "max_orders_per_day_must_be_nonnegative": "하루 주문 횟수 한도는 0 이상이어야 함",
     "max_orders_per_day_must_be_int": "하루 주문 횟수 한도는 정수여야 함",
     "market_data_missing": "검증할 시장 데이터가 없음",
     "learning_already_running": "다른 학습 작업이 이미 실행 중임",

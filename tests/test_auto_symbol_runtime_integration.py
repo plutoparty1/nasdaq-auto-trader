@@ -19,12 +19,14 @@ from nasdaq_auto_trader.automatic_selection import (
 from nasdaq_auto_trader.broker import AlpacaCredentials
 from nasdaq_auto_trader.config import AppConfig
 from nasdaq_auto_trader.config_manager import TradingSettings
+from nasdaq_auto_trader.config_manager import TradingSessionState
 from nasdaq_auto_trader.engine import TradingEngine
 from nasdaq_auto_trader.risk import RiskConfig
 from nasdaq_auto_trader.session_claims import SignalKey
 from nasdaq_auto_trader.trading_session_store import TradingSessionStore
 from tests.config_engine_fixtures import compact_strategy_config
 from tests.test_auto_symbol_engine import (
+    AUTO_TEST_NOW,
     _AcceptedBroker,
     _AutoMarketData,
     _write_paper_strategy,
@@ -49,6 +51,7 @@ class AutoSymbolRuntimeIntegrationTests(unittest.TestCase):
                 trading_settings=TradingSettings(
                     auto_symbol_selection_enabled=True,
                 ),
+                trading_session_state=TradingSessionState(),
             )
 
             results = engine.run_once()
@@ -122,6 +125,7 @@ class AutoSymbolRuntimeIntegrationTests(unittest.TestCase):
                 trading_settings=settings,
                 strategy_artifact_paths=paths,
                 automatic_order_guard=guard,
+                clock=lambda: AUTO_TEST_NOW,
             )
 
             first.run_once()
@@ -133,6 +137,7 @@ class AutoSymbolRuntimeIntegrationTests(unittest.TestCase):
                 trading_settings=settings,
                 strategy_artifact_paths=paths,
                 automatic_order_guard=reopened_guard,
+                clock=lambda: AUTO_TEST_NOW,
             )
             repeated = store.claim(interrupted)
 

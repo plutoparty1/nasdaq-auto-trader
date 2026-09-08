@@ -22,6 +22,7 @@ from .engine_factory_utils import factory_accepts_argument
 from .engine_errors import PreOrderCycleError
 from .controller_operations import ControllerOperationsMixin
 from .intraday_shadow_scan import IntradayShadowScanReport
+from .live_authorization import broker_authorization_digest
 from .portfolio_presenter import position_to_row
 from .quant_data.resources import application_data_root
 from .quant_data.symbol_selector import SelectionReport
@@ -66,7 +67,10 @@ class AutoTradeController(ControllerOperationsMixin):
         )
         strategy_paths = default_strategy_artifact_paths()
         self.automatic_order_guard = AutomaticOrderGuard(
-            strategy_paths, self.session_store, AuditLogger(strategy_paths.audit_log_path)
+            strategy_paths,
+            self.session_store,
+            AuditLogger(strategy_paths.audit_log_path),
+            broker_authorization_digest=broker_authorization_digest(self.config),
         )
         self.runtime_journal = runtime_journal or NullRuntimeJournal()
         self.runtime_recorder = ControllerRuntimeRecorder(self.runtime_journal)
@@ -101,14 +105,6 @@ class AutoTradeController(ControllerOperationsMixin):
         result = validate_settings(settings)
         if not result.ok:
             raise SettingsError("\n".join(result.errors))
-        renew_live_authorization = (
-            not self.trading_settings.unattended_live_trading_enabled
-            and settings.unattended_live_trading_enabled
-        )
-        if renew_live_authorization:
-            reset_reason = self.automatic_order_guard.reset_live_authorization()
-            if reset_reason:
-                raise SettingsError(reset_reason)
         with self._lock:
             self.trading_settings = settings
             self.config = apply_settings_to_app_config(self.base_config, settings)
@@ -184,8 +180,7 @@ class AutoTradeController(ControllerOperationsMixin):
                 self._selection_health = self._selection_health.observe(report)
             else:
                 self.last_selection_report = None
-            if self.trading_settings.auto_symbol_selection_enabled:
-                save_session_state(self.session_store, self.session_state)
+            save_session_state(self.session_store, self.session_state)
         except PreOrderCycleError:
             raise
         except Exception as exc:  # noqa: BROAD_EXCEPT_OK
@@ -222,8 +217,12 @@ class AutoTradeController(ControllerOperationsMixin):
 
         engine = self._create_engine()
         account, positions = engine.load_portfolio(refresh=True)
+        observed_at = self._clock()
+        with self._lock:
+            self.session_state.observe_portfolio(positions, observed_at)
+            save_session_state(self.session_store, self.session_state)
         snapshot = PortfolioSnapshot(
-            as_of=self._clock(),
+            as_of=observed_at,
             mode=self.config.mode,
             broker=self.config.broker,
             account=account,

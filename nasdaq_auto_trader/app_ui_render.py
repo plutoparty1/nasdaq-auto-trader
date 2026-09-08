@@ -131,7 +131,7 @@ class DashboardRenderMixin:
         settings = self.controller.trading_settings
         mode_label = _mode_label(config.mode)
         symbol_mode = (
-            "과거 데이터 자동 선택"
+            "AI 자동 선택"
             if settings.auto_symbol_selection_enabled
             else settings.ticker
         )
@@ -152,10 +152,9 @@ class DashboardRenderMixin:
         else:
             self.selection_var.set(f"수동 종목 모드 | {settings.ticker}")
         config_name = Path(self.config_path).name
-        settings_name = Path(self.controller.settings_path).name
         self.mode_var.set(
-            f"설정: {config_name} | GUI 설정: {settings_name} | "
-            f"모드: {mode_label} | 브로커: {config.broker} | 종목: {symbol_mode}"
+            f"AI 완전자동 | 구성: {config_name} | 모드: {mode_label} | "
+            f"브로커: {config.broker} | 종목: {symbol_mode}"
         )
         self._append_log(f"현재 모드: {mode_label} / 종목: {symbol_mode}")
 
@@ -194,7 +193,6 @@ class DashboardRenderMixin:
         self.refresh_button.configure(state="disabled" if busy else "normal")
         self.learning_button.configure(state="disabled" if busy else "normal")
         self.cancel_learning_button.configure(state="normal" if busy else "disabled")
-        self.settings_button.configure(state="disabled" if busy else "normal")
         self.report_button.configure(state="disabled" if busy else "normal")
 
 

@@ -24,6 +24,26 @@ from nasdaq_auto_trader.trading_session_store import (
 
 
 class AutoSymbolSessionStoreTests(unittest.TestCase):
+    def test_zero_daily_order_limits_allow_repeated_reservations(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            store = TradingSessionStore(Path(temp_dir) / "session.json")
+            request = SafetyReservationRequest(
+                market_date="2026-07-13",
+                side="buy",
+                timestamp="2026-07-13T14:30:00+00:00",
+                max_daily_buy_count=0,
+                max_daily_sell_count=0,
+                max_daily_order_count=0,
+                cooldown_minutes=0,
+                daily_loss_breached=False,
+                daily_loss_state_unavailable=False,
+                baseline_available=True,
+            )
+
+            decisions = [store.reserve_safety(request) for _ in range(20)]
+
+        self.assertTrue(all(decision.granted for decision in decisions))
+
     def test_safety_reservation_is_atomic_across_store_instances(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             path = Path(temp_dir) / "session.json"
@@ -173,6 +193,35 @@ class AutoSymbolSessionStoreTests(unittest.TestCase):
         self.assertEqual(recovered, 1)
         self.assertFalse(repeated.granted)
         self.assertEqual(repeated.reason, "signal_key_uncertain")
+
+    def test_uncertain_claim_blocks_a_later_signal_without_reserving_safety(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            path = Path(temp_dir) / "session.json"
+            store = TradingSessionStore(path)
+            store.claim(_key("2026-07-11T14:30:00+00:00"))
+            store.recover_interrupted_claims()
+            request = SafetyReservationRequest(
+                market_date="2026-07-11",
+                side="buy",
+                timestamp="2026-07-11T14:35:00+00:00",
+                max_daily_buy_count=0,
+                max_daily_sell_count=0,
+                max_daily_order_count=0,
+                cooldown_minutes=0,
+                daily_loss_breached=False,
+                daily_loss_state_unavailable=False,
+                baseline_available=True,
+            )
+
+            decision = store.claim_and_reserve_safety(
+                _key("2026-07-11T14:35:00+00:00"),
+                request,
+            )
+            safety = store.load_safety_state()
+
+        self.assertFalse(decision.granted)
+        self.assertEqual(decision.reason, "automatic_order_reconciliation_required")
+        self.assertEqual(safety.buy_count, 0)
 
     def test_safety_state_round_trip_contains_no_account_values(self):
         with tempfile.TemporaryDirectory() as temp_dir:

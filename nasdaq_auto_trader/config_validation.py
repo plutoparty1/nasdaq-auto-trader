@@ -30,12 +30,18 @@ def validate_settings(settings: TradingSettings) -> ValidationResult:
 
     _require_float_at_least(errors, "take_profit_rate", settings.take_profit_rate, 0)
     _require_float_at_least(errors, "stop_loss_rate", settings.stop_loss_rate, 0)
+    _require_float_at_least(
+        errors,
+        "trailing_stop_activation_rate",
+        settings.trailing_stop_activation_rate,
+        0,
+    )
     _require_float_at_least(errors, "trailing_stop_rate", settings.trailing_stop_rate, 0)
     _require_rsi(errors, "sell_rsi_threshold", settings.sell_rsi_threshold)
     _require_int_at_least(errors, "max_holding_minutes", settings.max_holding_minutes, 1)
 
-    _require_int_at_least(errors, "max_daily_buy_count", settings.max_daily_buy_count, 1)
-    _require_int_at_least(errors, "max_daily_sell_count", settings.max_daily_sell_count, 1)
+    _require_int_at_least(errors, "max_daily_buy_count", settings.max_daily_buy_count, 0)
+    _require_int_at_least(errors, "max_daily_sell_count", settings.max_daily_sell_count, 0)
     _require_float_at_least(errors, "max_daily_loss_rate", settings.max_daily_loss_rate, 0)
     _require_int_at_least(errors, "cooldown_minutes", settings.cooldown_minutes, 0)
     _require_int_at_least(

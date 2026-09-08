@@ -7,7 +7,7 @@ from nasdaq_auto_trader.broker import (
     KISClient,
     KISCredentials,
 )
-from nasdaq_auto_trader.models import AccountSnapshot, OrderRequest
+from nasdaq_auto_trader.models import AccountSnapshot, OrderRequest, Position
 
 
 class BrokerCashGuardTests(unittest.TestCase):
@@ -64,6 +64,49 @@ class BrokerCashGuardTests(unittest.TestCase):
         )
 
         self.assertEqual(response["rt_cd"], "0")
+        self.assertEqual(client.order_posts, 1)
+
+    def test_kis_sell_boundary_blocks_quantity_above_fresh_holdings(self):
+        class FakeKISClient(KISClient):
+            def __init__(self):
+                super().__init__(KISCredentials("app", "secret", "12345678"))
+                self.order_posts = 0
+
+            def list_positions(self, refresh=False):
+                self.assert_refresh = refresh
+                return {"AAPL": Position("AAPL", 1, 10, 10)}
+
+            def _request(self, method, path, tr_id, params=None, body=None):
+                self.order_posts += 1
+                return {"rt_cd": "0"}
+
+        client = FakeKISClient()
+
+        with self.assertRaisesRegex(BrokerOrderError, "held quantity"):
+            client.submit_order(
+                OrderRequest("AAPL", "sell", qty=2, limit_price=10.0)
+            )
+
+        self.assertTrue(client.assert_refresh)
+        self.assertEqual(client.order_posts, 0)
+
+    def test_kis_sell_boundary_allows_exact_fresh_holdings(self):
+        class FakeKISClient(KISClient):
+            def __init__(self):
+                super().__init__(KISCredentials("app", "secret", "12345678"))
+                self.order_posts = 0
+
+            def list_positions(self, refresh=False):
+                return {"AAPL": Position("AAPL", 1, 10, 10)}
+
+            def _request(self, method, path, tr_id, params=None, body=None):
+                self.order_posts += 1
+                return {"rt_cd": "0"}
+
+        client = FakeKISClient()
+
+        client.submit_order(OrderRequest("AAPL", "sell", qty=1, limit_price=10.0))
+
         self.assertEqual(client.order_posts, 1)
 
     def test_alpaca_buy_boundary_blocks_order_above_deposited_cash(self):

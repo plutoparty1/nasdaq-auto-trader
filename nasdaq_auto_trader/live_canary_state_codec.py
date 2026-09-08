@@ -38,6 +38,11 @@ def serialize_state(state: CanaryState) -> str:
         ),
         "cooldown_until": state.cooldown_until,
         "get_calls_used": state.get_calls_used,
+        "last_exit_limit_price_usd": (
+            str(state.last_exit_limit_price_usd)
+            if state.last_exit_limit_price_usd is not None
+            else None
+        ),
     }
     return json.dumps(payload, sort_keys=True, separators=(",", ":"))
 
@@ -72,6 +77,9 @@ def parse_state(raw: str) -> CanaryState:
         ),
         cooldown_until=_optional_text(decoded, "cooldown_until"),
         get_calls_used=_optional_integer(decoded, "get_calls_used", 0),
+        last_exit_limit_price_usd=_optional_decimal(
+            decoded.get("last_exit_limit_price_usd")
+        ),
     )
 
 
@@ -86,7 +94,9 @@ def _intent_payload(intent: OrderIntent | None) -> dict[str, str | int] | None:
     }
 
 
-def _order_payload(order: KnownOrder | None) -> dict[str, str | int] | None:
+def _order_payload(
+    order: KnownOrder | None,
+) -> dict[str, str | int | None] | None:
     if order is None:
         return None
     return {
@@ -95,6 +105,7 @@ def _order_payload(order: KnownOrder | None) -> dict[str, str | int] | None:
         "side": order.side.value,
         "quantity": order.quantity,
         "limit_price_usd": str(order.limit_price_usd),
+        "submitted_at": order.submitted_at,
     }
 
 
@@ -164,6 +175,7 @@ def _known_order(value: JsonValue) -> KnownOrder | None:
         side,
         _integer(value, "quantity"),
         _decimal(_text(value, "limit_price_usd")),
+        _optional_text(value, "submitted_at"),
     )
 
 

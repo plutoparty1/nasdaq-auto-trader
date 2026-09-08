@@ -64,6 +64,28 @@ class AutoSymbolOutputCacheContractTests(unittest.TestCase):
 
         self.assertTrue(payload["submitted_order"])
 
+    def test_given_unavailable_forced_order_when_serialized_then_decision_is_null(self):
+        payload = automatic_cycle_to_dict(
+            _report(),
+            [
+                {
+                    "symbol": "",
+                    "decision": None,
+                    "response": {
+                        "status": "blocked",
+                        "reason": "daily_forced_order_candidate_unavailable",
+                    },
+                }
+            ],
+        )
+
+        self.assertIsNone(payload["execution"][0]["action"])
+        self.assertIsNone(payload["execution"][0]["score"])
+        self.assertEqual(
+            payload["execution"][0]["response_reason"],
+            "daily_forced_order_candidate_unavailable",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

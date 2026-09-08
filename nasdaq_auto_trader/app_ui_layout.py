@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from .app_format import _format_number
 from .gui_theme import DEEP_GREEN, PAPER_RAISED
 
 
@@ -41,7 +40,7 @@ class DashboardLayoutMixin:
         )
         self.warning_label.grid(row=1, column=0, sticky="ew")
 
-        self.selection_var = self.tk.StringVar(value="자동 종목 선택: 대기")
+        self.selection_var = self.tk.StringVar(value="AI 종목 선택: 대기")
         self.ttk.Label(
             self.root,
             textvariable=self.selection_var,
@@ -50,7 +49,7 @@ class DashboardLayoutMixin:
 
         details = self.ttk.Frame(self.root, padding=(12, 0, 12, 8))
         details.grid(row=3, column=0, sticky="ew", pady=(8, 0))
-        details.columnconfigure(9, weight=1)
+        details.columnconfigure(4, weight=1)
 
         self.cash_var = self.tk.StringVar(value="Cash: -")
         self.equity_var = self.tk.StringVar(value="Equity: -")
@@ -65,24 +64,6 @@ class DashboardLayoutMixin:
                 padx=(0, 16),
                 sticky="w",
             )
-
-        self.ttk.Label(details, text="자동매매 간격(분)").grid(
-            row=0,
-            column=4,
-            padx=(12, 4),
-            sticky="e",
-        )
-        self.interval_var = self.tk.StringVar(
-            value=_format_number(self.controller.interval_seconds / 60, 2)
-        )
-        self.ttk.Spinbox(
-            details,
-            from_=1,
-            to=1440,
-            increment=1,
-            textvariable=self.interval_var,
-            width=8,
-        ).grid(row=0, column=5, sticky="w")
 
         main = self.ttk.Frame(self.root, padding=(12, 0, 12, 8))
         main.grid(row=4, column=0, sticky="nsew")
@@ -119,11 +100,6 @@ class DashboardLayoutMixin:
             text="학습 취소",
             command=self._cancel_learning,
         )
-        self.settings_button = self.ttk.Button(
-            button_bar,
-            text="설정",
-            command=self._open_settings,
-        )
         self.report_button = self.ttk.Button(
             button_bar,
             text="전일 보고서 열기",
@@ -137,7 +113,6 @@ class DashboardLayoutMixin:
                 self.refresh_button,
                 self.learning_button,
                 self.cancel_learning_button,
-                self.settings_button,
                 self.report_button,
             ]
         ):

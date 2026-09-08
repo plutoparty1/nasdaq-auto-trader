@@ -1,8 +1,15 @@
 from __future__ import annotations
 
 import unittest
+import io
+import json
+import sys
+import tempfile
 from pathlib import Path
 from unittest.mock import patch
+
+from contextlib import redirect_stderr, redirect_stdout
+from nasdaq_auto_trader.__main__ import main as module_main
 
 from nasdaq_auto_trader.cli_parser import build_parser
 from nasdaq_auto_trader.cli_live_canary import run_canary_preflight
@@ -10,6 +17,37 @@ from nasdaq_auto_trader.live_canary_preflight import PreflightResult
 
 
 class LiveCanaryCliParserTests(unittest.TestCase):
+    def test_preflight_invalid_broker_returns_safe_json_without_traceback(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            config_path = Path(temp_dir) / "config.json"
+            config_path.write_text(
+                json.dumps({"mode": "dry_run", "broker": "alpaca"}),
+                encoding="utf-8",
+            )
+            stdout = io.StringIO()
+            stderr = io.StringIO()
+            with (
+                patch.object(
+                    sys,
+                    "argv",
+                    [
+                        "nasdaq_auto_trader",
+                        "--config",
+                        str(config_path),
+                        "live-canary-preflight",
+                    ],
+                ),
+                redirect_stdout(stdout),
+                redirect_stderr(stderr),
+            ):
+                code = module_main()
+
+        payload = json.loads(stdout.getvalue())
+        self.assertEqual(code, 2)
+        self.assertFalse(payload["ready"])
+        self.assertEqual(payload["submitted_order"], False)
+        self.assertIn("broker=kis", payload["blockers"][0])
+        self.assertNotIn("Traceback", stderr.getvalue())
     def test_preflight_command_has_no_order_enabling_switch(self):
         args = build_parser().parse_args(["live-canary-preflight"])
 

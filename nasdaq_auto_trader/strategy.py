@@ -85,6 +85,16 @@ class TechnicalStrategy:
             lookbacks.append(self.config.long_sma)
         return max(lookbacks)
 
+    def protective_exit(
+        self,
+        symbol: str,
+        bars: list[Bar],
+        position: Position | None,
+    ) -> TradeDecision | None:
+        if not bars or position is None:
+            return None
+        return self._position_guard(symbol, bars, position)
+
     def _position_guard(
         self,
         symbol: str,
@@ -94,16 +104,31 @@ class TechnicalStrategy:
         """Apply hard fixed and ATR-based protective exits first."""
 
         latest_price = bars[-1].close
+        if position.qty > 0 and position.market_value > 0:
+            latest_price = position.market_value / position.qty
         entry = position.avg_entry_price
         if latest_price <= entry * (1 - self.config.stop_loss_pct):
             return TradeDecision(symbol, "sell", 99, latest_price, ["fixed_stop_loss"])
         if latest_price >= entry * (1 + self.config.take_profit_pct):
             return TradeDecision(symbol, "sell", 90, latest_price, ["fixed_take_profit"])
 
-        if self.config.trailing_stop_enabled and self.config.trailing_stop_pct > 0:
-            recent_high = max(bar.high for bar in bars)
-            if latest_price <= recent_high * (1 - self.config.trailing_stop_pct):
-                return TradeDecision(symbol, "sell", 88, latest_price, ["trailing_stop"])
+        high_water = position.high_water_price
+        if (
+            self.config.trailing_stop_enabled
+            and self.config.trailing_stop_activation_pct > 0
+            and self.config.trailing_stop_pct > 0
+            and high_water is not None
+            and high_water
+            >= entry * (1 + self.config.trailing_stop_activation_pct)
+            and entry < latest_price <= high_water * (1 - self.config.trailing_stop_pct)
+        ):
+            return TradeDecision(
+                symbol,
+                "sell",
+                88,
+                latest_price,
+                ["trailing_profit_protection"],
+            )
 
         if len(bars) >= self.config.atr_period + 1:
             atr_value = atr(bars, self.config.atr_period)

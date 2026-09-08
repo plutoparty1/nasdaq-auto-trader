@@ -4,6 +4,7 @@ import argparse
 from math import isfinite
 
 from .quant_data.resources import application_data_root
+from .cli_session_parser import add_live_session_commands
 
 
 def _positive_float(value: str) -> float:
@@ -37,6 +38,8 @@ def build_parser() -> argparse.ArgumentParser:
 
     subparsers = parser.add_subparsers(dest="command", required=True)
     subparsers.add_parser("show-config", help="Print effective configuration as JSON")
+
+    add_live_session_commands(subparsers)
 
     preview = subparsers.add_parser(
         "select-symbols",
@@ -112,9 +115,6 @@ def build_parser() -> argparse.ArgumentParser:
         help="Final explicit confirmation required before legacy live order submission",
     )
     _add_automatic_arguments(loop)
-    loop.add_argument("--live-auth-minutes", type=int)
-    loop.add_argument("--live-max-cycles", type=int)
-
     buying_power = subparsers.add_parser(
         "buying-power",
         help="Check KIS overseas buying power without submitting an order",

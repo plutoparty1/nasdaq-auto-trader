@@ -75,6 +75,8 @@ class AIQuantOperatorCliTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp_dir:
             ledger_path = Path(temp_dir) / "paper.jsonl"
             code, payload = _run_cli(
+                "--artifact-root",
+                temp_dir,
                 "--audit-log",
                 str(Path(temp_dir) / "audit.jsonl"),
                 "paper-shadow",

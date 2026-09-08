@@ -41,6 +41,7 @@ def apply_settings_to_app_config(
         buy_drop_rate=settings.buy_drop_rate,
         buy_ma_enabled=settings.buy_ma_enabled,
         trailing_stop_enabled=settings.trailing_stop_enabled,
+        trailing_stop_activation_pct=settings.trailing_stop_activation_rate / 100,
         trailing_stop_pct=settings.trailing_stop_rate / 100,
         time_based_sell_enabled=settings.time_based_sell_enabled,
         max_holding_minutes=settings.max_holding_minutes,
@@ -140,7 +141,10 @@ def _buy_block_reason(
         return "max_position_qty_exceeded"
     if account.cash < settings.min_cash_to_buy:
         return "min_cash_to_buy_not_met"
-    if session_state.buy_count >= settings.max_daily_buy_count:
+    if (
+        settings.max_daily_buy_count > 0
+        and session_state.buy_count >= settings.max_daily_buy_count
+    ):
         return "max_daily_buy_count_reached"
     daily_loss_reason = _daily_loss_block_reason(account, settings, session_state)
     if daily_loss_reason:
@@ -157,7 +161,10 @@ def _sell_block_reason(
     settings: TradingSettings,
     session_state: TradingSessionState,
 ) -> str | None:
-    if session_state.sell_count >= settings.max_daily_sell_count:
+    if (
+        settings.max_daily_sell_count > 0
+        and session_state.sell_count >= settings.max_daily_sell_count
+    ):
         return "max_daily_sell_count_reached"
     return None
 

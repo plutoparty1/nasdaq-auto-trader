@@ -23,7 +23,7 @@ from nasdaq_auto_trader.risk import RiskConfig, RiskManager
 from nasdaq_auto_trader.strategy import StrategyConfig, TechnicalStrategy
 
 
-def test_strategy_config(**overrides):
+def strategy_config_fixture(**overrides):
     defaults = {
         "sma_fast": 5,
         "sma_slow": 20,
@@ -83,7 +83,7 @@ class IndicatorTests(unittest.TestCase):
 
 class StrategyAndRiskTests(unittest.TestCase):
     def test_strategy_config_is_slotted(self):
-        self.assertFalse(hasattr(test_strategy_config(), "__dict__"))
+        self.assertFalse(hasattr(strategy_config_fixture(), "__dict__"))
 
     def _bars(self, closes):
         return [
@@ -101,7 +101,7 @@ class StrategyAndRiskTests(unittest.TestCase):
 
     def test_strategy_buys_strong_mechanical_uptrend(self):
         bars = self._bars(range(100, 170))
-        strategy = TechnicalStrategy(test_strategy_config())
+        strategy = TechnicalStrategy(strategy_config_fixture())
 
         decision = strategy.decide("QQQ", bars, None)
 
@@ -113,13 +113,29 @@ class StrategyAndRiskTests(unittest.TestCase):
 
     def test_strategy_sells_when_stop_loss_is_hit(self):
         bars = self._bars([100] * 30 + [90])
-        strategy = TechnicalStrategy(test_strategy_config(stop_loss_pct=0.05))
+        strategy = TechnicalStrategy(strategy_config_fixture(stop_loss_pct=0.05))
         position = Position(symbol="QQQ", qty=10, market_value=900, avg_entry_price=100)
 
         decision = strategy.decide("QQQ", bars, position)
 
         self.assertEqual(decision.action, "sell")
         self.assertIn("fixed_stop_loss", decision.reasons)
+
+    def test_position_mark_triggers_take_profit_before_bar_close_catches_up(self):
+        bars = self._bars([25.8] * 30 + [27.075])
+        strategy = TechnicalStrategy(strategy_config_fixture(take_profit_pct=0.05))
+        position = Position(
+            symbol="WBD",
+            qty=1,
+            market_value=27.18,
+            avg_entry_price=25.795,
+        )
+
+        decision = strategy.decide("WBD", bars, position)
+
+        self.assertEqual(decision.action, "sell")
+        self.assertEqual(decision.latest_price, 27.18)
+        self.assertIn("fixed_take_profit", decision.reasons)
 
     def test_risk_manager_caps_buy_notional(self):
         manager = RiskManager(
@@ -130,7 +146,7 @@ class StrategyAndRiskTests(unittest.TestCase):
             )
         )
         account = AccountSnapshot(cash=10_000, equity=10_000, buying_power=10_000)
-        decision = TechnicalStrategy(test_strategy_config()).decide(
+        decision = TechnicalStrategy(strategy_config_fixture()).decide(
             "QQQ",
             self._bars(range(100, 170)),
             None,

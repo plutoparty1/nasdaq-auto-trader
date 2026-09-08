@@ -33,6 +33,7 @@ class AutomaticOrderContext:
     universe_version: str = ""
     max_daily_order_count: int = 2**31 - 1
     learned_risk_digest: str = ""
+    authorization_purpose: str = "automatic"
 
 
 @dataclass(frozen=True, slots=True)

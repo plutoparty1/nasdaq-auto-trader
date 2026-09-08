@@ -1,10 +1,12 @@
 from __future__ import annotations
 
+from decimal import Decimal
 from math import floor, isfinite
 
 from ..models import OrderRequest
 from ..live_canary_lease import broker_submission_guard
-from .common import BrokerOrderError, JsonObject, _format_price
+from .common import BrokerOrderError, JsonObject
+from .kis_pricing import normalize_kis_limit_price
 
 
 class KISOrderMixin:
@@ -18,6 +20,8 @@ class KISOrderMixin:
         )
         if not isfinite(price) or price <= 0:
             raise BrokerOrderError("KIS order price must be finite and positive")
+        normalized_price = normalize_kis_limit_price(Decimal(str(price)), order.side)
+        price = float(normalized_price)
         qty = order.qty if order.qty is not None else floor((order.notional or 0) / price)
         if not isfinite(qty):
             raise BrokerOrderError("KIS order quantity must be finite")
@@ -40,7 +44,7 @@ class KISOrderMixin:
             "OVRS_EXCG_CD": self.credentials.order_exchange_code,
             "PDNO": order.symbol,
             "ORD_QTY": str(qty),
-            "OVRS_ORD_UNPR": _format_price(price),
+            "OVRS_ORD_UNPR": str(normalized_price),
             "CTAC_TLNO": "",
             "MGCO_APTM_ODNO": "",
             "SLL_TYPE": "00" if order.side == "sell" else "",
@@ -53,6 +57,15 @@ class KISOrderMixin:
             order.side,
             self._broker_live_lease,
         ):
+            if order.side == "sell":
+                positions = self.list_positions(refresh=True)
+                position = positions.get(order.symbol)
+                if (
+                    position is None
+                    or not isfinite(position.qty)
+                    or position.qty < qty
+                ):
+                    raise BrokerOrderError("KIS sell exceeds fresh held quantity")
             return self._request(
                 "POST",
                 "/uapi/overseas-stock/v1/trading/order",

@@ -9,8 +9,7 @@ from datetime import datetime
 from typing import Any, Callable
 
 from .app_types import AppConfigurationError
-from .config_manager import SettingsError, TradingSettings
-from .settings_window import open_settings_window
+from .config_manager import SettingsError
 
 
 class DashboardActionsMixin:
@@ -39,11 +38,8 @@ class DashboardActionsMixin:
 
     def _start_auto_trading(self) -> None:
         try:
-            interval_minutes = float(self.interval_var.get())
-            if interval_minutes <= 0:
-                raise AppConfigurationError("interval must be greater than zero")
-            self.controller.start(interval_seconds=interval_minutes * 60)
-        except (AppConfigurationError, SettingsError, ValueError) as exc:
+            self.controller.start()
+        except (AppConfigurationError, SettingsError) as exc:
             self.messagebox.showerror("자동매매 시작 실패", str(exc))
             self._append_log(f"자동매매 시작 실패: {exc}")
             return
@@ -80,14 +76,6 @@ class DashboardActionsMixin:
         self.controller.cancel_learning()
         self._append_log("학습 취소 요청을 보냈습니다.")
 
-    def _open_settings(self) -> None:
-        open_settings_window(
-            self.root,
-            self.controller.trading_settings,
-            self.controller.settings_path,
-            on_save=self._settings_saved,
-        )
-
     def _open_latest_report(self) -> None:
         path = self._daily_report_service.latest_path()
         if path is None:
@@ -98,12 +86,6 @@ class DashboardActionsMixin:
                 "전일 보고서",
                 f"보고서를 열지 못했습니다.\n{path}",
             )
-
-    def _settings_saved(self, settings: TradingSettings) -> None:
-        self.controller.update_settings(settings)
-        self._append_log("설정 저장 및 내부 설정 갱신 완료")
-        self._render_mode()
-        self._start_task("portfolio", self.controller.refresh_portfolio)
 
     def _tick(self) -> None:
         now = time.monotonic()
@@ -130,6 +112,7 @@ class DashboardActionsMixin:
 
     def _poll_results(self) -> None:
         handled_result = False
+        pending_take_profit_symbols: set[str] = set()
         while True:
             try:
                 kind, label, payload = self._result_queue.get_nowait()
@@ -140,7 +123,20 @@ class DashboardActionsMixin:
             self._worker = None
             if kind == "ok" and label == "portfolio":
                 self._render_snapshot(payload)
-                self._next_portfolio_refresh = time.monotonic() + self.portfolio_refresh_seconds
+                now = time.monotonic()
+                self._next_portfolio_refresh = now + self.portfolio_refresh_seconds
+                touched_symbols = {
+                    position.symbol
+                    for position in payload.positions
+                    if position.unrealized_pl_pct is not None
+                    and position.unrealized_pl_pct
+                    >= self.controller.trading_settings.take_profit_rate
+                }
+                new_symbols = touched_symbols - self._take_profit_symbols
+                self._take_profit_symbols = touched_symbols
+                pending_take_profit_symbols.intersection_update(touched_symbols)
+                if self.controller.state == "running":
+                    pending_take_profit_symbols.update(new_symbols)
             elif kind == "ok" and label == "auto":
                 self._render_auto_results(payload)
                 if self.controller.state != "paused":
@@ -151,10 +147,28 @@ class DashboardActionsMixin:
                 self._render_daily_report(payload)
             elif kind == "error":
                 message, details = payload
-                self.status_var.set("오류")
-                self._append_log(f"오류: {message}")
+                if label == "portfolio":
+                    self.status_var.set("보유현황 조회 재시도 예약")
+                    self._append_log(
+                        "보유현황 조회 실패, "
+                        f"{self.portfolio_refresh_seconds:g}초 후 자동 재시도: {message}"
+                    )
+                else:
+                    self.status_var.set("오류")
+                    self._append_log(f"오류: {message}")
                 self._append_log(details)
                 self._next_portfolio_refresh = time.monotonic() + self.portfolio_refresh_seconds
+        if pending_take_profit_symbols:
+            started = self._start_task(
+                "auto",
+                lambda: self.controller.run_operating_cycle(force=True),
+            )
+            if started:
+                self._append_log("익절 기준 감지: 즉시 매도 조건 재평가")
+            else:
+                self._take_profit_symbols.difference_update(
+                    pending_take_profit_symbols
+                )
         if handled_result:
             self._update_controls()
         self.root.after(250, self._poll_results)

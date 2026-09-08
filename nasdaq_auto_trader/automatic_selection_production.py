@@ -61,7 +61,7 @@ def prepare_production_automatic_selection(
         application_data_root() / "auto_selection" / "latest.json",
         ttl=timedelta(minutes=15),
     )
-    cached = cache.read(identity, now)
+    cached = None if request.daily_forced_order_enabled else cache.read(identity, now)
     if cached is not None:
         risk_limits = resolve_automatic_risk_limits(paths, resolution)
         cached_result = (
@@ -74,7 +74,10 @@ def prepare_production_automatic_selection(
             _audit_selection_result(audit, cached, started)
             return cached_result
     result = prepare_automatic_selection(request)
-    if result.report.status in ("selected", "no_trade"):
+    if (
+        not request.daily_forced_order_enabled
+        and result.report.status in ("selected", "no_trade")
+    ):
         cache.write(identity, result.report, now)
     _audit_shortlist(audit, result.report, started)
     _audit_selection_result(audit, result.report, started)
@@ -109,9 +112,9 @@ def _cached_selection_result(
     risk_limits,
 ) -> AutomaticSelectionResult | None:
     config = request.config
-    if report.status == "no_trade":
+    symbols = [item.symbol for item in report.ranked]
+    if not symbols:
         return AutomaticSelectionResult(report, {}, risk_limits)
-    symbols = list(report.selected_symbols)
     try:
         legacy_bars = _load_bars(request, symbols)
         quotes = _load_quotes(request, symbols)
@@ -132,7 +135,7 @@ def _cached_selection_result(
     )
     if set(quality.symbols) != set(symbols):
         return None
-    return AutomaticSelectionResult(report, legacy_bars, risk_limits)
+    return AutomaticSelectionResult(report, legacy_bars, risk_limits, quotes)
 
 
 def _file_digest(path: Path) -> str:

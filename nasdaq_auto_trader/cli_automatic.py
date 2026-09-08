@@ -41,9 +41,6 @@ def automatic_runtime_config(
 def automatic_live_block(
     config: AppConfig,
     confirmed: bool,
-    auth_minutes: int | None = None,
-    max_cycles: int | None = None,
-    require_envelope: bool = False,
 ) -> str | None:
     if config.mode != "live":
         return None
@@ -51,16 +48,6 @@ def automatic_live_block(
         return "live_trading_disabled"
     if not confirmed:
         return "live_order_confirmation_required"
-    if require_envelope and (auth_minutes is None or max_cycles is None):
-        return "live_authorization_required"
-    if auth_minutes is None and max_cycles is None:
-        return None
-    if auth_minutes is None or max_cycles is None:
-        return "live_authorization_required"
-    if not 1 <= auth_minutes <= 60:
-        return "live_authorization_minutes_out_of_range"
-    if not 1 <= max_cycles <= 12:
-        return "live_authorization_cycles_out_of_range"
     return None
 
 

@@ -9,7 +9,8 @@ from nasdaq_auto_trader.ai_quant_lab.types import JsonObject
 from nasdaq_auto_trader.models import OrderRequest
 from nasdaq_auto_trader.automatic_order_audit import AutomaticOrderAuditor
 from nasdaq_auto_trader.live_authorization import LiveAuthorizationBlock, LiveAuthorizationEnvelope
-from nasdaq_auto_trader.live_authorization_store import LiveAuthorizationStore, LiveAuthorizationStoreError
+from nasdaq_auto_trader.live_authorization_runtime import LiveAuthorizationRuntime
+from nasdaq_auto_trader.live_authorization_store import LiveAuthorizationStore
 from nasdaq_auto_trader.market_hours import EASTERN
 from nasdaq_auto_trader.session_claims import ClaimStatus, SignalKey
 from nasdaq_auto_trader.automatic_order_readiness import live_readiness_reason
@@ -35,60 +36,58 @@ class AutomaticOrderGuard:
         session_store: TradingSessionStore,
         audit: AuditSink,
         authorization_store: LiveAuthorizationStore | None = None,
+        *,
+        broker_authorization_digest: str = "",
     ) -> None:
         self.paths = paths
         self.session_store = session_store
         self.audit = audit
         self.order_auditor = AutomaticOrderAuditor(audit, session_store)
-        self.authorization_store = authorization_store or LiveAuthorizationStore(
-            session_store.path.with_suffix(".live-authorization.json")
+        self._authorization = LiveAuthorizationRuntime(
+            authorization_store
+            or LiveAuthorizationStore(
+                session_store.path.with_suffix(".live-authorization.json")
+            ),
+            broker_authorization_digest=broker_authorization_digest,
         )
-        self.live_authorization: LiveAuthorizationEnvelope | None = None
-        self.authorization_block_reason = ""
-        self.authorization_cycles = 0
+
+    @property
+    def authorization_store(self) -> LiveAuthorizationStore:
+        return self._authorization.store
+
+    @property
+    def live_authorization(self) -> LiveAuthorizationEnvelope | None:
+        return self._authorization.envelope
+
+    @property
+    def authorization_block_reason(self) -> str:
+        return self._authorization.block_reason
+
+    @property
+    def authorization_attempts(self) -> int:
+        return self._authorization.attempts
 
     def set_live_authorization(
         self,
         authorization: LiveAuthorizationEnvelope | LiveAuthorizationBlock,
     ) -> None:
-        if isinstance(authorization, LiveAuthorizationBlock):
-            self.live_authorization = None
-            self.authorization_block_reason = authorization.reason
-            return
-        try:
-            stored = self.authorization_store.load_or_create(authorization)
-        except LiveAuthorizationStoreError as exc:
-            self.live_authorization = None
-            self.authorization_block_reason = exc.reason
-            self.authorization_cycles = 0
-            return
-        self.live_authorization = stored.envelope
-        self.authorization_block_reason = ""
-        self.authorization_cycles = stored.cycles
+        self._authorization.set(authorization)
 
     def reset_live_authorization(self) -> str:
-        try:
-            self.authorization_store.clear()
-        except LiveAuthorizationStoreError as exc:
-            self.authorization_block_reason = exc.reason
-            return exc.reason
-        self.live_authorization = None
-        self.authorization_block_reason = ""
-        self.authorization_cycles = 0
-        return ""
+        return self._authorization.clear()
+
+    def bind_broker_authorization(self, broker_authorization_digest: str) -> None:
+        self._authorization.bind_broker(broker_authorization_digest)
+
+    def ensure_live_authorization(
+        self,
+        authorization: LiveAuthorizationEnvelope | LiveAuthorizationBlock,
+    ) -> str:
+        return self._authorization.ensure_session(authorization)
 
     def start_cycle(self, now: datetime) -> str:
-        envelope = self.live_authorization
-        if self.authorization_block_reason:
-            return self.authorization_block_reason
-        if envelope is None:
-            return "live_authorization_required"
-        try:
-            reason, cycles = self.authorization_store.consume_cycle(envelope, now)
-        except LiveAuthorizationStoreError as exc:
-            return exc.reason
-        self.authorization_cycles = cycles
-        return reason
+        del now
+        return self._authorization.reload()
 
     def begin(
         self,
@@ -97,7 +96,7 @@ class AutomaticOrderGuard:
         now: datetime,
     ) -> AutomaticOrderDecision:
         started = time.monotonic()
-        authorization_reason = self._authorization_reason(context, now)
+        authorization_reason = self._authorization.consume_attempt(context, now)
         if authorization_reason:
             return self._blocked(
                 AutomaticBlockRequest(
@@ -128,31 +127,6 @@ class AutomaticOrderGuard:
                     True,
                 )
             )
-        try:
-            safety = self.session_store.reserve_safety(
-                SafetyReservationRequest(
-                    market_date=now.astimezone(EASTERN).date().isoformat(),
-                    side=order.side,
-                    timestamp=now.isoformat(),
-                    max_daily_buy_count=context.max_daily_buy_count,
-                    max_daily_sell_count=context.max_daily_sell_count,
-                    cooldown_minutes=context.cooldown_minutes,
-                    daily_loss_breached=context.daily_loss_breached,
-                    daily_loss_state_unavailable=(
-                        context.daily_loss_state_unavailable
-                    ),
-                    baseline_available=context.baseline_available,
-                    max_daily_order_count=context.max_daily_order_count,
-                )
-            )
-        except SessionStoreError as exc:
-            return self._blocked(
-                AutomaticBlockRequest(context, order, exc.reason, started)
-            )
-        if not safety.granted:
-            return self._blocked(
-                AutomaticBlockRequest(context, order, safety.reason, started)
-            )
         intent = AuditEvent(
             "automatic_order_intent",
             strategy_id=context.strategy_id,
@@ -175,14 +149,37 @@ class AutomaticOrderGuard:
             signal_timestamp=context.signal_timestamp,
         )
         try:
-            claim = self.session_store.claim(key)
+            reservation = self.session_store.claim_and_reserve_safety(
+                key,
+                SafetyReservationRequest(
+                    market_date=now.astimezone(EASTERN).date().isoformat(),
+                    side=order.side,
+                    timestamp=now.isoformat(),
+                    max_daily_buy_count=context.max_daily_buy_count,
+                    max_daily_sell_count=context.max_daily_sell_count,
+                    cooldown_minutes=context.cooldown_minutes,
+                    daily_loss_breached=context.daily_loss_breached,
+                    daily_loss_state_unavailable=(
+                        context.daily_loss_state_unavailable
+                    ),
+                    baseline_available=context.baseline_available,
+                    max_daily_order_count=context.max_daily_order_count,
+                ),
+            )
         except SessionStoreError as exc:
             return self._blocked(
                 AutomaticBlockRequest(context, order, exc.reason, started)
             )
-        if not claim.granted:
+        if not reservation.granted:
             return self._blocked(
-                AutomaticBlockRequest(context, order, claim.reason, started)
+                AutomaticBlockRequest(
+                    context,
+                    order,
+                    reservation.reason,
+                    started,
+                    reservation.reason
+                    == "automatic_order_reconciliation_required",
+                )
             )
         return AutomaticOrderPermit(key, context, started)
 
@@ -192,7 +189,7 @@ class AutomaticOrderGuard:
         order: OrderRequest,
         now: datetime,
     ) -> AutomaticOrderBlock | None:
-        reason = self._authorization_reason(permit.context, now)
+        reason = self._authorization.validate_current(permit.context, now)
         if not reason:
             reason = live_readiness_reason(permit.context, self.paths, now)
         if not reason:
@@ -225,35 +222,6 @@ class AutomaticOrderGuard:
         request: AutomaticBlockRequest,
     ) -> AutomaticOrderBlock:
         return self.order_auditor.blocked(request)
-
-    def _authorization_reason(
-        self,
-        context: AutomaticOrderContext,
-        now: datetime,
-    ) -> str:
-        if self.authorization_block_reason:
-            return self.authorization_block_reason
-        envelope = self.live_authorization
-        if envelope is None:
-            return "live_authorization_required"
-        if now >= envelope.expires_at:
-            return "live_authorization_expired"
-        if self.authorization_cycles < 1:
-            return "live_authorization_cycle_required"
-        if self.authorization_cycles > envelope.max_cycles:
-            return "live_authorization_cycle_limit_reached"
-        bindings = (
-            context.strategy_id == envelope.strategy_id,
-            context.strategy_version == envelope.strategy_version,
-            context.strategy_digest == envelope.strategy_digest,
-            context.universe_id == envelope.universe_id,
-            context.universe_effective_date == envelope.universe_effective_date,
-            context.universe_version == envelope.universe_version,
-            context.risk_digest == envelope.risk_digest,
-            context.mode == envelope.mode,
-            context.learned_risk_digest == envelope.learned_risk_digest,
-        )
-        return "" if all(bindings) else "live_authorization_binding_changed"
 
     def finish(
         self,

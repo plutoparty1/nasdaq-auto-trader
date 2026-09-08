@@ -61,10 +61,11 @@ def _state(*, mode: StateMode = StateMode.ARMED) -> CanaryState:
 
 class LiveCanaryStateTests(unittest.TestCase):
     def test_runner_transitions_confirm_and_clear_exact_owned_orders(self) -> None:
-        known_buy = _state().record_intent(OrderIntent("QQQ", OrderSide.BUY, 1)).complete_intent("buy-1")
+        submitted_at = datetime(2026, 7, 17, 14, 0, tzinfo=UTC)
+        known_buy = _state().record_intent(OrderIntent("QQQ", OrderSide.BUY, 1)).complete_intent("buy-1", submitted_at)
 
         owned = known_buy.confirm_owned_position("QQQ", 1, Decimal("19.25"))
-        pending_exit = owned.record_intent(OrderIntent("QQQ", OrderSide.SELL, 1)).complete_intent("sell-1")
+        pending_exit = owned.record_intent(OrderIntent("QQQ", OrderSide.SELL, 1)).complete_intent("sell-1", submitted_at)
         exited = pending_exit.confirm_exit("sell-1")
 
         self.assertIsNone(exited.owned_symbol)
@@ -101,7 +102,9 @@ class LiveCanaryStateTests(unittest.TestCase):
         intent = OrderIntent(symbol="QQQ", side=OrderSide.BUY, quantity=1, limit_price_usd=Decimal("19.50"))
         pending = state.record_intent(intent)
 
-        completed = pending.complete_intent("KIS-123")
+        completed = pending.complete_intent(
+            "KIS-123", datetime(2026, 7, 17, 14, 0, tzinfo=UTC)
+        )
         terminal = completed.require_manual_reconciliation()
 
         self.assertEqual(completed.known_order.order_id, "KIS-123")
@@ -236,11 +239,13 @@ class LiveCanaryStateTests(unittest.TestCase):
         entry_attempts=3,
         exit_attempts=3,
         intent=None,
+        get_calls_used=CANARY_POLICY.daily_get_budget,
         )
 
         next_session = state.for_next_session("2026-07-20")
 
         self.assertIs(next_session.mode, StateMode.EXIT_ONLY)
         self.assertEqual(next_session.exit_attempts, 0)
+        self.assertEqual(next_session.get_calls_used, 0)
         with self.assertRaises(CanaryStateTransitionError):
             next_session.record_intent(OrderIntent(symbol="QQQ", side=OrderSide.BUY, quantity=1))

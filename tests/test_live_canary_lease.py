@@ -11,7 +11,7 @@ from nasdaq_auto_trader.live_canary_lease import (
 )
 from nasdaq_auto_trader.brokers.kis_client import KISClient, KISCredentials
 from nasdaq_auto_trader.brokers.kis_reconciliation import KISCancelOrder
-from nasdaq_auto_trader.models import AccountSnapshot, OrderRequest
+from nasdaq_auto_trader.models import AccountSnapshot, OrderRequest, Position
 
 
 class LeaseAwareKISClient(KISClient):
@@ -28,6 +28,9 @@ class LeaseAwareKISClient(KISClient):
 
     def get_overseas_buying_power(self, symbol: str, price: float) -> float:
         return 20.0
+
+    def list_positions(self, refresh: bool = False) -> dict[str, Position]:
+        return {"AAPL": Position("AAPL", 1, 10.0, 10.0)}
 
     def _request(self, method, path, tr_id, params=None, body=None, tr_cont=""):
         if method == "POST":

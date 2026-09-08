@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import json
 import math
+from datetime import datetime, timezone
 from pathlib import Path
 
 from nasdaq_auto_trader.models import Bar
@@ -48,6 +49,17 @@ class DiagnosticMarketData:
             for symbol in symbols
             if symbol in self.bars_by_symbol
         }
+
+    @property
+    def as_of(self) -> datetime:
+        latest = max(
+            datetime.fromisoformat(bar.timestamp.replace("Z", "+00:00"))
+            for bars in self.bars_by_symbol.values()
+            for bar in bars
+        )
+        if latest.tzinfo is None:
+            latest = latest.replace(tzinfo=timezone.utc)
+        return latest.astimezone(timezone.utc)
 
 
 def _parse_symbol_bars(symbol: str, payload) -> list[Bar]:

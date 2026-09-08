@@ -144,9 +144,15 @@ class GuiAutoStartFeedbackTests(IsolatedControllerTestCase):
 
     def test_completed_worker_updates_controls_without_waiting_for_next_tick(self):
         view = DashboardActionsMixin()
+        snapshot = SimpleNamespace(positions=[])
         view._result_queue = queue.Queue()
-        view._result_queue.put(("ok", "portfolio", "snapshot"))
+        view._result_queue.put(("ok", "portfolio", snapshot))
         view._worker = object()
+        view._take_profit_symbols = set()
+        view.controller = SimpleNamespace(
+            state="paused",
+            trading_settings=TradingSettings(),
+        )
         view._render_snapshot = Mock()
         view._update_controls = Mock()
         view.portfolio_refresh_seconds = 60
@@ -155,7 +161,7 @@ class GuiAutoStartFeedbackTests(IsolatedControllerTestCase):
         view._poll_results()
 
         self.assertIsNone(view._worker)
-        view._render_snapshot.assert_called_once_with("snapshot")
+        view._render_snapshot.assert_called_once_with(snapshot)
         view._update_controls.assert_called_once_with()
 
     def test_periodic_portfolio_result_preserves_safe_halt_status(self):

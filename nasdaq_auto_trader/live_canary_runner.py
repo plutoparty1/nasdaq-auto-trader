@@ -1,39 +1,25 @@
 from __future__ import annotations
 
-import time
-from collections.abc import Callable
-from dataclasses import dataclass, field, replace
+from dataclasses import replace
 from datetime import UTC, datetime, timedelta
-from enum import StrEnum
-from pathlib import Path
-from typing import Protocol
 
-from .brokers.common import BrokerOrderError, BrokerRequestError
 from .brokers.kis_client import KISClient
-from .config import AppConfig
 from .file_lock import FileLockTimeout, exclusive_file_lock
-from .live_canary_admin import windows_sid_sha256
 from .live_canary_audit import BoundedCanaryAuditLog
 from .live_canary_arm import ArmEnvelope, ArmEnvelopeError, ArmValidationContext
-from .live_canary_execution import (
-    CanaryExecutionBroker,
+from .live_canary_execution import maybe_buy, maybe_sell
+from .live_canary_operations import (
     CanaryRuntimeBlocked,
     apply_exit_cooldown,
-    maybe_buy,
-    maybe_sell,
     require_audit,
     reserve_get_calls,
     reserve_reconciliation_gets,
 )
-from .live_canary_identity import (
-    account_fingerprint,
-    executable_sha256,
-    runtime_identity_path,
-)
+from .live_canary_identity import account_fingerprint, executable_sha256
 from .live_canary_lease import BrokerLeaseError, BrokerLiveLease
 from .live_canary_paths import CanaryPaths
 from .live_canary_policy import CANARY_POLICY, OrderSide
-from .live_canary_reconcile import CanaryReconciliationBroker, ReconciliationResult, owned_position_matches, reconcile_startup
+from .live_canary_reconcile import ReconciliationResult, owned_position_matches, reconcile_startup
 from .live_canary_runtime import (
     canary_universe,
     config_error,
@@ -43,54 +29,19 @@ from .live_canary_runtime import (
     recovery_envelope,
     validate_envelope,
 )
-from .live_canary_state import (
-    CanaryState,
-    CanaryStateCorruptError,
-    CanaryStateStore,
-    CanaryStateTransitionError,
-    StateMode,
+from .live_canary_run_types import (
+    TRANSIENT_BROKER_ERRORS,
+    LiveCanaryBroker,
+    LiveCanaryRunRequest,
+    LiveCanaryRunResult,
+    LiveCanaryStatus,
+    build_run_result as _result,
+    reconciliation_deadline_passed,
 )
-from .market_hours import MarketSession, regular_market_session
-
-
-class LiveCanaryStatus(StrEnum):
-    COMPLETED = "completed"
-    STOPPED = "stopped"
-    BLOCKED = "blocked"
-    MANUAL_RECONCILIATION_REQUIRED = "manual_reconciliation_required"
-
-
-class LiveCanaryBroker(
-    CanaryReconciliationBroker,
-    CanaryExecutionBroker,
-    Protocol,
-):
-    def bind_live_lease(self, lease: BrokerLiveLease) -> None: ...
-
-
-@dataclass(frozen=True, slots=True)
-class LiveCanaryRunRequest:
-    config: AppConfig
-    max_loops: int | None = None
-    broker: LiveCanaryBroker | None = None
-    paths: CanaryPaths | None = None
-    executable: Path = field(default_factory=runtime_identity_path)
-    sid_sha256: Callable[[], str] = windows_sid_sha256
-    clock: Callable[[], datetime] = lambda: datetime.now(UTC)
-    sleeper: Callable[[float], None] = time.sleep
-    session_provider: Callable[[datetime], MarketSession] = regular_market_session
-
-
-@dataclass(frozen=True, slots=True)
-class LiveCanaryRunResult:
-    status: LiveCanaryStatus
-    reason: str
-    loops: int
-    entry_attempts: int
-    exit_attempts: int
-    round_trips: int
-    posts: int
-    cancels: int
+from .live_canary_state import (
+    CanaryState, CanaryStateCorruptError, CanaryStateStore,
+    CanaryStateTransitionError, StateMode,
+)
 
 
 def run_live_canary(request: LiveCanaryRunRequest) -> LiveCanaryRunResult:
@@ -146,11 +97,18 @@ def _run_locked(request: LiveCanaryRunRequest, broker: LiveCanaryBroker, paths: 
     if state.mode is StateMode.MANUAL_RECONCILIATION_REQUIRED:
         return _result(LiveCanaryStatus.MANUAL_RECONCILIATION_REQUIRED, "durable_manual_reconciliation_required", state, 0, 0)
     prior_round_trips = state.round_trips
+    reconciliation_pending = False
     try:
         state = reserve_reconciliation_gets(state, store)
-        reconciliation = reconcile_startup(state, broker, market_date)
-    except (BrokerOrderError, BrokerRequestError, ConnectionError, OSError, TimeoutError, ValueError):
-        reconciliation = ReconciliationResult(state.require_manual_reconciliation(), "startup_get_failed")
+        reconciliation = reconcile_startup(
+            state,
+            broker,
+            market_date,
+            request.clock(),
+        )
+    except TRANSIENT_BROKER_ERRORS:
+        reconciliation = ReconciliationResult(state, "startup_get_retry_pending")
+        reconciliation_pending = True
     state = reconciliation.state
     state = apply_exit_cooldown(prior_round_trips, state, request.clock())
     store.save(state)
@@ -166,13 +124,44 @@ def _run_locked(request: LiveCanaryRunRequest, broker: LiveCanaryBroker, paths: 
     while request.max_loops is None or loops < request.max_loops:
         now = request.clock()
         loops += 1
-        if state.known_order is not None:
+        if reconciliation_pending or state.known_order is not None:
             prior_round_trips = state.round_trips
             try:
                 state = reserve_reconciliation_gets(state, store)
-                reconciliation = reconcile_startup(state, broker, market_date)
-            except (BrokerOrderError, BrokerRequestError, ConnectionError, OSError, TimeoutError, ValueError):
-                reconciliation = ReconciliationResult(state.require_manual_reconciliation(), "known_order_get_failed")
+                reconciliation = reconcile_startup(
+                    state,
+                    broker,
+                    market_date,
+                    now,
+                )
+            except TRANSIENT_BROKER_ERRORS:
+                session = request.session_provider(now)
+                if reconciliation_deadline_passed(session, now):
+                    state = state.require_manual_reconciliation()
+                    store.save(state)
+                    stable_exit_store.save(state)
+                    return _result(
+                        LiveCanaryStatus.MANUAL_RECONCILIATION_REQUIRED,
+                        "reconciliation_deadline_expired",
+                        state,
+                        loops,
+                        reconciliation.cancelled_orders,
+                        posts,
+                    )
+                reconciliation_pending = True
+                store.save(state)
+                if request.max_loops is not None and loops >= request.max_loops:
+                    return _result(
+                        LiveCanaryStatus.WAITING,
+                        "reconciliation_get_retry_pending",
+                        state,
+                        loops,
+                        reconciliation.cancelled_orders,
+                        posts,
+                    )
+                request.sleeper(CANARY_POLICY.price_poll_interval_seconds)
+                continue
+            reconciliation_pending = False
             state = reconciliation.state
             state = apply_exit_cooldown(prior_round_trips, state, now)
             store.save(state)
@@ -182,6 +171,18 @@ def _run_locked(request: LiveCanaryRunRequest, broker: LiveCanaryBroker, paths: 
                 return _result(LiveCanaryStatus.MANUAL_RECONCILIATION_REQUIRED, reconciliation.reason, state, loops, reconciliation.cancelled_orders, posts)
             if state.mode is StateMode.COMPLETED:
                 return _result(LiveCanaryStatus.STOPPED, "exit_only_completed", state, loops, reconciliation.cancelled_orders, posts)
+            if state.known_order is not None:
+                if request.max_loops is not None and loops >= request.max_loops:
+                    return _result(
+                        LiveCanaryStatus.WAITING,
+                        reconciliation.reason,
+                        state,
+                        loops,
+                        reconciliation.cancelled_orders,
+                        posts,
+                    )
+                request.sleeper(CANARY_POLICY.price_poll_interval_seconds)
+                continue
         expired = now.astimezone(UTC) >= envelope.expires_at
         if expired:
             state, terminal = expire_state(state, store, stable_exit_store)
@@ -198,25 +199,32 @@ def _run_locked(request: LiveCanaryRunRequest, broker: LiveCanaryBroker, paths: 
                         CANARY_POLICY.maximum_reconciliation_pages,
                     )
                     positions = broker.list_positions(refresh=True)
-                except (
-                    BrokerOrderError,
-                    BrokerRequestError,
-                    ConnectionError,
-                    OSError,
-                    TimeoutError,
-                    ValueError,
-                ):
-                    state = state.require_manual_reconciliation()
+                except TRANSIENT_BROKER_ERRORS:
                     store.save(state)
                     stable_exit_store.save(state)
-                    return _result(
-                        LiveCanaryStatus.MANUAL_RECONCILIATION_REQUIRED,
-                        "position_get_failed",
-                        state,
-                        loops,
-                        reconciliation.cancelled_orders,
-                        posts,
-                    )
+                    if reconciliation_deadline_passed(session, now):
+                        state = state.require_manual_reconciliation()
+                        store.save(state)
+                        stable_exit_store.save(state)
+                        return _result(
+                            LiveCanaryStatus.MANUAL_RECONCILIATION_REQUIRED,
+                            "reconciliation_deadline_expired",
+                            state,
+                            loops,
+                            reconciliation.cancelled_orders,
+                            posts,
+                        )
+                    if request.max_loops is not None and loops >= request.max_loops:
+                        return _result(
+                            LiveCanaryStatus.WAITING,
+                            "position_get_retry_pending",
+                            state,
+                            loops,
+                            reconciliation.cancelled_orders,
+                            posts,
+                        )
+                    request.sleeper(CANARY_POLICY.price_poll_interval_seconds)
+                    continue
                 if not owned_position_matches(state, positions):
                     state = state.require_manual_reconciliation()
                     store.save(state)
@@ -243,7 +251,3 @@ def _run_locked(request: LiveCanaryRunRequest, broker: LiveCanaryBroker, paths: 
         if request.max_loops is None or loops < request.max_loops:
             request.sleeper(CANARY_POLICY.price_poll_interval_seconds)
     return _result(LiveCanaryStatus.COMPLETED, "max_loops_reached", state, loops, reconciliation.cancelled_orders, posts)
-
-
-def _result(status: LiveCanaryStatus, reason: str, state: CanaryState | None, loops: int, cancels: int, posts: int = 0) -> LiveCanaryRunResult:
-    return LiveCanaryRunResult(status, reason, loops, state.entry_attempts if state else 0, state.exit_attempts if state else 0, state.round_trips if state else 0, posts, cancels)

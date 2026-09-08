@@ -13,17 +13,22 @@ $ExecutablePath = [IO.Path]::GetFullPath($ExecutablePath)
 $WatchdogPath = [IO.Path]::GetFullPath(
     (Join-Path $PSScriptRoot "ensure_unattended_running.ps1")
 )
+$HiddenLauncherPath = [IO.Path]::GetFullPath(
+    (Join-Path $PSScriptRoot "run_hidden.vbs")
+)
 $PowerShellPath = Join-Path $PSHOME "powershell.exe"
+$WScriptPath = Join-Path $env:SystemRoot "System32\wscript.exe"
 $CurrentUser = [Security.Principal.WindowsIdentity]::GetCurrent().Name
 $ActionArguments = (
-    "-NoProfile -NonInteractive -ExecutionPolicy Bypass " +
+    "//B //NoLogo `"$HiddenLauncherPath`" `"$PowerShellPath`" " +
+    "-NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass " +
     "-File `"$WatchdogPath`" -ExecutablePath `"$ExecutablePath`""
 )
 
 $Descriptor = [ordered]@{
     task_name = $TaskName
     action = [ordered]@{
-        executable = $PowerShellPath
+        executable = $WScriptPath
         arguments = $ActionArguments
     }
     triggers = @("AtLogOn", "Daily/PT5M")
@@ -50,9 +55,15 @@ if (-not (Test-Path -LiteralPath $ExecutablePath -PathType Leaf)) {
 if (-not (Test-Path -LiteralPath $WatchdogPath -PathType Leaf)) {
     throw "Watchdog script was not found: $WatchdogPath"
 }
+if (-not (Test-Path -LiteralPath $HiddenLauncherPath -PathType Leaf)) {
+    throw "Hidden launcher was not found: $HiddenLauncherPath"
+}
+if (-not (Test-Path -LiteralPath $WScriptPath -PathType Leaf)) {
+    throw "Windows Script Host was not found: $WScriptPath"
+}
 
 $XmlUser = [Security.SecurityElement]::Escape($CurrentUser)
-$XmlCommand = [Security.SecurityElement]::Escape($PowerShellPath)
+$XmlCommand = [Security.SecurityElement]::Escape($WScriptPath)
 $XmlArguments = [Security.SecurityElement]::Escape($ActionArguments)
 $StartBoundary = (Get-Date).Date.ToString("yyyy-MM-dd'T'HH:mm:ss")
 $TaskXml = @"

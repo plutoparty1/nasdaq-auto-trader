@@ -25,7 +25,18 @@ from .cli_formatters import selection_report_to_dict
 from .cli_parser import build_parser
 from .cli_types import CliCommandError
 from .config import load_config, validate_trading_mode
-from .cli_live_canary import run_canary_arm, run_canary_preflight, run_canary_service
+from .config_errors import TradingModeValidationError
+from .cli_live_canary import (
+    LiveCanaryCliError,
+    run_canary_arm,
+    run_canary_preflight,
+    run_canary_service,
+)
+from .live_session_authorization import (
+    LIVE_SESSION_CONFIRMATION,
+    run_default_authorize,
+    run_default_revoke,
+)
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -40,8 +51,50 @@ def main(argv: list[str] | None = None) -> int:
         print(json.dumps(config.to_dict(), ensure_ascii=False, indent=2))
         return 0
 
+    if args.command == "authorize-live-session":
+        if args.confirm == LIVE_SESSION_CONFIRMATION:
+            config, _ = automatic_runtime_config(
+                config,
+                args.trading_config,
+                preserve_mode=not Path(args.trading_config).exists(),
+            )
+            try:
+                validate_trading_mode(config)
+            except TradingModeValidationError as exc:
+                result = {
+                    "status": "blocked",
+                    "reason": str(exc),
+                    "submitted_order": False,
+                    "network_client_constructed": False,
+                }
+                print(json.dumps(result, ensure_ascii=False, indent=2))
+                return 2
+        result = run_default_authorize(
+            config,
+            args.max_attempts,
+            args.confirm,
+        )
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0 if result["status"] == "authorized" else 2
+
+    if args.command == "revoke-live-session":
+        result = run_default_revoke()
+        print(json.dumps(result, ensure_ascii=False, indent=2))
+        return 0 if result["status"] == "revoked" else 2
+
     if args.command == "live-canary-preflight":
-        result = run_canary_preflight(config)
+        try:
+            result = run_canary_preflight(config)
+        except LiveCanaryCliError as error:
+            result = {
+                "ready": False,
+                "cash_gate_met": False,
+                "position_count": 0,
+                "open_order_count": 0,
+                "blockers": [str(error)],
+                "transport": "not constructed",
+                "submitted_order": False,
+            }
         print(json.dumps(result, ensure_ascii=False, indent=2))
         return 0 if result["ready"] else 2
 
@@ -179,9 +232,6 @@ def main(argv: list[str] | None = None) -> int:
             blocked_reason = automatic_live_block(
                 config,
                 args.confirm_live_orders,
-                args.live_auth_minutes,
-                args.live_max_cycles,
-                require_envelope=True,
             )
             if blocked_reason:
                 print_automatic_block(blocked_reason)
@@ -198,8 +248,6 @@ def main(argv: list[str] | None = None) -> int:
                 live_order_confirmation=args.confirm_live_orders,
                 trading_settings=settings,
                 automatic=True,
-                live_auth_minutes=args.live_auth_minutes,
-                live_max_cycles=args.live_max_cycles,
             )
             return 2 if reason else 0
         validate_trading_mode(config)

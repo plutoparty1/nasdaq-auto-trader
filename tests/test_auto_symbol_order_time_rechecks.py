@@ -19,6 +19,70 @@ from tests.test_auto_symbol_live_guard import (
 
 
 class AutoSymbolOrderTimeRecheckTests(unittest.TestCase):
+    def test_same_binding_reissue_after_begin_blocks_before_broker(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            paths = StrategyArtifactPaths.from_root(Path(temp_dir) / "artifacts")
+            _write_champion(paths)
+            guard = AutomaticOrderGuard(
+                paths,
+                TradingSessionStore(Path(temp_dir) / "session.json"),
+                NullAuditLogger(),
+            )
+            broker = _LiveBroker("accepted")
+            engine = _live_engine(paths, guard, broker)
+            original_confirm = guard.confirm
+
+            def reissue_before_confirm(permit, order, now):
+                current = guard.live_authorization
+                if current is None:
+                    raise AssertionError("authorization must be loaded before confirm")
+                guard.authorization_store.issue(
+                    replace(current, authorization_id="f" * 32)
+                )
+                return original_confirm(permit, order, now)
+
+            guard.confirm = reissue_before_confirm
+
+            results = engine.run_once()
+
+        self.assertEqual(broker.orders, [])
+        self.assertTrue(
+            any(
+                item["response"]["reason"]
+                == "live_authorization_binding_changed"
+                for item in results
+            )
+        )
+
+    def test_revoke_after_begin_blocks_before_broker(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            paths = StrategyArtifactPaths.from_root(Path(temp_dir) / "artifacts")
+            _write_champion(paths)
+            guard = AutomaticOrderGuard(
+                paths,
+                TradingSessionStore(Path(temp_dir) / "session.json"),
+                NullAuditLogger(),
+            )
+            broker = _LiveBroker("accepted")
+            engine = _live_engine(paths, guard, broker)
+            original_confirm = guard.confirm
+
+            def revoke_before_confirm(permit, order, now):
+                guard.authorization_store.clear(archive=True)
+                return original_confirm(permit, order, now)
+
+            guard.confirm = revoke_before_confirm
+
+            results = engine.run_once()
+
+        self.assertEqual(broker.orders, [])
+        self.assertTrue(
+            any(
+                item["response"]["reason"] == "live_authorization_required"
+                for item in results
+            )
+        )
+
     def test_nonfinite_older_history_bar_is_rejected_before_features(self):
         malformed = [*bars("AAPL")]
         malformed[-21] = replace(malformed[-21], close=float("nan"))

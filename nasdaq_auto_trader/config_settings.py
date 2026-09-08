@@ -1,11 +1,12 @@
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass, field
+from dataclasses import asdict, dataclass, field, replace
 from datetime import datetime, timezone
+from math import isclose, isfinite
 from typing import Any
 
 from .market_hours import EASTERN
-from .models import AccountSnapshot, Position
+from .models import AccountSnapshot, Position, PositionHighWater
 
 
 class SettingsError(RuntimeError):
@@ -50,6 +51,8 @@ class TradingSettings:
     sell_only: bool = False
     allow_additional_buy: bool = False
     auto_symbol_selection_enabled: bool = False
+    daily_forced_order_enabled: bool = False
+    automatic_session_authorization_enabled: bool = False
     ticker: str = "QQQ"
     order_qty: int = 1
     max_position_qty: int = 1
@@ -62,13 +65,14 @@ class TradingSettings:
     long_ma_period: int = 20
     take_profit_rate: float = 5.0
     stop_loss_rate: float = 3.0
-    trailing_stop_enabled: bool = False
-    trailing_stop_rate: float = 2.0
+    trailing_stop_enabled: bool = True
+    trailing_stop_activation_rate: float = 2.0
+    trailing_stop_rate: float = 1.0
     sell_rsi_threshold: float = 70.0
     time_based_sell_enabled: bool = False
     max_holding_minutes: int = 180
-    max_daily_buy_count: int = 1
-    max_daily_sell_count: int = 1
+    max_daily_buy_count: int = 0
+    max_daily_sell_count: int = 0
     max_daily_loss_rate: float = 5.0
     cooldown_enabled: bool = False
     cooldown_minutes: int = 0
@@ -120,6 +124,9 @@ class TradingSessionState:
     last_order_at: datetime | None = None
     last_ai_decision_at: datetime | None = None
     position_first_seen_at: dict[str, datetime] = field(default_factory=dict)
+    position_high_water: dict[str, PositionHighWater] = field(default_factory=dict)
+    closed_position_symbols: set[str] = field(default_factory=set)
+    position_state_versions: dict[str, int] = field(default_factory=dict)
 
     def reset_if_new_day(self, now: datetime) -> None:
         market_date = _market_date(now)
@@ -157,9 +164,76 @@ class TradingSessionState:
 
     def observe_position(self, symbol: str, position: Position | None, now: datetime) -> None:
         if position is not None and position.qty > 0:
+            mark = position.market_value / position.qty
+            if (
+                not isfinite(mark)
+                or mark <= 0
+                or not isfinite(position.avg_entry_price)
+                or position.avg_entry_price <= 0
+            ):
+                return
+            current = self.position_high_water.get(symbol)
+            if symbol in self.closed_position_symbols or current is None:
+                self._advance_position_state(symbol)
+            elif not isclose(
+                current.avg_entry_price,
+                position.avg_entry_price,
+                rel_tol=1e-9,
+            ):
+                self._advance_position_state(symbol)
+            self.closed_position_symbols.discard(symbol)
             self.position_first_seen_at.setdefault(symbol, now)
+            if current is None or not isclose(
+                current.avg_entry_price,
+                position.avg_entry_price,
+                rel_tol=1e-9,
+            ):
+                high_water_price = mark
+            else:
+                high_water_price = max(current.high_water_price, mark)
+            self.position_high_water[symbol] = PositionHighWater(
+                position.avg_entry_price,
+                high_water_price,
+            )
         else:
+            if symbol not in self.closed_position_symbols:
+                self._advance_position_state(symbol)
             self.position_first_seen_at.pop(symbol, None)
+            self.position_high_water.pop(symbol, None)
+            self.closed_position_symbols.add(symbol)
+
+    def _advance_position_state(self, symbol: str) -> None:
+        self.position_state_versions[symbol] = (
+            self.position_state_versions.get(symbol, 0) + 1
+        )
+
+    def observe_portfolio(
+        self,
+        positions: dict[str, Position],
+        now: datetime,
+    ) -> None:
+        active_symbols = set(positions)
+        tracked_symbols = set(self.position_first_seen_at) | set(self.position_high_water)
+        for symbol in tracked_symbols - active_symbols:
+            self.observe_position(symbol, None, now)
+        for symbol, position in positions.items():
+            self.observe_position(symbol, position, now)
+
+    def position_with_high_water(
+        self,
+        symbol: str,
+        position: Position | None,
+    ) -> Position | None:
+        if position is None:
+            return None
+        tracked = self.position_high_water.get(symbol)
+        if tracked is None or not isclose(
+            tracked.avg_entry_price,
+            position.avg_entry_price,
+            rel_tol=1e-9,
+        ):
+            return position
+        return replace(position, high_water_price=tracked.high_water_price)
 
     def held_minutes(self, symbol: str, now: datetime) -> float | None:
         first_seen = self.position_first_seen_at.get(symbol)

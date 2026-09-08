@@ -60,6 +60,12 @@ class AIQuantLabTests(unittest.TestCase):
         self.assertFalse(config.allow_ai_direct_order)
         self.assertFalse(config.allow_dynamic_code_execution)
         self.assertEqual(config.research_provider, "insane_search")
+        self.assertEqual(config.max_orders_per_day, 0)
+
+    def test_zero_max_orders_per_day_means_unlimited(self):
+        validation = validate_ai_quant_config(AIQuantConfig(max_orders_per_day=0))
+
+        self.assertTrue(validation.valid)
 
     def test_config_rejects_non_insane_research_provider(self):
         config = AIQuantConfig(research_provider="generic_web")

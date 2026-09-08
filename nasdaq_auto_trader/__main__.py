@@ -5,6 +5,10 @@ from __future__ import annotations
 import sys
 
 from .config import ConfigLoadError, TradingModeValidationError
+from .cli_types import CliCommandError
+from .data import CsvFileError, InvalidCsvDataError, MissingCsvColumnsError
+from .live_canary_admin import ArmIssueError
+from .cli_live_canary import LiveCanaryCliError
 
 
 def main() -> int:
@@ -16,7 +20,16 @@ def main() -> int:
         from .cli import main as legacy_main
 
         return legacy_main()
-    except (ConfigLoadError, TradingModeValidationError) as exc:
+    except (
+        ArmIssueError,
+        CliCommandError,
+        ConfigLoadError,
+        CsvFileError,
+        InvalidCsvDataError,
+        LiveCanaryCliError,
+        MissingCsvColumnsError,
+        TradingModeValidationError,
+    ) as exc:
         print(str(exc), file=sys.stderr)
         return 2
 

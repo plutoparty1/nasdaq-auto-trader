@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from datetime import datetime, timedelta
 from decimal import Decimal
 from contextlib import AbstractContextManager
 from typing import Protocol, assert_never
@@ -41,6 +42,7 @@ def reconcile_startup(
     state: CanaryState,
     broker: CanaryReconciliationBroker,
     market_date: str,
+    now: datetime,
 ) -> ReconciliationResult:
     if state.intent is not None:
         return _manual(state, "durable_intent_without_order_id")
@@ -55,7 +57,15 @@ def reconcile_startup(
         if open_orders:
             return _manual(state, "foreign_open_order")
         return _reconcile_owned(state, positions)
-    return _reconcile_known(state, broker, positions, open_orders, history, state.known_order)
+    return _reconcile_known(
+        state,
+        broker,
+        positions,
+        open_orders,
+        history,
+        state.known_order,
+        now,
+    )
 
 
 def owned_position_matches(state: CanaryState, positions: dict[str, Position]) -> bool:
@@ -84,12 +94,20 @@ def _reconcile_known(
     open_orders: tuple[KISOpenOrder, ...],
     history: tuple[KISOrderHistory, ...],
     known: KnownOrder,
+    now: datetime,
 ) -> ReconciliationResult:
     matching_open = tuple(order for order in open_orders if _matches_open(order, known))
     if len(matching_open) == 1 and len(open_orders) == 1:
         if not _known_open_position_matches(state, positions):
             return _manual(state, "open_order_position_mismatch")
         result = matching_open[0]
+        if known.submitted_at is None:
+            return ReconciliationResult(
+                state.with_known_order_submitted_at(now),
+                "known_open_order_pending",
+            )
+        if not _cancellation_due(known, now):
+            return ReconciliationResult(state, "known_open_order_pending")
         cancelled = _cancel_exact(known, result, state, broker)
         return cancelled
     if open_orders:
@@ -165,6 +183,20 @@ def _known_open_position_matches(state: CanaryState, positions: dict[str, Positi
     if state.owned_symbol is None:
         return not positions
     return owned_position_matches(state, positions)
+
+
+def _cancellation_due(known: KnownOrder, now: datetime) -> bool:
+    if known.submitted_at is None:
+        return False
+    submitted_at = datetime.fromisoformat(known.submitted_at)
+    match known.side:
+        case OrderSide.BUY:
+            timeout_seconds = CANARY_POLICY.buy_order_timeout_seconds
+        case OrderSide.SELL:
+            timeout_seconds = CANARY_POLICY.sell_order_timeout_seconds
+        case unreachable:
+            assert_never(unreachable)
+    return now >= submitted_at + timedelta(seconds=timeout_seconds)
 
 
 def _history_has_exact_fill(history: tuple[KISOrderHistory, ...], known: KnownOrder) -> bool:

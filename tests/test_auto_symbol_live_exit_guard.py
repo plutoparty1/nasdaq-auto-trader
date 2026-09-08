@@ -10,6 +10,11 @@ from nasdaq_auto_trader.broker import AlpacaCredentials
 from nasdaq_auto_trader.config import AppConfig
 from nasdaq_auto_trader.config_manager import TradingSettings
 from nasdaq_auto_trader.engine import TradingEngine
+from nasdaq_auto_trader.live_authorization import (
+    LiveAuthorizationBlock,
+    LiveAuthorizationRequest,
+    create_live_authorization,
+)
 from nasdaq_auto_trader.models import Position
 from nasdaq_auto_trader.trading_session_store import TradingSessionStore
 from tests.config_engine_fixtures import compact_strategy_config
@@ -33,15 +38,22 @@ class AutoSymbolLiveExitGuardTests(unittest.TestCase):
             )
             broker = _LiveBroker("accepted")
             now = datetime(2026, 7, 13, 14, 30, tzinfo=timezone.utc)
+            config = AppConfig(
+                mode="live",
+                allow_live_trading=True,
+                live_environment_authorized=True,
+                symbols=["POISON"],
+                alpaca=AlpacaCredentials("key", "secret", paper=False),
+                strategy=compact_strategy_config(),
+            )
+            authorization = create_live_authorization(
+                LiveAuthorizationRequest(config, paths, now)
+            )
+            if isinstance(authorization, LiveAuthorizationBlock):
+                raise AssertionError(authorization.reason)
+            guard.authorization_store.issue(authorization)
             engine = TradingEngine(
-                AppConfig(
-                    mode="live",
-                    allow_live_trading=True,
-                    live_environment_authorized=True,
-                    symbols=["POISON"],
-                    alpaca=AlpacaCredentials("key", "secret", paper=False),
-                    strategy=compact_strategy_config(),
-                ),
+                config,
                 broker=broker,
                 market_data=_HeldWithoutBarsMarketData(),
                 clock=lambda: now,

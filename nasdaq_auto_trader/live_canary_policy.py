@@ -42,6 +42,8 @@ class CanaryPolicy:
     reconciliation_tick_deadline_seconds: int
     maximum_reconciliation_pages: int
     maximum_entry_auxiliary_get_calls: int
+    buy_order_timeout_seconds: int
+    sell_order_timeout_seconds: int
 
     @property
     def digest(self) -> str:
@@ -67,4 +69,6 @@ CANARY_POLICY: Final = CanaryPolicy(
     daily_get_budget=6000, reconciliation_tick_deadline_seconds=10,
     maximum_reconciliation_pages=10,
     maximum_entry_auxiliary_get_calls=6,
+    buy_order_timeout_seconds=60,
+    sell_order_timeout_seconds=15,
 )

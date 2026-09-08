@@ -8,6 +8,7 @@ from types import SimpleNamespace
 from unittest.mock import Mock, patch
 
 from nasdaq_auto_trader.app_ui import DashboardApp
+from nasdaq_auto_trader.app_types import PortfolioSnapshot, PositionRow
 from nasdaq_auto_trader.config import AppConfig
 from nasdaq_auto_trader.config_manager import TradingSettings
 from nasdaq_auto_trader.dry_run_market_data import DryRunMarketData
@@ -90,6 +91,7 @@ class WindowsGuiE2ETests(IsolatedControllerTestCase):
                         portfolio_refresh_seconds=3600,
                     )
                 app._daily_report_service = FixtureReportService(report_path)
+                self.assertFalse(hasattr(app, "settings_button"))
                 self._pump_until_idle(root, app)
                 self._pump_until(
                     root,
@@ -100,6 +102,41 @@ class WindowsGuiE2ETests(IsolatedControllerTestCase):
                 self._pump_until_idle(root, app)
                 self.assertEqual(controller.state, "running")
                 self.assertNotEqual(app.status_var.get(), "요청 처리 중")
+
+                controller.run_operating_cycle = Mock(return_value=[])
+                app._result_queue.put(
+                    (
+                        "ok",
+                        "portfolio",
+                        PortfolioSnapshot(
+                            as_of=datetime(2026, 7, 17, 12, 0, tzinfo=timezone.utc),
+                            mode="dry_run",
+                            broker="dry_run",
+                            account=AccountSnapshot(0, 27.18, 0),
+                            positions=[
+                                PositionRow(
+                                    "WBD",
+                                    1,
+                                    25.795,
+                                    27.18,
+                                    27.18,
+                                    1.385,
+                                    5.3693,
+                                )
+                            ],
+                        ),
+                    )
+                )
+                self._pump_until(
+                    root,
+                    lambda: controller.run_operating_cycle.called,
+                )
+                self._pump_until_idle(root, app)
+                controller.run_operating_cycle.assert_called_once_with(force=True)
+                self.assertIn(
+                    "익절 기준 감지: 즉시 매도 조건 재평가",
+                    app.log_text.get("1.0", "end"),
+                )
 
                 self._pump_until(
                     root,
@@ -131,8 +168,9 @@ class WindowsGuiE2ETests(IsolatedControllerTestCase):
                 app.refresh_button.invoke()
                 self._pump_until_idle(root, app)
                 visible_log = app.log_text.get("1.0", "end")
-                self.assertEqual(app.status_var.get(), "오류")
+                self.assertEqual(app.status_var.get(), "보유현황 조회 재시도 예약")
                 self.assertIn("network offline", visible_log)
+                self.assertIn("자동 재시도", visible_log)
         finally:
             root.destroy()
 

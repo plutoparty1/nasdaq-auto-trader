@@ -1,0 +1,30 @@
+{
+  "active_strategy_id": "builtin_ai_volatility_target",
+  "strategy_version": "data-b230423351524f87-catalogue-v5",
+  "status": "champion",
+  "mode": "live",
+  "allowed_for_live": true,
+  "manual_approval": true,
+  "approval_mode": "operator_autonomous_consent",
+  "validation_score": 0.6663422394774094,
+  "promoted_at": "2026-08-01T10:49:26.609468+00:00",
+  "promotion_reason": "validated candidate and explicit autonomous consent",
+  "research_basis": {
+    "provider": "insane_search",
+    "research_ids": [
+      "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+    ],
+    "source_ids": [
+      "doi:10.3905/jpm.2018.45.1.014"
+    ]
+  },
+  "risk_limits_snapshot": {
+    "max_single_position_pct": 0.5,
+    "max_total_exposure_pct": 0.5,
+    "max_daily_loss_pct": 0.02,
+    "max_order_notional": 35.0,
+    "max_orders_per_day": 1,
+    "kill_switch_enabled": true,
+    "fail_closed": true
+  }
+}

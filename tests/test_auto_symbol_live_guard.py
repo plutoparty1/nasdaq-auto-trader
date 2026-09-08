@@ -1,270 +1,263 @@
-import json
 import tempfile
 import unittest
-from datetime import datetime, timezone
 from pathlib import Path
 
 from nasdaq_auto_trader.ai_quant_lab.artifact_paths import StrategyArtifactPaths
-from nasdaq_auto_trader.ai_quant_lab.audit_logger import (
-    AuditEvent,
-    AuditLogger,
-    NullAuditLogger,
-)
+from nasdaq_auto_trader.ai_quant_lab.audit_logger import NullAuditLogger
 from nasdaq_auto_trader.automatic_order_guard import AutomaticOrderGuard
-from nasdaq_auto_trader.broker import AlpacaCredentials
-from nasdaq_auto_trader.config import AppConfig
-from nasdaq_auto_trader.config_manager import TradingSettings
-from nasdaq_auto_trader.engine import TradingEngine
-from nasdaq_auto_trader.models import AccountSnapshot, Bar
+from nasdaq_auto_trader.live_authorization import (
+    LiveAuthorizationBlock,
+    LiveAuthorizationRequest,
+    create_live_authorization,
+)
 from nasdaq_auto_trader.trading_session_store import TradingSessionStore
-from tests.ai_quant_fixtures import promoted_payload, valid_spec_payload
-from tests.config_engine_fixtures import compact_strategy_config
+from tests.auto_symbol_live_guard_fixtures import (
+    _LiveBroker,
+    _LiveMarketData,
+    _LiveSellMarketData,
+    _SecondWriteFailsAudit,
+    _live_engine,
+    _write_champion,
+)
 
 
 class AutoSymbolLiveGuardTests(unittest.TestCase):
-    def test_real_audit_logger_fails_while_cross_process_lock_is_held(self):
+    def test_daily_unattended_mode_authorizes_the_first_normal_order(self):
         with tempfile.TemporaryDirectory() as temp_dir:
-            path = Path(temp_dir) / "audit.jsonl"
-            lock_owner = TradingSessionStore(path, lock_timeout_seconds=0.01)
-            logger = AuditLogger(path)
-            logger.lock_timeout_seconds = 0.01
-
-            with lock_owner._locked():
-                written = logger.append(AuditEvent("test_event"))
-
-        self.assertFalse(written)
-
-    def test_outcome_audit_failure_marks_claim_uncertain(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            paths = StrategyArtifactPaths.from_root(Path(temp_dir) / "artifacts")
+            root = Path(temp_dir)
+            paths = StrategyArtifactPaths.from_root(root / "artifacts")
             _write_champion(paths)
-            audit = _SecondWriteFailsAudit()
-            store = TradingSessionStore(Path(temp_dir) / "session.json")
-            guard = AutomaticOrderGuard(paths, store, audit)
-            broker = _LiveBroker("accepted")
-            engine = _live_engine(paths, guard, broker)
-
-            results = engine.run_once()
-
-        self.assertEqual(len(broker.orders), 1)
-        self.assertTrue(
-            any(
-                item["response"]["reason"]
-                == "order_outcome_audit_failed_reconcile_required"
-                for item in results
-            )
-        )
-
-    def test_settings_block_emits_decision_audit_without_intent(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            paths = StrategyArtifactPaths.from_root(Path(temp_dir) / "artifacts")
-            _write_champion(paths)
-            audit = NullAuditLogger()
             guard = AutomaticOrderGuard(
                 paths,
-                TradingSessionStore(Path(temp_dir) / "session.json"),
-                audit,
-            )
-            engine = _live_engine(paths, guard, _LiveBroker("accepted"))
-            engine.trading_session_state.buy_count = 10
-
-            results = engine.run_once()
-
-        self.assertTrue(
-            any(item["response"]["reason"] == "max_daily_buy_count_reached" for item in results)
-        )
-        self.assertEqual(
-            [event.event_type for event in audit.events],
-            ["automatic_order_blocked"],
-        )
-    def test_live_confirmation_blocks_champion_change_during_same_engine(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            paths = StrategyArtifactPaths.from_root(Path(temp_dir) / "artifacts")
-            _write_champion(paths, "alpha")
-            guard = AutomaticOrderGuard(
-                paths,
-                TradingSessionStore(Path(temp_dir) / "session.json"),
+                TradingSessionStore(root / "session.json"),
                 NullAuditLogger(),
             )
             broker = _LiveBroker("accepted")
-            engine = _live_engine(paths, guard, broker)
-
-            first = engine.run_once()
-            _write_champion(paths, "beta")
-            second = engine.run_once()
-
-        self.assertGreater(len(first), 0)
-        self.assertEqual(len(broker.orders), 1)
-        self.assertTrue(
-            any(
-                item["response"]["reason"]
-                == "live_authorization_binding_changed"
-                for item in second
-            )
-        )
-    def test_live_intent_audit_failure_blocks_before_broker(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            paths = StrategyArtifactPaths.from_root(Path(temp_dir) / "artifacts")
-            _write_champion(paths)
-            audit = NullAuditLogger()
-            audit.fail_writes = True
-            guard = AutomaticOrderGuard(
+            engine = _live_engine(
                 paths,
-                TradingSessionStore(Path(temp_dir) / "session.json"),
-                audit,
+                guard,
+                broker,
+                issue_authorization=False,
+                daily_forced=True,
             )
-            broker = _LiveBroker("accepted")
-            engine = _live_engine(paths, guard, broker)
 
             results = engine.run_once()
+            stored = guard.authorization_store.load()
 
-        self.assertEqual(broker.orders, [])
-        self.assertTrue(any(item["response"]["reason"] == "audit_log_write_failed" for item in results))
-
-    def test_same_rejected_signal_key_does_not_reach_broker_twice(self):
-        with tempfile.TemporaryDirectory() as temp_dir:
-            paths = StrategyArtifactPaths.from_root(Path(temp_dir) / "artifacts")
-            _write_champion(paths)
-            audit = NullAuditLogger()
-            guard = AutomaticOrderGuard(
-                paths,
-                TradingSessionStore(Path(temp_dir) / "session.json"),
-                audit,
-            )
-            broker = _LiveBroker("rejected")
-            engine = _live_engine(paths, guard, broker)
-
-            first = engine.run_once()
-            second = engine.run_once()
-
-        self.assertGreater(len(first), 0)
-        self.assertGreater(len(second), 0)
         self.assertEqual(len(broker.orders), 1)
-        self.assertTrue(any(item["response"]["reason"] == "signal_key_rejected" for item in second))
+        self.assertEqual(len(results), 1)
+        self.assertFalse(results[0].get("daily_forced_order", False))
+        self.assertIsNotNone(stored)
+        self.assertEqual(stored.envelope.market_date.isoformat(), "2026-07-13")
+        self.assertEqual(stored.envelope.max_attempts, 0)
+        self.assertEqual(stored.envelope.purpose, "automatic")
 
-    def test_fresh_rollback_blocks_cached_champion_before_broker(self):
+    def test_normal_order_continues_when_daily_fallback_is_not_due(self):
         with tempfile.TemporaryDirectory() as temp_dir:
-            paths = StrategyArtifactPaths.from_root(Path(temp_dir) / "artifacts")
+            root = Path(temp_dir)
+            paths = StrategyArtifactPaths.from_root(root / "artifacts")
             _write_champion(paths)
-            audit = NullAuditLogger()
             guard = AutomaticOrderGuard(
                 paths,
-                TradingSessionStore(Path(temp_dir) / "session.json"),
-                audit,
+                TradingSessionStore(root / "session.json"),
+                NullAuditLogger(),
             )
             broker = _LiveBroker("accepted")
-            engine = _live_engine(paths, guard, broker)
-            original_submit = guard.begin
+            engine = _live_engine(
+                paths,
+                guard,
+                broker,
+                issue_authorization=False,
+                daily_forced=True,
+            )
+            engine.trading_session_state.buy_count = 1
 
-            def rollback_before_begin(context, order, now):
-                paths.promoted_path.write_text(
-                    json.dumps({"status": "rollback", "mode": "no_trade"}),
-                    encoding="utf-8",
+            engine.run_once()
+            stored = guard.authorization_store.load()
+
+        self.assertEqual(len(broker.orders), 1)
+        self.assertEqual(stored.envelope.purpose, "automatic")
+        self.assertEqual(stored.envelope.max_attempts, 0)
+
+    def test_daily_fallback_authorization_is_replaced_for_normal_order(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            paths = StrategyArtifactPaths.from_root(root / "artifacts")
+            _write_champion(paths)
+            guard = AutomaticOrderGuard(
+                paths,
+                TradingSessionStore(root / "session.json"),
+                NullAuditLogger(),
+            )
+            broker = _LiveBroker("accepted")
+            engine = _live_engine(
+                paths,
+                guard,
+                broker,
+                issue_authorization=False,
+                daily_forced=True,
+            )
+            created = create_live_authorization(
+                LiveAuthorizationRequest(
+                    engine.config,
+                    paths,
+                    engine._clock(),
+                    max_attempts=12,
+                    purpose="daily_forced",
                 )
-                return original_submit(context, order, now)
+            )
+            if isinstance(created, LiveAuthorizationBlock):
+                raise AssertionError(created.reason)
+            guard.authorization_store.issue(created)
+            engine.trading_session_state.buy_count = 1
 
-            guard.begin = rollback_before_begin
+            results = engine.run_once()
+            stored = guard.authorization_store.load()
+
+        self.assertEqual(len(broker.orders), 1)
+        self.assertEqual(len(results), 1)
+        self.assertEqual(stored.envelope.purpose, "automatic")
+        self.assertEqual(stored.envelope.max_attempts, 0)
+
+    def test_daily_authorization_allows_normal_sell_before_fallback(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            paths = StrategyArtifactPaths.from_root(root / "artifacts")
+            _write_champion(paths)
+            guard = AutomaticOrderGuard(
+                paths,
+                TradingSessionStore(root / "session.json"),
+                NullAuditLogger(),
+            )
+            broker = _LiveBroker("accepted")
+            engine = _live_engine(
+                paths,
+                guard,
+                broker,
+                issue_authorization=False,
+                daily_forced=True,
+                market_data=_LiveSellMarketData(),
+            )
 
             results = engine.run_once()
 
-        self.assertEqual(broker.orders, [])
-        self.assertTrue(any(item["response"]["reason"] == "promoted_strategy_rollback" for item in results))
-
-
-def _live_engine(paths, guard, broker, max_cycles=12):
-    now = datetime(2026, 7, 13, 14, 30, tzinfo=timezone.utc)
-    return TradingEngine(
-        AppConfig(
-            mode="live",
-            allow_live_trading=True,
-            live_environment_authorized=True,
-            symbols=["POISON"],
-            alpaca=AlpacaCredentials("key", "secret", paper=False),
-            strategy=compact_strategy_config(),
-        ),
-        broker=broker,
-        market_data=_LiveMarketData(),
-        clock=lambda: now,
-        trading_settings=TradingSettings(
-            auto_symbol_selection_enabled=True,
-            dry_run=False,
-            live_trading=True,
-            require_confirm_before_buy=False,
-            require_confirm_before_sell=False,
-            max_daily_buy_count=10,
-            max_position_qty=10,
-        ),
-        live_order_confirmation=True,
-        strategy_artifact_paths=paths,
-        automatic_order_guard=guard,
-        live_authorization_max_cycles=max_cycles,
-    )
-
-
-class _LiveMarketData:
-    def get_stock_bars(self, symbols, timeframe, start, end=None, limit=1000):
-        del timeframe, start, end, limit
-        return {symbol: _bars(symbol) for symbol in symbols}
-
-    def get_latest_quotes(self, symbols):
-        return {symbol: {"bp": 238.99, "ap": 239.01} for symbol in symbols}
-
-    def get_account(self, refresh=False):
-        del refresh
-        return AccountSnapshot(10_000, 10_000, 10_000)
-
-    def list_positions(self, refresh=False):
-        del refresh
-        return {}
-
-
-class _LiveBroker:
-    def __init__(self, status: str) -> None:
-        self.status = status
-        self.orders = []
-
-    def submit_order(self, order):
-        self.orders.append(order)
-        return {"status": self.status, "id": str(len(self.orders))}
-
-
-class _SecondWriteFailsAudit:
-    def __init__(self) -> None:
-        self.calls = 0
-
-    def append(self, event):
-        del event
-        self.calls += 1
-        return self.calls == 1
-
-
-def _bars(symbol: str) -> list[Bar]:
-    return [
-        Bar(
-            symbol,
-            "2026-07-13T14:29:00+00:00",
-            99 + index,
-            101 + index,
-            98 + index,
-            100 + index,
-            1_000_000,
+        self.assertTrue(
+            any(order.symbol == "AAPL" and order.side == "sell" for order in broker.orders)
         )
-        for index in range(140)
-    ]
+        self.assertFalse(any(item.get("daily_forced_order") for item in results))
 
+    def test_daily_fallback_replaces_same_day_automatic_authorization(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            paths = StrategyArtifactPaths.from_root(root / "artifacts")
+            _write_champion(paths, threshold=1.0)
+            guard = AutomaticOrderGuard(
+                paths,
+                TradingSessionStore(root / "session.json"),
+                NullAuditLogger(),
+            )
+            broker = _LiveBroker("accepted")
+            engine = _live_engine(paths, guard, broker, daily_forced=True)
+            original = guard.authorization_store.load()
+            if original is None:
+                raise AssertionError("automatic authorization was not issued")
 
-def _write_champion(paths: StrategyArtifactPaths, strategy_id: str = "auto") -> None:
-    payload = valid_spec_payload()
-    payload["strategy_id"] = strategy_id
-    payload["entry_rule"]["top_n"] = 1
-    paths.spec_dir.mkdir(parents=True, exist_ok=True)
-    (paths.spec_dir / f"{strategy_id}-v1.json").write_text(
-        json.dumps(payload),
-        encoding="utf-8",
-    )
-    promoted = promoted_payload(strategy_id)
-    paths.promoted_path.write_text(json.dumps(promoted), encoding="utf-8")
+            results = engine.run_once()
+            stored = guard.authorization_store.load()
 
+        self.assertEqual(len(broker.orders), 1)
+        self.assertTrue(results[0]["daily_forced_order"])
+        self.assertIsNotNone(stored)
+        self.assertNotEqual(
+            stored.envelope.authorization_id,
+            original.envelope.authorization_id,
+        )
+        self.assertEqual(stored.envelope.purpose, "daily_forced")
+        self.assertEqual(stored.envelope.max_attempts, 1)
+
+    def test_revoked_session_is_not_automatically_reissued(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            paths = StrategyArtifactPaths.from_root(root / "artifacts")
+            _write_champion(paths)
+            guard = AutomaticOrderGuard(
+                paths,
+                TradingSessionStore(root / "session.json"),
+                NullAuditLogger(),
+            )
+            guard.authorization_store.clear(archive=True)
+            broker = _LiveBroker("accepted")
+            engine = _live_engine(
+                paths,
+                guard,
+                broker,
+                issue_authorization=False,
+                daily_forced=True,
+            )
+
+            results = engine.run_once()
+
+        self.assertEqual(results, [])
+        self.assertEqual(broker.orders, [])
+        self.assertIsNone(guard.authorization_store.load())
+
+    def test_two_stale_engines_cannot_submit_two_daily_fallback_orders(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            paths = StrategyArtifactPaths.from_root(root / "artifacts")
+            _write_champion(paths, threshold=1.0)
+            session_path = root / "session.json"
+            first_guard = AutomaticOrderGuard(
+                paths,
+                TradingSessionStore(session_path),
+                NullAuditLogger(),
+            )
+            second_guard = AutomaticOrderGuard(
+                paths,
+                TradingSessionStore(session_path),
+                NullAuditLogger(),
+            )
+            first_broker = _LiveBroker("accepted")
+            second_broker = _LiveBroker("accepted")
+            first_engine = _live_engine(
+                paths,
+                first_guard,
+                first_broker,
+                max_attempts=12,
+                issue_authorization=False,
+                daily_forced=True,
+            )
+            second_engine = _live_engine(
+                paths,
+                second_guard,
+                second_broker,
+                max_attempts=12,
+                issue_authorization=False,
+                daily_forced=True,
+            )
+            authorization = create_live_authorization(
+                LiveAuthorizationRequest(
+                    first_engine.config,
+                    paths,
+                    first_engine._clock(),
+                    max_attempts=12,
+                    purpose="daily_forced",
+                )
+            )
+            if isinstance(authorization, LiveAuthorizationBlock):
+                raise AssertionError(authorization.reason)
+            first_guard.authorization_store.issue(authorization)
+
+            first_results = first_engine.run_once()
+            second_results = second_engine.run_once()
+
+        self.assertEqual(len(first_broker.orders), 1)
+        self.assertTrue(first_results[0]["daily_forced_order"])
+        self.assertEqual(second_broker.orders, [])
+        self.assertEqual(
+            second_results[0]["response"]["reason"],
+            "learned_daily_order_limit_reached",
+        )
 
 if __name__ == "__main__":
     unittest.main()

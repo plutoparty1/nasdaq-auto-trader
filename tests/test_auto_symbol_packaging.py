@@ -46,6 +46,8 @@ class AutoSymbolPackagingTests(unittest.TestCase):
         self.assertIn("exclude_binaries=True", spec)
         self.assertIn("COLLECT", spec)
         self.assertIn("upx=False", spec)
+        self.assertIn("console=True", spec)
+        self.assertNotIn("console=False", spec)
         self.assertIn('"dist\\NasdaqAutoTrader"', script)
         self.assertIn('$FilesToCopy = @("config.kis.json", "config.example.json")', script)
 

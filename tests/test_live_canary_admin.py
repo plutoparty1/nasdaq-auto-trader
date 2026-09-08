@@ -82,13 +82,39 @@ class LiveCanaryAdminTests(unittest.TestCase):
                 windows_sid_sha256="a" * 64,
             )
 
-            result = issue_arm(request, enforce_acl=lambda path: None)
+            enforced_paths: list[Path] = []
+            result = issue_arm(request, enforce_acl=enforced_paths.append)
 
             envelope = parse_arm_envelope(result.arm_payload)
             self.assertEqual(envelope.market_date, "2026-07-17")
             self.assertTrue(paths.arm.exists())
             self.assertTrue(paths.state.exists())
             self.assertNotIn("12345678", paths.arm.read_text(encoding="utf-8"))
+            self.assertEqual(enforced_paths, [paths.root.parent])
+
+    def test_issue_arm_enforces_acl_before_preflight_reads(self):
+        events: list[str] = []
+
+        class OrderedClient(EmptyAccountClient):
+            def get_account(self, refresh: bool = False):
+                events.append("preflight")
+                return super().get_account(refresh)
+
+        with tempfile.TemporaryDirectory() as temp_dir:
+            executable = Path(temp_dir) / "canary.exe"
+            executable.write_bytes(b"fixed executable")
+            paths = CanaryPaths(Path(temp_dir) / "runtime", "2026-07-17")
+            request = ArmIssueRequest(
+                config=_live_config(), client=OrderedClient(), paths=paths,
+                executable=executable, market_date="2026-07-17",
+                confirmation=ARM_CONFIRMATION,
+                now=datetime(2026, 7, 17, 14, 0, tzinfo=UTC),
+                windows_sid_sha256="a" * 64,
+            )
+
+            issue_arm(request, enforce_acl=lambda path: events.append("acl"))
+
+        self.assertEqual(events[:2], ["acl", "preflight"])
 
     def test_issue_arm_rejects_wrong_confirmation_before_writes(self):
         with tempfile.TemporaryDirectory() as temp_dir:

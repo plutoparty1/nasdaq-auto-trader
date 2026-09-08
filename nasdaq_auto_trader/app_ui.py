@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import queue
 import threading
+from dataclasses import replace
 from pathlib import Path
 
 from .ai_quant_lab.artifact_paths import default_strategy_artifact_paths
@@ -45,6 +46,16 @@ def launch_gui(
     except SettingsError as exc:
         trading_settings = TradingSettings()
         settings_error = str(exc)
+    trading_settings = replace(
+        trading_settings,
+        auto_symbol_selection_enabled=True,
+        unattended_operation_enabled=True,
+        unattended_live_trading_enabled=(
+            trading_settings.live_trading and not trading_settings.dry_run
+        ),
+        require_confirm_before_buy=False,
+        require_confirm_before_sell=False,
+    )
 
     runtime_journal = RuntimeJournal(
         default_strategy_artifact_paths().audit_log_path
@@ -95,6 +106,7 @@ class DashboardApp(
         self._result_queue: queue.Queue = queue.Queue()
         self._worker: threading.Thread | None = None
         self._next_portfolio_refresh = 0.0
+        self._take_profit_symbols: set[str] = set()
         self._daily_report_service = DailyReportService(
             application_data_root() / "reports",
             default_strategy_artifact_paths().audit_log_path,
@@ -107,8 +119,8 @@ class DashboardApp(
         apply_operator_theme(self.root, self.ttk)
         self._build_ui()
         self._append_log("프로그램 시작")
-        self._append_log(f"설정 파일: {self.config_path}")
-        self._append_log(f"GUI 설정 파일: {self.controller.settings_path}")
+        self._append_log("AI 완전자동 운영 모드")
+        self._append_log(f"브로커 구성 파일: {self.config_path}")
         if self.controller.settings_error:
             self._append_log(f"설정 오류: {self.controller.settings_error}")
             self.messagebox.showerror(

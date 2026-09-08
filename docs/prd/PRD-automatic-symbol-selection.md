@@ -173,11 +173,12 @@ historical ranking, **so that** API limits and execution risk stay bounded.
 - [ ] AC-4.3: Dry-run produces candidate orders through `DryRunBroker` only;
   paper uses the broker paper endpoint; live requires live config,
   `allow_live_trading`, a promoted `CHAMPION` StrategySpec with manual/live
-  approval, AI Quant live gates, and `--confirm-live-orders`. Live loops also
-  require a confirmation envelope limited to at most 60 minutes and 12 cycles,
-  bound to strategy ID/version/spec digest, universe version, risk-config
-  digest, and execution mode; expiry, exhaustion, or any binding change blocks
-  the next order and terminates the loop.
+  approval, AI Quant live gates, and `--confirm-live-orders`. Live automatic
+  orders also require the explicit session authorization defined by
+  `PRD-session-scoped-live-authorization.md`: one NASDAQ market date, at most
+  12 actual order attempts, and bindings to strategy ID/version/spec digest,
+  universe version, risk-config digest, execution mode, and broker identity.
+  A session/date/attempt/binding mismatch blocks the next order.
 - [ ] AC-4.4: The desktop GUI can start dry-run/paper automatic cycles but does
   not gain a new `live start` or `execute live` button.
 - [ ] AC-4.5: The legacy LLM AI route still returns
@@ -381,7 +382,7 @@ No HTTP server API is added.
 | CLI | `select-symbols --trading-config PATH` | `SelectionReport` JSON | Market-data reads and cache write; never an order |
 | GUI cycle | saved toggle + normal `자동매매 실행` | existing result rows plus selection report | Dry-run/paper only through GUI |
 | CLI once | `--trading-config PATH --auto-select` | existing cycle JSON plus selection report | Live additionally requires `--confirm-live-orders` |
-| CLI loop | previous args plus `--live-auth-minutes N --live-max-cycles N` | cycle JSON until stopped/expired | Live requires confirmation; `1<=N<=60` minutes and `1<=N<=12` cycles |
+| CLI loop | previous args plus a separately issued session authorization | cycle JSON until stopped/session-blocked | Live requires confirmation and a matching market-date authorization; only actual order attempts consume its maximum-12 budget |
 | KIS adapter | `liquid_overseas_symbols(exchange, limit)` | ordered unique symbols | Authenticated GET only |
 
 Example preview response:
@@ -424,7 +425,7 @@ never accepts a live confirmation flag.
 | KIS exchange identity | Independent price/order codes vs end-to-end identity | Validate Nasdaq code pair before ranking | Prevents Nasdaq signals from being submitted to a mismatched exchange route. |
 | Existing positions | Rank only entries vs always process holdings | Always process holdings | A position must not lose its exit path when it drops from the shortlist. |
 | Order path | Selector, AI Quant LiveEngine, or TradingEngine | TradingEngine only | Preserves current risk/settings behavior while adding one enforceable readiness/live guard. |
-| Live loop confirmation | Unbounded flag vs bounded envelope | Max 60 minutes and 12 cycles | Limits one confirmation when automatically selected symbols change. |
+| Live loop confirmation | Unbounded flag vs time/cycle vs session/attempt envelope | One NASDAQ market date and 12 actual order attempts | Prevents mid-session wall-clock expiry while bounding actual live-order exposure and requiring next-day reapproval. |
 | Learned artifacts | Bundle a seed vs writable external root | Empty external root on first run | Prevents a packaged strategy from being mistaken for live approval. |
 | Rank ties | Provider order vs canonical symbol key | Score descending, symbol ascending | Makes equal-score results stable across providers and runs. |
 | GUI live behavior | Add live button vs retain current contract | No new live command | Matches `DESIGN.md` and limits accidental live automation. |
@@ -452,7 +453,7 @@ never accepts a live confirmation flag.
 | E17 | KIS price/order exchange identities disagree | `kis_exchange_identity_mismatch`, block before ranking | P0 |
 | E18 | Pre-order live audit append fails | `audit_log_write_failed`, zero broker calls | P0 |
 | E19 | Strategy rolls back after rank cache creation | Invalidate cache and fail fresh live authorization | P0 |
-| E20 | Live loop envelope expires, exhausts, or binding changes | Block next order and terminate loop | P0 |
+| E20 | Live loop market date/attempt budget is exhausted or a binding changes | Block next order and terminate loop | P0 |
 | E21 | Process restarts with an already submitted signal key | Restore state and suppress duplicate broker call | P0 |
 | E22 | Fresh EXE has no eligible strategy artifact | Show readiness block; dry-run/paper/live submit zero orders | P0 |
 | E23 | Frozen universe resource missing or checksum-invalid | Block at startup/preview with a resource error | P0 |
@@ -543,7 +544,7 @@ triggers a fallback trade.
 - KIS liquidity response parser and ordered intersection.
 - KIS Nasdaq exchange-identity normalization and mismatch rejection.
 - Equal-score and equal-return permutation tests for canonical symbol ties.
-- Live confirmation-envelope expiry, exhaustion, and binding changes.
+- Live confirmation-envelope market-date, attempt-limit, and binding changes.
 - Atomic session-state restore and idempotency-key duplicate suppression.
 - Cross-process compare-and-set order claims and crash-window recovery to
   `uncertain` without automatic retry.
@@ -605,8 +606,9 @@ Rollout stages:
 3. Enable paper mode after zero selection-related order-gate violations.
 4. Live remains CLI-only and requires the pre-existing live flags, a promoted
    and manually approved `CHAMPION` strategy, and explicit
-   `--confirm-live-orders`. A live loop additionally requires the bounded
-   authorization-envelope arguments and terminates when either bound is met.
+   `--confirm-live-orders`. A live loop additionally requires the separately
+   issued market-date authorization and blocks after 12 actual order attempts
+   or any session/binding mismatch.
 
 ### 9.3 Rollback Plan
 
@@ -644,7 +646,7 @@ Rollout stages:
 | Multiple candidates reuse one account balance | Medium | Critical | Reserve accepted buy notional, quantity, and exposure within the cycle; do not reuse same-cycle sell proceeds. |
 | KIS exchange-code mismatch | Low | Critical | Validate one Nasdaq exchange identity across price, account, and order calls before ranking. |
 | Cached rank outlives strategy approval | Medium | Critical | Treat cache as data only; reread promotion/spec digest before every live order. |
-| One live confirmation authorizes changing symbols indefinitely | Medium | Critical | Bind confirmation to strategy/universe/risk/mode with 60-minute and 12-cycle maxima. |
+| One live confirmation authorizes changing symbols indefinitely | Medium | Critical | Bind authorization to strategy/universe/risk/mode/broker, one market date, and a maximum of 12 actual order attempts. |
 | Process restart loses limits or repeats a signal | Medium | Critical | Atomic cross-cycle session ledger and durable idempotency keys. |
 | Concurrent processes or crash window duplicate an order | Low | Critical | Inter-process lock, persisted `submitting` claim, conservative `uncertain` recovery, and broker reconciliation. |
 | Modified selection cache changes a live symbol | Low | Critical | Never use persisted rank/selection cache in live; rerank current data. |
@@ -678,7 +680,9 @@ No unresolved owner decisions. Defaults approved on 2026-07-10:
   additionally requires a promoted, manually approved `CHAMPION`.
 - Dry-run/paper first.
 - Existing explicit live gates retained.
-- Live automatic loops use a maximum 60-minute/12-cycle confirmation envelope.
+- Live automatic loops use the explicitly issued one-market-date authorization
+  with a maximum of 12 actual order attempts defined by
+  `PRD-session-scoped-live-authorization.md`.
 - Learned artifacts live in an external writable application-data directory;
   no live-approved strategy ships in the EXE.
 - No new GUI live-order command.

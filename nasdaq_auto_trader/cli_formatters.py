@@ -56,8 +56,8 @@ def automatic_cycle_to_dict(report: SelectionReport | None, items: list[dict]) -
         execution.append(
             {
                 "symbol": item["symbol"],
-                "action": decision.action,
-                "score": decision.score,
+                "action": decision.action if decision is not None else None,
+                "score": decision.score if decision is not None else None,
                 "response_status": response.get("status")
                 if isinstance(response, dict)
                 else None,

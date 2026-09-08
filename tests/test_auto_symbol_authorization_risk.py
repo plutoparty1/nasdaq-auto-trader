@@ -30,6 +30,7 @@ from nasdaq_auto_trader.risk import RiskConfig
 from nasdaq_auto_trader.trading_session_store import TradingSessionStore
 from tests.config_engine_fixtures import compact_strategy_config
 from tests.test_auto_symbol_engine import (
+    AUTO_TEST_NOW,
     _AcceptedBroker,
     _AutoMarketData,
     _write_paper_strategy,
@@ -38,7 +39,7 @@ from tests.test_auto_symbol_live_guard import _write_champion
 
 
 class AutoSymbolAuthorizationRiskTests(unittest.TestCase):
-    def test_cli_bounds_are_passed_to_order_time_authorization(self):
+    def test_cli_loop_does_not_pass_authorization_issuance_parameters(self):
         engines = []
 
         class FakeEngine:
@@ -62,10 +63,6 @@ class AutoSymbolAuthorizationRiskTests(unittest.TestCase):
                             "loop",
                             "--auto-select",
                             "--confirm-live-orders",
-                            "--live-auth-minutes",
-                            "5",
-                            "--live-max-cycles",
-                            "2",
                             "--interval-minutes",
                             "1",
                             "--max-runs",
@@ -73,58 +70,77 @@ class AutoSymbolAuthorizationRiskTests(unittest.TestCase):
                         ]
                     )
 
-        self.assertEqual(engines[0]["live_authorization_duration_minutes"], 5)
-        self.assertEqual(engines[0]["live_authorization_max_cycles"], 2)
+        self.assertNotIn("live_authorization_duration_minutes", engines[0])
+        self.assertNotIn("live_authorization_max_cycles", engines[0])
 
-    def test_authorization_binds_universe_checksum_and_enforces_expiry(self):
+    def test_authorization_binds_universe_checksum_and_enforces_session_close(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             paths = StrategyArtifactPaths.from_root(Path(temp_dir))
             _write_champion(paths)
             now = datetime(2026, 7, 13, 14, 30, tzinfo=timezone.utc)
             config = _live_app_config()
             authorization = create_live_authorization(
-                LiveAuthorizationRequest(config, paths, now, 1, 1)
+                LiveAuthorizationRequest(config, paths, now, 1)
             )
             self.assertNotIsInstance(authorization, LiveAuthorizationBlock)
             guard = AutomaticOrderGuard(
                 paths,
                 TradingSessionStore(Path(temp_dir) / "session.json"),
                 NullAuditLogger(),
+                broker_authorization_digest=(
+                    authorization.broker_authorization_digest
+                ),
             )
-            guard.set_live_authorization(authorization)
+            guard.authorization_store.issue(authorization)
             self.assertEqual(guard.start_cycle(now), "")
             context = _context(authorization)
 
-            expired = guard.begin(
+            blocked = guard.begin(
                 context,
                 OrderRequest("AAPL", "buy", qty=1),
-                now + timedelta(minutes=2),
+                datetime(2026, 7, 13, 20, 0, tzinfo=timezone.utc),
             )
+            stored = guard.authorization_store.load()
 
-        self.assertIsInstance(expired, AutomaticOrderBlock)
-        self.assertEqual(expired.reason, "live_authorization_expired")
+        self.assertIsInstance(blocked, AutomaticOrderBlock)
+        self.assertEqual(blocked.reason, "live_authorization_outside_regular_session")
+        self.assertEqual(stored.attempts, 0)
         self.assertTrue(authorization.universe_version.startswith("sha256:"))
 
-    def test_authorization_cycle_budget_blocks_second_cycle(self):
+    def test_authorization_attempt_budget_ignores_cycles_and_blocks_second_intent(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             paths = StrategyArtifactPaths.from_root(Path(temp_dir))
             _write_champion(paths)
             now = datetime(2026, 7, 13, 14, 30, tzinfo=timezone.utc)
             authorization = create_live_authorization(
-                LiveAuthorizationRequest(_live_app_config(), paths, now, 5, 1)
+                LiveAuthorizationRequest(_live_app_config(), paths, now, 1)
             )
             guard = AutomaticOrderGuard(
                 paths,
                 TradingSessionStore(Path(temp_dir) / "session.json"),
                 NullAuditLogger(),
+                broker_authorization_digest=(
+                    authorization.broker_authorization_digest
+                ),
             )
-            guard.set_live_authorization(authorization)
+            guard.authorization_store.issue(authorization)
 
-            first = guard.start_cycle(now)
-            second = guard.start_cycle(now + timedelta(seconds=1))
+            cycles = [guard.start_cycle(now + timedelta(seconds=index)) for index in range(78)]
+            first = guard.begin(
+                _context(authorization),
+                OrderRequest("AAPL", "buy", qty=1),
+                now,
+            )
+            second = guard.begin(
+                _context(authorization),
+                OrderRequest("MSFT", "buy", qty=1),
+                now,
+            )
 
-        self.assertEqual(first, "")
-        self.assertEqual(second, "live_authorization_cycle_limit_reached")
+        self.assertEqual(set(cycles), {""})
+        self.assertNotIsInstance(first, AutomaticOrderBlock)
+        self.assertIsInstance(second, AutomaticOrderBlock)
+        self.assertEqual(second.reason, "live_authorization_attempt_limit_reached")
 
     def test_automatic_cycle_applies_learned_total_exposure_limit(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -160,6 +176,7 @@ class AutoSymbolAuthorizationRiskTests(unittest.TestCase):
                 ),
                 trading_session_state=TradingSessionState(),
                 strategy_artifact_paths=paths,
+                clock=lambda: AUTO_TEST_NOW,
             )
 
             results = engine.run_once()

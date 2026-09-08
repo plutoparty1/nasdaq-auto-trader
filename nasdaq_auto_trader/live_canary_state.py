@@ -57,6 +57,17 @@ class KnownOrder:
     side: OrderSide
     quantity: int
     limit_price_usd: Decimal
+    submitted_at: str | None
+
+    def __post_init__(self) -> None:
+        if self.submitted_at is None:
+            return
+        try:
+            submitted = datetime.fromisoformat(self.submitted_at)
+        except ValueError as error:
+            raise CanaryStateCorruptError("invalid order submission timestamp") from error
+        if submitted.tzinfo is None:
+            raise CanaryStateCorruptError("order submission timestamp must be timezone-aware")
 
 
 @dataclass(frozen=True, slots=True)
@@ -76,6 +87,7 @@ class CanaryState:
     confirmed_entry_price_usd: Decimal | None = None
     cooldown_until: str | None = None
     get_calls_used: int = 0
+    last_exit_limit_price_usd: Decimal | None = None
 
     def __post_init__(self) -> None:
         if not self.market_date or not self.nonce: raise CanaryStateCorruptError("market date and nonce are required")
@@ -84,6 +96,7 @@ class CanaryState:
         if self.owned_symbol is not None and self.max_owned_quantity != CANARY_POLICY.quantity: raise CanaryStateCorruptError("owned symbol requires one share")
         if min(self.round_trips, self.entry_attempts, self.exit_attempts) < 0: raise CanaryStateCorruptError("attempt counters must be non-negative")
         if not 0 <= self.get_calls_used <= CANARY_POLICY.daily_get_budget: raise CanaryStateCorruptError("GET usage exceeds daily budget")
+        if self.last_exit_limit_price_usd is not None and self.last_exit_limit_price_usd <= 0: raise CanaryStateCorruptError("last exit limit price must be positive")
         if self.cooldown_until is not None:
             try:
                 cooldown = datetime.fromisoformat(self.cooldown_until)
@@ -115,6 +128,7 @@ class CanaryState:
 
     def record_intent(self, intent: OrderIntent) -> CanaryState:
         if self.intent is not None: raise CanaryStateTransitionError("existing intent requires reconciliation")
+        if self.known_order is not None: raise CanaryStateTransitionError("known order requires reconciliation")
         match self.mode:
             case StateMode.ARMED:
                 return self._record_armed_intent(intent)
@@ -131,13 +145,13 @@ class CanaryState:
         if market_date <= self.market_date: raise CanaryStateTransitionError("next market date must advance")
         match self.mode:
             case StateMode.ARMED:
-                return replace(self, market_date=market_date, exit_attempts=0)
+                return replace(self, market_date=market_date, exit_attempts=0, get_calls_used=0, last_exit_limit_price_usd=None)
             case StateMode.EXIT_ONLY:
-                return replace(self, market_date=market_date, exit_attempts=0, intent=None)
+                return replace(self, market_date=market_date, exit_attempts=0, intent=None, get_calls_used=0, last_exit_limit_price_usd=None)
             case StateMode.MANUAL_RECONCILIATION_REQUIRED:
-                return replace(self, market_date=market_date, intent=None)
+                return replace(self, market_date=market_date, intent=None, get_calls_used=0, last_exit_limit_price_usd=None)
             case StateMode.COMPLETED:
-                return replace(self, market_date=market_date, intent=None)
+                return replace(self, market_date=market_date, intent=None, get_calls_used=0, last_exit_limit_price_usd=None)
             case unreachable:
                 assert_never(unreachable)
 
@@ -152,7 +166,7 @@ class CanaryState:
             case OrderSide.SELL:
                 if intent.symbol != self.owned_symbol: raise CanaryStateTransitionError("sell must match owned symbol")
                 if self.exit_attempts >= CANARY_POLICY.maximum_exit_attempts: raise CanaryStateTransitionError("exit attempt limit reached")
-                return replace(self, exit_attempts=self.exit_attempts + 1, intent=intent)
+                return replace(self, exit_attempts=self.exit_attempts + 1, intent=intent, last_exit_limit_price_usd=intent.limit_price_usd)
             case unreachable:
                 assert_never(unreachable)
 
@@ -163,14 +177,26 @@ class CanaryState:
             case OrderSide.SELL:
                 if intent.symbol != self.owned_symbol: raise CanaryStateTransitionError("exit-only sell must match owned symbol")
                 if self.exit_attempts >= CANARY_POLICY.maximum_exit_attempts: raise CanaryStateTransitionError("exit attempt limit reached")
-                return replace(self, exit_attempts=self.exit_attempts + 1, intent=intent)
+                return replace(self, exit_attempts=self.exit_attempts + 1, intent=intent, last_exit_limit_price_usd=intent.limit_price_usd)
             case unreachable:
                 assert_never(unreachable)
 
-    def complete_intent(self, order_id: str) -> CanaryState:
+    def complete_intent(self, order_id: str, submitted_at: datetime) -> CanaryState:
         if self.intent is None or not order_id: raise CanaryStateTransitionError("exact order ID requires a pending intent")
-        known = KnownOrder(order_id, self.intent.symbol, self.intent.side, self.intent.quantity, self.intent.limit_price_usd)
+        if submitted_at.tzinfo is None: raise CanaryStateTransitionError("order submission timestamp must be timezone-aware")
+        known = KnownOrder(order_id, self.intent.symbol, self.intent.side, self.intent.quantity, self.intent.limit_price_usd, submitted_at.isoformat())
         return replace(self, intent=None, known_order=known)
+
+    def with_known_order_submitted_at(self, submitted_at: datetime) -> CanaryState:
+        if self.known_order is None: raise CanaryStateTransitionError("known order is required")
+        if submitted_at.tzinfo is None: raise CanaryStateTransitionError("order submission timestamp must be timezone-aware")
+        return replace(
+            self,
+            known_order=replace(
+                self.known_order,
+                submitted_at=submitted_at.isoformat(),
+            ),
+        )
 
     def clear_completed_order(self, order_id: str) -> CanaryState:
         if self.known_order is None or self.known_order.order_id != order_id: raise CanaryStateTransitionError("only the exact known order can clear")
@@ -187,7 +213,7 @@ class CanaryState:
     def confirm_exit(self, order_id: str) -> CanaryState:
         if self.known_order is None or self.known_order.order_id != order_id or self.known_order.side is not OrderSide.SELL: raise CanaryStateTransitionError("exact known sell required")
         next_mode = StateMode.COMPLETED if self.mode is StateMode.EXIT_ONLY else self.mode
-        return replace(self, mode=next_mode, owned_symbol=None, max_owned_quantity=0, confirmed_entry_price_usd=None, known_order=None, round_trips=self.round_trips + 1, exit_attempts=0)
+        return replace(self, mode=next_mode, owned_symbol=None, max_owned_quantity=0, confirmed_entry_price_usd=None, known_order=None, round_trips=self.round_trips + 1, exit_attempts=0, last_exit_limit_price_usd=None)
 
     def cancel_known_order(self, order_id: str) -> CanaryState: return self.clear_completed_order(order_id)
 

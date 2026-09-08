@@ -63,10 +63,10 @@ def issue_arm(
     session = regular_market_session(request.now)
     if not session.opens_at or request.market_date != session.market_time[:10]:
         raise ArmIssueError("market date is not the current NASDAQ session")
+    enforce_acl(request.paths.root.parent)
     preflight = run_preflight(request.client)
     if not preflight.ready:
         raise ArmIssueError(",".join(preflight.blockers))
-    enforce_acl(request.paths.root)
     nonce = uuid.uuid4().hex
     executable_digest = executable_sha256(request.executable)
     fingerprint = account_fingerprint(

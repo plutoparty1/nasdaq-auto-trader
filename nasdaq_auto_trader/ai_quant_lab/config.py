@@ -94,7 +94,7 @@ class AIQuantConfig:
     max_daily_loss_pct: float = 0.02
     max_strategy_drawdown_pct: float = 0.10
     max_order_notional: float = 1000.0
-    max_orders_per_day: int = 5
+    max_orders_per_day: int = 0
     commission_bps: float = 1.0
     slippage_bps: float = 5.0
     spread_filter_enabled: bool = True
@@ -166,8 +166,8 @@ def validate_ai_quant_config(config: AIQuantConfig) -> ConfigValidationResult:
         reasons.append("max_daily_loss_pct_out_of_range")
     if config.max_order_notional <= 0:
         reasons.append("max_order_notional_must_be_positive")
-    if config.max_orders_per_day < 1:
-        reasons.append("max_orders_per_day_must_be_positive")
+    if config.max_orders_per_day < 0:
+        reasons.append("max_orders_per_day_must_be_nonnegative")
     return ConfigValidationResult(valid=not reasons, reasons=tuple(reasons))
 
 

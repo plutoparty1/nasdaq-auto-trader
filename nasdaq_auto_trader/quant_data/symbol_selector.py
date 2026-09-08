@@ -94,6 +94,15 @@ def select_symbols(
     bars_by_symbol: dict[str, list[PriceBar]],
     warnings: tuple[str, ...] = (),
 ) -> SelectionReport:
+    return select_symbols_with_candidates(snapshot, resolved, bars_by_symbol, warnings)[0]
+
+
+def select_symbols_with_candidates(
+    snapshot: UniverseSnapshot,
+    resolved: ResolvedStrategy,
+    bars_by_symbol: dict[str, list[PriceBar]],
+    warnings: tuple[str, ...] = (),
+) -> tuple[SelectionReport, tuple[RankedSymbol, ...]]:
     members = {item.symbol for item in snapshot.symbols}
     normalized = {
         symbol: bars_by_symbol[symbol]
@@ -101,10 +110,24 @@ def select_symbols(
         if symbol in members and len(bars_by_symbol[symbol]) >= MIN_FEATURE_BARS
     }
     if not normalized:
-        return _blocked_report(snapshot, resolved, "market_data_incomplete", warnings)
+        return (
+            _blocked_report(snapshot, resolved, "market_data_incomplete", warnings),
+            (),
+        )
     features = calculate_feature_rows(normalized)
     strategy = build_strategy(resolved.spec)
-    ranked_signals = strategy.rank_and_select(strategy.generate_signals(features))
+    signals = strategy.generate_signals(features)
+    selected_signals = strategy.rank_and_select(signals)
+    candidate_signals = sorted(signals, key=lambda signal: (-signal.score, signal.symbol))
+    candidates = tuple(
+        RankedSymbol(
+            signal.symbol,
+            signal.score,
+            signal.confidence,
+            signal.reasons,
+        )
+        for signal in candidate_signals
+    )
     ranked = tuple(
         RankedSymbol(
             signal.symbol,
@@ -112,22 +135,25 @@ def select_symbols(
             signal.confidence,
             signal.reasons,
         )
-        for signal in ranked_signals
+        for signal in selected_signals
     )
-    selected_symbols = tuple(item.symbol for item in ranked)
+    selected_symbols = tuple(item.symbol for item in selected_signals)
     status: SelectionStatus = "selected" if selected_symbols else "no_trade"
-    return SelectionReport(
-        status=status,
-        universe_id=snapshot.universe_id,
-        universe_effective_date=snapshot.effective_date.isoformat(),
-        strategy_id=resolved.spec.strategy_id,
-        strategy_version=resolved.spec.version,
-        strategy_digest=resolved.spec_digest,
-        shortlist_count=len(normalized),
-        ranked=ranked,
-        selected_symbols=selected_symbols,
-        warnings=warnings,
-        universe_version=snapshot.checksum,
+    return (
+        SelectionReport(
+            status=status,
+            universe_id=snapshot.universe_id,
+            universe_effective_date=snapshot.effective_date.isoformat(),
+            strategy_id=resolved.spec.strategy_id,
+            strategy_version=resolved.spec.version,
+            strategy_digest=resolved.spec_digest,
+            shortlist_count=len(normalized),
+            ranked=ranked,
+            selected_symbols=selected_symbols,
+            warnings=warnings,
+            universe_version=snapshot.checksum,
+        ),
+        candidates,
     )
 
 

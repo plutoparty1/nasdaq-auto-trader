@@ -12,6 +12,27 @@ from nasdaq_auto_trader.cli import main
 
 
 class CliDryRunSurfaceTests(unittest.TestCase):
+    def test_missing_backtest_csv_returns_controlled_error_without_traceback(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            missing = Path(temp_dir) / "missing.csv"
+            stdout = io.StringIO()
+            stderr = io.StringIO()
+            with (
+                patch.object(
+                    sys,
+                    "argv",
+                    ["nasdaq_auto_trader", "backtest", "--csv", str(missing)],
+                ),
+                redirect_stdout(stdout),
+                redirect_stderr(stderr),
+            ):
+                code = module_main()
+
+        self.assertEqual(code, 2)
+        self.assertEqual(stdout.getvalue(), "")
+        self.assertIn("CSV file", stderr.getvalue())
+        self.assertNotIn("Traceback", stderr.getvalue())
+
     def test_module_entrypoint_reports_malformed_config_without_traceback(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             config_path = Path(temp_dir) / "invalid.json"

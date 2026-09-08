@@ -123,7 +123,7 @@ def test_durable_get_budget_blocks_before_reconciliation_reads(tmp_path: Path) -
     assert broker.posts == 0
 
 
-def test_position_poll_failure_is_durable_and_reserves_all_pages(
+def test_position_poll_failure_waits_for_read_only_retry_without_terminal_state(
     tmp_path: Path,
 ) -> None:
     paths, config, executable = _armed(tmp_path)
@@ -135,8 +135,9 @@ def test_position_poll_failure_is_durable_and_reserves_all_pages(
     result = _run(config, paths, executable, broker)
 
     persisted = CanaryStateStore(paths.state).load(expected_nonce="nonce")
-    assert result.reason == "position_get_failed"
-    assert persisted.mode is StateMode.MANUAL_RECONCILIATION_REQUIRED
+    assert result.reason == "position_get_retry_pending"
+    assert result.status.value == "waiting"
+    assert persisted.mode is StateMode.ARMED
     assert persisted.get_calls_used == (
         CANARY_POLICY.maximum_reconciliation_pages * 4
     )

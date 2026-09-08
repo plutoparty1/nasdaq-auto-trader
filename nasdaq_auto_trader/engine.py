@@ -31,7 +31,7 @@ from .engine_types import (
 )
 from .engine_utils import decision_to_dict
 from .models import AccountSnapshot, Position
-from .live_authorization import LiveAuthorizationRequest, create_live_authorization
+from .live_authorization import broker_authorization_digest
 from .quant_data.symbol_selector import SelectionReport
 from .quant_data.resources import application_data_root
 from .risk import RiskManager
@@ -61,9 +61,6 @@ class TradingEngine(
         live_order_confirmation: bool = False,
         strategy_artifact_paths: StrategyArtifactPaths | None = None,
         automatic_order_guard: AutomaticOrderGuard | None = None,
-        live_authorization_duration_minutes: int = 60,
-        live_authorization_max_cycles: int = 12,
-        live_authorization_started_at: datetime | None = None,
     ) -> None:
         validate_trading_mode(config)
         self.config = config
@@ -88,11 +85,19 @@ class TradingEngine(
                 application_data_root() / "runtime" / "trading_session.json"
             )
         )
-        self.automatic_order_guard = automatic_order_guard or AutomaticOrderGuard(
-            self.strategy_artifact_paths,
-            session_store,
-            AuditLogger(self.strategy_artifact_paths.audit_log_path),
-        )
+        expected_broker_digest = broker_authorization_digest(config)
+        if automatic_order_guard is None:
+            self.automatic_order_guard = AutomaticOrderGuard(
+                self.strategy_artifact_paths,
+                session_store,
+                AuditLogger(self.strategy_artifact_paths.audit_log_path),
+                broker_authorization_digest=expected_broker_digest,
+            )
+        else:
+            automatic_order_guard.bind_broker_authorization(
+                expected_broker_digest
+            )
+            self.automatic_order_guard = automatic_order_guard
         automatic_enabled = bool(
             trading_settings is not None
             and trading_settings.auto_symbol_selection_enabled
@@ -110,26 +115,6 @@ class TradingEngine(
             self.trading_session_state = load_session_state(session_store)
         else:
             self.trading_session_state = trading_session_state or TradingSessionState()
-        if (
-            automatic_enabled
-            and not self.automatic_preflight_reason
-            and config.mode == "live"
-            and live_order_confirmation
-            and self.automatic_order_guard.live_authorization is None
-            and not self.automatic_order_guard.authorization_block_reason
-        ):
-            self.automatic_order_guard.set_live_authorization(
-                create_live_authorization(
-                    LiveAuthorizationRequest(
-                        config=config,
-                        paths=self.strategy_artifact_paths,
-                        now=live_authorization_started_at or self._clock(),
-                        duration_minutes=live_authorization_duration_minutes,
-                        max_cycles=live_authorization_max_cycles,
-                    )
-                )
-            )
-
         default_client: AlpacaClient | KISClient | DryRunMarketData | None = None
         if self.automatic_preflight_reason:
             default_client = DryRunMarketData()

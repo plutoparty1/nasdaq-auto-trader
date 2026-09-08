@@ -70,7 +70,10 @@ class CycleReservationLedger:
         submitted_order_count: int,
         starting_equity: float | None,
     ) -> tuple[OrderRequest, str]:
-        if submitted_order_count >= limits.max_orders_per_day:
+        if (
+            limits.max_orders_per_day > 0
+            and submitted_order_count >= limits.max_orders_per_day
+        ):
             return order, "learned_daily_order_limit_reached"
         if not _valid_order(order, latest_price):
             return order, "learned_order_notional_invalid"

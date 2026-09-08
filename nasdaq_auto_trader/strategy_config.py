@@ -34,7 +34,8 @@ class StrategyConfig:
     buy_trigger_enabled: bool = False
     buy_drop_rate: float = 0.0
     buy_ma_enabled: bool = True
-    trailing_stop_enabled: bool = False
-    trailing_stop_pct: float = 0.0
+    trailing_stop_enabled: bool = True
+    trailing_stop_activation_pct: float = 0.02
+    trailing_stop_pct: float = 0.01
     time_based_sell_enabled: bool = False
     max_holding_minutes: int = 180

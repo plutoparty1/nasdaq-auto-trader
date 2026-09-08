@@ -9,9 +9,14 @@ No real order was submitted or attempted during this review.
 ## Safety fixes completed
 
 - Unattended live BUY now requires the approved-strategy path even when a fixed symbol is configured.
-- The 60-minute and 12-cycle live authorization envelope is shared across controller engine cycles.
-- The authorization envelope and consumed-cycle count survive watchdog and process restarts and cannot be silently renewed.
-- Only an explicit unattended-live consent transition from off to on resets the bounded authorization window.
+- Superseded on 2026-08-11: controller engine cycles now share an explicit
+  one-NASDAQ-market-date authorization with a maximum of 12 actual order
+  attempts; read-only/no-order cycles do not consume it. See
+  `prd/PRD-session-scoped-live-authorization.md`.
+- The authorization envelope and consumed actual-order-attempt count survive
+  watchdog and process restarts and cannot be silently renewed.
+- Only the dedicated explicit authorization command can issue a new
+  market-date authorization; GUI setting transitions never create authority.
 - Existing deposited-cash, no-short, position-size, daily-order, loss, cooldown, environment, and runtime-mode gates remain fail-closed.
 
 ## Verification evidence

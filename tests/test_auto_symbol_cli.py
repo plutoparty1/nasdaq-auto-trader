@@ -22,22 +22,14 @@ class AutoSymbolCliTests(unittest.TestCase):
             ["select-symbols", "--trading-config", "settings.json"]
         )
         once = build_parser().parse_args(["once", "--auto-select"])
-        loop = build_parser().parse_args(
-            [
-                "loop",
-                "--auto-select",
-                "--live-auth-minutes",
-                "5",
-                "--live-max-cycles",
-                "2",
-            ]
-        )
+        loop = build_parser().parse_args(["loop", "--auto-select"])
 
         self.assertEqual(preview.command, "select-symbols")
         self.assertEqual(preview.trading_config, "settings.json")
         self.assertTrue(once.auto_select)
-        self.assertEqual(loop.live_auth_minutes, 5)
-        self.assertEqual(loop.live_max_cycles, 2)
+        self.assertTrue(loop.auto_select)
+        self.assertFalse(hasattr(loop, "live_auth_minutes"))
+        self.assertFalse(hasattr(loop, "live_max_cycles"))
 
     def test_auto_once_live_disabled_blocks_before_engine_construction(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -76,14 +68,26 @@ class AutoSymbolCliTests(unittest.TestCase):
         self.assertEqual(payload["reason"], "live_order_confirmation_required")
 
     def test_auto_loop_requires_bounded_live_authorization(self):
+        engines = []
+
+        class FakeEngine:
+            def __init__(self, *args, **kwargs):
+                del args, kwargs
+                engines.append(self)
+                self.last_selection_report = replace(
+                    _selection_report(),
+                    status="blocked",
+                    selected_symbols=(),
+                    blocked_reasons=("live_authorization_required",),
+                )
+
+            def run_once(self):
+                return []
+
         with tempfile.TemporaryDirectory() as temp_dir:
             config_path = _write_config(Path(temp_dir), allow_live=True)
             output = io.StringIO()
-            with patch.object(
-                cli_module,
-                "TradingEngine",
-                side_effect=AssertionError("engine must not be constructed"),
-            ):
+            with patch.object(cli_module, "TradingEngine", FakeEngine):
                 with redirect_stdout(output):
                     exit_code = main(
                         [
@@ -97,7 +101,11 @@ class AutoSymbolCliTests(unittest.TestCase):
 
         payload = json.loads(output.getvalue())
         self.assertEqual(exit_code, 2)
-        self.assertEqual(payload["reason"], "live_authorization_required")
+        self.assertEqual(
+            payload["selection"]["blocked_reasons"],
+            ["live_authorization_required"],
+        )
+        self.assertEqual(len(engines), 1)
 
     def test_auto_loop_reuses_one_engine(self):
         engines = []
@@ -173,7 +181,7 @@ class AutoSymbolCliTests(unittest.TestCase):
             ["eligible_strategy_unavailable"],
         )
 
-    def test_auto_live_loop_stops_at_cycle_authorization_limit(self):
+    def test_auto_live_loop_does_not_spend_authorization_on_evaluation_cycles(self):
         engines = []
 
         class FakeEngine:
@@ -201,23 +209,17 @@ class AutoSymbolCliTests(unittest.TestCase):
                                 "--trading-config",
                                 str(settings_path),
                                 "--confirm-live-orders",
-                                "--live-auth-minutes",
-                                "5",
-                                "--live-max-cycles",
-                                "1",
                                 "--interval-minutes",
                                 "1",
+                                "--max-runs",
+                                "13",
                             ]
                         )
 
         payloads = [json.loads(line) for line in output.getvalue().splitlines()]
-        self.assertEqual(exit_code, 2)
+        self.assertEqual(exit_code, 0)
         self.assertEqual(len(engines), 1)
-        self.assertEqual(len(payloads), 2)
-        self.assertEqual(
-            payloads[-1]["reason"],
-            "live_authorization_cycle_limit_reached",
-        )
+        self.assertEqual(len(payloads), 13)
 
     def test_selection_output_excludes_sensitive_portfolio_fields(self):
         from nasdaq_auto_trader.cli_formatters import selection_report_to_dict

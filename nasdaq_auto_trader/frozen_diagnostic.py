@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 from dataclasses import dataclass
-from datetime import datetime, timezone
 from pathlib import Path
 
 from .ai_quant_lab.artifact_paths import (
@@ -122,7 +121,7 @@ def _selection_payload(fixture_root: Path | None) -> JsonObject:
             AppConfig(mode="dry_run", symbols=[]),
             market_data,
             paths,
-            datetime.now(timezone.utc),
+            market_data.as_of,
         )
     )
     return selection_report_to_dict(result.report)

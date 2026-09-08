@@ -117,6 +117,11 @@ class ControllerOperationsMixin:
         ):
             self._handle_operating_failure(transition.reason, now)
         with self._lock:
+            if self.last_error == "market_data_unavailable" and transition.state in (
+                OperatingState.OFF_HOURS_LEARNING,
+                OperatingState.INTRADAY_SHADOW_SCAN,
+            ):
+                self.last_error = None
             self.last_run_at = now
             self.next_run_at = now + timedelta(seconds=self.interval_seconds)
         return []

@@ -1,99 +1,26 @@
 from __future__ import annotations
 
 import json
-from collections.abc import Iterator
-from contextlib import contextmanager
-from datetime import UTC, datetime
+from datetime import timedelta
 from decimal import Decimal
 from pathlib import Path
 
 from nasdaq_auto_trader.brokers.kis_reconciliation import (
-    KISCancelOrder,
-    KISCancelResult,
     KISOpenOrder,
     KISOrderHistory,
 )
-from nasdaq_auto_trader.config import AppConfig
-from nasdaq_auto_trader.brokers.kis_client import KISCredentials
 from nasdaq_auto_trader.live_canary_identity import account_fingerprint, executable_sha256
 from nasdaq_auto_trader.live_canary_paths import CanaryPaths
 from nasdaq_auto_trader.live_canary_policy import CANARY_POLICY, OrderSide
-from nasdaq_auto_trader.live_canary_lease import BrokerLiveLease
 from nasdaq_auto_trader.live_canary_state import CanaryState, CanaryStateStore, OrderIntent, StateMode
 from nasdaq_auto_trader.market_hours import MarketSession
-from nasdaq_auto_trader.models import AccountSnapshot, OrderRequest, Position
-
-
-NOW = datetime(2026, 7, 17, 14, 0, tzinfo=UTC)
-SESSION = MarketSession(True, "regular_market_open", NOW.isoformat(), "2026-07-17T09:30:00-04:00", "2026-07-17T16:00:00-04:00")
-
-
-class FakeKIS:
-    __slots__ = (
-        "positions",
-        "open_orders",
-        "submit_response",
-        "history",
-        "posts",
-        "cancels",
-        "leases",
-        "universe_seen",
-        "latest_price",
-    )
-
-    def __init__(
-        self,
-        positions: dict[str, Position],
-        open_orders: tuple[KISOpenOrder, ...] = (),
-        submit_response: dict[str, dict[str, str]] | None = None,
-        history: tuple[KISOrderHistory, ...] = (),
-        latest_price: float = 19.0,
-    ) -> None:
-        self.positions = positions
-        self.open_orders = open_orders
-        self.submit_response = submit_response
-        self.history = history
-        self.posts = 0
-        self.cancels: list[KISCancelOrder] = []
-        self.leases: list[BrokerLiveLease] = []
-        self.universe_seen: set[str] = set()
-        self.latest_price = latest_price
-
-    def bind_live_lease(self, lease: BrokerLiveLease) -> None: self.leases.append(lease)
-
-    def get_account(self, refresh: bool = False) -> AccountSnapshot:
-        return AccountSnapshot(25.0, 25.0, 25.0)
-
-    def list_positions(self, refresh: bool = False) -> dict[str, Position]: return self.positions
-
-    @contextmanager
-    def reconciliation_window(self, deadline_seconds: float) -> Iterator[None]:
-        del deadline_seconds
-        yield
-
-    def list_open_orders(self) -> tuple[KISOpenOrder, ...]: return self.open_orders
-
-    def list_order_history(self, start_date: str, end_date: str) -> tuple[KISOrderHistory, ...]: return self.history
-
-    def get_trade_volume_universe(self, universe: set[str]) -> tuple[str, ...]:
-        self.universe_seen = set(universe)
-        return ("WBD",) if "WBD" in universe else ()
-
-    def get_price_detail(self, symbol: str) -> dict[str, float]: return {"last": 19.0, "volume": 600_000.0}
-
-    def get_best_quote(self, symbol: str) -> dict[str, float]: return {"bid": 18.95, "ask": 19.0, "vbid1": 500.0, "vask1": 500.0}
-
-    def get_overseas_buying_power(self, symbol: str, order_price: float) -> float: return 25.0
-
-    def get_latest_price(self, symbol: str) -> float: return self.latest_price
-
-    def submit_order(self, order: OrderRequest) -> dict[str, dict[str, str]]:
-        self.posts += 1
-        return self.submit_response or {"output": {"ODNO": "buy-1"}}
-
-    def cancel_order(self, order: KISCancelOrder) -> KISCancelResult:
-        self.cancels.append(order)
-        return KISCancelResult(order.order_id)
+from nasdaq_auto_trader.models import AccountSnapshot, Position
+from tests.live_canary_runner_fixtures import (
+    NOW,
+    FakeKIS,
+    armed_canary as _armed,
+    run_canary as _run,
+)
 
 
 def test_missing_kis_order_id_persists_manual_state_and_stops_posts(tmp_path: Path) -> None:
@@ -117,16 +44,131 @@ def test_foreign_startup_position_rejects_before_any_post(tmp_path: Path) -> Non
     assert broker.posts == 0
 
 
-def test_exact_known_open_order_is_cancelled_by_its_id_before_reentry(tmp_path: Path) -> None:
+def test_post_startup_foreign_position_blocks_buy_before_post(tmp_path: Path) -> None:
+    class ForeignPositionAfterCashRefreshKIS(FakeKIS):
+        def __init__(self) -> None:
+            super().__init__({})
+            self.account_reads = 0
+
+        def get_account(self, refresh: bool = False) -> AccountSnapshot:
+            self.account_reads += 1
+            if self.account_reads == 2:
+                self.positions = {"SPY": Position("SPY", 1.0, 19.0, 19.0)}
+            return super().get_account(refresh=refresh)
+
+    paths, config, executable = _armed(tmp_path)
+    broker = ForeignPositionAfterCashRefreshKIS()
+
+    result = _run(config, paths, executable, broker)
+
+    persisted = CanaryStateStore(paths.state).load(expected_nonce="nonce")
+    assert result.status.value == "manual_reconciliation_required"
+    assert persisted.mode is StateMode.MANUAL_RECONCILIATION_REQUIRED
+    assert broker.posts == 0
+
+
+def test_exact_known_open_order_waits_until_cancel_timeout(tmp_path: Path) -> None:
     paths, config, executable = _armed(tmp_path)
     state = CanaryStateStore(paths.state).load(expected_nonce="nonce")
-    CanaryStateStore(paths.state).save(state.record_intent(OrderIntent("QQQ", OrderSide.BUY, 1)).complete_intent("buy-1"))
+    CanaryStateStore(paths.state).save(
+        state.record_intent(OrderIntent("QQQ", OrderSide.BUY, 1)).complete_intent(
+            "buy-1", NOW
+        )
+    )
+    open_order = KISOpenOrder("buy-1", "QQQ", "buy", 1.0, 0.0, 1.0, 19.5)
+    broker = FakeKIS({}, (open_order,))
+
+    _run(config, paths, executable, broker)
+
+    assert broker.cancels == []
+    assert broker.posts == 0
+
+
+def test_exact_known_open_order_is_cancelled_after_timeout(tmp_path: Path) -> None:
+    paths, config, executable = _armed(tmp_path)
+    state = CanaryStateStore(paths.state).load(expected_nonce="nonce")
+    submitted_at = NOW - timedelta(
+        seconds=CANARY_POLICY.buy_order_timeout_seconds + 1
+    )
+    CanaryStateStore(paths.state).save(
+        state.record_intent(OrderIntent("QQQ", OrderSide.BUY, 1)).complete_intent(
+            "buy-1", submitted_at
+        )
+    )
     open_order = KISOpenOrder("buy-1", "QQQ", "buy", 1.0, 0.0, 1.0, 19.5)
     broker = FakeKIS({}, (open_order,))
 
     _run(config, paths, executable, broker)
 
     assert [order.order_id for order in broker.cancels] == ["buy-1"]
+
+
+def test_triggered_exit_uses_marketable_best_bid(tmp_path: Path) -> None:
+    paths, config, executable = _armed(tmp_path)
+    state = CanaryStateStore(paths.state).load(expected_nonce="nonce")
+    owned = CanaryState(
+        state.market_date,
+        state.nonce,
+        state.account_fingerprint,
+        state.executable_sha256,
+        StateMode.ARMED,
+        "WBD",
+        1,
+        0,
+        1,
+        0,
+        None,
+        confirmed_entry_price_usd=Decimal("19.00"),
+    )
+    CanaryStateStore(paths.state).save(owned)
+    broker = FakeKIS(
+        {"WBD": Position("WBD", 1.0, 19.0, 20.0)},
+        latest_price=20.0,
+    )
+
+    _run(config, paths, executable, broker)
+
+    assert broker.submitted_orders[0].side == "sell"
+    assert broker.submitted_orders[0].limit_price == 18.95
+
+
+def test_exit_retry_uses_more_marketable_price_than_prior_attempt(tmp_path: Path) -> None:
+    class HigherBidKIS(FakeKIS):
+        def get_best_quote(self, symbol: str) -> dict[str, float]:
+            return {
+                "bid": 19.50,
+                "ask": 19.55,
+                "vbid1": 500.0,
+                "vask1": 500.0,
+            }
+
+    paths, config, executable = _armed(tmp_path)
+    state = CanaryStateStore(paths.state).load(expected_nonce="nonce")
+    owned = CanaryState(
+        state.market_date,
+        state.nonce,
+        state.account_fingerprint,
+        state.executable_sha256,
+        StateMode.ARMED,
+        "WBD",
+        1,
+        0,
+        1,
+        1,
+        None,
+        confirmed_entry_price_usd=Decimal("19.00"),
+        last_exit_limit_price_usd=Decimal("19.00"),
+    )
+    CanaryStateStore(paths.state).save(owned)
+    broker = HigherBidKIS(
+        {"WBD": Position("WBD", 1.0, 19.0, 20.0)},
+        latest_price=20.0,
+    )
+
+    _run(config, paths, executable, broker)
+
+    assert broker.submitted_orders[0].limit_price is not None
+    assert broker.submitted_orders[0].limit_price < 19.00
 
 
 def test_expired_confirmed_position_becomes_exit_only_with_sell_lease(tmp_path: Path) -> None:
@@ -191,7 +233,7 @@ def test_confirmed_exit_persists_cooldown_and_blocks_immediate_reentry(tmp_path:
     )
     pending_sell = owned.record_intent(
         OrderIntent("WBD", OrderSide.SELL, 1, Decimal("19.50"))
-    ).complete_intent("sell-1")
+    ).complete_intent("sell-1", NOW)
     CanaryStateStore(paths.state).save(pending_sell)
     history = (KISOrderHistory("sell-1", "WBD", "sell", 1, 1, 19.5),)
     broker = FakeKIS({}, history=history)
@@ -267,29 +309,3 @@ def test_audit_storage_failure_blocks_before_order_post(tmp_path: Path) -> None:
     assert result.status.value == "blocked"
     assert result.reason == "audit_log_unavailable"
     assert broker.posts == 0
-
-
-def _armed(tmp_path: Path) -> tuple[CanaryPaths, AppConfig, Path]:
-    executable = tmp_path / "runner.exe"
-    executable.write_bytes(b"runner")
-    credentials = KISCredentials("app", "secret", "12345678", paper=False)
-    config = AppConfig(mode="live", broker="kis", symbols=["QQQ"], allow_live_trading=True, live_environment_authorized=True, kis=credentials)
-    paths = CanaryPaths(tmp_path / "canary", "2026-07-17")
-    fingerprint = account_fingerprint(credentials.account_no, credentials.account_product_code)
-    state = CanaryState("2026-07-17", "nonce", fingerprint, executable_sha256(executable), StateMode.ARMED, None, 0, 0, 0, 0, None)
-    CanaryStateStore(paths.state).save(state)
-    paths.arm.parent.mkdir(parents=True, exist_ok=True)
-    paths.arm.write_text(json.dumps({"schema_version": "1", "market_date": "2026-07-17", "account_fingerprint": fingerprint, "product": "kis-real", "base_url": "https://openapi.koreainvestment.com:9443", "executable_sha256": executable_sha256(executable), "policy_digest": CANARY_POLICY.digest, "windows_sid_sha256": "b" * 64, "state_nonce": "nonce", "issued_at": "2026-07-17T11:00:00+00:00", "expires_at": "2026-07-17T23:00:00+00:00"}), encoding="utf-8")
-    return paths, config, executable
-
-
-def _run(
-    config: AppConfig,
-    paths: CanaryPaths,
-    executable: Path,
-    broker: FakeKIS,
-    session: MarketSession = SESSION,
-):
-    from nasdaq_auto_trader.live_canary_runner import LiveCanaryRunRequest, run_live_canary
-
-    return run_live_canary(LiveCanaryRunRequest(config, 1, broker, paths, executable, lambda: "b" * 64, lambda: NOW, lambda _: None, lambda _: session))

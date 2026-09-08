@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 import time
-from datetime import datetime, timedelta, timezone
 from math import isfinite
 from pathlib import Path
 from typing import Literal, overload
@@ -10,7 +9,6 @@ from typing import Literal, overload
 from .backtest import Backtester, BacktestResult
 from .cli_formatters import _account_to_dict, automatic_cycle_to_dict
 from .cli_types import (
-    BlockedCliOutput,
     CliCommandError,
     CliResult,
     JsonObject,
@@ -20,8 +18,11 @@ from .config import AppConfig
 from .config_manager import TradingSettings
 from .data import load_bars_csv
 from .engine import TradingEngine, decision_to_dict
+from .quant_data.resources import application_data_root
 from .risk import RiskManager
+from .session_state_persistence import load_session_state, save_session_state
 from .strategy import TechnicalStrategy
+from .trading_session_store import TradingSessionStore
 
 
 def _run_backtest(config: AppConfig, csv_path: Path, cash: float) -> BacktestResult:
@@ -64,6 +65,7 @@ def _run_once(
     """Run one decision cycle and return JSON-safe output."""
 
     runtime = engine
+    session_store: TradingSessionStore | None = None
     if runtime is None and automatic:
         runtime = TradingEngine(
             config,
@@ -71,11 +73,20 @@ def _run_once(
             trading_settings=trading_settings,
         )
     elif runtime is None:
+        session_store = TradingSessionStore(
+            application_data_root() / "runtime" / "trading_session.json"
+        )
+        session_state = load_session_state(session_store)
         runtime = TradingEngine(
             config,
             live_order_confirmation=live_order_confirmation,
+            trading_session_state=session_state,
         )
-    results = runtime.run_once()
+    try:
+        results = runtime.run_once()
+    finally:
+        if session_store is not None:
+            save_session_state(session_store, runtime.trading_session_state)
     if automatic:
         return automatic_cycle_to_dict(runtime.last_selection_report, results)
     output: list[JsonObject] = []
@@ -147,8 +158,6 @@ def _run_loop(
     live_order_confirmation: bool = False,
     trading_settings: TradingSettings | None = None,
     automatic: bool = False,
-    live_auth_minutes: int | None = None,
-    live_max_cycles: int | None = None,
 ) -> str | None:
     """Repeat decision cycles until interrupted or max_runs is reached."""
 
@@ -160,30 +169,14 @@ def _run_loop(
         raise CliCommandError("max-runs must be greater than zero")
 
     engine = None
-    authorization_started = datetime.now(timezone.utc)
     if automatic:
         engine = TradingEngine(
             config,
             live_order_confirmation=live_order_confirmation,
             trading_settings=trading_settings,
-            live_authorization_duration_minutes=live_auth_minutes or 60,
-            live_authorization_max_cycles=live_max_cycles or 12,
-            live_authorization_started_at=authorization_started,
         )
     run_count = 0
     while True:
-        envelope_reason = None
-        if automatic:
-            envelope_reason = _live_envelope_block(
-                config.mode,
-                run_count,
-                authorization_started,
-                live_auth_minutes,
-                live_max_cycles,
-            )
-        if envelope_reason:
-            print(json.dumps(_blocked_output(envelope_reason), ensure_ascii=False))
-            return envelope_reason
         run_count += 1
         result = _run_once(
             config,
@@ -201,30 +194,6 @@ def _run_loop(
         if max_runs is not None and run_count >= max_runs:
             return None
         time.sleep(interval_minutes * 60)
-
-
-def _live_envelope_block(
-    mode: str,
-    completed_cycles: int,
-    started_at: datetime,
-    auth_minutes: int | None,
-    max_cycles: int | None,
-) -> str | None:
-    if mode != "live":
-        return None
-    if auth_minutes is None or max_cycles is None:
-        return "live_authorization_required"
-    if completed_cycles >= max_cycles:
-        return "live_authorization_cycle_limit_reached"
-    expires_at = started_at + timedelta(minutes=auth_minutes)
-    if datetime.now(timezone.utc) >= expires_at:
-        return "live_authorization_expired"
-    return None
-
-
-def _blocked_output(reason: str) -> BlockedCliOutput:
-    return {"status": "blocked", "reason": reason, "submitted_order": False}
-
 
 def _selection_block_reason(result: JsonObject) -> str:
     selection = result.get("selection")

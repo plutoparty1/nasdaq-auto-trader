@@ -1,14 +1,21 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import datetime
 from decimal import Decimal
 from typing import Protocol
 
 from .brokers.common import BrokerOrderError, BrokerRequestError
-from .live_canary_audit import BoundedCanaryAuditLog, CanaryAuditEvent
+from .brokers.kis_reconciliation import KISOpenOrder
+from .live_canary_audit import BoundedCanaryAuditLog
+from .live_canary_operations import (
+    CanaryRuntimeBlocked,
+    post_order,
+    require_audit,
+    reserve_get_calls,
+)
 from .live_canary_policy import CANARY_POLICY, OrderSide
+from .live_canary_pricing import CanaryExitPriceError, marketable_exit_price
 from .live_canary_rules import (
     CanaryEntryContext,
     CanaryExitSnapshot,
@@ -19,12 +26,11 @@ from .live_canary_selection import DailyGetBudget, CanaryScanRequest, scan_canar
 from .live_canary_state import (
     CanaryState,
     CanaryStateStore,
-    CanaryStateTransitionError,
     JsonValue,
     OrderIntent,
 )
 from .market_hours import MarketSession
-from .models import AccountSnapshot, OrderRequest
+from .models import AccountSnapshot, OrderRequest, Position
 
 
 class CanaryExecutionBroker(Protocol):
@@ -42,13 +48,9 @@ class CanaryExecutionBroker(Protocol):
 
     def submit_order(self, order: OrderRequest) -> Mapping[str, JsonValue]: ...
 
+    def list_positions(self, refresh: bool = False) -> dict[str, Position]: ...
 
-@dataclass(frozen=True, slots=True)
-class CanaryRuntimeBlocked(RuntimeError):
-    reason: str
-
-    def __str__(self) -> str:
-        return self.reason
+    def list_open_orders(self) -> tuple[KISOpenOrder, ...]: ...
 
 
 def maybe_buy(
@@ -117,13 +119,46 @@ def maybe_buy(
         or required > CANARY_POLICY.total_cash_gate_usd
     ):
         return state, 0
+    state = reserve_get_calls(
+        state,
+        store,
+        CANARY_POLICY.maximum_reconciliation_pages * 2,
+    )
+    try:
+        positions = broker.list_positions(refresh=True)
+        open_orders = broker.list_open_orders()
+    except (
+        BrokerOrderError,
+        BrokerRequestError,
+        ConnectionError,
+        OSError,
+        TimeoutError,
+        ValueError,
+    ):
+        require_audit(
+            audit,
+            market_date,
+            "entry_scan_blocked",
+            {"reason": "entry_reconciliation_get_failed"},
+        )
+        return state, 0
+    if positions or open_orders:
+        manual = state.require_manual_reconciliation()
+        store.save(manual)
+        require_audit(
+            audit,
+            market_date,
+            "entry_scan_blocked",
+            {"reason": "foreign_position_or_order_before_entry"},
+        )
+        return manual, 0
     intent = OrderIntent(
         candidate.symbol,
         OrderSide.BUY,
         CANARY_POLICY.quantity,
         candidate.entry_price,
     )
-    return post_order(state, intent, broker, store)
+    return post_order(state, intent, broker, store, now)
 
 
 def maybe_sell(
@@ -166,109 +201,23 @@ def maybe_sell(
     )
     if reason == "hold":
         return state, 0
+    state = reserve_get_calls(state, store, 1)
+    try:
+        limit_price = marketable_exit_price(
+            broker.get_best_quote(state.owned_symbol),
+            state.last_exit_limit_price_usd,
+        )
+    except CanaryExitPriceError as error:
+        raise CanaryRuntimeBlocked(str(error)) from error
     intent = OrderIntent(
         state.owned_symbol,
         OrderSide.SELL,
         CANARY_POLICY.quantity,
-        current_price,
+        limit_price,
     )
-    return post_order(state, intent, broker, store)
-
-
-def post_order(
-    state: CanaryState,
-    intent: OrderIntent,
-    broker: CanaryExecutionBroker,
-    store: CanaryStateStore,
-) -> tuple[CanaryState, int]:
-    try:
-        pending = state.record_intent(intent)
-    except CanaryStateTransitionError as error:
-        raise CanaryRuntimeBlocked(str(error)) from error
-    store.save(pending)
-    try:
-        response = broker.submit_order(
-            OrderRequest(
-                intent.symbol,
-                intent.side.value,
-                "limit",
-                "day",
-                float(intent.quantity),
-                None,
-                float(intent.limit_price_usd),
-            )
-        )
-        order_id = exact_kis_odno(response)
-    except (
-        AttributeError,
-        BrokerOrderError,
-        BrokerRequestError,
-        ConnectionError,
-        OSError,
-        TimeoutError,
-        TypeError,
-        ValueError,
-    ):
-        manual = pending.require_manual_reconciliation()
-        store.save(manual)
-        return manual, 1
-    if not order_id:
-        manual = pending.require_manual_reconciliation()
-        store.save(manual)
-        return manual, 1
-    completed = pending.complete_intent(order_id)
-    store.save(completed)
-    return completed, 1
-
-
-def reserve_reconciliation_gets(
-    state: CanaryState,
-    store: CanaryStateStore,
-) -> CanaryState:
-    return reserve_get_calls(
+    state = reserve_get_calls(
         state,
         store,
-        CANARY_POLICY.maximum_reconciliation_pages * 3,
+        CANARY_POLICY.maximum_reconciliation_pages,
     )
-
-
-def reserve_get_calls(
-    state: CanaryState,
-    store: CanaryStateStore,
-    count: int,
-) -> CanaryState:
-    next_used = state.get_calls_used + count
-    if count < 0 or next_used > CANARY_POLICY.daily_get_budget:
-        raise CanaryRuntimeBlocked("daily_get_budget_exhausted")
-    updated = state.with_get_calls_used(next_used)
-    store.save(updated)
-    return updated
-
-
-def apply_exit_cooldown(
-    previous_round_trips: int,
-    state: CanaryState,
-    now: datetime,
-) -> CanaryState:
-    if state.round_trips <= previous_round_trips:
-        return state
-    until = now + timedelta(minutes=CANARY_POLICY.cooldown_minutes)
-    return state.with_cooldown_until(until.isoformat())
-
-
-def exact_kis_odno(payload: Mapping[str, JsonValue]) -> str:
-    output = payload.get("output")
-    if not isinstance(output, dict):
-        return ""
-    order_id = output.get("ODNO")
-    return order_id if isinstance(order_id, str) and order_id else ""
-
-
-def require_audit(
-    audit: BoundedCanaryAuditLog,
-    market_date: str,
-    event_type: str,
-    fields: Mapping[str, JsonValue],
-) -> None:
-    if not audit.append(CanaryAuditEvent(market_date, event_type, fields)):
-        raise CanaryRuntimeBlocked("audit_log_unavailable")
+    return post_order(state, intent, broker, store, now)

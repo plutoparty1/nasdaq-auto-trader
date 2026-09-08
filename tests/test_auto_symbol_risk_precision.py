@@ -23,6 +23,7 @@ from nasdaq_auto_trader.models import (
 )
 from tests.config_engine_fixtures import compact_strategy_config
 from tests.test_auto_symbol_engine import (
+    AUTO_TEST_NOW,
     _AcceptedBroker,
     _AutoMarketData,
     _write_paper_strategy,
@@ -30,6 +31,22 @@ from tests.test_auto_symbol_engine import (
 
 
 class AutoSymbolRiskPrecisionTests(unittest.TestCase):
+    def test_zero_learned_daily_order_limit_is_unlimited(self):
+        limits = AutomaticRiskLimits(0.5, 0.5, 1_000, 0, 0.01, 0.02)
+
+        _, reason = CycleReservationLedger().apply_limits(
+            OrderRequest("AAPL", "buy", qty=1),
+            _decision(),
+            100,
+            AccountSnapshot(10_000, 10_000, 10_000),
+            {},
+            limits,
+            100,
+            10_000,
+        )
+
+        self.assertEqual(reason, "")
+
     def test_nonfinite_position_exposure_blocks_order(self):
         ledger = CycleReservationLedger()
         order = OrderRequest("AAPL", "buy", notional=100)
@@ -155,6 +172,7 @@ class AutoSymbolRiskPrecisionTests(unittest.TestCase):
                 ),
                 trading_session_state=state,
                 strategy_artifact_paths=paths,
+                clock=lambda: AUTO_TEST_NOW,
             )
 
             engine.run_once()
