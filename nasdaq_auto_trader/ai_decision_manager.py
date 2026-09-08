@@ -156,7 +156,7 @@ class AIDecisionManager:
 
 
 class TradingAgentsRecommendationProvider:
-    """Use existing TradingAgents per-symbol analysis to create strict JSON output."""
+    """Expose uncalibrated TradingAgents analysis as a non-executable hold."""
 
     def __init__(
         self,
@@ -195,15 +195,17 @@ class TradingAgentsRecommendationProvider:
         action = selected.get("normalized_action", "hold")
         ticker = str(selected.get("symbol", context.candidate_tickers[0])).upper()
         order_qty = min(context.settings.order_qty, context.settings.ai_max_order_qty)
-        confidence = 0.78 if action in ("buy", "sell") else 0.55
         return json.dumps(
             {
-                "action": action,
+                "action": "hold",
                 "ticker": ticker,
                 "order_qty": max(int(order_qty), 1),
-                "confidence": confidence,
-                "reason": f"TradingAgents analysis returned {action} for {ticker}.",
-                "risk": "AI output is advisory and still requires local risk guards.",
+                "confidence": 0.0,
+                "reason": (
+                    f"TradingAgents reported {action} for {ticker}; "
+                    "calibrated confidence unavailable. Advisory analysis only."
+                ),
+                "risk": "Uncalibrated analysis cannot authorize orders; confidence 0 is not a probability estimate.",
             },
             ensure_ascii=False,
         )

@@ -4,13 +4,12 @@ from .automatic_selection import AutomaticSelectionRequest
 from .automatic_selection_production import prepare_production_automatic_selection
 from .brokers.common import BrokerRequestError
 from .engine_errors import PreOrderCycleError
-from .engine_daily_forced_order import EngineDailyForcedOrderMixin
 from .live_authorization import LiveAuthorizationRequest, create_live_authorization
 from .quant_data.symbol_selector import blocked_selection_report_without_snapshot
 from .session_state_persistence import save_session_state
 
 
-class EngineAutomaticCycleMixin(EngineDailyForcedOrderMixin):
+class EngineAutomaticCycleMixin:
     def _run_automatic_symbol_cycle(self) -> list[dict]:
         try:
             return self._execute_automatic_symbol_cycle()
@@ -58,10 +57,6 @@ class EngineAutomaticCycleMixin(EngineDailyForcedOrderMixin):
                     self.market_data,
                     self.strategy_artifact_paths,
                     self._clock(),
-                    daily_forced_order_enabled=bool(
-                        self.trading_settings is not None
-                        and self.trading_settings.daily_forced_order_enabled
-                    ),
                 )
             )
         except (BrokerRequestError, OSError) as exc:
@@ -98,6 +93,8 @@ class EngineAutomaticCycleMixin(EngineDailyForcedOrderMixin):
             return []
         selected = list(selection.report.selected_symbols)
         symbols = [*positions, *(symbol for symbol in selected if symbol not in positions)]
+        if not symbols:
+            return []
         bars_by_symbol = {**held_bars, **selection.bars_by_symbol}
         missing = [symbol for symbol in positions if symbol not in bars_by_symbol]
         if missing:
@@ -105,7 +102,6 @@ class EngineAutomaticCycleMixin(EngineDailyForcedOrderMixin):
                 bars_by_symbol.update(self._load_recent_bars(missing))
             except (BrokerRequestError, OSError) as exc:
                 raise PreOrderCycleError("market_data_unavailable") from exc
-        fallback_due = self._daily_forced_order_due(self._clock())
         if (
             self.config.mode == "live"
             and self._automatic_session_authorization_allowed()
@@ -129,24 +125,6 @@ class EngineAutomaticCycleMixin(EngineDailyForcedOrderMixin):
                 authorization_purpose="automatic",
                 max_daily_order_count=0,
             )
-            if self.trading_session_state.buy_count + self.trading_session_state.sell_count:
-                for item in results:
-                    item["selection_report"] = selection.report
-                return results
-        if fallback_due and self.config.mode == "live":
-            if not self._automatic_session_authorization_allowed():
-                return results
-            authorization_reason = self._ensure_daily_authorization()
-            if authorization_reason:
-                self.last_selection_report = blocked_selection_report_without_snapshot(
-                    authorization_reason
-                )
-                return []
-        forced_results = self._run_daily_forced_order(selection, account, positions)
-        if forced_results is not None:
-            for item in forced_results:
-                item["selection_report"] = selection.report
-            return forced_results
         for item in results:
             item["selection_report"] = selection.report
         return results
@@ -164,24 +142,10 @@ class EngineAutomaticCycleMixin(EngineDailyForcedOrderMixin):
             )
         )
 
-    def _ensure_daily_authorization(self) -> str:
-        return self.automatic_order_guard.ensure_live_authorization(
-            create_live_authorization(
-                LiveAuthorizationRequest(
-                    self.config,
-                    self.strategy_artifact_paths,
-                    self._clock(),
-                    max_attempts=1,
-                    purpose="daily_forced",
-                )
-            )
-        )
-
     def _automatic_session_authorization_allowed(self) -> bool:
         settings = self.trading_settings
         return bool(
             settings is not None
-            and settings.daily_forced_order_enabled
             and settings.automatic_session_authorization_enabled
             and settings.unattended_operation_enabled
             and settings.unattended_live_trading_enabled

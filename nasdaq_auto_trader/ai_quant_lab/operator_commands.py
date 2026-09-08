@@ -34,7 +34,7 @@ from nasdaq_auto_trader.ai_quant_lab.paper_shadow import (
 )
 from nasdaq_auto_trader.ai_quant_lab.registry import StrategyRegistry
 from nasdaq_auto_trader.ai_quant_lab.scoring_engine import ScoringEngine
-from nasdaq_auto_trader.ai_quant_lab.self_improvement_loop import SelfImprovementLoop
+from nasdaq_auto_trader.ai_quant_lab.candidate_evaluation import CandidateEvaluationPipeline
 from nasdaq_auto_trader.ai_quant_lab.strategy_factory import AIStrategyFactory
 from nasdaq_auto_trader.ai_quant_lab.types import JsonObject
 from nasdaq_auto_trader.ai_quant_lab.validation_engine import ValidationEngine
@@ -84,7 +84,7 @@ def status_payload(paths: OperatorPaths) -> JsonObject:
 def nightly_payload(args: argparse.Namespace, paths: OperatorPaths) -> JsonObject:
     config = load_ai_quant_config(paths.ai_config_path)
     audit = AuditLogger(paths.audit_log_path)
-    loop = SelfImprovementLoop(
+    pipeline = CandidateEvaluationPipeline(
         config,
         InsaneSearchResearchService(config, research_runner(args, config), audit, paths.spec_dir / "research"),
         AIStrategyFactory(FileStrategySpecProvider(optional_path(args.candidate_json)), audit, paths.spec_dir),
@@ -94,7 +94,7 @@ def nightly_payload(args: argparse.Namespace, paths: OperatorPaths) -> JsonObjec
         strategy_registry(paths, config),
         audit,
     )
-    result = loop.run_once(load_bars_json(optional_path(args.bars_json)))
+    result = pipeline.run_once(load_bars_json(optional_path(args.bars_json)))
     return {
         "command": "nightly",
         "status": result.status,

@@ -1,18 +1,19 @@
 from __future__ import annotations
 
 from collections.abc import Mapping
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from uuid import uuid4
 
 from nasdaq_auto_trader.ai_quant_lab.audit_logger import AuditEvent, NullAuditLogger
 from nasdaq_auto_trader.ai_quant_lab.backtest_market_data import (
     validate_backtest_market_data,
 )
-from nasdaq_auto_trader.ai_quant_lab.backtest_metrics import calculate_backtest_metrics
+from nasdaq_auto_trader.ai_quant_lab.backtest_metrics import MetricTiming, calculate_backtest_metrics
 from nasdaq_auto_trader.ai_quant_lab.backtest_sizing import backtest_position_quantity
 from nasdaq_auto_trader.ai_quant_lab.config import AIQuantConfig
 from nasdaq_auto_trader.ai_quant_lab.strategy_schema import ExitRule, StrategySpec
 from nasdaq_auto_trader.quant_data.features import PriceBar, calculate_feature_rows
+from nasdaq_auto_trader.quant_data.feature_statistics import normalized_timestamps
 from nasdaq_auto_trader.strategies.strategy_library import build_strategy
 
 
@@ -69,6 +70,8 @@ class BacktestResult:
 
 @dataclass(frozen=True, slots=True)
 class BacktestRequest:
+    """Daily-bar simulation; subdaily and sparse weekly/monthly inputs are rejected."""
+
     spec: StrategySpec
     bars_by_symbol: dict[str, list[PriceBar]]
     initial_cash: float = 100_000.0
@@ -105,7 +108,7 @@ class BacktestEngine:
         positions: dict[str, int] = {}
         open_positions: dict[str, OpenPosition] = {}
         trades: list[TradeLog] = []
-        equity_curve: list[float] = [cash]
+        equity_curve: list[float] = [cash, cash]
         for index in range(1, bars_count - 1):
             known = {
                 symbol: bars[: index + 1]
@@ -195,8 +198,10 @@ class BacktestEngine:
             trades.append(
                 TradeLog(symbol, "sell", last_bar.timestamp, fill_price, qty, proceeds)
             )
-        equity_curve.append(cash)
-        metrics = calculate_backtest_metrics(equity_curve, trades).to_mapping()
+        equity_curve[-1] = cash
+        timestamps = normalized_timestamps(next(iter(request.bars_by_symbol.values())))
+        timing = MetricTiming(timestamps, 252.0) if timestamps is not None else None
+        metrics = calculate_backtest_metrics(equity_curve, trades, timing).to_mapping()
         result = BacktestResult(
             experiment_id=experiment_id,
             strategy_id=request.spec.strategy_id,

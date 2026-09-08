@@ -18,13 +18,12 @@ from nasdaq_auto_trader.automatic_risk import (
 from nasdaq_auto_trader.quant_data.features import PriceBar
 from nasdaq_auto_trader.quant_data.market_quality import filter_tradeable_symbols
 from nasdaq_auto_trader.quant_data.symbol_selector import (
-    RankedSymbol,
     SelectionReport,
     StrategyResolutionBlock,
     blocked_selection_report,
     blocked_selection_report_without_snapshot,
     resolve_strategy,
-    select_symbols_with_candidates,
+    select_symbols,
 )
 from nasdaq_auto_trader.quant_data.universe_snapshot import (
     UniverseSnapshotError,
@@ -70,7 +69,6 @@ class AutomaticSelectionResult:
     bars_by_symbol: dict[str, list[Bar]]
     risk_limits: AutomaticRiskLimits | None = None
     quotes_by_symbol: dict[str, tuple[float, float]] = field(default_factory=dict)
-    prethreshold_ranked: tuple[RankedSymbol, ...] = ()
 
 
 @dataclass(frozen=True, slots=True)
@@ -79,7 +77,6 @@ class AutomaticSelectionRequest:
     market_data: SelectionMarketData
     paths: StrategyArtifactPaths
     now: datetime
-    daily_forced_order_enabled: bool = False
 
 
 def prepare_automatic_selection(
@@ -150,7 +147,7 @@ def prepare_automatic_selection(
         ),
     )[:30]
     selected_bars = {symbol: price_bars[symbol] for symbol in ranked_quality}
-    report, candidates = select_symbols_with_candidates(
+    report = select_symbols(
         snapshot,
         resolution,
         selected_bars,
@@ -161,7 +158,6 @@ def prepare_automatic_selection(
         {symbol: legacy_bars[symbol] for symbol in ranked_quality},
         risk_limits,
         {symbol: quotes[symbol] for symbol in ranked_quality if symbol in quotes},
-        candidates,
     )
 
 

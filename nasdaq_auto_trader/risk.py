@@ -53,22 +53,27 @@ class RiskManager:
     ) -> OrderRequest | None:
         """Cap a buy by target weight, cash buffer, buying power, and ATR risk."""
 
+        current_value = position.market_value if position else 0.0
+        current_qty = position.qty if position else 0.0
         if not all(
-            isfinite(value)
+            isfinite(value) and value >= 0
             for value in (
                 account.cash,
                 account.equity,
                 account.buying_power,
                 latest_price,
+                current_value,
+                current_qty,
             )
         ):
             return None
-        if account.cash < 0 or account.buying_power < 0:
+        if latest_price <= 0:
             return None
-        if self.config.order_qty is not None:
-            return self._fixed_qty_buy_order(decision, account, position, latest_price)
+        if decision.risk_per_share is not None and (
+            not isfinite(decision.risk_per_share) or decision.risk_per_share < 0
+        ):
+            return None
 
-        current_value = position.market_value if position else 0.0
         target_value = account.equity * self.config.max_position_pct
         remaining_target = max(target_value - current_value, 0.0)
         cash_after_buffer = max(
@@ -84,45 +89,34 @@ class RiskManager:
         if risk_notional is not None:
             notional = min(notional, risk_notional)
 
-        notional = round(notional, 2)
-        if latest_price <= 0 or notional < self.config.min_order_notional:
-            return None
-        return OrderRequest(symbol=decision.symbol, side="buy", notional=notional)
+        if self.config.order_qty is not None:
+            if self.config.order_qty <= 0:
+                return None
+            if current_qty > 0 and not self.config.allow_additional_buy:
+                return None
+            if (
+                self.config.max_position_qty is not None
+                and current_qty + self.config.order_qty > self.config.max_position_qty
+            ):
+                return None
+            if account.cash < self.config.min_cash_to_buy:
+                return None
+            if latest_price * self.config.order_qty > notional:
+                return None
+            return OrderRequest(
+                symbol=decision.symbol,
+                side="buy",
+                type="limit",
+                qty=float(self.config.order_qty),
+                limit_price=latest_price,
+            )
 
-    def _fixed_qty_buy_order(
-        self,
-        decision: TradeDecision,
-        account: AccountSnapshot,
-        position: Position | None,
-        latest_price: float,
-    ) -> OrderRequest | None:
-        """Build a fixed-share buy order from GUI settings."""
-
-        if latest_price <= 0 or self.config.order_qty is None or self.config.order_qty <= 0:
+        order_notional = round(notional, 2)
+        if order_notional > notional:
+            order_notional = round(order_notional - 0.01, 2)
+        if order_notional < self.config.min_order_notional:
             return None
-        current_qty = position.qty if position is not None else 0
-        if current_qty > 0 and not self.config.allow_additional_buy:
-            return None
-        if (
-            self.config.max_position_qty is not None
-            and current_qty + self.config.order_qty > self.config.max_position_qty
-        ):
-            return None
-
-        required_cash = latest_price * self.config.order_qty
-        if account.cash < self.config.min_cash_to_buy:
-            return None
-        if account.cash < required_cash:
-            return None
-        if account.buying_power < required_cash:
-            return None
-        return OrderRequest(
-            symbol=decision.symbol,
-            side="buy",
-            type="limit",
-            qty=float(self.config.order_qty),
-            limit_price=latest_price,
-        )
+        return OrderRequest(symbol=decision.symbol, side="buy", notional=order_notional)
 
     def _risk_limited_notional(
         self,

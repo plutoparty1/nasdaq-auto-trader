@@ -5,19 +5,20 @@ from nasdaq_auto_trader.ai_quant_lab.validation_engine import ValidationEngine
 
 
 class AIQuantValidationMetricTests(unittest.TestCase):
-    def test_validation_computes_advanced_overfit_metrics_for_stable_oos_curve(self):
+    def test_validation_does_not_infer_advanced_evidence_from_stable_curve(self):
         result = _backtest_result(_stable_equity_curve())
 
         validation = ValidationEngine().validate(result)
 
         self.assertTrue(validation.passed)
-        self.assertTrue(validation.promotion_eligible)
-        self.assertEqual(validation.missing_advanced_metrics, ())
-        self.assertGreater(validation.metrics["purged_cross_validation_score"], 0.75)
-        self.assertGreater(validation.metrics["combinatorial_purged_cross_validation_score"], 0.75)
-        self.assertLess(validation.metrics["pbo_probability"], 0.25)
-        self.assertGreater(validation.metrics["deflated_sharpe_ratio"], 0.10)
-        self.assertLess(validation.metrics["multiple_testing_correction_penalty"], 0.20)
+        self.assertFalse(validation.promotion_eligible)
+        self.assertIn("independent_validation_required", validation.rejection_reasons)
+        self.assertEqual(len(validation.missing_advanced_metrics), 5)
+        self.assertEqual(validation.metrics["purged_cross_validation_score"], 0.0)
+        self.assertEqual(validation.metrics["combinatorial_purged_cross_validation_score"], 0.0)
+        self.assertEqual(validation.metrics["pbo_probability"], 1.0)
+        self.assertEqual(validation.metrics["deflated_sharpe_ratio"], 0.0)
+        self.assertEqual(validation.metrics["multiple_testing_correction_penalty"], 1.0)
 
     def test_validation_blocks_promotion_when_advanced_evidence_is_too_short(self):
         result = _backtest_result(tuple(100_000.0 + index for index in range(40)))
@@ -26,18 +27,19 @@ class AIQuantValidationMetricTests(unittest.TestCase):
 
         self.assertTrue(validation.passed)
         self.assertFalse(validation.promotion_eligible)
-        self.assertIn("advanced_overfit_evidence_insufficient", validation.rejection_reasons)
+        self.assertIn("independent_validation_required", validation.rejection_reasons)
         self.assertIn("pbo", validation.missing_advanced_metrics)
 
-    def test_validation_blocks_promotion_for_unstable_oos_curve(self):
+    def test_validation_blocks_unstable_curve_without_claiming_measured_pbo(self):
         curve = tuple(100_000.0 + ((-1) ** index) * 1_000.0 for index in range(90))
         result = _backtest_result(curve)
 
         validation = ValidationEngine().validate(result)
 
         self.assertFalse(validation.promotion_eligible)
-        self.assertIn("pbo_probability_too_high", validation.rejection_reasons)
-        self.assertGreaterEqual(validation.metrics["pbo_probability"], 0.35)
+        self.assertIn("independent_validation_required", validation.rejection_reasons)
+        self.assertIn("pbo", validation.missing_advanced_metrics)
+        self.assertNotIn("pbo_probability_too_high", validation.rejection_reasons)
 
 
 def _stable_equity_curve() -> tuple[float, ...]:

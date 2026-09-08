@@ -23,7 +23,7 @@ from tests.test_auto_symbol_engine import (
 
 
 class DailyForcedOrderEngineTests(unittest.TestCase):
-    def test_normal_sell_decision_runs_before_daily_forced_buy(self):
+    def test_normal_sell_decision_remains_when_legacy_daily_flag_is_enabled(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             paths = StrategyArtifactPaths.from_root(root / "artifacts")
@@ -57,7 +57,7 @@ class DailyForcedOrderEngineTests(unittest.TestCase):
         self.assertEqual(result["order"].side, "sell")
         self.assertEqual(result["symbol"], "AAPL")
 
-    def test_daily_fallback_does_not_force_sell_manual_holding(self):
+    def test_no_trade_preserves_manual_holding_without_forcing_another_buy(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             paths = StrategyArtifactPaths.from_root(root / "artifacts")
@@ -106,11 +106,11 @@ class DailyForcedOrderEngineTests(unittest.TestCase):
             ):
                 [result] = engine.run_once()
 
-        self.assertTrue(result["daily_forced_order"])
-        self.assertEqual(result["symbol"], "MSFT")
-        self.assertEqual(result["order"].side, "buy")
+        self.assertNotIn("daily_forced_order", result)
+        self.assertEqual(result["symbol"], "AAPL")
+        self.assertIsNone(result["order"])
 
-    def test_daily_forced_order_uses_highest_ranked_affordable_symbol(self):
+    def test_no_trade_does_not_buy_even_when_ranked_symbols_are_affordable(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             paths = StrategyArtifactPaths.from_root(root / "artifacts")
@@ -166,16 +166,13 @@ class DailyForcedOrderEngineTests(unittest.TestCase):
                 "nasdaq_auto_trader.engine_automatic_cycle.prepare_production_automatic_selection",
                 return_value=selection,
             ):
-                [result] = engine.run_once()
+                results = engine.run_once()
 
         self.assertEqual(engine.last_selection_report.status, "no_trade")
-        self.assertTrue(result["daily_forced_order"])
-        self.assertEqual(result["symbol"], "MSFT")
-        self.assertEqual(result["order"].side, "buy")
-        self.assertEqual(result["order"].qty, 1)
-        self.assertEqual(result["order"].limit_price, 51.0)
+        self.assertEqual(results, [])
+        self.assertEqual(engine.broker.orders, [])
 
-    def test_daily_forced_order_runs_only_when_daily_order_count_is_zero(self):
+    def test_repeated_no_trade_cycles_never_manufacture_a_daily_order(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             paths = StrategyArtifactPaths.from_root(root / "artifacts")
@@ -202,5 +199,7 @@ class DailyForcedOrderEngineTests(unittest.TestCase):
             first = engine.run_once()
             second = engine.run_once()
 
-        self.assertTrue(first[0]["daily_forced_order"])
-        self.assertFalse(any(item.get("daily_forced_order") for item in second))
+        self.assertEqual(first, [])
+        self.assertEqual(second, [])
+        self.assertEqual(engine.broker.orders, [])
+        self.assertEqual(engine.trading_session_state.buy_count, 0)

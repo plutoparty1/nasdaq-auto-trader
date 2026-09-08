@@ -185,7 +185,14 @@ class StrategyAndRiskTests(unittest.TestCase):
         self.assertIsNone(order)
 
     def test_fixed_quantity_buy_uses_limit_price_as_cash_spending_ceiling(self):
-        manager = RiskManager(RiskConfig(order_qty=1, min_cash_to_buy=0))
+        manager = RiskManager(
+            RiskConfig(
+                order_qty=1,
+                min_cash_to_buy=0,
+                max_position_pct=1.0,
+                min_cash_buffer_pct=0,
+            )
+        )
         account = AccountSnapshot(cash=500, equity=1_000, buying_power=1_000)
         decision = TradeDecision("QQQ", "buy", 10, 500, ["test"])
 

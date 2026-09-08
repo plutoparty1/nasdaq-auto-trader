@@ -31,7 +31,7 @@ from tests.test_auto_symbol_engine import (
 
 
 class DailyOrderMinimumWithoutMaximumTests(unittest.TestCase):
-    def test_daily_forced_order_buys_cash_affordable_share_despite_exposure_cap(self):
+    def test_no_trade_does_not_bypass_learned_exposure_cap_for_affordable_share(self):
         # Given: the production-sized account and learned 50% exposure limits.
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
@@ -50,7 +50,10 @@ class DailyOrderMinimumWithoutMaximumTests(unittest.TestCase):
                     strategy_version="v1",
                     strategy_digest="digest",
                     shortlist_count=2,
-                    ranked=(),
+                    ranked=(
+                        RankedSymbol("WMT", 0.99, 0.99, ("rank_1",)),
+                        RankedSymbol("WBD", 0.98, 0.98, ("rank_2",)),
+                    ),
                     selected_symbols=(),
                 ),
                 {
@@ -62,10 +65,6 @@ class DailyOrderMinimumWithoutMaximumTests(unittest.TestCase):
                     "WMT": (115.52, 115.82),
                     "WBD": (27.56, 27.70),
                 },
-                prethreshold_ranked=(
-                    RankedSymbol("WMT", 0.99, 0.99, ("rank_1",)),
-                    RankedSymbol("WBD", 0.98, 0.98, ("rank_2",)),
-                ),
             )
             engine = TradingEngine(
                 AppConfig(
@@ -86,22 +85,19 @@ class DailyOrderMinimumWithoutMaximumTests(unittest.TestCase):
                 clock=lambda: AUTO_TEST_NOW,
             )
 
-            # When: the daily minimum fallback runs with no prior order.
+            # When: automatic selection rejects entries with no prior order.
             with patch(
                 "nasdaq_auto_trader.engine_automatic_cycle.prepare_production_automatic_selection",
                 return_value=selection,
             ):
-                [result] = engine.run_once()
+                results = engine.run_once()
 
-        # Then: the highest-ranked cash-affordable whole share is ordered.
-        self.assertTrue(result["daily_forced_order"])
-        self.assertEqual(result["symbol"], "WBD")
-        self.assertEqual(result["order"].side, "buy")
-        self.assertEqual(result["order"].qty, 1)
-        self.assertEqual(result["order"].limit_price, 27.70)
-        self.assertEqual(result["response"]["status"], "dry_run")
+        # Then: no share is bought to satisfy a daily order minimum.
+        self.assertEqual(results, [])
+        self.assertEqual(engine.broker.orders, [])
+        self.assertEqual(engine.trading_session_state.buy_count, 0)
 
-    def test_daily_fallback_does_not_cap_later_normal_orders(self):
+    def test_no_trade_does_not_prevent_later_normal_orders(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             paths = StrategyArtifactPaths.from_root(root / "artifacts")
@@ -125,8 +121,8 @@ class DailyOrderMinimumWithoutMaximumTests(unittest.TestCase):
             second_results = engine.run_once()
             stored = guard.authorization_store.load()
 
-        self.assertTrue(first_results[0]["daily_forced_order"])
-        self.assertEqual(len(broker.orders), 2)
+        self.assertEqual(first_results, [])
+        self.assertEqual(len(broker.orders), 1)
         self.assertFalse(second_results[0].get("daily_forced_order", False))
         self.assertEqual(stored.envelope.purpose, "automatic")
         self.assertEqual(stored.envelope.max_attempts, 0)

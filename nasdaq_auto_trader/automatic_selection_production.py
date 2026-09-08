@@ -61,7 +61,7 @@ def prepare_production_automatic_selection(
         application_data_root() / "auto_selection" / "latest.json",
         ttl=timedelta(minutes=15),
     )
-    cached = None if request.daily_forced_order_enabled else cache.read(identity, now)
+    cached = cache.read(identity, now)
     if cached is not None:
         risk_limits = resolve_automatic_risk_limits(paths, resolution)
         cached_result = (
@@ -74,10 +74,7 @@ def prepare_production_automatic_selection(
             _audit_selection_result(audit, cached, started)
             return cached_result
     result = prepare_automatic_selection(request)
-    if (
-        not request.daily_forced_order_enabled
-        and result.report.status in ("selected", "no_trade")
-    ):
+    if result.report.status in ("selected", "no_trade"):
         cache.write(identity, result.report, now)
     _audit_shortlist(audit, result.report, started)
     _audit_selection_result(audit, result.report, started)

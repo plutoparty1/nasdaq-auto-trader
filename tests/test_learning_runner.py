@@ -9,6 +9,7 @@ from nasdaq_auto_trader.ai_quant_lab.operator_models import OperatorPaths
 from nasdaq_auto_trader.ai_quant_lab.registry import StrategyRegistry
 from nasdaq_auto_trader.ai_quant_lab.registry_models import StrategyStatus
 from nasdaq_auto_trader.learning_runner import LearningCancellation, run_learning_only
+from nasdaq_auto_trader.learning_strategy_template import candidate_payload
 from nasdaq_auto_trader.quant_data.features import PriceBar
 from nasdaq_auto_trader.quant_data.symbol_selector import ResolvedStrategy, resolve_strategy
 from nasdaq_auto_trader.ai_quant_lab.artifact_paths import StrategyArtifactPaths
@@ -49,9 +50,10 @@ class LearningRunnerTests(unittest.TestCase):
 
         self.assertEqual(result.submitted_orders, 0)
         self.assertEqual(result.status, "completed")
-        self.assertEqual(result.accepted_candidates, 1)
-        self.assertEqual(result.reasons, ())
-        self.assertEqual(records[0].status, StrategyStatus.PAPER_CANDIDATE)
+        self.assertEqual(result.accepted_candidates, 0)
+        self.assertIn("independent_validation_required", result.reasons)
+        self.assertEqual(records[0].status, StrategyStatus.REJECTED)
+        self.assertFalse(records[0].allowed_for_live)
         self.assertTrue(config.ai_quant_lab_enabled)
         self.assertTrue(config.self_improvement_enabled)
         self.assertTrue(config.dry_run)
@@ -62,8 +64,15 @@ class LearningRunnerTests(unittest.TestCase):
         self.assertEqual(len(reports), 1)
         self.assertEqual(report["strategy_id"], "builtin_trend_following")
         self.assertFalse(report["promoted_to_live"])
+        self.assertEqual(report["promotion_decision"], "rejected")
+        self.assertIn("independent_validation_required", report["rejection_reasons"])
+        self.assertEqual(report["evidence_scope"], "single_backtest_in_sample")
+        self.assertEqual(len(report["missing_advanced_metrics"]), 5)
+        self.assertIn("calmar", report["validation_metrics"])
+        self.assertIn("annualization_available", report["validation_metrics"])
+        self.assertIn("profit_factor_available", report["validation_metrics"])
         self.assertIn("model_sha256", report)
-        self.assertIsInstance(resolved, ResolvedStrategy)
+        self.assertNotIsInstance(resolved, ResolvedStrategy)
 
     def test_learning_only_preserves_existing_research_command(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -138,7 +147,7 @@ class LearningRunnerTests(unittest.TestCase):
         self.assertEqual(result.status, "cancelled")
         self.assertFalse(paths.registry_path.exists())
 
-    def test_same_data_is_not_trained_twice(self):
+    def test_same_rejected_research_data_is_not_evaluated_twice(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             paths = OperatorPaths(root / "config.json", root / "registry.json", root / "promoted.json", root / "specs", root / "audit.jsonl")
@@ -146,7 +155,8 @@ class LearningRunnerTests(unittest.TestCase):
             first = run_learning_only(paths, _bars())
             second = run_learning_only(paths, _bars())
 
-        self.assertEqual(first.accepted_candidates, 1)
+        self.assertEqual(first.accepted_candidates, 0)
+        self.assertIn("independent_validation_required", first.reasons)
         self.assertEqual(second.accepted_candidates, 0)
         self.assertIn("data_unchanged", second.reasons)
 
@@ -170,8 +180,35 @@ class LearningRunnerTests(unittest.TestCase):
                 load_ai_quant_config(paths.ai_config_path),
             ).load_records()
 
-        self.assertEqual(recovered.accepted_candidates, 1)
+        self.assertEqual(recovered.accepted_candidates, 0)
+        self.assertIn("independent_validation_required", recovered.reasons)
         self.assertEqual(len(records), 1)
+        self.assertEqual(records[0].status, StrategyStatus.REJECTED)
+
+    def test_research_preserves_existing_champion_record_and_promoted_artifact(self):
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            paths = OperatorPaths(root / "config.json", root / "registry.json", root / "promoted.json", root / "specs", root / "audit.jsonl")
+            payload = candidate_payload(_bars())
+            record = {
+                "strategy_id": payload["strategy_id"],
+                "version": payload["version"],
+                "status": "champion",
+                "manual_approval": True,
+                "allowed_for_live": True,
+                "research_basis": payload["research_basis"],
+            }
+            registry_text = json.dumps([record])
+            promoted_text = json.dumps({"active_strategy_id": payload["strategy_id"]})
+            paths.registry_path.write_text(registry_text, encoding="utf-8")
+            paths.promoted_path.write_text(promoted_text, encoding="utf-8")
+
+            result = run_learning_only(paths, _bars())
+
+            self.assertEqual(paths.registry_path.read_text(encoding="utf-8"), registry_text)
+            self.assertEqual(paths.promoted_path.read_text(encoding="utf-8"), promoted_text)
+        self.assertEqual(result.accepted_candidates, 0)
+        self.assertIn("existing_strategy_record_preserved", result.reasons)
 
 
 def _bars():

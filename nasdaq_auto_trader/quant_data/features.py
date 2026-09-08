@@ -1,7 +1,8 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
-from math import sqrt
+from nasdaq_auto_trader.quant_analytics import sample_std as _stdev, simple_return as _safe_return, simple_returns
+from nasdaq_auto_trader.quant_data.feature_statistics import aligned_beta, daily_realized_volatility
 
 
 @dataclass(frozen=True, slots=True)
@@ -57,9 +58,6 @@ class FeatureRow:
     momentum_factor: float
     low_volatility_factor: float
     liquidity_factor: float
-    quality_factor: float
-    growth_factor: float
-    value_factor: float
     missing_data_ratio: float
     stale_data_flag: bool
     outlier_flag: bool
@@ -71,9 +69,9 @@ def calculate_feature_rows(
     bars_by_symbol: dict[str, list[PriceBar]],
     benchmark_symbol: str = "QQQ",
 ) -> dict[str, FeatureRow]:
-    benchmark_returns = _returns(bars_by_symbol.get(benchmark_symbol, []))
+    benchmark_bars = bars_by_symbol.get(benchmark_symbol, [])
     rows = {
-        symbol: _feature_row(symbol, bars, benchmark_returns)
+        symbol: _feature_row(symbol, bars, benchmark_bars)
         for symbol, bars in bars_by_symbol.items()
         if bars
     }
@@ -87,8 +85,9 @@ def calculate_feature_rows(
 def _feature_row(
     symbol: str,
     bars: list[PriceBar],
-    benchmark_returns: list[float],
+    benchmark_bars: list[PriceBar],
 ) -> FeatureRow:
+    benchmark_returns = _returns(benchmark_bars)
     closes = [bar.close for bar in bars]
     highs = [bar.high for bar in bars]
     lows = [bar.low for bar in bars]
@@ -125,8 +124,8 @@ def _feature_row(
         volatility_20d=vol20,
         volatility_60d=vol60,
         atr_14=_atr(highs, lows, closes, 14),
-        realized_volatility=vol20 * sqrt(252),
-        beta_to_qqq=_beta(returns[-60:], benchmark_returns[-60:]),
+        realized_volatility=daily_realized_volatility(bars[-21:], returns[-20:]),
+        beta_to_qqq=aligned_beta(bars[-61:], benchmark_bars[-61:]),
         volatility_regime="high_volatility" if vol20 > vol60 and vol20 > 0 else "low_volatility",
         rsi_14=_rsi(closes, 14),
         zscore_20=_zscore(closes[-20:]),
@@ -139,9 +138,6 @@ def _feature_row(
         momentum_factor=rolling20,
         low_volatility_factor=1 / (1 + vol20),
         liquidity_factor=latest.close * avg_volume_20d,
-        quality_factor=0.0,
-        growth_factor=0.0,
-        value_factor=0.0,
         missing_data_ratio=_missing_data_ratio(bars),
         stale_data_flag=False,
         outlier_flag=abs(returns[-1]) > 0.25 if returns else False,
@@ -165,7 +161,7 @@ def _rank_cross_sectional(rows: dict[str, FeatureRow]) -> dict[str, float]:
 
 
 def _returns(bars: list[PriceBar]) -> list[float]:
-    return [_safe_return(bars[index - 1].close, bars[index].close) for index in range(1, len(bars))]
+    return list(simple_returns([bar.close for bar in bars]))
 
 
 def _rolling_return(values: list[float], days: int) -> float:
@@ -183,10 +179,6 @@ def _rolling_benchmark(returns: list[float], days: int) -> float:
     return total - 1
 
 
-def _safe_return(start: float, end: float) -> float:
-    return (end / start) - 1 if start > 0 else 0.0
-
-
 def _gap_percent(bars: list[PriceBar]) -> float:
     if len(bars) < 2:
         return 0.0
@@ -195,13 +187,6 @@ def _gap_percent(bars: list[PriceBar]) -> float:
 
 def _mean(values: list[float]) -> float:
     return sum(values) / len(values) if values else 0.0
-
-
-def _stdev(values: list[float]) -> float:
-    if len(values) < 2:
-        return 0.0
-    avg = _mean(values)
-    return sqrt(sum((value - avg) ** 2 for value in values) / (len(values) - 1))
 
 
 def _ema(values: list[float], period: int) -> float:
@@ -246,21 +231,6 @@ def _bollinger_position(values: list[float]) -> float:
     lower = _mean(values) - 2 * stdev
     upper = _mean(values) + 2 * stdev
     return (values[-1] - lower) / (upper - lower)
-
-
-def _beta(returns: list[float], benchmark_returns: list[float]) -> float:
-    count = min(len(returns), len(benchmark_returns))
-    if count < 2:
-        return 0.0
-    stock = returns[-count:]
-    benchmark = benchmark_returns[-count:]
-    avg_stock = _mean(stock)
-    avg_benchmark = _mean(benchmark)
-    variance = sum((value - avg_benchmark) ** 2 for value in benchmark)
-    if variance == 0:
-        return 0.0
-    covariance = sum((stock[index] - avg_stock) * (benchmark[index] - avg_benchmark) for index in range(count))
-    return covariance / variance
 
 
 def _spread_bps(bid: float, ask: float) -> float:

@@ -34,8 +34,9 @@ class AIQuantBacktestRoundTripTests(unittest.TestCase):
             max(trade.qty for trade in result.trades if trade.side == "buy"),
             1,
         )
-        self.assertGreater(result.metrics["win_rate"], 0)
-        self.assertGreater(result.metrics["profit_factor"], 0)
+        self.assertEqual(result.metrics["win_rate"], 1.0)
+        self.assertEqual(result.metrics["profit_factor"], 0.0)
+        self.assertEqual(result.metrics["profit_factor_available"], 0.0)
         self.assertGreater(result.metrics["expectancy"], 0)
         self.assertGreater(result.metrics["turnover"], 0.5)
 

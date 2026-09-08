@@ -10,6 +10,7 @@ from .ai_quant_lab.operator_market_data import BarsBySymbol
 from .ai_quant_lab.scoring_engine import StrategyScore
 from .ai_quant_lab.storage import safe_artifact_path
 from .ai_quant_lab.strategy_schema import StrategySpec
+from .ai_quant_lab.validation_engine import ADVANCED_METRIC_NAMES
 
 
 def save_learning_report(
@@ -37,11 +38,17 @@ def save_learning_report(
         "random_seed": 0,
         "hyperparameters": spec.raw.get("signals", []),
         "validation_metrics": score.metrics,
+        "evidence_scope": "single_backtest_in_sample",
+        "missing_advanced_metrics": (
+            list(ADVANCED_METRIC_NAMES)
+            if "independent_validation_required" in score.rejection_reasons else []
+        ),
         "transaction_cost_assumptions": {
             "source": "ai_quant_config",
         },
         "model_sha256": hashlib.sha256(serialized_model).hexdigest(),
-        "promotion_decision": "validation_passed",
+        "promotion_decision": "rejected" if score.rejection_reasons else "validation_passed",
+        "rejection_reasons": list(score.rejection_reasons),
         "promoted_to_live": False,
         "promotion_reason": "live promotion requires paper evidence and manual approval",
     }

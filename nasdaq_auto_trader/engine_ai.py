@@ -71,11 +71,14 @@ class EngineAIMixin:
             )
             return self._ai_blocked_item("AI", failure_reason, ai_log)
 
-        recommendation = self._effective_ai_recommendation(
-            decision_result.recommendation,
-            bars_by_symbol,
-            positions,
-        )
+        recommendation = decision_result.recommendation
+        # Rule overlays must not turn this uncalibrated advisory provider into an order source.
+        if not isinstance(provider, TradingAgentsRecommendationProvider):
+            recommendation = self._effective_ai_recommendation(
+                recommendation,
+                bars_by_symbol,
+                positions,
+            )
         symbol = recommendation.ticker
         bars = bars_by_symbol.get(symbol, [])
         latest_price = bars[-1].close if bars else 0.0

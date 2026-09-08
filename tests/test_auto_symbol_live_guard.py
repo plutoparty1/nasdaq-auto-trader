@@ -146,7 +146,7 @@ class AutoSymbolLiveGuardTests(unittest.TestCase):
         )
         self.assertFalse(any(item.get("daily_forced_order") for item in results))
 
-    def test_daily_fallback_replaces_same_day_automatic_authorization(self):
+    def test_no_trade_preserves_same_day_automatic_authorization(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             paths = StrategyArtifactPaths.from_root(root / "artifacts")
@@ -165,15 +165,15 @@ class AutoSymbolLiveGuardTests(unittest.TestCase):
             results = engine.run_once()
             stored = guard.authorization_store.load()
 
-        self.assertEqual(len(broker.orders), 1)
-        self.assertTrue(results[0]["daily_forced_order"])
+        self.assertEqual(broker.orders, [])
+        self.assertEqual(results, [])
         self.assertIsNotNone(stored)
-        self.assertNotEqual(
+        self.assertEqual(
             stored.envelope.authorization_id,
             original.envelope.authorization_id,
         )
-        self.assertEqual(stored.envelope.purpose, "daily_forced")
-        self.assertEqual(stored.envelope.max_attempts, 1)
+        self.assertEqual(stored.envelope.purpose, "automatic")
+        self.assertEqual(stored.envelope.max_attempts, 12)
 
     def test_revoked_session_is_not_automatically_reissued(self):
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -201,7 +201,7 @@ class AutoSymbolLiveGuardTests(unittest.TestCase):
         self.assertEqual(broker.orders, [])
         self.assertIsNone(guard.authorization_store.load())
 
-    def test_two_stale_engines_cannot_submit_two_daily_fallback_orders(self):
+    def test_two_stale_engines_cannot_force_orders_from_no_trade(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             root = Path(temp_dir)
             paths = StrategyArtifactPaths.from_root(root / "artifacts")
@@ -251,13 +251,10 @@ class AutoSymbolLiveGuardTests(unittest.TestCase):
             first_results = first_engine.run_once()
             second_results = second_engine.run_once()
 
-        self.assertEqual(len(first_broker.orders), 1)
-        self.assertTrue(first_results[0]["daily_forced_order"])
+        self.assertEqual(first_broker.orders, [])
+        self.assertEqual(first_results, [])
         self.assertEqual(second_broker.orders, [])
-        self.assertEqual(
-            second_results[0]["response"]["reason"],
-            "learned_daily_order_limit_reached",
-        )
+        self.assertEqual(second_results, [])
 
 if __name__ == "__main__":
     unittest.main()

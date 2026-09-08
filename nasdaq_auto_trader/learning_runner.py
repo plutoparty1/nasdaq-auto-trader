@@ -102,17 +102,29 @@ def _run_locked(
     )
     registry = StrategyRegistry(paths.registry_path, paths.promoted_path, config, audit)
     artifact_path = paths.spec_dir / f"{validation.spec.strategy_id}-{validation.spec.version}.json"
-    completed_record = next(
+    existing_record = next(
         (
             record
             for record in registry.load_records()
             if record.strategy_id == validation.spec.strategy_id
             and record.version == validation.spec.version
-            and record.status is StrategyStatus.PAPER_CANDIDATE
         ),
         None,
     )
-    if report_path.exists() and artifact_path.exists() and completed_record is not None:
+    if existing_record is not None and (
+        existing_record.allowed_for_live
+        or existing_record.manual_approval
+        or existing_record.status in (
+            StrategyStatus.PAPER_TRADING, StrategyStatus.SHADOW_LIVE, StrategyStatus.CHAMPION,
+        )
+    ):
+        return _result(paths, "completed", 0, ("existing_strategy_record_preserved",))
+    if (
+        report_path.exists()
+        and artifact_path.exists()
+        and existing_record is not None
+        and existing_record.status in (StrategyStatus.PAPER_CANDIDATE, StrategyStatus.REJECTED)
+    ):
         return _result(paths, "completed", 0, ("data_unchanged",))
 
     control.report("backtest", 45, validation.spec.strategy_id)
@@ -121,7 +133,7 @@ def _run_locked(
     )
     if control.cancelled:
         return _result(paths, "cancelled", 0, ("learning_cancelled",))
-    control.report("walk_forward_validation", 70, validation.spec.version)
+    control.report("validation", 70, validation.spec.version)
     verified = ValidationEngine(audit).validate(backtest)
     score = ScoringEngine(audit).score(backtest, verified)
     reasons = tuple(
@@ -129,8 +141,8 @@ def _run_locked(
             (*backtest.rejection_reasons, *verified.rejection_reasons, *score.rejection_reasons)
         )
     )
-    if not backtest.success or not verified.promotion_eligible or reasons:
-        control.report("champion_comparison", 100, "champion_retained")
+    if not backtest.success:
+        control.report("completed", 100, "backtest_failed")
         return _result(paths, "completed", 0, reasons)
     if control.cancelled:
         return _result(paths, "cancelled", 0, ("learning_cancelled",))
@@ -141,9 +153,10 @@ def _run_locked(
         score,
         requested_status=StrategyStatus.PAPER_CANDIDATE,
     )
-    if not promotion.allowed:
-        return _result(paths, "completed", 0, promotion.reasons)
     save_learning_report(paths.spec_dir / "reports", validation.spec, bars_by_symbol, score)
+    if not promotion.allowed:
+        control.report("completed", 100, "research_saved_promotion_blocked")
+        return _result(paths, "completed", 0, tuple(dict.fromkeys((*reasons, *promotion.reasons))))
     control.report("completed", 100, "validation_passed")
     return _result(paths, "completed", 1, ())
 
