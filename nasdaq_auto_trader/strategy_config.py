@@ -39,3 +39,4 @@ class StrategyConfig:
     trailing_stop_pct: float = 0.01
     time_based_sell_enabled: bool = False
     max_holding_minutes: int = 180
+    corrected_exits: bool = False

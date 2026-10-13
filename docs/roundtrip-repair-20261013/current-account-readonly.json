@@ -1,0 +1,64 @@
+{
+  "query_started_utc": "2026-10-13T14:23:04.193140+00:00",
+  "query_completed_utc": "2026-10-13T14:23:04.726267+00:00",
+  "account_application_snapshot": {
+    "cash": 62.91,
+    "equity": 62.91,
+    "buying_power": 62.91
+  },
+  "positions": {},
+  "open_orders": [],
+  "present_balance_field_names": {
+    "output1": [],
+    "output2": [
+      "acpl_cstd_crcy_yn",
+      "crcy_cd",
+      "crcy_cd_name",
+      "frcr_buy_amt_smtl",
+      "frcr_buy_mgn_amt",
+      "frcr_dncl_amt_2",
+      "frcr_drwg_psbl_amt_1",
+      "frcr_etc_mgna",
+      "frcr_evlu_amt2",
+      "frcr_sll_amt_smtl",
+      "frst_bltn_exrt",
+      "nxdy_frcr_drwg_psbl_amt"
+    ],
+    "output3": [
+      "buy_mgn_amt",
+      "cma_evlu_amt",
+      "dncl_amt",
+      "etc_mgna",
+      "evlu_amt_smtl",
+      "evlu_amt_smtl_amt",
+      "evlu_erng_rt1",
+      "evlu_pfls_amt_smtl",
+      "frcr_evlu_tota",
+      "frcr_use_psbl_amt",
+      "mgna_tota",
+      "pchs_amt_smtl",
+      "pchs_amt_smtl_amt",
+      "tot_asst_amt",
+      "tot_dncl_amt",
+      "tot_evlu_pfls_amt",
+      "tot_frcr_cblc_smtl",
+      "tot_loan_amt",
+      "ustl_buy_amt_smtl",
+      "ustl_sll_amt_smtl",
+      "wdrw_psbl_tot_amt"
+    ]
+  },
+  "fee_fields": {
+    "output1": [],
+    "output2": [
+      {}
+    ],
+    "output3": [
+      {}
+    ]
+  },
+  "read_only_endpoints": 3,
+  "orders": 0,
+  "cancels": 0,
+  "note": "get_account maps USD deposit cash to cash/equity/buying_power; not symbol-specific orderability."
+}

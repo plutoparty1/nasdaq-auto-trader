@@ -1,0 +1,26 @@
+command: C:\Python314\python.exe C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py --bars C:\Users\u\AppData\Local\Temp\profitability-qa-historical-lw3kxoba\bars.csv --action-free-pair --provenance C:\Users\u\AppData\Local\NasdaqAutoTrader\research\entry-policy-20260929\public\comparison-provenance.json --usdkrw 1333.6339857490755 --fx-source ECB-reference-KRW-per-EUR-divided-by-USD-per-EUR --fx-as-of 2024-08-30T16:00:00+00:00 --train-end 2025-08-29T23:59:59+00:00 --validation-end 2026-02-27T23:59:59+00:00 --fx-history C:\Users\u\AppData\Local\NasdaqAutoTrader\research\entry-policy-20260929\public\usdkrw.csv --profitability-profile C:\Users\u\nasdaq-auto-trader\experiments\profitability_80000\profile.json --output C:\Users\u\AppData\Local\Temp\profitability-qa-historical-lw3kxoba\08-changed-bars
+exit: 1
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 240, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 85, in main
+    return execute(args, Path(staging))
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 219, in execute
+    runner(
+    ~~~~~~^
+        config,
+        ^^^^^^^
+    ...<7 lines>...
+        operations_monthly_krw=args.monthly_operations_krw,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_experiment.py", line 52, in run_profitability_suite
+    policies = frozen_candidates(profile_path, manifest)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_config.py", line 30, in frozen_candidates
+    raise ExperimentInputError('historical bars must match a frozen cohort hash')
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: historical bars must match a frozen cohort hash

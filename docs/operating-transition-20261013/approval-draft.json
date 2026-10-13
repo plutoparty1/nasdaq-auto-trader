@@ -1,0 +1,44 @@
+{
+  "status": "DRAFT_NOT_AUTHORIZED",
+  "live_approval_issued": false,
+  "account": "KIS ****5376",
+  "exe_sha256": "fc3909f258a56b67b795d77b993062c220896ec3db040c89635b7add1aa883ed",
+  "strategy": {
+    "id": "builtin_ai_volatility_target",
+    "version": "data-b230423351524f87-catalogue-v5",
+    "digest": "d2dd08f077a9d7d54d1771cdce798a0554737e4fd0b9ff1d866be3dba32b0729"
+  },
+  "risk": {
+    "max_position_pct": 0.5,
+    "min_cash_buffer_pct": 0.05,
+    "min_order_notional": 50,
+    "max_order_notional": 100,
+    "risk_per_trade_pct": 0.01,
+    "order_qty": 1,
+    "max_position_qty": 1,
+    "allow_additional_buy": false,
+    "min_cash_to_buy": 0.0,
+    "estimated_roundtrip_cost_pct": 0.005
+  },
+  "automatic_additional_caps": {
+    "max_single_position_pct": 0.05,
+    "max_total_exposure_pct": 0.3,
+    "max_order_notional": 1000.0,
+    "max_orders_per_day": 0,
+    "risk_per_trade_pct": 0.03,
+    "max_daily_loss_pct": 0.02
+  },
+  "gui_daily_loss_pct": 5.0,
+  "order_qty": 1,
+  "max_position_qty": 1,
+  "fees_status": "actual_unverified;0.5pct_roundtrip_planning_assumption_only",
+  "live_capable": false,
+  "blockers": [
+    "separate_production_release_required",
+    "fresh_build_bound_explicit_approval_required",
+    "actual_fees_unverified",
+    "normal_entry_full_automatic_selection_broker_flow_unverified",
+    "old_approval_not_inherited",
+    "pre_activation_balance_process_recheck_required"
+  ]
+}

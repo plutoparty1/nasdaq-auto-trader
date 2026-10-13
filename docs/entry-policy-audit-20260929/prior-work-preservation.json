@@ -1,0 +1,9 @@
+{
+  "prior_manifest": "docs/early-exit-audit-20260929/final-source-hashes.json",
+  "files_checked": 29,
+  "changed": [
+    "nasdaq_auto_trader/backtest.py",
+    "nasdaq_auto_trader/backtest_execution.py"
+  ],
+  "scope": "Prior audit manifest only, not all initial dirty state"
+}

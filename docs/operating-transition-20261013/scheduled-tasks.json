@@ -1,0 +1,16 @@
+﻿[
+    {
+        "TaskName":  "NasdaqAutoTrader-LiveCanary",
+        "State":  "Disabled",
+        "Enabled":  false,
+        "Executable":  "C:\\Windows\\System32\\wscript.exe",
+        "Arguments":  "//B //NoLogo \"C:\\Users\\u\\nasdaq-auto-trader\\dist\\NasdaqAutoTrader\\operations\\run_hidden.vbs\" \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\Users\\u\\nasdaq-auto-trader\\dist\\NasdaqAutoTrader\\operations\\ensure_live_canary_running.ps1\" -ExecutablePath \"C:\\Users\\u\\nasdaq-auto-trader\\dist\\NasdaqAutoTrader\\NasdaqAutoTrader.exe\" -ConfigPath \"C:\\Users\\u\\nasdaq-auto-trader\\dist\\NasdaqAutoTrader\\config.kis.json\""
+    },
+    {
+        "TaskName":  "NasdaqAutoTrader-Unattended",
+        "State":  "Disabled",
+        "Enabled":  false,
+        "Executable":  "C:\\Windows\\System32\\wscript.exe",
+        "Arguments":  "//B //NoLogo \"C:\\Users\\u\\nasdaq-auto-trader\\dist\\NasdaqAutoTrader\\operations\\run_hidden.vbs\" \"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass -File \"C:\\Users\\u\\nasdaq-auto-trader\\dist\\NasdaqAutoTrader\\operations\\ensure_unattended_running.ps1\" -ExecutablePath \"C:\\Users\\u\\nasdaq-auto-trader\\dist\\NasdaqAutoTrader\\NasdaqAutoTrader.exe\""
+    }
+]

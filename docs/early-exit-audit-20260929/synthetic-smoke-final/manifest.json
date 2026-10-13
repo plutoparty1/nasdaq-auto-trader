@@ -1,0 +1,23 @@
+{
+  "bars_sha256": "850fed91243e3cc350a6bdde83b3d2c54ffa7a55091b8c0c0c1d5de76c8b3673",
+  "settings_sha256": "23b0124bdfd10ec57f5e72c1bda711b2861ba069c80a853fdb89144957d3e11c",
+  "provenance": {
+    "synthetic": true,
+    "data_source": "generated smoke fixture; not historical evidence"
+  },
+  "fx_source": "synthetic-assumption-not-market-rate",
+  "fx_as_of": "2020-01-01T00:00:00+00:00",
+  "fx_history_sha256": null,
+  "timestamp_count": 300,
+  "symbols": [
+    "SYNTHETIC"
+  ],
+  "assessment": "SYNTHETIC_SMOKE_ONLY",
+  "limitations": [
+    "No current learned-universe or daily-minimum selection replay",
+    "Day bars cannot establish intraday protective order sequence",
+    "Partial first/last months are observation windows, not complete calendar month evidence",
+    "Monthly +10% incidence is a past sample observation, not future probability",
+    "Zero executions never establishes strategy quality; data/server/AI cost unknown unless explicitly supplied"
+  ]
+}

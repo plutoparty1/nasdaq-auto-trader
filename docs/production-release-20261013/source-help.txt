@@ -1,0 +1,17 @@
+usage: python.exe -m nasdaq_auto_trader.production_launcher
+       [-h] [--runtime-check] [--replay REPLAY]
+       {preflight,authorize-live-session,draft-limits} ...
+
+정식 운영본: 기본 시작 대기, 기존 승인을 상속하지 않음
+
+positional arguments:
+  {preflight,authorize-live-session,draft-limits}
+    preflight           읽기 전용 KIS 사전점검; 승인 발급 없음
+    authorize-live-session
+                        사용자의 명시 승인; 운영 시작은 별도 GUI 버튼
+    draft-limits        명시적인 초안 한도 변경; 프로그램을 닫은 뒤 사용, 승인 발급 없음
+
+options:
+  -h, --help            show this help message and exit
+  --runtime-check       시작 상태 출력; 네트워크/승인/주문 없음
+  --replay REPLAY       격리된 시험 계좌·승인·가짜 KIS 전송 전체 경로 시험 JSON

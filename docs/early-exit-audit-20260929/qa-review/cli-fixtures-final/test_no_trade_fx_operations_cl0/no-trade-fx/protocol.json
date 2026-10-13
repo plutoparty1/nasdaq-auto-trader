@@ -1,0 +1,163 @@
+{
+  "settings": {
+    "dry_run": true,
+    "broker": "offline_csv",
+    "starting_krw": 80000,
+    "max_position_pct": 0.5,
+    "max_total_position_pct": 0.5,
+    "cash_buffer_pct": 0.1,
+    "max_portfolio_risk_pct": 0.06,
+    "monthly_loss_stop_pct": 0.1,
+    "costs": [
+      {
+        "name": "base",
+        "commission_pct": 0.0025,
+        "minimum_commission": 0.0,
+        "spread_bps": 10,
+        "slippage_bps": 10,
+        "source": "Illustrative public US online rate 0.25% per side; actual account commission, minimum fee and sell levies unverified. Not broker-exact."
+      },
+      {
+        "name": "stress",
+        "commission_pct": 0.003,
+        "minimum_commission": 0.1,
+        "spread_bps": 30,
+        "slippage_bps": 30,
+        "source": "Prespecified adverse-cost sensitivity; USD 0.10 minimum per side is an assumption, not a verified KIS fee."
+      }
+    ],
+    "strategy": {
+      "sma_fast": 5,
+      "sma_slow": 20,
+      "ema_fast": 5,
+      "ema_slow": 20,
+      "rsi_period": 14,
+      "rsi_oversold": 30,
+      "rsi_overbought": 70,
+      "macd_fast": 12,
+      "macd_slow": 26,
+      "macd_signal": 9,
+      "bollinger_period": 20,
+      "long_sma": 20,
+      "momentum_period": 63,
+      "donchian_period": 55,
+      "stochastic_period": 14,
+      "stochastic_oversold": 20,
+      "stochastic_overbought": 80,
+      "volume_period": 20,
+      "atr_period": 14,
+      "atr_stop_multiplier": 3.0,
+      "atr_take_profit_multiplier": 5.0,
+      "buy_score": 5,
+      "sell_score": 4,
+      "stop_loss_pct": 0.03,
+      "take_profit_pct": 0.05,
+      "use_regime_filter": true,
+      "buy_trigger_enabled": false,
+      "buy_drop_rate": 0.0,
+      "buy_ma_enabled": true,
+      "trailing_stop_enabled": true,
+      "trailing_stop_activation_pct": 0.02,
+      "trailing_stop_pct": 0.01,
+      "time_based_sell_enabled": false,
+      "max_holding_minutes": 180,
+      "corrected_exits": false
+    }
+  },
+  "candidates": [
+    {
+      "name": "technical_intended_exits",
+      "corrected": false,
+      "policy": null
+    },
+    {
+      "name": "technical_corrected_exits",
+      "corrected": true,
+      "policy": null
+    },
+    {
+      "name": "fixed_8",
+      "corrected": true,
+      "policy": {
+        "stop_mode": "fixed",
+        "fixed_stop_pct": 0.08,
+        "fixed_take_profit_pct": 0.16,
+        "trailing_activation_pct": 0.08,
+        "trailing_drawdown_pct": 0.04,
+        "atr_period": 14,
+        "atr_multiplier": 3.0,
+        "min_stop_pct": 0.005,
+        "max_stop_pct": 0.1,
+        "emergency_stop_pct": null,
+        "bar_interval": "1Day",
+        "block_conflicting_entry": false,
+        "completed_bar_only_general": false,
+        "minimum_general_hold_minutes": 0
+      }
+    },
+    {
+      "name": "fixed_10",
+      "corrected": true,
+      "policy": {
+        "stop_mode": "fixed",
+        "fixed_stop_pct": 0.1,
+        "fixed_take_profit_pct": 0.2,
+        "trailing_activation_pct": 0.1,
+        "trailing_drawdown_pct": 0.05,
+        "atr_period": 14,
+        "atr_multiplier": 3.0,
+        "min_stop_pct": 0.005,
+        "max_stop_pct": 0.1,
+        "emergency_stop_pct": null,
+        "bar_interval": "1Day",
+        "block_conflicting_entry": false,
+        "completed_bar_only_general": false,
+        "minimum_general_hold_minutes": 0
+      }
+    },
+    {
+      "name": "entry_atr14x3_1day",
+      "corrected": true,
+      "policy": {
+        "stop_mode": "entry_atr",
+        "fixed_stop_pct": 0.08,
+        "fixed_take_profit_pct": 0.16,
+        "trailing_activation_pct": 0.08,
+        "trailing_drawdown_pct": 0.04,
+        "atr_period": 14,
+        "atr_multiplier": 3.0,
+        "min_stop_pct": 0.005,
+        "max_stop_pct": 0.1,
+        "emergency_stop_pct": null,
+        "bar_interval": "1Day",
+        "block_conflicting_entry": false,
+        "completed_bar_only_general": false,
+        "minimum_general_hold_minutes": 0
+      }
+    }
+  ],
+  "splits": [
+    {
+      "name": "train",
+      "start": "2020-01-01T21:00:00+00:00",
+      "end": "2020-02-10T00:00:00+00:00"
+    },
+    {
+      "name": "validation",
+      "start": "2020-02-10T21:00:00+00:00",
+      "end": "2020-03-10T00:00:00+00:00"
+    },
+    {
+      "name": "final",
+      "start": "2020-03-10T21:00:00+00:00",
+      "end": "2020-04-09T21:00:00+00:00"
+    }
+  ],
+  "fx_rate": 1400.0,
+  "operations_monthly_krw": 1000.0,
+  "scope": "controlled TechnicalStrategy daily-close exits; no daily-minimum or learned-universe replay",
+  "fill_model": "signal at close, next bar limit-touch/market-open fill; no intrabar stop ordering",
+  "risk_model": "integer shares; per-share roundtrip cost upper bound using one-share minimum fees",
+  "monthly_boundaries": "first/last observation months may be partial; USD target ratio is observed not future probability",
+  "protocol_sha256": "fad03cf230655d10e07404069f12399d49a5019f3f22a84a34f1ffac4da2dbae"
+}

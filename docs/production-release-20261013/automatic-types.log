@@ -1,0 +1,908 @@
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\automatic_order_pending.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\automatic_order_pending.py: error: 가져오기 체인에서 순환이 검색되었습니다.
+    c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\automatic_order_pending.py
+    c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine.py
+    c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py (reportImportCycles)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\automatic_order_pending.py:52:28 - warning: ‘_load_positions’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\automatic_order_pending.py:64:26 - warning: ‘_load_account’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\automatic_order_pending.py:68:18 - warning: "_"의 형식을 부분적으로 알 수 없습니다.
+    ‘_’의 유형이 ‘Unknown | None’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\automatic_order_pending.py:68:22 - warning: "_account_for_order"의 형식을 부분적으로 알 수 없습니다.
+    ‘_account_for_order’의 유형이 ‘(account: AccountSnapshot, symbol: str, latest_price: float) -> tuple[AccountSnapshot, Unknown | None]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\automatic_order_pending.py:68:29 - warning: ‘_account_for_order’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\automatic_order_pending.py:69:33 - warning: ‘_settings_block_response’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\automatic_order_pending.py:71:44 - warning: Argument type is Any
+    인수가 "__new__" 함수의 "object" 매개 변수에 해당합니다. (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:11:50 - warning: "record_submitted_order"의 형식을 부분적으로 알 수 없습니다.
+    ‘record_submitted_order’의 유형이 ‘(order: OrderRequest, response: dict[Unknown, Unknown] | None, session_state: TradingSessionState, now: datetime) -> None’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:20:29 - warning: "apply_trading_agents_policy"의 형식을 부분적으로 알 수 없습니다.
+    ‘apply_trading_agents_policy’의 유형이 ‘(decision: TradeDecision, advice: dict[Unknown, Unknown] | None, config: TradingAgentsConfig) -> TradeDecision’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:25:9 - warning: 반환 형식 "list[dict[Unknown, Unknown]]"을(를) 부분적으로 알 수 없습니다. (reportUnknownParameterType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:25:32 - error: ‘dict’ 제네릭 클래스에 대한 형식 인수가 필요합니다. (reportMissingTypeArgument)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:29:13 - warning: "trading_settings" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:29:18 - error: "EngineCycleMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:30:17 - warning: "trading_settings" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:30:17 - warning: "auto_symbol_selection_enabled" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:30:22 - error: "EngineCycleMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:32:20 - warning: "_run_automatic_symbol_cycle"의 형식을 부분적으로 알 수 없습니다.
+    ‘_run_automatic_symbol_cycle’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:32:20 - warning: 반환 형식 "list[dict[Unknown, Unknown]]"을(를) 부분적으로 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:34:13 - warning: "account" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:34:23 - warning: "_load_account" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:34:28 - error: "EngineCycleMixin*" 클래스의 "_load_account" 특성에 액세스할 수 없음
+    특성 "_load_account" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:35:13 - warning: "positions" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:35:25 - warning: "_load_positions" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:35:30 - error: "EngineCycleMixin*" 클래스의 "_load_positions" 특성에 액세스할 수 없음
+    특성 "_load_positions" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:38:9 - warning: "base_data_symbols" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:38:29 - warning: "_data_symbols" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:38:34 - error: "EngineCycleMixin*" 클래스의 "_data_symbols" 특성에 액세스할 수 없음
+    특성 "_data_symbols" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:39:9 - warning: "data_symbols"의 형식을 부분적으로 알 수 없습니다.
+    ‘data_symbols’의 유형이 ‘list[Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:41:26 - warning: "symbol" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:44:13 - warning: "bars_by_symbol" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:44:30 - warning: "_load_recent_bars" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:44:35 - error: "EngineCycleMixin*" 클래스의 "_load_recent_bars" 특성에 액세스할 수 없음
+    특성 "_load_recent_bars" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:47:9 - warning: "trading_session_state" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:47:9 - warning: "observe_portfolio" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:47:14 - error: "EngineCycleMixin*" 클래스의 "trading_session_state" 특성에 액세스할 수 없음
+    특성 "trading_session_state" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:47:65 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:47:70 - error: "EngineCycleMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:49:13 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "_protective_exit_symbols" 함수의 "bars_by_symbol" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:50:13 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "_protective_exit_symbols" 함수의 "positions" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:53:20 - warning: "_run_rule_decision_cycle"의 형식을 부분적으로 알 수 없습니다.
+    ‘_run_rule_decision_cycle’의 유형이 ‘(bars_by_symbol: dict[str, list[Bar]], account: AccountSnapshot, positions: dict[str, Position], symbols: list[str] | None = None, entry_symbols: set[str] | None = None, automatic_risk_limits: Unknown | None = None, authorization_purpose: str = "automatic", max_daily_order_count: int | None = None, daily_minimum_symbol: str = "", entry_prices: dict[str, float] | None = None) -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:53:20 - warning: 반환 형식 "list[dict[Unknown, Unknown]]"을(를) 부분적으로 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:54:17 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "_run_rule_decision_cycle" 함수의 "bars_by_symbol" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:55:17 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "_run_rule_decision_cycle" 함수의 "account" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:56:17 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "_run_rule_decision_cycle" 함수의 "positions" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:59:12 - warning: "trading_settings"의 형식을 부분적으로 알 수 없습니다.
+    ‘trading_settings’의 유형이 ‘Unknown | None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:59:17 - error: "EngineCycleMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:59:70 - warning: "trading_settings" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:59:70 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "ai_features_enabled" 함수의 "settings" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:59:75 - error: "EngineCycleMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:60:13 - warning: "ai_result" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:60:25 - warning: "_run_ai_decision_cycle" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:60:30 - error: "EngineCycleMixin*" 클래스의 "_run_ai_decision_cycle" 특성에 액세스할 수 없음
+    특성 "_run_ai_decision_cycle" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:62:24 - warning: 반환 형식 "list[dict[Unknown, Unknown]]"을(를) 부분적으로 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:64:16 - warning: "_run_rule_decision_cycle"의 형식을 부분적으로 알 수 없습니다.
+    ‘_run_rule_decision_cycle’의 유형이 ‘(bars_by_symbol: dict[str, list[Bar]], account: AccountSnapshot, positions: dict[str, Position], symbols: list[str] | None = None, entry_symbols: set[str] | None = None, automatic_risk_limits: Unknown | None = None, authorization_purpose: str = "automatic", max_daily_order_count: int | None = None, daily_minimum_symbol: str = "", entry_prices: dict[str, float] | None = None) -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:64:16 - warning: 반환 형식 "list[dict[Unknown, Unknown]]"을(를) 부분적으로 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:64:46 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "_run_rule_decision_cycle" 함수의 "bars_by_symbol" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:64:62 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "_run_rule_decision_cycle" 함수의 "account" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:64:71 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "_run_rule_decision_cycle" 함수의 "positions" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:74:16 - warning: "strategy" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:74:16 - warning: "protective_exit" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:74:21 - error: "EngineCycleMixin*" 클래스의 "strategy" 특성에 액세스할 수 없음
+    특성 "strategy" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:77:17 - warning: "trading_session_state" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:77:17 - warning: "position_with_high_water" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:77:22 - error: "EngineCycleMixin*" 클래스의 "trading_session_state" 특성에 액세스할 수 없음
+    특성 "trading_session_state" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:82:9 - warning: 반환 형식 "list[dict[Unknown, Unknown]]"을(를) 부분적으로 알 수 없습니다. (reportUnknownParameterType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:89:9 - warning: 매개 변수 "automatic_risk_limits"의 형식을 부분적으로 알 수 없습니다.
+    매개 변수 형식은 "Unknown | None"입니다. (reportUnknownParameterType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:89:9 - warning: ‘automatic_risk_limits’ 매개 변수에 대한 형식 주석이 없습니다. (reportMissingParameterType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:94:15 - error: ‘dict’ 제네릭 클래스에 대한 형식 인수가 필요합니다. (reportMissingTypeArgument)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:97:9 - warning: "results"의 형식을 부분적으로 알 수 없습니다.
+    ‘results’의 유형이 ‘list[dict[Unknown, Unknown]]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:97:23 - error: ‘dict’ 제네릭 클래스에 대한 형식 인수가 필요합니다. (reportMissingTypeArgument)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:100:13 - warning: "symbol"의 형식을 부분적으로 알 수 없습니다.
+    ‘symbol’의 유형이 ‘Unknown | str’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:100:23 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:100:23 - warning: "symbols" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:100:28 - error: "EngineCycleMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:101:39 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "get" 함수의 "key" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | str"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:102:55 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "adjusted_position" 함수의 "symbol" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | str"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:102:77 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "get" 함수의 "key" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | str"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:103:13 - warning: "trading_session_state" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:103:13 - warning: "observe_position" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:103:18 - error: "EngineCycleMixin*" 클래스의 "trading_session_state" 특성에 액세스할 수 없음
+    특성 "trading_session_state" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:103:75 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:103:80 - error: "EngineCycleMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:104:13 - warning: "position" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:104:24 - warning: "trading_session_state" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:104:24 - warning: "position_with_high_water" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:104:29 - error: "EngineCycleMixin*" 클래스의 "trading_session_state" 특성에 액세스할 수 없음
+    특성 "trading_session_state" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:108:13 - warning: "protective_decision" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:108:35 - warning: "strategy" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:108:35 - warning: "protective_exit" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:108:40 - error: "EngineCycleMixin*" 클래스의 "strategy" 특성에 액세스할 수 없음
+    특성 "strategy" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:110:46 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:110:46 - warning: "timeframe" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:110:46 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "prepare_completed_bars" 함수의 "timeframe" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:110:51 - error: "EngineCycleMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:110:69 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:110:69 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "prepare_completed_bars" 함수의 "now" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:110:74 - error: "EngineCycleMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:113:13 - warning: "decision" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:113:47 - warning: "strategy" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:113:47 - warning: "decide" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:113:52 - error: "EngineCycleMixin*" 클래스의 "strategy" 특성에 액세스할 수 없음
+    특성 "strategy" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:114:13 - warning: "decision" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:114:24 - warning: "_time_based_sell_decision" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:114:29 - error: "EngineCycleMixin*" 클래스의 "_time_based_sell_decision" 특성에 액세스할 수 없음
+    특성 "_time_based_sell_decision" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:116:17 - warning: "strategy" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:116:17 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "daily_minimum_decision" 함수의 "strategy" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:116:22 - error: "EngineCycleMixin*" 클래스의 "strategy" 특성에 액세스할 수 없음
+    특성 "strategy" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:116:32 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "daily_minimum_decision" 함수의 "decision" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:116:48 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "daily_minimum_decision" 함수의 "position" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:116:62 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "daily_minimum_decision" 함수의 "due" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | bool"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:120:17 - warning: "trading_agents_advice" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:120:41 - warning: "_trading_agents_advice" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:120:46 - error: "EngineCycleMixin*" 클래스의 "_trading_agents_advice" 특성에 액세스할 수 없음
+    특성 "_trading_agents_advice" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:123:21 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "apply_trading_agents_policy" 함수의 "advice" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:124:21 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:124:21 - warning: "trading_agents" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:124:21 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "apply_trading_agents_policy" 함수의 "config" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:124:26 - error: "EngineCycleMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:130:41 - warning: "automatic_order_guard" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:130:41 - warning: "session_store" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:130:41 - warning: "path" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:130:41 - warning: "with_name" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:130:41 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "__init__" 함수의 "path" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:130:46 - error: "EngineCycleMixin*" 클래스의 "automatic_order_guard" 특성에 액세스할 수 없음
+    특성 "automatic_order_guard" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:134:21 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "gate_decision" 함수의 "symbol" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | str"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:134:52 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:134:52 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "gate_decision" 함수의 "now" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:134:57 - error: "EngineCycleMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:137:52 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "get" 함수의 "key" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | str"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:137:61 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:137:61 - warning: "strategy" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:137:61 - warning: "stop_loss_pct" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:137:61 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "price_entry_decision" 함수의 "stop_loss_pct" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:137:66 - error: "EngineCycleMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:145:21 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "__init__" 함수의 "symbol" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | str"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:154:17 - warning: "order_account" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:154:32 - warning: "buying_power_check" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:154:53 - warning: "_account_for_order" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:154:58 - error: "EngineCycleMixin*" 클래스의 "_account_for_order" 특성에 액세스할 수 없음
+    특성 "_account_for_order" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:159:59 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "adjusted_account" 함수의 "account" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | AccountSnapshot"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:160:13 - warning: "risk_manager" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:160:28 - warning: "risk_manager" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:160:33 - error: "EngineCycleMixin*" 클래스의 "risk_manager" 특성에 액세스할 수 없음
+    특성 "risk_manager" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:161:13 - warning: "order" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:161:21 - warning: "build_order" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:173:21 - error: "Self@EngineCycleMixin" 형식의 인수를 "automatic_order_context" 함수에서 "AutomaticContextSource" 형식의 "engine" 매개 변수에 할당할 수 없습니다.
+    ‘EngineCycleMixin*’은(는) ‘AutomaticContextSource’ 프로토콜과 호환되지 않습니다.
+      "config"이(가) 없습니다.
+      "trading_settings"이(가) 없습니다.
+      "trading_session_state"이(가) 없습니다.
+      "strategy_artifact_paths"이(가) 없습니다.
+      "_clock"이(가) 없습니다.
+        "last_selection_report"은(는) 변경 가능하므로 고정되지 않습니다.
+        "last_selection_report"은(는) 호환되지 않는 형식입니다.
+    ... (reportArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:187:17 - warning: "response" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:187:28 - warning: "_settings_block_response" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:187:33 - error: "EngineCycleMixin*" 클래스의 "_settings_block_response" 특성에 액세스할 수 없음
+    특성 "_settings_block_response" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:194:25 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "apply_limits" 함수의 "order" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:199:25 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "apply_limits" 함수의 "limits" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:200:25 - warning: "trading_session_state" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:200:25 - warning: "buy_count" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:200:25 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "apply_limits" 함수의 "submitted_order_count" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:200:30 - error: "EngineCycleMixin*" 클래스의 "trading_session_state" 특성에 액세스할 수 없음
+    특성 "trading_session_state" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:201:27 - warning: "trading_session_state" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:201:27 - warning: "sell_count" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:201:32 - error: "EngineCycleMixin*" 클래스의 "trading_session_state" 특성에 액세스할 수 없음
+    특성 "trading_session_state" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:202:25 - warning: "trading_session_state" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:202:25 - warning: "starting_equity" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:202:25 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "apply_limits" 함수의 "starting_equity" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:202:30 - error: "EngineCycleMixin*" 클래스의 "trading_session_state" 특성에 액세스할 수 없음
+    특성 "trading_session_state" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:203:50 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:203:50 - warning: "risk" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:203:50 - warning: "integer_quantity_enabled" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:203:50 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "apply_limits" 함수의 "integer_quantity_enabled" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:203:55 - error: "EngineCycleMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:204:54 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:204:54 - warning: "risk" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:204:54 - warning: "estimated_roundtrip_cost_pct" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:204:54 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "apply_limits" 함수의 "estimated_roundtrip_cost_pct" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:204:59 - error: "EngineCycleMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:205:62 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:205:62 - warning: "risk" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:205:62 - warning: "estimated_roundtrip_minimum_cost_usd" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:205:62 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "apply_limits" 함수의 "estimated_roundtrip_minimum_cost_usd" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:205:67 - error: "EngineCycleMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:206:48 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:206:48 - warning: "risk" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:206:48 - warning: "estimated_sell_tax_pct" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:206:48 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "apply_limits" 함수의 "estimated_sell_tax_pct" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:206:53 - error: "EngineCycleMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:210:29 - warning: "trading_session_state" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:210:34 - error: "EngineCycleMixin*" 클래스의 "trading_session_state" 특성에 액세스할 수 없음
+    특성 "trading_session_state" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:215:25 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:215:25 - warning: "mode"의 형식을 부분적으로 알 수 없습니다.
+    ‘mode’의 유형이 ‘Unknown | Literal['live', 'dry_run']’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:215:30 - error: "EngineCycleMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:217:21 - warning: "automatic_order_guard" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:217:21 - warning: "record_block" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:217:26 - error: "EngineCycleMixin*" 클래스의 "automatic_order_guard" 특성에 액세스할 수 없음
+    특성 "automatic_order_guard" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:220:29 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "__init__" 함수의 "order" 매개 변수에 해당합니다.
+    인수 형식이 "OrderRequest | Unknown"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:221:33 - warning: "get"의 형식을 부분적으로 알 수 없습니다.
+    ‘get’의 유형이 ‘Overload[(key: str, default: None = None, /) -> (str | None), (key: str, default: str, /) -> str, (key: str, default: _T@get, /) -> (str | _T@get)] | Unknown’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:221:33 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "__new__" 함수의 "object" 매개 변수에 해당합니다.
+    인수 형식이 "str | Unknown"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:225:21 - warning: "response" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:225:32 - warning: "_submit_or_block_order" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:225:37 - error: "EngineCycleMixin*" 클래스의 "_submit_or_block_order" 특성에 액세스할 수 없음
+    특성 "_submit_or_block_order" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:227:79 - warning: "side"의 형식을 부분적으로 알 수 없습니다.
+    ‘side’의 유형이 ‘Unknown | Literal['buy', 'sell']’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:231:25 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "record_submitted_order" 함수의 "order" 매개 변수에 해당합니다.
+    인수 형식이 "OrderRequest | Unknown"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:232:25 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "record_submitted_order" 함수의 "response" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:233:25 - warning: "trading_session_state" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:233:25 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "record_submitted_order" 함수의 "session_state" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:233:30 - error: "EngineCycleMixin*" 클래스의 "trading_session_state" 특성에 액세스할 수 없음
+    특성 "trading_session_state" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:234:25 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:234:25 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "record_submitted_order" 함수의 "now" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:234:30 - error: "EngineCycleMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:236:59 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "broker_response_submitted" 함수의 "response" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:237:25 - warning: "get" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:239:24 - warning: "side"의 형식을 부분적으로 알 수 없습니다.
+    ‘side’의 유형이 ‘Unknown | Literal['buy', 'sell']’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:240:38 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:240:38 - warning: "mode"의 형식을 부분적으로 알 수 없습니다.
+    ‘mode’의 유형이 ‘Unknown | Literal['live', 'dry_run']’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:240:43 - error: "EngineCycleMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:242:46 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "reserve" 함수의 "order" 매개 변수에 해당합니다.
+    인수 형식이 "OrderRequest | Unknown"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:244:13 - warning: "planned_quantity"의 형식을 부분적으로 알 수 없습니다.
+    ‘planned_quantity’의 유형이 ‘float | Unknown’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:245:17 - warning: "qty"의 형식을 부분적으로 알 수 없습니다.
+    ‘qty’의 유형이 ‘float | Unknown’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:245:30 - warning: "qty"의 형식을 부분적으로 알 수 없습니다.
+    ‘qty’의 유형이 ‘float | Unknown | None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:246:18 - warning: "notional"의 형식을 부분적으로 알 수 없습니다.
+    ‘notional’의 유형이 ‘float | Unknown | None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:249:42 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "decision_risk_costs" 함수의 "position" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:249:52 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:249:52 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "decision_risk_costs" 함수의 "risk" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:250:34 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "decision_risk_costs" 함수의 "planned_quantity" 매개 변수에 해당합니다.
+    인수 형식이 "float | Unknown"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:253:17 - warning: 호출 식의 결과가 ‘bool’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:253:29 - warning: "strategy_artifact_paths" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:253:29 - warning: "audit_log_path" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:253:29 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "__init__" 함수의 "path" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:253:34 - error: "EngineCycleMixin*" 클래스의 "strategy_artifact_paths" 특성에 액세스할 수 없음
+    특성 "strategy_artifact_paths" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:257:49 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:257:49 - warning: "isoformat" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:257:54 - error: "EngineCycleMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:262:13 - warning: "append"의 형식을 부분적으로 알 수 없습니다.
+    ‘append’의 유형이 ‘(object: dict[Unknown, Unknown], /) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:271:58 - warning: "strategy" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:271:58 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "exit_diagnostics" 함수의 "strategy" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:271:63 - error: "EngineCycleMixin*" 클래스의 "strategy" 특성에 액세스할 수 없음
+    특성 "strategy" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:271:79 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "exit_diagnostics" 함수의 "position" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:272:45 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:272:45 - warning: "isoformat" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:272:50 - error: "EngineCycleMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:273:44 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:273:44 - warning: "timeframe" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:273:49 - error: "EngineCycleMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:277:47 - warning: "get"의 형식을 부분적으로 알 수 없습니다.
+    ‘get’의 유형이 ‘Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)] | Overload[(key: str, default: None = None, /) -> (str | None), (key: str, default: str, /) -> str, (key: str, default: _T@get, /) -> (str | _T@get)]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_cycle.py:279:16 - warning: 반환 형식 "list[dict[Unknown, Unknown]]"을(를) 부분적으로 알 수 없습니다. (reportUnknownVariableType)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:7:5 - warning: "AutomaticOrderBlock"은(는) ".automatic_order_guard" 모듈에서 내보내지지 않습니다.
+    대신 "nasdaq_auto_trader.automatic_order_types"에서 가져오기 (reportPrivateLocalImportUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:8:5 - warning: "AutomaticOrderContext"은(는) ".automatic_order_guard" 모듈에서 내보내지지 않습니다.
+    대신 "nasdaq_auto_trader.automatic_order_types"에서 가져오기 (reportPrivateLocalImportUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:19:5 - warning: "validate_order_against_settings"의 형식을 부분적으로 알 수 없습니다.
+    ‘validate_order_against_settings’의 유형이 ‘(order: OrderRequest, account: AccountSnapshot, position: Position | None, settings: TradingSettings, session_state: TradingSessionState, now: datetime, mode: str) -> (dict[Unknown, Unknown] | None)’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:44:13 - error: "Self@EngineOrderMixin" 형식의 인수를 "production_order_block" 함수에서 "ProductionOrderRuntime" 형식의 "runtime" 매개 변수에 할당할 수 없습니다.
+    ‘EngineOrderMixin*’은(는) ‘ProductionOrderRuntime’ 프로토콜과 호환되지 않습니다.
+      "config"이(가) 없습니다.
+      "trading_settings"이(가) 없습니다. (reportArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:44:26 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:44:26 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "production_order_block" 함수의 "now" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:44:31 - error: "EngineOrderMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:49:13 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:49:13 - warning: "mode" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:49:13 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "__new__" 함수의 "o" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | Literal[False]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:49:18 - error: "EngineOrderMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:50:17 - warning: "trading_settings" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:50:22 - error: "EngineOrderMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:51:17 - warning: "trading_settings" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:51:17 - warning: "auto_symbol_selection_enabled" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:51:22 - error: "EngineOrderMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:54:13 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:54:13 - warning: "mode"의 형식을 부분적으로 알 수 없습니다.
+    ‘mode’의 유형이 ‘Unknown | Literal['live']’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:54:13 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "__new__" 함수의 "o" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | bool"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:54:18 - error: "EngineOrderMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:56:17 - warning: "trading_settings"의 형식을 부분적으로 알 수 없습니다.
+    ‘trading_settings’의 유형이 ‘Unknown | None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:56:22 - error: "EngineOrderMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:57:17 - warning: "trading_settings" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:57:17 - warning: "unattended_operation_enabled" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:57:22 - error: "EngineOrderMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:58:21 - warning: "trading_settings" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:58:21 - warning: "auto_symbol_selection_enabled" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:58:26 - error: "EngineOrderMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:72:12 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:72:12 - warning: "mode"의 형식을 부분적으로 알 수 없습니다.
+    ‘mode’의 유형이 ‘Unknown | Literal['live']’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:72:17 - error: "EngineOrderMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:73:20 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:73:20 - warning: "allow_live_trading" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:73:25 - error: "EngineOrderMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:75:21 - warning: "automatic_order_guard" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:75:21 - warning: "record_block" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:75:26 - error: "EngineOrderMixin*" 클래스의 "automatic_order_guard" 특성에 액세스할 수 없음
+    특성 "automatic_order_guard" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:83:20 - warning: "live_order_confirmation" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:83:25 - error: "EngineOrderMixin*" 클래스의 "live_order_confirmation" 특성에 액세스할 수 없음
+    특성 "live_order_confirmation" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:85:21 - warning: "automatic_order_guard" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:85:21 - warning: "record_block" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:85:26 - error: "EngineOrderMixin*" 클래스의 "automatic_order_guard" 특성에 액세스할 수 없음
+    특성 "automatic_order_guard" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:96:12 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:96:12 - warning: "mode"의 형식을 부분적으로 알 수 없습니다.
+    ‘mode’의 유형이 ‘Unknown | Literal['live']’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:96:17 - error: "EngineOrderMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:102:12 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:102:12 - warning: "mode"의 형식을 부분적으로 알 수 없습니다.
+    ‘mode’의 유형이 ‘Unknown | Literal['live']’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:102:17 - error: "EngineOrderMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:102:46 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:102:46 - warning: "regular_market_hours_only" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:102:51 - error: "EngineOrderMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:103:46 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:103:46 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "regular_market_session" 함수의 "now" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:103:51 - error: "EngineOrderMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:105:54 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:105:54 - warning: "mode"의 형식을 부분적으로 알 수 없습니다.
+    ‘mode’의 유형이 ‘Unknown | Literal['live']’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:105:59 - error: "EngineOrderMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:106:21 - warning: "automatic_order_guard" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:106:21 - warning: "record_block" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:106:26 - error: "EngineOrderMixin*" 클래스의 "automatic_order_guard" 특성에 액세스할 수 없음
+    특성 "automatic_order_guard" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:119:46 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:119:46 - warning: "mode"의 형식을 부분적으로 알 수 없습니다.
+    ‘mode’의 유형이 ‘Unknown | Literal['live', 'dry_run']’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:119:51 - error: "EngineOrderMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:120:13 - warning: "permit" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:120:22 - warning: "automatic_order_guard" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:120:22 - warning: "begin" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:120:27 - error: "EngineOrderMixin*" 클래스의 "automatic_order_guard" 특성에 액세스할 수 없음
+    특성 "automatic_order_guard" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:123:17 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:123:22 - error: "EngineOrderMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:132:17 - error: "Self@EngineOrderMixin" 형식의 인수를 "automatic_pending_order_block" 함수에서 "TradingEngine" 형식의 "engine" 매개 변수에 할당할 수 없습니다.
+    "EngineOrderMixin*"은 "TradingEngine"에 할당할 수 없습니다. (reportArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:135:17 - warning: "outcome_block" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:135:33 - warning: "automatic_order_guard" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:135:33 - warning: "finish" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:135:38 - error: "EngineOrderMixin*" 클래스의 "automatic_order_guard" 특성에 액세스할 수 없음
+    특성 "automatic_order_guard" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:138:17 - warning: "block"의 형식을 부분적으로 알 수 없습니다.
+    ‘block’의 유형이 ‘Unknown | AutomaticOrderBlock’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:139:56 - warning: "reason"의 형식을 부분적으로 알 수 없습니다.
+    ‘reason’의 유형이 ‘Unknown | str’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:139:82 - warning: "terminal"의 형식을 부분적으로 알 수 없습니다.
+    ‘terminal’의 유형이 ‘Unknown | bool’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:140:13 - warning: "permit" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:140:30 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "replace" 함수의 "obj" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:142:13 - warning: "now" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:142:19 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:142:24 - error: "EngineOrderMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:144:27 - warning: "broker" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:144:32 - error: "EngineOrderMixin*" 클래스의 "broker" 특성에 액세스할 수 없음
+    특성 "broker" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:145:17 - warning: "market_date" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:145:31 - warning: "astimezone" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:145:31 - warning: "strftime" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:147:36 - error: "EngineOrderMixin*" 클래스의 "broker" 특성에 액세스할 수 없음
+    특성 "broker" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:147:62 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "list_order_history" 함수의 "start_date" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:147:75 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "list_order_history" 함수의 "end_date" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:151:17 - warning: "trading_settings"의 형식을 부분적으로 알 수 없습니다.
+    ‘trading_settings’의 유형이 ‘Unknown | None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:151:17 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "daily_buy_due" 함수의 "settings" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | None"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:151:22 - error: "EngineOrderMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:151:40 - warning: "trading_session_state" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:151:40 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "daily_buy_due" 함수의 "state" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:151:45 - error: "EngineOrderMixin*" 클래스의 "trading_session_state" 특성에 액세스할 수 없음
+    특성 "trading_session_state" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:151:68 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:151:68 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "daily_buy_due" 함수의 "now" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:151:73 - error: "EngineOrderMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:158:20 - warning: "trading_settings"의 형식을 부분적으로 알 수 없습니다.
+    ‘trading_settings’의 유형이 ‘Unknown | None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:158:25 - error: "EngineOrderMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:158:53 - warning: "trading_settings" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:158:53 - warning: "dry_run" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:158:58 - error: "EngineOrderMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:160:17 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:160:17 - warning: "regular_market_hours_only" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:160:22 - error: "EngineOrderMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:161:48 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:161:48 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "regular_market_session" 함수의 "now" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:161:53 - error: "EngineOrderMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:166:21 - warning: "outcome_block" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:166:37 - warning: "automatic_order_guard" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:166:37 - warning: "finish" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:166:42 - error: "EngineOrderMixin*" 클래스의 "automatic_order_guard" 특성에 액세스할 수 없음
+    특성 "automatic_order_guard" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:169:21 - warning: "block"의 형식을 부분적으로 알 수 없습니다.
+    ‘block’의 유형이 ‘Unknown | AutomaticOrderBlock’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:170:56 - warning: "reason"의 형식을 부분적으로 알 수 없습니다.
+    ‘reason’의 유형이 ‘Unknown | str’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:170:82 - warning: "terminal"의 형식을 부분적으로 알 수 없습니다.
+    ‘terminal’의 유형이 ‘Unknown | bool’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:172:13 - warning: "final_block" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:172:27 - warning: "automatic_order_guard" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:172:27 - warning: "confirm" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:172:32 - error: "EngineOrderMixin*" 클래스의 "automatic_order_guard" 특성에 액세스할 수 없음
+    특성 "automatic_order_guard" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:172:77 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:172:82 - error: "EngineOrderMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:175:52 - warning: "reason" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:176:33 - warning: "terminal" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:179:13 - error: "Self@EngineOrderMixin" 형식의 인수를 "production_order_block" 함수에서 "ProductionOrderRuntime" 형식의 "runtime" 매개 변수에 할당할 수 없습니다.
+    ‘EngineOrderMixin*’은(는) ‘ProductionOrderRuntime’ 프로토콜과 호환되지 않습니다.
+      "config"이(가) 없습니다.
+      "trading_settings"이(가) 없습니다. (reportArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:179:26 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:179:26 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "production_order_block" 함수의 "now" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:179:31 - error: "EngineOrderMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:183:17 - warning: "automatic_order_guard" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:183:17 - warning: "finish" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:183:22 - error: "EngineOrderMixin*" 클래스의 "automatic_order_guard" 특성에 액세스할 수 없음
+    특성 "automatic_order_guard" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:188:13 - warning: "response" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:188:24 - warning: "broker"의 형식을 부분적으로 알 수 없습니다.
+    ‘broker’의 유형이 ‘OrderHistorySource | Unknown’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:188:24 - warning: "submit_order" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:188:29 - error: "EngineOrderMixin*" 클래스의 "broker" 특성에 액세스할 수 없음
+    특성 "broker" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:188:36 - error: "OrderHistorySource" 클래스의 "submit_order" 특성에 액세스할 수 없음
+    특성 "submit_order" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:192:13 - warning: "outcome_block" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:192:29 - warning: "automatic_order_guard" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:192:29 - warning: "finish" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:192:34 - error: "EngineOrderMixin*" 클래스의 "automatic_order_guard" 특성에 액세스할 수 없음
+    특성 "automatic_order_guard" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:196:31 - warning: "reason" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:197:33 - warning: "terminal" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:198:67 - error: "Unknown | dict[str, str]" 형식의 인수를 "broker_response_submitted" 함수에서 "JsonObject" 형식의 "response" 매개 변수에 할당할 수 없습니다.
+    형식 "Unknown | dict[str, str]"은 형식 "JsonObject"에 할당할 수 없습니다.
+      "dict[str, str]"은 "dict[str, JsonValue]"에 할당할 수 없습니다.
+        "_VT@dict" 형식 매개 변수는 고정이지만 "str"은(는) "JsonValue"와 같지 않습니다.
+        값 형식에서 공변(covariant)인 "dict"에서 "Mapping"(매핑)으로 전환하는 것이 좋습니다. (reportArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:200:12 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:200:12 - warning: "mode"의 형식을 부분적으로 알 수 없습니다.
+    ‘mode’의 유형이 ‘Unknown | Literal['live', 'dry_run']’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:200:17 - error: "EngineOrderMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:200:71 - error: "Unknown | dict[str, str]" 형식의 인수를 "broker_response_submitted" 함수에서 "JsonObject" 형식의 "response" 매개 변수에 할당할 수 없습니다.
+    형식 "Unknown | dict[str, str]"은 형식 "JsonObject"에 할당할 수 없습니다.
+      "dict[str, str]"은 "dict[str, JsonValue]"에 할당할 수 없습니다.
+        "_VT@dict" 형식 매개 변수는 고정이지만 "str"은(는) "JsonValue"와 같지 않습니다.
+        값 형식에서 공변(covariant)인 "dict"에서 "Mapping"(매핑)으로 전환하는 것이 좋습니다. (reportArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:201:20 - warning: 반환 형식 "Unknown | dict[str, str]"을(를) 부분적으로 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:202:50 - error: "Unknown | dict[str, str]" 형식의 인수를 "broker_response_status" 함수에서 "JsonObject" 형식의 "response" 매개 변수에 할당할 수 없습니다.
+    형식 "Unknown | dict[str, str]"은 형식 "JsonObject"에 할당할 수 없습니다.
+      "dict[str, str]"은 "dict[str, JsonValue]"에 할당할 수 없습니다.
+        "_VT@dict" 형식 매개 변수는 고정이지만 "str"은(는) "JsonValue"와 같지 않습니다.
+        값 형식에서 공변(covariant)인 "dict"에서 "Mapping"(매핑)으로 전환하는 것이 좋습니다. (reportArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:203:47 - error: "Unknown | dict[str, str]" 형식의 인수를 "broker_response_reconcile_required" 함수에서 "JsonObject" 형식의 "response" 매개 변수에 할당할 수 없습니다.
+    형식 "Unknown | dict[str, str]"은 형식 "JsonObject"에 할당할 수 없습니다.
+      "dict[str, str]"은 "dict[str, JsonValue]"에 할당할 수 없습니다.
+        "_VT@dict" 형식 매개 변수는 고정이지만 "str"은(는) "JsonValue"와 같지 않습니다.
+        값 형식에서 공변(covariant)인 "dict"에서 "Mapping"(매핑)으로 전환하는 것이 좋습니다. (reportArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:224:12 - warning: "trading_settings" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:224:17 - error: "EngineOrderMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:226:16 - warning: 반환 형식 "dict[Unknown, Unknown] | None"을(를) 부분적으로 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:230:13 - warning: "trading_settings" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:230:13 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "validate_order_against_settings" 함수의 "settings" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:230:18 - error: "EngineOrderMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:231:13 - warning: "trading_session_state" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:231:13 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "validate_order_against_settings" 함수의 "session_state" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:231:18 - error: "EngineOrderMixin*" 클래스의 "trading_session_state" 특성에 액세스할 수 없음
+    특성 "trading_session_state" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:232:13 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:232:13 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "validate_order_against_settings" 함수의 "now" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:232:18 - error: "EngineOrderMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:233:13 - warning: "config" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:233:13 - warning: "mode" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:233:13 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "validate_order_against_settings" 함수의 "mode" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:233:18 - error: "EngineOrderMixin*" 클래스의 "config" 특성에 액세스할 수 없음
+    특성 "config" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:244:9 - warning: "settings" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:244:20 - warning: "trading_settings" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:244:25 - error: "EngineOrderMixin*" 클래스의 "trading_settings" 특성에 액세스할 수 없음
+    특성 "trading_settings" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:247:20 - warning: "time_based_sell_enabled" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:253:9 - warning: "held_minutes" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:253:24 - warning: "trading_session_state" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:253:24 - warning: "held_minutes" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:253:29 - error: "EngineOrderMixin*" 클래스의 "trading_session_state" 특성에 액세스할 수 없음
+    특성 "trading_session_state" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:253:72 - warning: "_clock" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:253:77 - error: "EngineOrderMixin*" 클래스의 "_clock" 특성에 액세스할 수 없음
+    특성 "_clock" 알 수 없음 (reportAttributeAccessIssue)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\engine_orders.py:254:51 - warning: "max_holding_minutes" 유형을 알 수 없습니다. (reportUnknownMemberType)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_authorization.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_authorization.py:95:9 - warning: Type of "payload" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_baseline.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_baseline.py:17:14 - warning: Type annotation for attribute `path` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_baseline.py:18:14 - warning: Type annotation for attribute `account_digest` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_baseline.py:28:17 - warning: Type of "payload" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:14:55 - warning: "_approve"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:14:65 - warning: "_engine"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:14:74 - warning: "_gate"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:14:81 - warning: "_summary"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:55:20 - warning: ‘_clock’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:82:9 - warning: "results"의 형식을 부분적으로 알 수 없습니다.
+    ‘results’의 유형이 ‘list[dict[Unknown, Unknown]]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:82:19 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:83:48 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "_summary" 함수의 "results" 매개 변수에 해당합니다.
+    인수 형식이 "list[dict[Unknown, Unknown]]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:91:92 - warning: "item"의 형식을 부분적으로 알 수 없습니다.
+    ‘item’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:100:13 - warning: 호출 식의 결과가 ‘ProductionOrderGate’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:102:68 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:102:68 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "_summary" 함수의 "results" 매개 변수에 해당합니다.
+    인수 형식이 "list[dict[Unknown, Unknown]]"입니다. (reportUnknownArgumentType)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:41:5 - warning: Type annotation for attribute `_ALLOWED_TRANSPORT` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:66:12 - warning: ‘_token_cache_path’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:67:12 - warning: ‘_broker_lease_path’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:71:27 - warning: "runtime"에 액세스하지 않았습니다. (reportUnusedParameter)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:74:16 - warning: 암시적 문자열 연결이 허용되지 않습니다. (reportImplicitStringConcatenation)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:88:9 - warning: Type of "payload" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:91:5 - warning: "rows"의 형식을 부분적으로 알 수 없습니다.
+    ‘rows’의 유형이 ‘list[Unknown] | list[Any]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:93:9 - warning: "row"의 형식을 부분적으로 알 수 없습니다.
+    ‘row’의 유형이 ‘Unknown | Any’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:94:45 - warning: "get"의 형식을 부분적으로 알 수 없습니다.
+    ‘get’의 유형이 ‘Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:96:30 - warning: "get"의 형식을 부분적으로 알 수 없습니다.
+    ‘get’의 유형이 ‘Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:96:30 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "__new__" 함수의 "object" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | str"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:97:35 - warning: "get"의 형식을 부분적으로 알 수 없습니다.
+    ‘get’의 유형이 ‘Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:97:35 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "__new__" 함수의 "object" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:97:88 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "__new__" 함수의 "object" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_draft.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_draft.py:14:5 - warning: Type of "value" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_engine.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_engine.py:22:9 - warning: “_open_json“ 메서드가 override로 표시되지 않았지만 “KISAuthMixin“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_engine.py:25:16 - warning: Return type is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_engine.py:29:9 - warning: “run_operating_cycle“ 메서드가 override로 표시되지 않았지만 “ControllerOperationsMixin“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_engine.py:36:14 - warning: Type annotation for attribute `runtime` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_engine.py:37:14 - warning: Type annotation for attribute `mode` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_fees.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_fees.py:34:9 - warning: Type of "value" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:12:38 - warning: "apply_operator_theme"의 형식을 부분적으로 알 수 없습니다.
+    ‘apply_operator_theme’의 유형이 ‘(root: Unknown, ttk_module: Unknown) -> None’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:24:14 - warning: Type annotation for attribute `root` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:24:25 - warning: Type annotation for attribute `service` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:25:14 - warning: Type annotation for attribute `controller` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:26:14 - warning: Type annotation for attribute `tk` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:26:23 - warning: Type annotation for attribute `ttk` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:27:14 - warning: Type annotation for attribute `busy` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:27:26 - warning: Type annotation for attribute `closing` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:28:14 - warning: Type annotation for attribute `_executor` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:36:9 - warning: "actions"의 형식을 부분적으로 알 수 없습니다.
+    ‘actions’의 유형이 ‘tuple[tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None]]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:37:14 - warning: "start_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:38:14 - warning: "pause_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:39:14 - warning: "cancel_learning_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:42:21 - warning: "button" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:42:58 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "__new__" 함수의 "iterable" 매개 변수에 해당합니다.
+    인수 형식이 "tuple[tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None]]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:43:13 - warning: "configure" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:44:13 - warning: "grid" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:45:34 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "append" 함수의 "object" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:46:13 - warning: "button" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:46:24 - warning: "report_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:46:44 - warning: "refresh_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:46:65 - warning: "learning_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:46:87 - warning: "resume_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:47:13 - warning: "grid_remove" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:48:9 - warning: "warning_label" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:48:9 - warning: "configure" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:49:9 - warning: "warning_var" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:49:9 - warning: "set" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:49:30 - warning: 암시적 문자열 연결이 허용되지 않습니다. (reportImplicitStringConcatenation)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:53:14 - warning: Type annotation for attribute `_poll_id` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:54:14 - warning: Type annotation for attribute `_tick_id` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:116:9 - warning: "status_var" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:116:9 - warning: "set" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:117:9 - warning: "mode_var" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:117:9 - warning: "set" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:118:9 - warning: "selection_var" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:118:9 - warning: "set" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:122:9 - warning: "log_text" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:122:9 - warning: "configure" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:123:9 - warning: "log_text" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:123:9 - warning: "insert" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:124:9 - warning: "log_text" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:124:9 - warning: "see" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:125:9 - warning: "log_text" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:125:9 - warning: "configure" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:129:13 - warning: 호출 식의 결과가 ‘dict[str, tuple[str, str, str, Any, Any]] | None’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:140:9 - warning: 호출 식의 결과가 ‘_GridIndexInfo | Any’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:141:9 - warning: 호출 식의 결과가 ‘_GridIndexInfo | Any’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:145:69 - warning: "yview"의 형식을 부분적으로 알 수 없습니다.
+    ‘yview’의 유형이 ‘Overload[() -> tuple[float, float], (*args: Unknown) -> None]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:145:69 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "__init__" 함수의 "command" 매개 변수에 해당합니다.
+    인수 형식이 "Overload[() -> tuple[float, float], (*args: Unknown) -> None]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:147:9 - warning: 호출 식의 결과가 ‘dict[str, tuple[str, str, str, Any, Any]] | None’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:149:9 - warning: 호출 식의 결과가 ‘dict[str, tuple[str, str, str, Any, Any]] | None’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:172:31 - warning: 암시적 문자열 연결이 허용되지 않습니다. (reportImplicitStringConcatenation)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:187:17 - warning: 호출 식의 결과가 ‘str’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:189:55 - warning: 암시적 문자열 연결이 허용되지 않습니다. (reportImplicitStringConcatenation)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:201:48 - warning: 암시적 문자열 연결이 허용되지 않습니다. (reportImplicitStringConcatenation)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:213:5 - warning: 호출 식의 결과가 ‘ProductionApp’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:20:9 - warning: "lift"의 형식을 부분적으로 알 수 없습니다.
+    ‘lift’의 유형이 ‘(aboveThis: Unknown | None = None) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:26:9 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:27:54 - warning: "status_var" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:27:54 - warning: "get" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:28:63 - warning: ‘_buttons’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:31:13 - warning: ‘_show_review’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:35:22 - warning: ‘_review_window’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:37:13 - warning: "lift"의 형식을 부분적으로 알 수 없습니다.
+    ‘lift’의 유형이 ‘(aboveThis: Unknown | None = None) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:45:13 - warning: ‘_executor’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:10:50 - warning: "ReplayRuntime"은(는) "nasdaq_auto_trader.production_replay" 모듈에서 내보내지지 않습니다.
+    대신 "nasdaq_auto_trader.production_replay_support"에서 가져오기 (reportPrivateLocalImportUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:30:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:31:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:32:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:34:5 - warning: 호출 식의 결과가 ‘ArgumentParser’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:36:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:37:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:40:9 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:56:34 - warning: Type of "value" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_ownership.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_ownership.py:22:14 - warning: Type annotation for attribute `account_digest` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_ownership.py:23:14 - warning: Type annotation for attribute `managed_path` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_ownership.py:25:9 - warning: “complete“ 메서드가 override로 표시되지 않았지만 “TradingSessionStore“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_ownership.py:37:13 - warning: Type of "payload" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:19:55 - warning: "_approve"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:19:65 - warning: "_engine"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:19:74 - warning: "_gate"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:19:81 - warning: "_summary"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:69:17 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:74:28 - warning: ‘_clock’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:83:25 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:99:21 - warning: 호출 식의 결과가 ‘ClaimDecision’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:113:69 - warning: ‘_clock’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:115:17 - warning: "results"의 형식을 부분적으로 알 수 없습니다.
+    ‘results’의 유형이 ‘list[dict[Unknown, Unknown]]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:115:27 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:116:56 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "_summary" 함수의 "results" 매개 변수에 해당합니다.
+    인수 형식이 "list[dict[Unknown, Unknown]]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:119:100 - warning: "item"의 형식을 부분적으로 알 수 없습니다.
+    ‘item’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:129:21 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:129:21 - warning: 호출 식의 결과가 ‘list[dict[Unknown, Unknown]]’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:131:21 - warning: 호출 식의 결과가 ‘ProductionOrderGate’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:132:21 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:132:21 - warning: 호출 식의 결과가 ‘list[dict[Unknown, Unknown]]’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:147:21 - warning: 호출 식의 결과가 ‘ProductionOrderGate’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:149:21 - warning: "restart_results"의 형식을 부분적으로 알 수 없습니다.
+    ‘restart_results’의 유형이 ‘list[dict[Unknown, Unknown]]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:149:39 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:150:76 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "_summary" 함수의 "results" 매개 변수에 해당합니다.
+    인수 형식이 "list[dict[Unknown, Unknown]]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:160:61 - warning: "action" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:160:61 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "any" 함수의 "iterable" 매개 변수에 해당합니다.
+    인수 형식이 "Generator[Unknown, None, None]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:160:99 - warning: "item"의 형식을 부분적으로 알 수 없습니다.
+    ‘item’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:169:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_market.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_market.py:102:9 - warning: 함수 "_request"에 액세스하지 않았습니다. (reportUnusedFunction)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:43:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:44:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:50:5 - warning: 함수 "_engine"에 액세스하지 않았습니다. (reportUnusedFunction)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:68:5 - warning: 함수 "_approve"에 액세스하지 않았습니다. (reportUnusedFunction)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:84:5 - warning: 함수 "_gate"에 액세스하지 않았습니다. (reportUnusedFunction)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:111:5 - warning: 함수 "_summary"에 액세스하지 않았습니다. (reportUnusedFunction)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:115:41 - warning: Argument type is Any
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:116:38 - warning: Argument type is Any
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_runtime.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_runtime.py:15:27 - warning: "_read_dotenv"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_runtime.py:63:17 - warning: 호출 식의 결과가 ‘str’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py:46:14 - warning: Type annotation for attribute `runtime` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py:47:14 - warning: Type annotation for attribute `store` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py:48:14 - warning: Type annotation for attribute `gate` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py:52:14 - warning: Type annotation for attribute `factory` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py:53:14 - warning: Type annotation for attribute `controller` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py:63:14 - warning: Type annotation for attribute `_leases` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_sizing.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_sizing.py:57:9 - warning: "append"의 형식을 부분적으로 알 수 없습니다.
+    ‘append’의 유형이 ‘(object: Unknown, /) -> None’입니다. (reportUnknownMemberType)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\risk.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\risk.py:36:14 - warning: Type annotation for attribute `config` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+112 errors, 469 warnings, 0 notes

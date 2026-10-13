@@ -10,8 +10,11 @@ from .automatic_order_types import (
     AutomaticOrderBlock,
     AutomaticOrderPermit,
 )
-from .broker_response import broker_response_submitted
-from .session_claims import ClaimStatus
+from .broker_response import (
+    broker_response_reconcile_required,
+    broker_response_submitted,
+)
+from .session_claims import AcceptedBuyReceipt, ClaimStatus
 from .trading_session_store import SessionStoreError, TradingSessionStore
 
 
@@ -46,7 +49,11 @@ class AutomaticOrderAuditor:
         response: JsonObject,
     ) -> AutomaticOrderBlock | None:
         submitted = broker_response_submitted(response)
-        status = ClaimStatus.SUBMITTED if submitted else ClaimStatus.REJECTED
+        uncertain = broker_response_reconcile_required(response)
+        status = (
+            ClaimStatus.UNCERTAIN if uncertain
+            else ClaimStatus.SUBMITTED if submitted else ClaimStatus.REJECTED
+        )
         outcome_written = self.audit.append(
             AuditEvent(
                 "automatic_order_submitted" if submitted else "automatic_order_blocked",
@@ -57,7 +64,10 @@ class AutomaticOrderAuditor:
                     "side": permit.key.side,
                     "signal_timestamp": permit.key.signal_timestamp,
                     "broker_submitted": submitted,
-                    "reason": "" if submitted else "broker_response_not_submitted",
+                    "reason": (
+                        "order_response_reconcile_required" if uncertain
+                        else "" if submitted else "broker_response_not_submitted"
+                    ),
                     "elapsed_milliseconds": round(
                         (time.monotonic() - permit.started_monotonic) * 1000,
                         3,
@@ -68,12 +78,23 @@ class AutomaticOrderAuditor:
         if not outcome_written:
             return self._uncertain_outcome(permit)
         try:
-            self.session_store.complete(permit.key, status)
+            receipt = None
+            if submitted and permit.key.side == "buy":
+                output = response.get("output")
+                order_id = output.get("ODNO") if isinstance(output, dict) else response.get("id")
+                receipt = AcceptedBuyReceipt(
+                    order_id if isinstance(order_id, str) else "",
+                    permit.key.symbol, permit.key.market_date,
+                    permit.initial_position_qty, permit.planned_quantity,
+                )
+            self.session_store.complete(permit.key, status, receipt)
         except SessionStoreError:
             return AutomaticOrderBlock(
                 "claim_finalization_failed_reconcile_required",
                 terminal=True,
             )
+        if uncertain:
+            return AutomaticOrderBlock("order_response_reconcile_required", terminal=True)
         return None
 
     def _uncertain_outcome(

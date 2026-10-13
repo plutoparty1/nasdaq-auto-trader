@@ -1,0 +1,66 @@
+{
+  "assertions": 4501,
+  "checks": {
+    "twelve_profiles": 2,
+    "all_budgets": 2,
+    "exploratory": 2,
+    "zero_broker_calls": 2,
+    "max_drawdown": 96,
+    "mean_exposure": 96,
+    "max_exposure": 96,
+    "cash_exposure_total": 96,
+    "mean_trade": 76,
+    "mean_win": 69,
+    "mean_loss": 76,
+    "complete_calendar_flag": 672,
+    "month_return": 672,
+    "monthly_compound": 96,
+    "full_month_count": 96,
+    "target_count": 96,
+    "full_month_median": 96,
+    "full_month_worst": 96,
+    "first_reason_count": 610,
+    "concurrent_reason_count": 610,
+    "signal_reason_count": 610,
+    "risk_budget_signal_count": 96,
+    "submitted_count": 96,
+    "cash_usd_return": 8,
+    "cash_cost_zero": 8,
+    "integer_benchmark": 8,
+    "basket_unavailable_explicit": 8,
+    "fractional_label": 8,
+    "synthetic_72_rows": 1,
+    "synthetic_explicit": 1
+  },
+  "failures": [],
+  "facts": {
+    "main": {
+      "concurrent_constraint_rows": 5336,
+      "full_month_counts": [
+        4
+      ],
+      "target_counts": [
+        0
+      ],
+      "mean_investment_pct_range": [
+        0.0,
+        9.1068527766374
+      ]
+    },
+    "pair": {
+      "concurrent_constraint_rows": 12000,
+      "full_month_counts": [
+        4,
+        5,
+        7
+      ],
+      "target_counts": [
+        0
+      ],
+      "mean_investment_pct_range": [
+        0.0,
+        8.992044079716708
+      ]
+    }
+  }
+}

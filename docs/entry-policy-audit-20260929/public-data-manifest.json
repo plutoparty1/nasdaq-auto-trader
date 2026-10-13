@@ -1,0 +1,212 @@
+{
+  "collected_at": "2026-09-29T12:37:02.306775+00:00",
+  "requested_start": "2024-09-01",
+  "requested_end": "2026-09-28",
+  "timeframe": "1Day",
+  "price_policy": "Yahoo quote OHLC: split-adjusted, not dividend-adjusted; raw events retained. No total-return claim. Split spans require separate handling before comparisons.",
+  "timestamp_policy": "Exchange completed-session close in America/New_York converted to UTC; NYSE verified 2024-2026 calendar incl early closes and 2025-01-09 closure. Daily labels, not actual fill timestamps.",
+  "fx_policy": "ECB KRW per EUR / USD per EUR; same-day 16:00 UTC conservative availability label, actual trade FX unknown.",
+  "order_calls": 0,
+  "cancel_calls": 0,
+  "credential_reads": 0,
+  "transport": "exact HTTPS GET allowlist; TLS certifi verification; no redirects; at most 2 attempts per query",
+  "stocks": [
+    {
+      "symbol": "CMCSA",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/CMCSA?period1=1725148800&period2=1790640000&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+      "collected_at": "2026-09-29T12:37:02.306775+00:00",
+      "raw_sha256": "93c6b7e18f6f01abd605a6f857603920a388ac8cd44b9dc662b5aef93ee8e8aa",
+      "csv_sha256": "2c2ca2a442a8f0222baecd48d4b3eb6db4966f2091bc8c6ccdb66491f10aa04b",
+      "bars": 519,
+      "first_timestamp": "2024-09-03T20:00:00+00:00",
+      "last_timestamp": "2026-09-28T20:00:00+00:00",
+      "missing_dates": [],
+      "missing_rate": 0.0,
+      "excluded_outside_period": 0,
+      "events": {
+        "dividends": {
+          "1727875800": {
+            "amount": 0.290534,
+            "date": 1727875800
+          },
+          "1736346600": {
+            "amount": 0.290534,
+            "date": 1736346600
+          },
+          "1743600600": {
+            "amount": 0.309278,
+            "date": 1743600600
+          },
+          "1751463000": {
+            "amount": 0.309278,
+            "date": 1751463000
+          },
+          "1759325400": {
+            "amount": 0.309278,
+            "date": 1759325400
+          },
+          "1768401000": {
+            "amount": 0.33,
+            "date": 1768401000
+          },
+          "1775050200": {
+            "amount": 0.33,
+            "date": 1775050200
+          },
+          "1782912600": {
+            "amount": 0.33,
+            "date": 1782912600
+          }
+        },
+        "splits": {
+          "1767623400": {
+            "date": 1767623400,
+            "numerator": 1067.0,
+            "denominator": 1000.0,
+            "splitRatio": "1067:1000"
+          }
+        }
+      },
+      "adjusted_close_differs_count": 457
+    },
+    {
+      "symbol": "KDP",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/KDP?period1=1725148800&period2=1790640000&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+      "collected_at": "2026-09-29T12:37:02.306775+00:00",
+      "raw_sha256": "c69af45db5e818e41d944ce6bae95eb3dced1c13a1c323da8bfe4770a392912d",
+      "csv_sha256": "a7c3172babaff091c1493dc43ce0f0ec55bd9ebfab88a951004bece5013c7219",
+      "bars": 519,
+      "first_timestamp": "2024-09-03T20:00:00+00:00",
+      "last_timestamp": "2026-09-28T20:00:00+00:00",
+      "missing_dates": [],
+      "missing_rate": 0.0,
+      "excluded_outside_period": 0,
+      "events": {
+        "dividends": {
+          "1727443800": {
+            "amount": 0.23,
+            "date": 1727443800
+          },
+          "1735914600": {
+            "amount": 0.23,
+            "date": 1735914600
+          },
+          "1743168600": {
+            "amount": 0.23,
+            "date": 1743168600
+          },
+          "1751031000": {
+            "amount": 0.23,
+            "date": 1751031000
+          },
+          "1758893400": {
+            "amount": 0.23,
+            "date": 1758893400
+          },
+          "1767364200": {
+            "amount": 0.23,
+            "date": 1767364200
+          },
+          "1774618200": {
+            "amount": 0.23,
+            "date": 1774618200
+          },
+          "1782480600": {
+            "amount": 0.23,
+            "date": 1782480600
+          },
+          "1790602200": {
+            "amount": 0.23,
+            "date": 1790602200
+          }
+        }
+      },
+      "adjusted_close_differs_count": 518
+    },
+    {
+      "symbol": "HIVE",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/HIVE?period1=1725148800&period2=1790640000&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+      "collected_at": "2026-09-29T12:37:02.306775+00:00",
+      "raw_sha256": "c266a4a1a54a4a6eab180484df03714a7adf57bcbf9477b089cec5d3d8dc0346",
+      "csv_sha256": "fb5455b2711b36630292e239c937106524fde99cf7d6a0249cc2fa91b82e83a6",
+      "bars": 519,
+      "first_timestamp": "2024-09-03T20:00:00+00:00",
+      "last_timestamp": "2026-09-28T20:00:00+00:00",
+      "missing_dates": [],
+      "missing_rate": 0.0,
+      "excluded_outside_period": 0,
+      "events": {},
+      "adjusted_close_differs_count": 0
+    },
+    {
+      "symbol": "SPY",
+      "source": "https://query1.finance.yahoo.com/v8/finance/chart/SPY?period1=1725148800&period2=1790640000&interval=1d&events=div%2Csplits&includeAdjustedClose=true",
+      "collected_at": "2026-09-29T12:37:02.306775+00:00",
+      "raw_sha256": "12b9f67a6063a6ad201c67ad24d6f2f2db201cbbd97575ea7c5955ca51277970",
+      "csv_sha256": "3669ba9f1e06d90888da5878f8775405b9296272b9afda6f004230cb20083321",
+      "bars": 519,
+      "first_timestamp": "2024-09-03T20:00:00+00:00",
+      "last_timestamp": "2026-09-28T20:00:00+00:00",
+      "missing_dates": [],
+      "missing_rate": 0.0,
+      "excluded_outside_period": 0,
+      "events": {
+        "dividends": {
+          "1726839000": {
+            "amount": 1.746,
+            "date": 1726839000
+          },
+          "1734705000": {
+            "amount": 1.966,
+            "date": 1734705000
+          },
+          "1742563800": {
+            "amount": 1.696,
+            "date": 1742563800
+          },
+          "1750426200": {
+            "amount": 1.761,
+            "date": 1750426200
+          },
+          "1758288600": {
+            "amount": 1.831,
+            "date": 1758288600
+          },
+          "1766154600": {
+            "amount": 1.993,
+            "date": 1766154600
+          },
+          "1774013400": {
+            "amount": 1.797,
+            "date": 1774013400
+          },
+          "1781789400": {
+            "amount": 1.904,
+            "date": 1781789400
+          },
+          "1789738200": {
+            "amount": 1.889,
+            "date": 1789738200
+          }
+        }
+      },
+      "adjusted_close_differs_count": 512
+    }
+  ],
+  "fx": {
+    "source": "https://data-api.ecb.europa.eu/service/data/EXR/D.USD+KRW.EUR.SP00.A?startPeriod=2024-08-30&endPeriod=2026-09-28&format=csvdata",
+    "collected_at": "2026-09-29T12:37:02.306775+00:00",
+    "rows": 530,
+    "first": {
+      "timestamp": "2024-08-30T16:00:00+00:00",
+      "usdkrw": 1333.6339857490755
+    },
+    "last": {
+      "timestamp": "2026-09-28T16:00:00+00:00",
+      "usdkrw": 1357.9275795394622
+    },
+    "raw_sha256": "eb0c171de9e8f8edbcc62459bea18d640c919f47ab1f5e5bb76577f200457ec6",
+    "csv_sha256": "e94a2de39bf1f2b8c0a1bfd434c0bc5c8110a1e75188fe70e766142e095884f9"
+  },
+  "failures": []
+}

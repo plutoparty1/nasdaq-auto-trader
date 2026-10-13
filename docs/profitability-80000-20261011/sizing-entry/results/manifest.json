@@ -1,0 +1,46 @@
+{
+  "bars_sha256": "22eb6493d51bf44b25f3c329b730a159434105a44ef96be8aa0429c23e2c147f",
+  "profile_sha256": "af69e6f41baa5d0291c8fdd1f5578bfafae437df83c04d880ac1944ecc594627",
+  "costs_sha256": "23b0124bdfd10ec57f5e72c1bda711b2861ba069c80a853fdb89144957d3e11c",
+  "fx_history_sha256": "e94a2de39bf1f2b8c0a1bfd434c0bc5c8110a1e75188fe70e766142e095884f9",
+  "fx_source": "ECB-reference-KRW-per-EUR-divided-by-USD-per-EUR",
+  "fx_as_of": "2024-08-30T16:00:00+00:00",
+  "provenance": {
+    "data_source": "Yahoo public chart quote OHLC; ECB EUR crosses for USDKRW",
+    "collected_at": "2026-09-29T12:37:02.306775+00:00",
+    "bar_interval": "1Day",
+    "adjustment_policy": "Provider split-adjusted quote OHLC, not dividend-adjusted. CMCSA 2026-01-05 Versant corporate action excluded with all prior bars; no entitlement or dividend cash simulated.",
+    "universe_source": "CMCSA KDP HIVE are logged-trade case cohort selected with hindsight; SPY separate control; KDP HIVE separate no-action-pair sensitivity, not historical selection replay",
+    "timestamp_policy": "Exchange completed-session close in America/New_York converted to UTC; NYSE verified 2024-2026 calendar incl early closes and 2025-01-09 closure. Daily labels, not actual fill timestamps.",
+    "raw_manifest_sha256": "8464b401b897ac9e4a261ea3dc15aa67331546055d32b9f55ecb778c2b5c1fe5"
+  },
+  "symbols": [
+    "CMCSA",
+    "HIVE",
+    "KDP"
+  ],
+  "bar_count": {
+    "CMCSA": 183,
+    "HIVE": 183,
+    "KDP": 183
+  },
+  "assessment": "EXPLORATORY_ALREADY_USED_DATA",
+  "unavailable_splits": [
+    "train",
+    "validation"
+  ],
+  "omitted_split_reason": "insufficient data after fixed 64-bar warmup; boundaries not retuned",
+  "order_api_calls": 0,
+  "cancel_api_calls": 0,
+  "limitations": [
+    "Three profiles only: P0 fixed one, P1 dynamic integer, P2 replacement daily breakout entry",
+    "All retain fixed_8 exits, 2% trade risk and frozen common caps; no averaging down",
+    "Both costs use the same unverified commission/minimum; high_impact widens only spread/slippage",
+    "Prior USD0.10 minimum stress preserved separately; actual fees/levies/FX/operations unknown",
+    "Previously used hindsight cohort; exploratory, not independent validation",
+    "Close-only protective observation; next admissible open simulation cannot prove queue execution",
+    "Price-only dividends omitted; unrealized equity included; passive hold retains original one-share rule"
+  ],
+  "sizing_entry_profile_sha256": "68c2ba260005c550c3fe88e09e734812476df031472a43b68c65e31c057f0fc9",
+  "no_independent_holdout": true
+}

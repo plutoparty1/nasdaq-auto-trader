@@ -1,0 +1,76 @@
+{
+  "dry_run": true,
+  "broker": "offline_csv",
+  "candidates": [
+    {
+      "name": "technical_intended_exits",
+      "corrected": false,
+      "policy": null
+    },
+    {
+      "name": "technical_corrected_exits",
+      "corrected": true,
+      "policy": null
+    },
+    {
+      "name": "fixed_8",
+      "corrected": true,
+      "policy": {
+        "stop_mode": "fixed",
+        "fixed_stop_pct": 0.08,
+        "fixed_take_profit_pct": 0.16,
+        "trailing_activation_pct": 0.08,
+        "trailing_drawdown_pct": 0.04,
+        "atr_period": 14,
+        "atr_multiplier": 3.0,
+        "min_stop_pct": 0.005,
+        "max_stop_pct": 0.1,
+        "emergency_stop_pct": null,
+        "bar_interval": "1Day",
+        "block_conflicting_entry": false,
+        "completed_bar_only_general": false,
+        "minimum_general_hold_minutes": 0
+      }
+    },
+    {
+      "name": "fixed_10",
+      "corrected": true,
+      "policy": {
+        "stop_mode": "fixed",
+        "fixed_stop_pct": 0.1,
+        "fixed_take_profit_pct": 0.2,
+        "trailing_activation_pct": 0.1,
+        "trailing_drawdown_pct": 0.05,
+        "atr_period": 14,
+        "atr_multiplier": 3.0,
+        "min_stop_pct": 0.005,
+        "max_stop_pct": 0.1,
+        "emergency_stop_pct": null,
+        "bar_interval": "1Day",
+        "block_conflicting_entry": false,
+        "completed_bar_only_general": false,
+        "minimum_general_hold_minutes": 0
+      }
+    },
+    {
+      "name": "entry_atr14x3_1day",
+      "corrected": true,
+      "policy": {
+        "stop_mode": "entry_atr",
+        "fixed_stop_pct": 0.08,
+        "fixed_take_profit_pct": 0.16,
+        "trailing_activation_pct": 0.08,
+        "trailing_drawdown_pct": 0.04,
+        "atr_period": 14,
+        "atr_multiplier": 3.0,
+        "min_stop_pct": 0.005,
+        "max_stop_pct": 0.1,
+        "emergency_stop_pct": null,
+        "bar_interval": "1Day",
+        "block_conflicting_entry": false,
+        "completed_bar_only_general": false,
+        "minimum_general_hold_minutes": 0
+      }
+    }
+  ]
+}

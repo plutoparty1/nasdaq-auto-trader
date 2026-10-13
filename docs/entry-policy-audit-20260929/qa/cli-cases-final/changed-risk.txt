@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 227, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 79, in main
+    return execute(args, Path(staging))
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 93, in execute
+    config = load_entry_profile(args.profile)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\entry_comparison.py", line 71, in load_entry_profile
+    raise ExperimentInputError(
+        "common risk must match the prespecified 1% one-share limits"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: common risk must match the prespecified 1% one-share limits

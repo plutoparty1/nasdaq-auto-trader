@@ -1,0 +1,39 @@
+name: Release GP5 PDF Web
+on:
+  push:
+    tags: ['v*']
+permissions:
+  contents: read
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020
+        with:
+          node-version: '24'
+          cache: npm
+      - run: npm ci --no-fund
+      - run: npm run check
+      - run: npm test
+      - run: npx playwright install --with-deps chromium webkit firefox
+      - run: npm run test:browser
+      - run: npm run build
+      - run: npm run package
+      - name: Publish release archives
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "$GITHUB_REF_NAME"
+          release/GP5-PDF-Web-site.zip release/GP5-PDF-Web-source.zip release/SHA256SUMS.txt
+          --verify-tag --title "GP5 PDF Web $GITHUB_REF_NAME" --notes-file release/NOTES.md
+      - name: Keep failed browser-test evidence
+        if: failure()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: release-browser-failure
+          path: qa/web-runtime-*
+          if-no-files-found: ignore
+          retention-days: 7

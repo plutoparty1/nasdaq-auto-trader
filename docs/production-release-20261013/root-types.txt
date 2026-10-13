@@ -1,0 +1,11 @@
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_draft.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_draft.py:14:5 - warning: Type of "value" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:29:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:30:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:32:5 - warning: 호출 식의 결과가 ‘ArgumentParser’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:34:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:35:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:38:9 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:54:34 - warning: Type of "value" is Any (reportAny)
+0 errors, 8 warnings, 0 notes

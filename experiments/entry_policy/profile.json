@@ -1,0 +1,71 @@
+{
+  "dry_run": true,
+  "broker": "offline_csv",
+  "policies": [
+    "A",
+    "B",
+    "C"
+  ],
+  "strategy": {
+    "sma_fast": 5,
+    "sma_slow": 20,
+    "ema_fast": 5,
+    "ema_slow": 20,
+    "rsi_period": 14,
+    "rsi_oversold": 30,
+    "rsi_overbought": 70,
+    "macd_fast": 12,
+    "macd_slow": 26,
+    "macd_signal": 9,
+    "bollinger_period": 20,
+    "long_sma": 20,
+    "momentum_period": 63,
+    "donchian_period": 55,
+    "stochastic_period": 14,
+    "stochastic_oversold": 20,
+    "stochastic_overbought": 80,
+    "volume_period": 20,
+    "atr_period": 14,
+    "atr_stop_multiplier": 3.0,
+    "atr_take_profit_multiplier": 5.0,
+    "buy_score": 5,
+    "sell_score": 4,
+    "stop_loss_pct": 0.03,
+    "take_profit_pct": 0.05,
+    "use_regime_filter": true,
+    "buy_trigger_enabled": false,
+    "buy_drop_rate": 0.0,
+    "buy_ma_enabled": true,
+    "trailing_stop_enabled": true,
+    "trailing_stop_activation_pct": 0.02,
+    "trailing_stop_pct": 0.01,
+    "time_based_sell_enabled": false,
+    "max_holding_minutes": 180,
+    "corrected_exits": false
+  },
+  "risk": {
+    "order_qty": 1,
+    "max_position_qty": 1,
+    "max_position_pct": 0.5,
+    "min_cash_buffer_pct": 0.05,
+    "risk_per_trade_pct": 0.01,
+    "allow_additional_buy": false
+  },
+  "limits": {
+    "max_total_exposure_pct": 0.5,
+    "max_automatic_buy_usd": 35,
+    "daily_loss_stop_pct": 0.02,
+    "starting_krw": 80000
+  },
+  "notes": [
+    "A is an offline matched-risk policy proxy, not the historical executable.",
+    "A promotes eligible holds until one share actually fills in the US session.",
+    "All A/B/C use ordinary 1% risk; historical daily-minimum 5% override is omitted.",
+    "B disables the minimum objective; zero buys is normal no_trade.",
+    "C adds simultaneous sell-score entry veto and completed-bar general-signal deduplication.",
+    "Completed bars must have explicit timezone-aware close timestamps.",
+    "Protective exits run from valid marks before general-signal deduplication.",
+    "All legacy exit numbers, quantity, allocation and cost assumptions are shared.",
+    "No production GUI settings, held-position policy or executable is changed."
+  ]
+}

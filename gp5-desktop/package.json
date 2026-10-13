@@ -1,0 +1,63 @@
+{
+  "name": "gp5-pdf",
+  "version": "1.1.0",
+  "description": "Offline GP5 instrument PDF converter",
+  "author": "GP5 PDF contributors",
+  "private": true,
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "test": "node test/run.cjs",
+    "build:win": "electron-builder --win portable --x64 --publish never",
+    "build:mac": "electron-builder --mac zip --x64 --arm64 --publish never"
+  },
+  "dependencies": {
+    "@coderline/alphatab": "1.8.4"
+  },
+  "devDependencies": {
+    "electron": "44.4.5",
+    "electron-builder": "26.15.3"
+  },
+  "build": {
+    "appId": "local.gp5pdf.desktop",
+    "productName": "GP5 PDF",
+    "asar": true,
+    "directories": {
+      "output": "release"
+    },
+    "files": [
+      "*.cjs",
+      "*.html",
+      "*.js",
+      "*.css",
+      "assets/**/*",
+      "THIRD_PARTY.md",
+      "LICENSES/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "GP5-PDF-Windows-${arch}.${ext}",
+      "signAndEditExecutable": false
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "zip",
+          "arch": [
+            "x64",
+            "arm64"
+          ]
+        }
+      ],
+      "category": "public.app-category.music",
+      "artifactName": "GP5-PDF-macOS-${arch}.${ext}"
+    }
+  }
+}

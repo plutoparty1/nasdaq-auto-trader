@@ -1,13 +1,13 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field
 import time
+from dataclasses import dataclass, field
 from typing import Protocol, TypeAlias
 
 from .ai_quant_lab.audit_logger import AuditEvent
-from .session_claims import SignalKey
-from .quant_data.symbol_selector import ResolvedStrategy
 from .models import OrderRequest
+from .quant_data.symbol_selector import ResolvedStrategy
+from .session_claims import SignalKey
 
 
 class AuditSink(Protocol):
@@ -47,6 +47,8 @@ class AutomaticOrderPermit:
     key: SignalKey
     context: AutomaticOrderContext
     started_monotonic: float
+    initial_position_qty: float = 0.0
+    planned_quantity: float = 1.0
 
 
 AutomaticOrderDecision: TypeAlias = AutomaticOrderPermit | AutomaticOrderBlock

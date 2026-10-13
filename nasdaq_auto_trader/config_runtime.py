@@ -8,6 +8,7 @@ from .config_settings import TradingSessionState, TradingSettings
 from .config_validation import _ai_features_enabled, _normalized_tickers
 from .market_hours import EASTERN, regular_market_session
 from .models import AccountSnapshot, OrderRequest, Position
+from .safe_runtime import orders_locked, sanitize_config, sanitize_settings
 
 
 def apply_settings_to_app_config(
@@ -16,6 +17,9 @@ def apply_settings_to_app_config(
 ) -> AppConfig:
     """Map GUI settings onto the existing AppConfig/StrategyConfig/RiskConfig flow."""
 
+    if orders_locked():
+        base_config = sanitize_config(base_config)
+        settings = sanitize_settings(settings)
     if settings.dry_run:
         mode = "dry_run"
         allow_live_trading = False
@@ -48,8 +52,9 @@ def apply_settings_to_app_config(
     )
     risk = replace(
         base_config.risk,
-        order_qty=settings.order_qty,
-        max_position_qty=settings.max_position_qty,
+        order_qty=None if settings.integer_quantity_enabled else settings.order_qty,
+        max_position_qty=None if settings.integer_quantity_enabled else settings.max_position_qty,
+        integer_quantity_enabled=settings.integer_quantity_enabled,
         allow_additional_buy=settings.allow_additional_buy,
         min_cash_to_buy=settings.min_cash_to_buy,
     )
@@ -137,7 +142,8 @@ def _buy_block_reason(
         return "sell_only_mode"
     if position_qty > 0 and not settings.allow_additional_buy:
         return "additional_buy_disabled"
-    if position_qty + settings.order_qty > settings.max_position_qty:
+    if (not settings.integer_quantity_enabled
+            and position_qty + settings.order_qty > settings.max_position_qty):
         return "max_position_qty_exceeded"
     if account.cash < settings.min_cash_to_buy:
         return "min_cash_to_buy_not_met"

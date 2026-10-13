@@ -1,0 +1,53 @@
+{
+  "mode": "dry_run",
+  "broker": "kis",
+  "symbols": ["QQQ", "AAPL", "MSFT", "NVDA"],
+  "timeframe": "1Day",
+  "lookback_days": 260,
+  "bar_limit": 1000,
+  "allow_live_trading": false,
+  "regular_market_hours_only": true,
+  "kis": {
+    "paper": false,
+    "account_product_code": "01",
+    "order_exchange_code": "NASD",
+    "price_exchange_code": "NAS",
+    "currency": "USD",
+    "timeout": 30
+  },
+  "strategy": {
+    "sma_fast": 20,
+    "sma_slow": 50,
+    "ema_fast": 12,
+    "ema_slow": 26,
+    "rsi_period": 14,
+    "rsi_oversold": 30,
+    "rsi_overbought": 70,
+    "macd_fast": 12,
+    "macd_slow": 26,
+    "macd_signal": 9,
+    "bollinger_period": 20,
+    "long_sma": 200,
+    "momentum_period": 63,
+    "donchian_period": 55,
+    "stochastic_period": 14,
+    "stochastic_oversold": 20,
+    "stochastic_overbought": 80,
+    "volume_period": 20,
+    "atr_period": 14,
+    "atr_stop_multiplier": 3.0,
+    "atr_take_profit_multiplier": 5.0,
+    "buy_score": 5,
+    "sell_score": 4,
+    "stop_loss_pct": 0.07,
+    "take_profit_pct": 0.18,
+    "use_regime_filter": true
+  },
+  "risk": {
+    "max_position_pct": 0.1,
+    "min_cash_buffer_pct": 0.05,
+    "min_order_notional": 50,
+    "max_order_notional": 100,
+    "risk_per_trade_pct": 0.01
+  }
+}

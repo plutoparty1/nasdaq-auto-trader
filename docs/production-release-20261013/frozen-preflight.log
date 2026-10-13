@@ -1,0 +1,81 @@
+PRODUCTION_RUNTIME {"build_id": "formal-production-20261013-r1", "status": "paused", "mode": "waiting", "approval_status": "production_approval_required", "strategy_id": "builtin_ai_volatility_target", "entries_enabled": true, "submission_enabled": false, "real_fill_validation": "not_performed"}
+{
+  "build_id": "formal-production-20261013-r1",
+  "executable": "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\NasdaqAutoTrader.exe",
+  "executable_sha256": "91e92b75e6c2410d637f45bf3b1daf1a39003594bbacdf0285c7329d15f93abe",
+  "account_masked": "****5376",
+  "account_binding": "1b836974adb9f1cb9b58cc8490705bf67905051033348d662b3e6b7484c60347",
+  "strategy_id": "builtin_ai_volatility_target",
+  "strategy_version": "data-b230423351524f87-catalogue-v5",
+  "strategy_digest": "d2dd08f077a9d7d54d1771cdce798a0554737e4fd0b9ff1d866be3dba32b0729",
+  "risk": {
+    "max_position_pct": 0.05,
+    "min_cash_buffer_pct": 0.05,
+    "min_order_notional": 50,
+    "max_order_notional": 100,
+    "risk_per_trade_pct": 0.01,
+    "order_qty": 1,
+    "max_position_qty": 1,
+    "allow_additional_buy": false,
+    "min_cash_to_buy": 0.0,
+    "estimated_roundtrip_cost_pct": 0.005
+  },
+  "automatic_limits": {
+    "max_single_position_pct": 0.05,
+    "max_total_exposure_pct": 0.3,
+    "max_order_notional": 35.0,
+    "max_orders_per_day": 0,
+    "risk_per_trade_pct": 0.03,
+    "max_daily_loss_pct": 0.02
+  },
+  "effective_limits": {
+    "quantity_method": "fixed_quantity",
+    "order_qty": 1,
+    "max_position_qty": 1,
+    "additional_buy_allowed": false,
+    "single_position_pct": 0.05,
+    "total_exposure_pct": 0.3,
+    "order_amount_usd": 35.0,
+    "risk_per_trade_pct": 0.01,
+    "daily_loss_pct": 0.02,
+    "fixed_stop_loss_pct": 0.03,
+    "precedence": "all_gates_apply;strictest_limit_wins",
+    "sources": [
+      "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\config.operating.json",
+      "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\trading_config.json",
+      "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\operating_state\\NasdaqAutoTrader\\ai_quant_lab\\ai_quant_config.json",
+      "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\operating_state\\NasdaqAutoTrader\\ai_quant_lab\\strategy_specs\\builtin_ai_volatility_target-data-b230423351524f87-catalogue-v5.json"
+    ],
+    "reference_single_position_limit": 3.1455,
+    "reference_20_61_one_share_allowed": false
+  },
+  "daily_loss_gui_pct": 2.0,
+  "fee_review_confirmed": false,
+  "fee_estimate_source": "planning_assumption;user_must_verify_actual_schedule",
+  "config_source": "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\config.operating.json",
+  "settings_source": "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\trading_config.json",
+  "account": {
+    "cash": 62.91,
+    "equity": 62.91,
+    "buying_power": 62.91
+  },
+  "position_count": 0,
+  "open_order_count": 0,
+  "binding": {
+    "executable_sha256": "91e92b75e6c2410d637f45bf3b1daf1a39003594bbacdf0285c7329d15f93abe",
+    "account_digest": "1b836974adb9f1cb9b58cc8490705bf67905051033348d662b3e6b7484c60347",
+    "config_digest": "e7e1af24d932f491c0f3948126ce461ceb81127278c99ffa18e9f9a877853f41",
+    "settings_digest": "c8daf0d687d59b74e8e0158eb0798b0260429cbbb177b5cd4a90291179666e49",
+    "artifacts_digest": "0579bf6d9c95625517ef0966138049d65a6a34cdbb73f56aa961aae2e8920c33"
+  },
+  "blockers": [
+    "actual_fee_review_required"
+  ],
+  "confirmation_phrase": "I UNDERSTAND THIS WILL PLACE REAL ORDERS DURING ONE NASDAQ SESSION",
+  "real_fill_validation": "not_performed",
+  "review_digest": "d1ba7ae68e259189563a432b54032c5dca188a7eb8d5fa81557f597b98881c7d",
+  "checked_at": "2026-10-13T13:53:34.525844+00:00",
+  "status": "blocked",
+  "approval_issued": false,
+  "submitted_order": false
+}

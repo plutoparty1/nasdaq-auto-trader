@@ -41,7 +41,13 @@ class ScoringEngine:
             final_score=final_score,
             metrics={**metrics, "final_score": final_score},
             rejection_reasons=rejection_reasons,
-            promotion_recommendation=not rejection_reasons and final_score > 0.65,
+            promotion_recommendation=(
+                validation.promotion_eligible
+                and validation.evidence_scope != "fixed_rule_temporal_holdout"
+                and not validation.paper_eligible
+                and not validation.missing_advanced_metrics
+                and not rejection_reasons and final_score > 0.65
+            ),
         )
         self.audit_logger.append(
             AuditEvent(
@@ -92,13 +98,17 @@ def _rejection_reasons(
         reasons.append("backtest_failed")
     if not validation.passed:
         reasons.append("validation_failed")
-    if not validation.promotion_eligible:
+    paper_screen = (
+        validation.passed and validation.paper_eligible
+        and validation.evidence_scope == "fixed_rule_temporal_holdout"
+    )
+    if not validation.promotion_eligible and not paper_screen:
         reasons.append("independent_validation_required")
     if any(not isfinite(value) for value in backtest.metrics.values()):
         reasons.append("nonfinite_backtest_metrics")
     if metrics["profit_factor"] <= 0:
         reasons.append("profit_factor_missing")
-    if validation.missing_advanced_metrics:
+    if validation.missing_advanced_metrics and not paper_screen:
         reasons.append("overfit_metrics_missing")
     return tuple(dict.fromkeys(reasons))
 

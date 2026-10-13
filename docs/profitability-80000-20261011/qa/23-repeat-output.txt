@@ -1,0 +1,17 @@
+exit: 1
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 240, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 85, in main
+    return execute(args, Path(staging))
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 104, in execute
+    raise ExperimentInputError(
+        "output must be an empty directory; existing files cannot be overwritten"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: output must be an empty directory; existing files cannot be overwritten
+
+all_hashes_preserved: True

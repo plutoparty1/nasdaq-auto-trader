@@ -1,0 +1,41 @@
+name: GP5 desktop artifacts
+on:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  package:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            command: build:win
+            artifact: gp5-pdf-windows
+            pattern: '*.exe'
+          - os: macos-14
+            command: build:mac
+            artifact: gp5-pdf-macos-unsigned
+            pattern: '*.zip'
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: gp5-desktop
+    env:
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: gp5-desktop/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - run: npm test
+      - run: npm run ${{ matrix.command }}
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+        with:
+          name: ${{ matrix.artifact }}
+          path: gp5-desktop/release/${{ matrix.pattern }}
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,2 @@
+split,policy,cost_scenario,common_risk_pct,signal_timestamp,timestamp,symbol,reason
+final,A,base,0.01,2026-04-09T20:00:00+00:00,2026-04-10T20:00:00+00:00,HIVE,limit_not_touched_expired

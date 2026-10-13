@@ -18,7 +18,10 @@ class SellMonitorExecutionMixin:
         while self.sell_attempts < self.config.max_retries:
             self.sell_attempts += 1
             try:
-                refreshed = self._snapshot(regular_market_session(self.clock()).to_dict())
+                session = regular_market_session(self.clock())
+                if not session.is_open:
+                    return self._finish("blocked", "market_not_open", market_date)
+                refreshed = self._snapshot(session.to_dict())
             except Exception as exc:  # noqa: BROAD_EXCEPT_OK
                 self.log.append(
                     {
@@ -40,7 +43,20 @@ class SellMonitorExecutionMixin:
             if position_result is not None:
                 return position_result
 
+            fresh_trigger = self._sell_trigger(refreshed)
+            if fresh_trigger is None:
+                return self._finish("blocked", "sell_trigger_no_longer_active", market_date)
+            trigger = fresh_trigger
+            if not regular_market_session(self.clock()).is_open:
+                return self._finish("blocked", "market_not_open", market_date)
+
             order = self._build_sell_order(refreshed)
+            if (
+                self.config.sell_only_when_profit
+                and order.limit_price is not None
+                and order.limit_price <= refreshed.avg_entry_price
+            ):
+                return self._finish("blocked", "sell_limit_would_allow_loss", market_date)
             self._assert_sell_order_allowed(order, refreshed)
             event = {
                 "event": "sell_order_attempt",
@@ -65,6 +81,7 @@ class SellMonitorExecutionMixin:
                     "snapshot": refreshed.to_dict(),
                 }
 
+            self.log.append(event)
             try:
                 response = self.client.submit_order(order)
             except Exception as exc:  # noqa: BROAD_EXCEPT_OK

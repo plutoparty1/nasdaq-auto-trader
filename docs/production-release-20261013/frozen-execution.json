@@ -1,0 +1,62 @@
+{
+  "executable": "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\NasdaqAutoTrader.exe",
+  "sha256": "91e92b75e6c2410d637f45bf3b1daf1a39003594bbacdf0285c7329d15f93abe",
+  "executions": [
+    {
+      "name": "runtime",
+      "exit": 0,
+      "arguments": [
+        "--runtime-check"
+      ]
+    },
+    {
+      "name": "help",
+      "exit": 0,
+      "arguments": [
+        "--help"
+      ]
+    },
+    {
+      "name": "authorize-help",
+      "exit": 0,
+      "arguments": [
+        "authorize-live-session",
+        "--help"
+      ]
+    },
+    {
+      "name": "draft-help",
+      "exit": 0,
+      "arguments": [
+        "draft-limits",
+        "--help"
+      ]
+    },
+    {
+      "name": "replay",
+      "exit": 0,
+      "arguments": [
+        "--replay",
+        "C:\\Users\\u\\nasdaq-auto-trader\\docs\\production-release-20261013\\frozen-replay.json"
+      ]
+    },
+    {
+      "name": "gui",
+      "exit": 0,
+      "arguments": [
+        "--gui-smoke",
+        "C:\\Users\\u\\nasdaq-auto-trader\\docs\\production-release-20261013\\frozen-gui"
+      ]
+    },
+    {
+      "name": "preflight",
+      "exit": 0,
+      "arguments": [
+        "preflight"
+      ]
+    }
+  ],
+  "actual_orders": 0,
+  "actual_approvals": 0,
+  "actual_live_start": false
+}

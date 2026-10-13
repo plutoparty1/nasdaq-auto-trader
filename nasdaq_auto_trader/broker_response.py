@@ -6,7 +6,10 @@ from nasdaq_auto_trader.ai_quant_lab.types import JsonObject, JsonValue
 
 
 SUCCESS_BROKER_STATUSES: Final[frozenset[str]] = frozenset(
-    {"accepted", "filled", "new", "pending_new", "submitted", "fake_submitted"}
+    {
+        "accepted", "filled", "partially_filled", "new", "pending_new",
+        "pending_cancel", "pending_replace", "submitted", "fake_submitted",
+    }
 )
 
 
@@ -21,6 +24,12 @@ def broker_response_status(response: JsonObject) -> str:
 
 def broker_response_submitted(response: JsonObject) -> bool:
     return broker_response_status(response) == "submitted"
+
+
+def broker_response_reconcile_required(response: JsonObject) -> bool:
+    return broker_response_status(response) not in {
+        "submitted", "rejected", "canceled", "cancelled", "expired", "blocked",
+    }
 
 
 def _string(value: JsonValue) -> str:

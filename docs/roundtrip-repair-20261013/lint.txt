@@ -1,0 +1,215 @@
+I001 [*] Import block is un-sorted or un-formatted
+  --> nasdaq_auto_trader\engine_cycle.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | from dataclasses import replace
+ 4 | |
+ 5 | | from .ai_quant_lab.audit_logger import AuditEvent, AuditLogger
+ 6 | | from .automatic_order_context import automatic_order_context
+ 7 | | from .automatic_order_types import AutomaticBlockRequest
+ 8 | | from .automatic_risk import CycleReservationLedger
+ 9 | | from .broker_response import broker_response_submitted
+10 | | from .brokers.common import BrokerRequestError
+11 | | from .config_manager import ai_features_enabled, record_submitted_order
+12 | | from .daily_buy_objective import daily_minimum_decision
+13 | | from .engine_automatic_cycle import EngineAutomaticCycleMixin
+14 | | from .engine_errors import PreOrderCycleError
+15 | | from .entry_pricing import price_entry_decision
+16 | | from .exit_diagnostics import exit_diagnostics
+17 | | from .models import AccountSnapshot, Bar, Position, TradeDecision
+18 | | from .operational_signal_gate import gate_decision, prepare_completed_bars
+19 | | from .order_decision_diagnostics import decision_risk_costs
+20 | | from .trading_session_store import TradingSessionStore
+21 | | from .trading_agents import apply_trading_agents_policy
+   | |_______________________________________________________^
+help: Organize imports
+   |
+19 | from .order_decision_diagnostics import decision_risk_costs
+20 + from .trading_agents import apply_trading_agents_policy
+21 | from .trading_session_store import TradingSessionStore
+   - from .trading_agents import apply_trading_agents_policy
+22 |
+   |
+
+FURB162 Unnecessary timezone replacement with zero offset
+  --> nasdaq_auto_trader\operational_signal_gate.py:19:37
+   |
+17 |     if len(timestamp) == 10:
+18 |         return date.fromisoformat(timestamp)
+19 |     parsed = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+   |                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+20 |     return parsed.astimezone(EASTERN).date() if parsed.tzinfo else parsed.date()
+   |
+help: Remove `.replace()` call
+   |
+18 |         return date.fromisoformat(timestamp)
+   -     parsed = datetime.fromisoformat(timestamp.replace("Z", "+00:00"))
+19 +     parsed = datetime.fromisoformat(timestamp)
+20 |     return parsed.astimezone(EASTERN).date() if parsed.tzinfo else parsed.date()
+   |
+note: This is an unsafe fix and may change runtime behavior
+
+UP017 [*] Use `datetime.UTC` alias
+  --> nasdaq_auto_trader\operational_signal_gate.py:24:37
+   |
+23 | def prepare_completed_bars(bars: Sequence[Bar], timeframe: str, now: datetime) -> list[Bar]:
+24 |     normalized = now.replace(tzinfo=timezone.utc) if now.tzinfo is None else now
+   |                                     ^^^^^^^^^^^^
+25 |     if timeframe.casefold() in {"1day", "day", "1d"}:
+26 |         cutoff = latest_completed_market_date(normalized)
+   |
+help: Convert to `datetime.UTC` alias
+   |
+5  | from dataclasses import replace
+   - from datetime import date, datetime, timedelta, timezone
+6  + from datetime import date, datetime, timedelta, timezone, UTC
+7  |
+--------------------------------------------------------------------------------
+23 | def prepare_completed_bars(bars: Sequence[Bar], timeframe: str, now: datetime) -> list[Bar]:
+   -     normalized = now.replace(tzinfo=timezone.utc) if now.tzinfo is None else now
+24 +     normalized = now.replace(tzinfo=UTC) if now.tzinfo is None else now
+25 |     if timeframe.casefold() in {"1day", "day", "1d"}:
+   |
+
+FURB162 Unnecessary timezone replacement with zero offset
+  --> nasdaq_auto_trader\operational_signal_gate.py:46:48
+   |
+44 |     for bar in bars:
+45 |         try:
+46 |             timestamp = datetime.fromisoformat(bar.timestamp.replace("Z", "+00:00"))
+   |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+47 |             if timestamp.tzinfo is not None and timestamp + duration <= normalized:
+48 |                 result.append(bar)
+   |
+help: Remove `.replace()` call
+   |
+45 |         try:
+   -             timestamp = datetime.fromisoformat(bar.timestamp.replace("Z", "+00:00"))
+46 +             timestamp = datetime.fromisoformat(bar.timestamp)
+47 |             if timestamp.tzinfo is not None and timestamp + duration <= normalized:
+   |
+note: This is an unsafe fix and may change runtime behavior
+
+UP017 [*] Use `datetime.UTC` alias
+  --> nasdaq_auto_trader\roundtrip_replay.py:30:44
+   |
+29 | def _synthetic_bars() -> list[Bar]:
+30 |     now = datetime(2026, 10, 9, 20, tzinfo=timezone.utc)
+   |                                            ^^^^^^^^^^^^
+31 |     dates: list[datetime] = []
+32 |     while len(dates) < 100:
+   |
+help: Convert to `datetime.UTC` alias
+   |
+4  | from dataclasses import asdict, replace
+   - from datetime import datetime, timedelta, timezone
+5  + from datetime import datetime, timedelta, timezone, UTC
+6  | from pathlib import Path
+--------------------------------------------------------------------------------
+29 | def _synthetic_bars() -> list[Bar]:
+   -     now = datetime(2026, 10, 9, 20, tzinfo=timezone.utc)
+30 +     now = datetime(2026, 10, 9, 20, tzinfo=UTC)
+31 |     dates: list[datetime] = []
+   |
+
+UP017 [*] Use `datetime.UTC` alias
+  --> nasdaq_auto_trader\roundtrip_replay.py:57:49
+   |
+55 | def run_replay(output: Path, root: Path) -> None:
+56 |     config = sanitize_config(load_config(root / "config.safe.json", environ={}))
+57 |     now = datetime(2026, 10, 12, 13, 40, tzinfo=timezone.utc)
+   |                                                 ^^^^^^^^^^^^
+58 |     bars = _synthetic_bars()
+59 |     strategy = TechnicalStrategy(config.strategy)
+   |
+help: Convert to `datetime.UTC` alias
+   |
+4  | from dataclasses import asdict, replace
+   - from datetime import datetime, timedelta, timezone
+5  + from datetime import datetime, timedelta, timezone, UTC
+6  | from pathlib import Path
+--------------------------------------------------------------------------------
+56 |     config = sanitize_config(load_config(root / "config.safe.json", environ={}))
+   -     now = datetime(2026, 10, 12, 13, 40, tzinfo=timezone.utc)
+57 +     now = datetime(2026, 10, 12, 13, 40, tzinfo=UTC)
+58 |     bars = _synthetic_bars()
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> nasdaq_auto_trader\safe_launcher.py:2:1
+   |
+ 1 |   """Start the isolated, order-locked repaired release without live CLI routes."""
+ 2 | / from __future__ import annotations
+ 3 | |
+ 4 | | import json
+ 5 | | import hashlib
+ 6 | | import os
+ 7 | | import sys
+ 8 | | from dataclasses import asdict, dataclass
+ 9 | | from pathlib import Path
+10 | | from typing import Literal
+11 | | from typing import Final
+12 | |
+13 | | from nasdaq_auto_trader.ai_quant_lab.artifact_paths import StrategyArtifactPaths
+14 | | from nasdaq_auto_trader.ai_quant_lab.types import JsonObject
+15 | | from nasdaq_auto_trader.config import AppConfig, load_config
+16 | | from nasdaq_auto_trader.config_settings import TradingSettings
+17 | | from nasdaq_auto_trader.config_storage import load_or_create_settings
+18 | | from nasdaq_auto_trader.config_runtime import apply_settings_to_app_config
+19 | | from nasdaq_auto_trader.quant_data.symbol_selector import ResolvedStrategy, resolve_strategy
+20 | | from nasdaq_auto_trader.safe_runtime import BUILD_ID, enable, sanitize_config, sanitize_settings
+21 | | from nasdaq_auto_trader.single_instance import SingleInstanceGuard
+   | |__________________________________________________________________^
+22 |
+23 |   EXPECTED_SPEC_DIGEST: Final = "d2dd08f077a9d7d54d1771cdce798a0554737e4fd0b9ff1d866be3dba32b0729"
+   |
+help: Organize imports
+   |
+3  |
+4  + import hashlib
+5  | import json
+   - import hashlib
+6  | import os
+7  | import sys
+8  | from dataclasses import asdict, dataclass
+9  | from pathlib import Path
+   - from typing import Literal
+   - from typing import Final
+10 + from typing import Final, Literal
+11 |
+12 | from nasdaq_auto_trader.ai_quant_lab.artifact_paths import StrategyArtifactPaths
+13 | from nasdaq_auto_trader.ai_quant_lab.types import JsonObject
+14 | from nasdaq_auto_trader.config import AppConfig, load_config
+15 + from nasdaq_auto_trader.config_runtime import apply_settings_to_app_config
+16 | from nasdaq_auto_trader.config_settings import TradingSettings
+17 | from nasdaq_auto_trader.config_storage import load_or_create_settings
+   - from nasdaq_auto_trader.config_runtime import apply_settings_to_app_config
+   - from nasdaq_auto_trader.quant_data.symbol_selector import ResolvedStrategy, resolve_strategy
+   - from nasdaq_auto_trader.safe_runtime import BUILD_ID, enable, sanitize_config, sanitize_settings
+18 + from nasdaq_auto_trader.quant_data.symbol_selector import (
+19 +     ResolvedStrategy,
+20 +     resolve_strategy,
+21 + )
+22 + from nasdaq_auto_trader.safe_runtime import (
+23 +     BUILD_ID,
+24 +     enable,
+25 +     sanitize_config,
+26 +     sanitize_settings,
+27 + )
+28 | from nasdaq_auto_trader.single_instance import SingleInstanceGuard
+   |
+
+TRY004 Prefer `TypeError` exception for invalid type
+  --> nasdaq_auto_trader\safe_launcher.py:85:9
+   |
+83 |     resolved = resolve_strategy("dry_run", paths)
+84 |     if not isinstance(resolved, ResolvedStrategy):
+85 |         raise RuntimeError(f"safe_release_strategy_blocked:{resolved.reason}")
+   |         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+86 |     if (resolved.spec.strategy_id != "builtin_ai_volatility_target"
+87 |             or resolved.spec.version != "data-b230423351524f87-catalogue-v5"
+   |
+
+Found 8 errors.
+[*] 5 fixable with `--fix` (2 unsafe fixes available with `--fix --unsafe-fixes`).

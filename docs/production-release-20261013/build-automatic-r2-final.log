@@ -1,0 +1,23 @@
+621 INFO: PyInstaller: 6.20.0, contrib hooks: 2026.4
+624 INFO: Python: 3.14.2
+691 INFO: Platform: Windows-10-10.0.19045-SP0
+692 INFO: Python environment: C:\Python314
+703 INFO: Module search paths (PYTHONPATH):
+['C:\\Users\\u\\nasdaq-auto-trader',
+ 'C:\\Python314\\python314.zip',
+ 'C:\\Python314\\DLLs',
+ 'C:\\Python314\\Lib',
+ 'C:\\Python314',
+ 'C:\\Users\\u\\AppData\\Roaming\\Python\\Python314\\site-packages',
+ 'C:\\Python314\\Lib\\site-packages',
+ 'C:\\Users\\u\\nasdaq-auto-trader']
+2518 INFO: Appending 'datas' from .spec
+2518 INFO: checking Analysis
+2981 INFO: checking PYZ
+3236 INFO: checking PKG
+3241 INFO: Bootloader C:\Users\u\AppData\Roaming\Python\Python314\site-packages\PyInstaller\bootloader\Windows-64bit-intel\run.exe
+3241 INFO: checking EXE
+3259 INFO: checking COLLECT
+3283 INFO: Building COLLECT COLLECT-00.toc
+27077 INFO: Building COLLECT COLLECT-00.toc completed successfully.
+27142 INFO: Build complete! The results are available in: C:\Users\u\nasdaq-auto-trader\build\formal-production-final

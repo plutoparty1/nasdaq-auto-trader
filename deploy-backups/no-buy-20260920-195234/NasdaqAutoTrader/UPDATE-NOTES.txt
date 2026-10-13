@@ -1,0 +1,6 @@
+﻿2026-09-10 universe and historical holdout update
+Official Nasdaq membership snapshot: 2026-09-09, 102 securities, EA removed.
+Fixed-rule historical screen: 60 development + 60 embargo + 60 warmup + at least 126 evaluated observations.
+Successful screens qualify PAPER_CANDIDATE only. Advanced statistics remain missing; no live approval is created.
+Reports preserve observed holdout evidence, policy, and registry rejection reasons. Old reports are revalidated.
+Existing settings and logs are preserved. Installation does not start trading.

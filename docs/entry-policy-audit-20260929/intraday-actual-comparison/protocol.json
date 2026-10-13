@@ -1,0 +1,125 @@
+{
+  "strategy": {
+    "sma_fast": 5,
+    "sma_slow": 20,
+    "ema_fast": 5,
+    "ema_slow": 20,
+    "rsi_period": 14,
+    "rsi_oversold": 30,
+    "rsi_overbought": 70,
+    "macd_fast": 12,
+    "macd_slow": 26,
+    "macd_signal": 9,
+    "bollinger_period": 20,
+    "long_sma": 20,
+    "momentum_period": 63,
+    "donchian_period": 55,
+    "stochastic_period": 14,
+    "stochastic_oversold": 20,
+    "stochastic_overbought": 80,
+    "volume_period": 20,
+    "atr_period": 14,
+    "atr_stop_multiplier": 3.0,
+    "atr_take_profit_multiplier": 5.0,
+    "buy_score": 5,
+    "sell_score": 4,
+    "stop_loss_pct": 0.03,
+    "take_profit_pct": 0.05,
+    "use_regime_filter": true,
+    "buy_trigger_enabled": false,
+    "buy_drop_rate": 0.0,
+    "buy_ma_enabled": true,
+    "trailing_stop_enabled": true,
+    "trailing_stop_activation_pct": 0.02,
+    "trailing_stop_pct": 0.01,
+    "time_based_sell_enabled": false,
+    "max_holding_minutes": 180,
+    "corrected_exits": false
+  },
+  "policies": [
+    "A",
+    "B",
+    "C"
+  ],
+  "common_risk_pct": 0.01,
+  "starting_krw": 80000,
+  "quantity": 1,
+  "indicator_timeframe": "1Day",
+  "execution_timeframe": "5Min",
+  "indicator_sampling": "strictly prior market-session completed daily bars",
+  "sessions": [
+    {
+      "opens_at": "2026-09-23T13:30:00+00:00",
+      "closes_at": "2026-09-23T20:00:00+00:00"
+    },
+    {
+      "opens_at": "2026-09-24T13:30:00+00:00",
+      "closes_at": "2026-09-24T20:00:00+00:00"
+    },
+    {
+      "opens_at": "2026-09-25T13:30:00+00:00",
+      "closes_at": "2026-09-25T20:00:00+00:00"
+    },
+    {
+      "opens_at": "2026-09-28T13:30:00+00:00",
+      "closes_at": "2026-09-28T20:00:00+00:00"
+    }
+  ],
+  "split": {
+    "name": "short_intraday_observation",
+    "start": "2026-09-23T13:35:00+00:00",
+    "end": "2026-09-28T20:00:00+00:00"
+  },
+  "costs": [
+    {
+      "name": "base",
+      "commission_pct": 0.0025,
+      "minimum_commission": 0.0,
+      "spread_bps": 10,
+      "slippage_bps": 10,
+      "source": "Illustrative public US online rate 0.25% per side; actual account commission, minimum fee and sell levies unverified. Not broker-exact."
+    },
+    {
+      "name": "stress",
+      "commission_pct": 0.003,
+      "minimum_commission": 0.1,
+      "spread_bps": 30,
+      "slippage_bps": 30,
+      "source": "Prespecified adverse-cost sensitivity; USD 0.10 minimum per side is an assumption, not a verified KIS fee."
+    }
+  ],
+  "fx_rate": 1356.1458605949576,
+  "fill_model": "next observed five-minute bar; DAY expires on that bar if untouched",
+  "timestamp_semantics": "available_after_next_label",
+  "scope": "matched-risk proxy, not historical execution reconstruction",
+  "monthly_extrapolation": false,
+  "data_manifest": {
+    "synthetic": false,
+    "source": "Yahoo Finance public daily OHLC and KIS OpenAPI five-minute OHLC",
+    "daily_corporate_action_cutoff": "2026-01-06",
+    "bar_timestamp_semantics": "available_after_next_label",
+    "timestamp_limitation": "provider start/end unconfirmed; shift labels +5min availability conservatively; fill times are simulated grid labels",
+    "collected_at": "2026-09-29T12:38:07.848411+00:00",
+    "fx_source": "ECB EXR KRW per EUR divided by USD per EUR, availability16UTC",
+    "initial_fx_as_of": "2026-09-22T16:00:00+00:00",
+    "initial_fx_rate": 1356.1458605949576,
+    "daily_bars_per_symbol": {
+      "CMCSA": 183,
+      "HIVE": 183,
+      "KDP": 183
+    },
+    "five_minute_source_missing_slots_per_symbol": 0,
+    "expected_regular_slots_per_symbol": 312,
+    "source_sha256": {
+      "actual_trade_group_after_corporate_action.csv": "22eb6493d51bf44b25f3c329b730a159434105a44ef96be8aa0429c23e2c147f",
+      "usdkrw.csv": "e94a2de39bf1f2b8c0a1bfd434c0bc5c8110a1e75188fe70e766142e095884f9",
+      "CMCSA-5Min.csv": "7b997785853b040ac1a501c3e0b12d7d4903c6138149e08104d15ac11aae08df",
+      "KDP-5Min.csv": "1cff034e2e59630e6913b312993155212ef60975edad24fb408cd54c750157f0",
+      "HIVE-5Min.csv": "7080de342a0055d45181365c5b9a2cc5250dd7227fb4a8731cbef7cf7eaf78f2"
+    },
+    "real_order_or_cancel_calls": 0,
+    "historical_selection_reconstructed": false,
+    "daily_snapshots_differ_from_historical_evolving_daily_bar": true
+  },
+  "protocol_sha256": "bb0e27315642facf1e29df3ce6c0b58f5a0f28f87bc888830e18b2491439ce76"
+}

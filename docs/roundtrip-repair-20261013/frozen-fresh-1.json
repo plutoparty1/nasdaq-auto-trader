@@ -1,0 +1,309 @@
+{
+  "build_id": "roundtrip-repair-20261013-r1",
+  "mode": "dry_run",
+  "order_lock": true,
+  "historical_data_scope": "captured_decision_and_fill_fields;synthetic_OHLCV_not_historical_replay",
+  "effective_strategy_config": {
+    "sma_fast": 5,
+    "sma_slow": 20,
+    "ema_fast": 5,
+    "ema_slow": 20,
+    "rsi_period": 14,
+    "rsi_oversold": 30.0,
+    "rsi_overbought": 70.0,
+    "macd_fast": 12,
+    "macd_slow": 26,
+    "macd_signal": 9,
+    "bollinger_period": 20,
+    "long_sma": 20,
+    "momentum_period": 63,
+    "donchian_period": 55,
+    "stochastic_period": 14,
+    "stochastic_oversold": 20,
+    "stochastic_overbought": 80,
+    "volume_period": 20,
+    "atr_period": 14,
+    "atr_stop_multiplier": 3.0,
+    "atr_take_profit_multiplier": 5.0,
+    "buy_score": 5,
+    "sell_score": 4,
+    "stop_loss_pct": 0.03,
+    "take_profit_pct": 0.05,
+    "use_regime_filter": true,
+    "buy_trigger_enabled": false,
+    "buy_drop_rate": 0.0,
+    "buy_ma_enabled": true,
+    "trailing_stop_enabled": true,
+    "trailing_stop_activation_pct": 0.02,
+    "trailing_stop_pct": 0.01,
+    "time_based_sell_enabled": false,
+    "max_holding_minutes": 180,
+    "corrected_exits": false
+  },
+  "effective_risk_config": {
+    "max_position_pct": 0.5,
+    "min_cash_buffer_pct": 0.05,
+    "min_order_notional": 50,
+    "max_order_notional": 100,
+    "risk_per_trade_pct": 0.01,
+    "order_qty": 1,
+    "max_position_qty": 1,
+    "allow_additional_buy": false,
+    "min_cash_to_buy": 0.0,
+    "estimated_roundtrip_cost_pct": 0.005
+  },
+  "effective_order_qty": 1,
+  "historical_original_observed": {
+    "buy_score": 0,
+    "buy_action": "buy",
+    "sell_score": 9,
+    "sell_action": "sell"
+  },
+  "synthetic_raw_buy": {
+    "symbol": "CMCSA",
+    "action": "hold",
+    "score": 0,
+    "latest_price": 20.61,
+    "reasons": [
+      "below_long_regime"
+    ],
+    "risk_per_share": null
+  },
+  "synthetic_raw_sell": {
+    "symbol": "CMCSA",
+    "action": "sell",
+    "score": 9,
+    "latest_price": 20.61,
+    "reasons": [
+      "below_long_regime",
+      "sma_downtrend",
+      "ema_downtrend",
+      "macd_negative",
+      "momentum_negative",
+      "donchian_breakdown"
+    ],
+    "risk_per_share": null
+  },
+  "corrected_minimum_decision": {
+    "symbol": "CMCSA",
+    "action": "hold",
+    "score": 0,
+    "latest_price": 20.61,
+    "reasons": [
+      "below_long_regime"
+    ],
+    "risk_per_share": null
+  },
+  "cases": [
+    {
+      "case": "no_signal_cycle_0",
+      "decision": {
+        "symbol": "CMCSA",
+        "action": "hold",
+        "score": 0,
+        "latest_price": 20.61,
+        "reasons": [
+          "below_long_regime"
+        ],
+        "risk_per_share": null
+      },
+      "order": null
+    },
+    {
+      "case": "no_signal_cycle_1",
+      "decision": {
+        "symbol": "CMCSA",
+        "action": "hold",
+        "score": 0,
+        "latest_price": 20.61,
+        "reasons": [
+          "below_long_regime",
+          "completed_bar_already_evaluated",
+          "signal_key_submitted"
+        ],
+        "risk_per_share": null
+      },
+      "order": null
+    },
+    {
+      "case": "no_signal_cycle_2",
+      "decision": {
+        "symbol": "CMCSA",
+        "action": "hold",
+        "score": 0,
+        "latest_price": 20.61,
+        "reasons": [
+          "below_long_regime",
+          "completed_bar_already_evaluated",
+          "signal_key_submitted"
+        ],
+        "risk_per_share": null
+      },
+      "order": null
+    },
+    {
+      "case": "same_bar_opposite_after_restart",
+      "decision": {
+        "symbol": "CMCSA",
+        "action": "hold",
+        "score": 9,
+        "latest_price": 20.61,
+        "reasons": [
+          "below_long_regime",
+          "sma_downtrend",
+          "ema_downtrend",
+          "macd_negative",
+          "momentum_negative",
+          "donchian_breakdown",
+          "completed_bar_already_evaluated",
+          "signal_key_submitted"
+        ],
+        "risk_per_share": null
+      }
+    },
+    {
+      "case": "new_completed_bar_technical_risk_sell",
+      "decision": {
+        "symbol": "CMCSA",
+        "action": "sell",
+        "score": 8,
+        "latest_price": 20.6,
+        "reasons": [
+          "below_long_regime",
+          "sma_downtrend",
+          "ema_downtrend",
+          "momentum_negative",
+          "donchian_breakdown"
+        ],
+        "risk_per_share": null
+      },
+      "response": {
+        "status": "blocked",
+        "reason": "safe_release_order_lock",
+        "submitted_order": false
+      }
+    },
+    {
+      "case": "new_mark_protective_sell_at_loss",
+      "decision": {
+        "symbol": "CMCSA",
+        "action": "sell",
+        "score": 99,
+        "latest_price": 19.0,
+        "reasons": [
+          "fixed_stop_loss"
+        ],
+        "risk_per_share": null
+      },
+      "response": {
+        "status": "blocked",
+        "reason": "safe_release_order_lock",
+        "submitted_order": false
+      },
+      "risk_costs": {
+        "account_equity": 62.91,
+        "risk_budget": 0.6291,
+        "risk_per_trade_pct": 0.01,
+        "initial_risk_per_share": null,
+        "planned_loss_including_estimated_cost": null,
+        "estimated_roundtrip_cost": 0.095,
+        "estimated_roundtrip_cost_pct": 0.005,
+        "cost_source": "explicit_planning_assumption",
+        "expected_gross_profit": -1.6099999999999994,
+        "expected_profit_after_estimated_cost": -1.7049999999999994,
+        "actual_fees": null,
+        "exit_allowed_independently_of_expected_profit": true
+      }
+    },
+    {
+      "case": "take_profit_cost_diagnostics",
+      "decision": {
+        "symbol": "CMCSA",
+        "action": "sell",
+        "score": 90,
+        "latest_price": 22.0,
+        "reasons": [
+          "fixed_take_profit"
+        ],
+        "risk_per_share": null
+      },
+      "risk_costs": {
+        "account_equity": 62.91,
+        "risk_budget": 0.6291,
+        "risk_per_trade_pct": 0.01,
+        "initial_risk_per_share": null,
+        "planned_loss_including_estimated_cost": null,
+        "estimated_roundtrip_cost": 0.11,
+        "estimated_roundtrip_cost_pct": 0.005,
+        "cost_source": "explicit_planning_assumption",
+        "expected_gross_profit": 1.3900000000000006,
+        "expected_profit_after_estimated_cost": 1.2800000000000005,
+        "actual_fees": null,
+        "exit_allowed_independently_of_expected_profit": true
+      }
+    },
+    {
+      "case": "general_contract_buy",
+      "decision": {
+        "symbol": "CMCSA",
+        "action": "buy",
+        "score": 8,
+        "latest_price": 20.61,
+        "reasons": [
+          "synthetic_contract"
+        ],
+        "risk_per_share": null
+      }
+    },
+    {
+      "case": "general_contract_sell",
+      "decision": {
+        "symbol": "CMCSA",
+        "action": "hold",
+        "score": 8,
+        "latest_price": 20.61,
+        "reasons": [
+          "synthetic_contract",
+          "completed_bar_already_evaluated",
+          "signal_key_submitted"
+        ],
+        "risk_per_share": null
+      }
+    },
+    {
+      "case": "general_contract_buy",
+      "decision": {
+        "symbol": "CMCSA",
+        "action": "hold",
+        "score": 8,
+        "latest_price": 20.61,
+        "reasons": [
+          "synthetic_contract",
+          "completed_bar_already_evaluated",
+          "signal_key_submitted"
+        ],
+        "risk_per_share": null
+      }
+    }
+  ],
+  "mandatory_risk_case": {
+    "equity": 54.0728143546,
+    "price": 20.61,
+    "stop_pct": 0.08,
+    "planned_loss_excluding_cost": 1.6488,
+    "budget": 1.081456287092,
+    "order": null
+  },
+  "cross_process_decision": {
+    "symbol": "CMCSA",
+    "action": "buy",
+    "score": 8,
+    "latest_price": 20.61,
+    "reasons": [
+      "synthetic_valid_entry"
+    ],
+    "risk_per_share": 1.6488
+  },
+  "broker_submission_count": 0,
+  "cancel_count": 0
+}

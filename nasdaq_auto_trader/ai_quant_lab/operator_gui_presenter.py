@@ -153,6 +153,12 @@ _REASON_LABELS: dict[str, str] = {
     "broker_unavailable": "증권사 연결을 확인할 수 없음",
     "account_state_unavailable": "계좌 상태를 확인할 수 없음",
     "order_response_reconcile_required": "주문 응답을 확인할 수 없어 계좌 대사가 필요함",
+    "automatic_order_reconciliation_required": (
+        "이전 주문 결과가 확정되지 않아 증권사 주문·체결 내역 대사가 필요함"
+    ),
+    "automatic_order_submission_in_progress": (
+        "이전 자동주문을 제출 중이므로 중복 주문을 막기 위해 대기함"
+    ),
     "operating_preflight_failed": "자동운영 사전 점검에 실패함",
     "runtime_state_corrupt": "자동운영 상태 파일을 읽을 수 없음",
     "market_data_timestamp_invalid": "시장 데이터 시간이 올바르지 않음",
@@ -161,6 +167,20 @@ _REASON_LABELS: dict[str, str] = {
     "initial_cash_invalid": "초기 현금 값이 올바르지 않음",
     "backtest_failed": "백테스트 실패",
     "insufficient_oos_history": "표본 밖 검증 기간이 부족함",
+    "independent_validation_required": "학습에 사용하지 않은 별도 기간의 검증이 필요함",
+    "holdout_fixed_rule_unsupported": "현재 별도 기간 검증이 지원하지 않는 전략 규칙임",
+    "holdout_cost_assumptions_invalid": "별도 기간 검증에 사용할 거래 비용 설정을 확인해야 함",
+    "holdout_config_invalid": "별도 기간 검증 설정이 올바르지 않음",
+    "holdout_history_insufficient": "학습 기간과 별도 검증 기간을 나눌 일봉 데이터가 부족함",
+    "holdout_backtest_failed": "별도 기간 백테스트에 실패함",
+    "holdout_evidence_invalid": "별도 기간 검증 결과가 올바르지 않음",
+    "holdout_closed_trades_insufficient": "별도 검증 기간의 완료 거래가 3건 미만임",
+    "holdout_return_not_positive": "별도 검증 기간의 비용 반영 수익률이 양수가 아님",
+    "holdout_risk_adjusted_return_not_positive": "별도 검증 기간의 위험 조정 수익률이 양수가 아님",
+    "holdout_profit_factor_unavailable": "별도 검증 기간의 손익비를 계산할 수 없음",
+    "holdout_profit_factor_too_low": "별도 검증 기간의 손익비가 기준을 통과하지 못함",
+    "holdout_drawdown_too_high": "별도 검증 기간의 최대 낙폭이 기준보다 큼",
+    "holdout_turnover_too_high": "별도 검증 기간의 거래 회전율이 기준보다 높음",
     "max_drawdown_too_high": "최대 낙폭이 기준보다 큼",
     "turnover_too_high": "거래 회전율이 너무 높음",
     "advanced_overfit_evidence_insufficient": "과적합 검증 근거가 부족함",

@@ -4,13 +4,15 @@ import json
 import time
 from datetime import datetime, timedelta, timezone
 from hashlib import sha256
+from re import fullmatch
 from typing import Any
 from urllib.error import HTTPError
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
+from urllib.parse import urlencode, urlsplit
+from urllib.request import Request
 
 from ..live_canary_policy import CANARY_POLICY
-from .common import BrokerRequestError
+from .common import BrokerOrderRejected, BrokerRequestError
+from .common import broker_urlopen as urlopen
 
 
 class KISAuthMixin:
@@ -101,9 +103,11 @@ class KISAuthMixin:
     def _load_cached_token(self, now: datetime) -> bool:
         try:
             payload = json.loads(self._token_cache_path.read_text(encoding="utf-8"))
-        except (FileNotFoundError, json.JSONDecodeError, OSError):
+        except (FileNotFoundError, json.JSONDecodeError, OSError, UnicodeDecodeError):
             return False
 
+        if not isinstance(payload, dict):
+            return False
         if payload.get("cache_key") != self._token_cache_key():
             return False
         token = payload.get("access_token")
@@ -165,6 +169,20 @@ class KISAuthMixin:
             return {}
         payload = json.loads(text)
         if isinstance(payload, dict) and payload.get("rt_cd") not in (None, "0"):
+            code = payload.get("msg_cd")
+            if (
+                request.get_method() == "POST"
+                and urlsplit(request.full_url).path == "/uapi/overseas-stock/v1/trading/order"
+                and response.status == 200
+                and payload.get("rt_cd") == "1"
+                and isinstance(code, str) and fullmatch(r"APBK[0-9]{4}", code)
+                and payload.get("msg1") == (
+                    "주문 가격을 확인 하시기 바랍니다. 1$이상 소수점 2자리까지만 가능 합니다."
+                )
+                and payload.get("output") in (None, "", {})
+                and not any(payload.get(key) for key in ("ODNO", "odno", "order_id", "id"))
+            ):
+                raise BrokerOrderRejected(code)
             message = payload.get("msg1") or payload.get("msg_cd") or payload
             raise BrokerRequestError(f"{label} error: {message}")
         return payload

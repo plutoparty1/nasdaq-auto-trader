@@ -1,0 +1,7 @@
+split,policy,cost_scenario,common_risk_pct,reason,sell_fills,net_pnl_usd
+final,A,base,0.01,fixed_stop_loss,1,-0.21492172298878404
+final,A,base,0.01,fixed_take_profit,1,0.20272085387736585
+final,B,base,0.01,fixed_stop_loss,1,-0.21492172298878404
+final,B,base,0.01,fixed_take_profit,1,0.20272085387736585
+final,C,base,0.01,fixed_stop_loss,1,-0.21492172298878404
+final,C,base,0.01,fixed_take_profit,1,0.20272085387736585

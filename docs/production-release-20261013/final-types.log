@@ -1,0 +1,185 @@
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_authorization.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_authorization.py:95:9 - warning: Type of "payload" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_baseline.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_baseline.py:17:14 - warning: Type annotation for attribute `path` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_baseline.py:18:14 - warning: Type annotation for attribute `account_digest` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_baseline.py:28:17 - warning: Type of "payload" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:40:5 - warning: Type annotation for attribute `_ALLOWED_TRANSPORT` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:55:9 - warning: Type of "value" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:56:44 - warning: "get"의 형식을 부분적으로 알 수 없습니다.
+    ‘get’의 유형이 ‘Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:69:12 - warning: ‘_token_cache_path’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:70:12 - warning: ‘_broker_lease_path’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:74:27 - warning: "runtime"에 액세스하지 않았습니다. (reportUnusedParameter)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:77:16 - warning: 암시적 문자열 연결이 허용되지 않습니다. (reportImplicitStringConcatenation)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:91:9 - warning: Type of "payload" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:94:5 - warning: "rows"의 형식을 부분적으로 알 수 없습니다.
+    ‘rows’의 유형이 ‘list[Unknown] | list[Any]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:96:9 - warning: "row"의 형식을 부분적으로 알 수 없습니다.
+    ‘row’의 유형이 ‘Unknown | Any’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:97:45 - warning: "get"의 형식을 부분적으로 알 수 없습니다.
+    ‘get’의 유형이 ‘Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:99:30 - warning: "get"의 형식을 부분적으로 알 수 없습니다.
+    ‘get’의 유형이 ‘Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:99:30 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "__new__" 함수의 "object" 매개 변수에 해당합니다.
+    인수 형식이 "Unknown | str"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:100:35 - warning: "get"의 형식을 부분적으로 알 수 없습니다.
+    ‘get’의 유형이 ‘Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:100:35 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "__new__" 함수의 "object" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_checks.py:100:88 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "__new__" 함수의 "object" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_draft.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_draft.py:14:5 - warning: Type of "value" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_engine.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_engine.py:22:9 - warning: “_open_json“ 메서드가 override로 표시되지 않았지만 “KISAuthMixin“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_engine.py:25:16 - warning: Return type is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_engine.py:29:9 - warning: “run_operating_cycle“ 메서드가 override로 표시되지 않았지만 “ControllerOperationsMixin“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_engine.py:36:14 - warning: Type annotation for attribute `runtime` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_engine.py:37:14 - warning: Type annotation for attribute `mode` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:12:38 - warning: "apply_operator_theme"의 형식을 부분적으로 알 수 없습니다.
+    ‘apply_operator_theme’의 유형이 ‘(root: Unknown, ttk_module: Unknown) -> None’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:18:14 - warning: Type annotation for attribute `root` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:18:25 - warning: Type annotation for attribute `service` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:19:14 - warning: Type annotation for attribute `controller` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:20:14 - warning: Type annotation for attribute `tk` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:20:23 - warning: Type annotation for attribute `ttk` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:21:14 - warning: Type annotation for attribute `busy` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:21:26 - warning: Type annotation for attribute `closing` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:22:14 - warning: Type annotation for attribute `_executor` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:30:9 - warning: "actions"의 형식을 부분적으로 알 수 없습니다.
+    ‘actions’의 유형이 ‘tuple[tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None]]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:31:14 - warning: "start_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:32:14 - warning: "refresh_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:33:14 - warning: "learning_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:34:14 - warning: "resume_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:35:14 - warning: "pause_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:36:14 - warning: "cancel_learning_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:39:21 - warning: "button" 유형을 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:39:58 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "__new__" 함수의 "iterable" 매개 변수에 해당합니다.
+    인수 형식이 "tuple[tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None], tuple[Unknown, str, () -> None]]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:40:13 - warning: "configure" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:41:13 - warning: "grid" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:42:34 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "append" 함수의 "object" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:43:9 - warning: "report_button" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:43:9 - warning: "grid_remove" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:44:9 - warning: "warning_label" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:44:9 - warning: "configure" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:45:9 - warning: "warning_var" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:45:9 - warning: "set" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:45:30 - warning: 암시적 문자열 연결이 허용되지 않습니다. (reportImplicitStringConcatenation)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:49:14 - warning: Type annotation for attribute `_poll_id` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:50:14 - warning: Type annotation for attribute `_tick_id` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:112:9 - warning: "status_var" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:112:9 - warning: "set" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:113:9 - warning: "mode_var" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:113:9 - warning: "set" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:114:9 - warning: "selection_var" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:114:9 - warning: "set" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:118:9 - warning: "log_text" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:118:9 - warning: "configure" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:119:9 - warning: "log_text" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:119:9 - warning: "insert" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:120:9 - warning: "log_text" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:120:9 - warning: "see" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:121:9 - warning: "log_text" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:121:9 - warning: "configure" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:125:13 - warning: 호출 식의 결과가 ‘dict[str, tuple[str, str, str, Any, Any]] | None’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:136:9 - warning: 호출 식의 결과가 ‘_GridIndexInfo | Any’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:137:9 - warning: 호출 식의 결과가 ‘_GridIndexInfo | Any’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:141:69 - warning: "yview"의 형식을 부분적으로 알 수 없습니다.
+    ‘yview’의 유형이 ‘Overload[() -> tuple[float, float], (*args: Unknown) -> None]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:141:69 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "__init__" 함수의 "command" 매개 변수에 해당합니다.
+    인수 형식이 "Overload[() -> tuple[float, float], (*args: Unknown) -> None]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:143:9 - warning: 호출 식의 결과가 ‘dict[str, tuple[str, str, str, Any, Any]] | None’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:145:9 - warning: 호출 식의 결과가 ‘dict[str, tuple[str, str, str, Any, Any]] | None’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:172:48 - warning: 암시적 문자열 연결이 허용되지 않습니다. (reportImplicitStringConcatenation)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui.py:184:5 - warning: 호출 식의 결과가 ‘ProductionApp’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:20:9 - warning: "lift"의 형식을 부분적으로 알 수 없습니다.
+    ‘lift’의 유형이 ‘(aboveThis: Unknown | None = None) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:26:9 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:27:54 - warning: "status_var" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:27:54 - warning: "get" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:28:63 - warning: ‘_buttons’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:31:13 - warning: ‘_show_review’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:35:22 - warning: ‘_review_window’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:37:13 - warning: "lift"의 형식을 부분적으로 알 수 없습니다.
+    ‘lift’의 유형이 ‘(aboveThis: Unknown | None = None) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_gui_smoke.py:45:13 - warning: ‘_executor’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:30:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:31:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:32:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:34:5 - warning: 호출 식의 결과가 ‘ArgumentParser’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:36:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:37:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:40:9 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_launcher.py:56:34 - warning: Type of "value" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_ownership.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_ownership.py:22:14 - warning: Type annotation for attribute `account_digest` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_ownership.py:23:14 - warning: Type annotation for attribute `managed_path` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_ownership.py:25:9 - warning: “complete“ 메서드가 override로 표시되지 않았지만 “TradingSessionStore“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_ownership.py:37:13 - warning: Type of "payload" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:52:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:53:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:124:41 - warning: Argument type is Any
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:125:38 - warning: Argument type is Any
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:172:17 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:177:28 - warning: ‘_clock’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:186:25 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:202:21 - warning: 호출 식의 결과가 ‘ClaimDecision’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:216:69 - warning: ‘_clock’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:218:17 - warning: "results"의 형식을 부분적으로 알 수 없습니다.
+    ‘results’의 유형이 ‘list[dict[Unknown, Unknown]]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:218:27 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:219:56 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "_summary" 함수의 "results" 매개 변수에 해당합니다.
+    인수 형식이 "list[dict[Unknown, Unknown]]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:222:100 - warning: "item"의 형식을 부분적으로 알 수 없습니다.
+    ‘item’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:232:21 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:232:21 - warning: 호출 식의 결과가 ‘list[dict[Unknown, Unknown]]’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:234:21 - warning: 호출 식의 결과가 ‘ProductionOrderGate’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:235:21 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:235:21 - warning: 호출 식의 결과가 ‘list[dict[Unknown, Unknown]]’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:250:21 - warning: 호출 식의 결과가 ‘ProductionOrderGate’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:252:21 - warning: "restart_results"의 형식을 부분적으로 알 수 없습니다.
+    ‘restart_results’의 유형이 ‘list[dict[Unknown, Unknown]]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:252:39 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:253:76 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "_summary" 함수의 "results" 매개 변수에 해당합니다.
+    인수 형식이 "list[dict[Unknown, Unknown]]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:263:61 - warning: "action" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:263:61 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "any" 함수의 "iterable" 매개 변수에 해당합니다.
+    인수 형식이 "Generator[Unknown, None, None]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:263:99 - warning: "item"의 형식을 부분적으로 알 수 없습니다.
+    ‘item’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:271:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_market.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_market.py:100:9 - warning: 함수 "_request"에 액세스하지 않았습니다. (reportUnusedFunction)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_runtime.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_runtime.py:15:27 - warning: "_read_dotenv"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_runtime.py:63:17 - warning: 호출 식의 결과가 ‘str’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py:43:14 - warning: Type annotation for attribute `runtime` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py:44:14 - warning: Type annotation for attribute `store` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py:45:14 - warning: Type annotation for attribute `gate` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py:49:14 - warning: Type annotation for attribute `factory` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py:50:14 - warning: Type annotation for attribute `controller` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_service.py:60:14 - warning: Type annotation for attribute `_leases` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+0 errors, 135 warnings, 0 notes

@@ -1,0 +1,3 @@
+policy,cost_scenario,signal_timestamp,timestamp,symbol,reason
+A,base,2026-09-23T13:55:00+00:00,2026-09-23T14:00:00+00:00,HIVE,limit_not_touched_expired
+B,base,2026-09-23T13:55:00+00:00,2026-09-23T14:00:00+00:00,HIVE,limit_not_touched_expired

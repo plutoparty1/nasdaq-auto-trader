@@ -1,0 +1,1 @@
+{"data_source": "TEST ONLY synthetic flat", "bar_interval": "1Day", "universe_source": "TEST ONLY singleton", "universe_as_of": "2019-12-31", "survivorship_corrected": false, "synthetic": true, "adjustment_policy": "TEST ONLY unadjusted"}

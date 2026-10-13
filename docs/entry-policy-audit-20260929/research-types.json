@@ -1,0 +1,670 @@
+
+{
+    "version": "1.40.1",
+    "time": "1790686801380",
+    "generalDiagnostics": [
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `credentials` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 89,
+                    "character": 13
+                },
+                "end": {
+                    "line": 89,
+                    "character": 24
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `wire` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 90,
+                    "character": 13
+                },
+                "end": {
+                    "line": 90,
+                    "character": 17
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `sleeper` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 91,
+                    "character": 13
+                },
+                "end": {
+                    "line": 91,
+                    "character": 20
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `token` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 92,
+                    "character": 13
+                },
+                "end": {
+                    "line": 92,
+                    "character": 18
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `counts` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 93,
+                    "character": 13
+                },
+                "end": {
+                    "line": 93,
+                    "character": 19
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly.py",
+            "severity": "warning",
+            "message": "Type of \"payload\" is Any",
+            "range": {
+                "start": {
+                    "line": 161,
+                    "character": 16
+                },
+                "end": {
+                    "line": 161,
+                    "character": 23
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly.py",
+            "severity": "warning",
+            "message": "\"get\"의 형식을 부분적으로 알 수 없습니다.\n  ‘get’의 유형이 ‘Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]’입니다.",
+            "range": {
+                "start": {
+                    "line": 166,
+                    "character": 15
+                },
+                "end": {
+                    "line": 166,
+                    "character": 26
+                }
+            },
+            "rule": "reportUnknownMemberType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly.py",
+            "severity": "warning",
+            "message": "\"get\"의 형식을 부분적으로 알 수 없습니다.\n  ‘get’의 유형이 ‘Overload[(key: Unknown, default: None = None, /) -> (Unknown | None), (key: Unknown, default: Unknown, /) -> Unknown, (key: Unknown, default: _T@get, /) -> (Unknown | _T@get)]’입니다.",
+            "range": {
+                "start": {
+                    "line": 168,
+                    "character": 20
+                },
+                "end": {
+                    "line": 168,
+                    "character": 31
+                }
+            },
+            "rule": "reportUnknownMemberType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly.py",
+            "severity": "warning",
+            "message": "반환 형식 \"tuple[dict[Unknown, Unknown], str]\"을(를) 부분적으로 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 174,
+                    "character": 19
+                },
+                "end": {
+                    "line": 174,
+                    "character": 49
+                }
+            },
+            "rule": "reportUnknownVariableType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_collect.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 79,
+                    "character": 4
+                },
+                "end": {
+                    "line": 81,
+                    "character": 5
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_collect.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 136,
+                    "character": 4
+                },
+                "end": {
+                    "line": 138,
+                    "character": 5
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_contract.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"iterable\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 66,
+                    "character": 39
+                },
+                "end": {
+                    "line": 66,
+                    "character": 63
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_credentials.py",
+            "severity": "warning",
+            "message": "Type of \"raw\" is Any",
+            "range": {
+                "start": {
+                    "line": 12,
+                    "character": 4
+                },
+                "end": {
+                    "line": 12,
+                    "character": 7
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_credentials.py",
+            "severity": "warning",
+            "message": "Type of \"kis\" is Any",
+            "range": {
+                "start": {
+                    "line": 13,
+                    "character": 4
+                },
+                "end": {
+                    "line": 13,
+                    "character": 7
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_credentials.py",
+            "severity": "warning",
+            "message": "Type of \"get\" is Any",
+            "range": {
+                "start": {
+                    "line": 13,
+                    "character": 10
+                },
+                "end": {
+                    "line": 13,
+                    "character": 17
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_credentials.py",
+            "severity": "warning",
+            "message": "Type of \"get\" is Any",
+            "range": {
+                "start": {
+                    "line": 14,
+                    "character": 7
+                },
+                "end": {
+                    "line": 14,
+                    "character": 14
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_credentials.py",
+            "severity": "warning",
+            "message": "Type of \"get\" is Any",
+            "range": {
+                "start": {
+                    "line": 14,
+                    "character": 37
+                },
+                "end": {
+                    "line": 14,
+                    "character": 44
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_credentials.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘str’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 37,
+                    "character": 12
+                },
+                "end": {
+                    "line": 37,
+                    "character": 41
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_credentials.py",
+            "severity": "warning",
+            "message": "Type of \"get\" is Any",
+            "range": {
+                "start": {
+                    "line": 40,
+                    "character": 33
+                },
+                "end": {
+                    "line": 40,
+                    "character": 40
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_credentials.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"get\" 함수의 \"default\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 40,
+                    "character": 33
+                },
+                "end": {
+                    "line": 40,
+                    "character": 54
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_history.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘tuple[float, float, float] | None’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 72,
+                    "character": 16
+                },
+                "end": {
+                    "line": 72,
+                    "character": 43
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_history.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘tuple[float, float, float] | None’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 79,
+                    "character": 16
+                },
+                "end": {
+                    "line": 79,
+                    "character": 43
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\research_readonly_minute.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 151,
+                    "character": 4
+                },
+                "end": {
+                    "line": 153,
+                    "character": 5
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 32,
+                    "character": 4
+                },
+                "end": {
+                    "line": 36,
+                    "character": 5
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 37,
+                    "character": 4
+                },
+                "end": {
+                    "line": 42,
+                    "character": 5
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"target\" is Any",
+            "range": {
+                "start": {
+                    "line": 44,
+                    "character": 4
+                },
+                "end": {
+                    "line": 44,
+                    "character": 10
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"summary\" is Any",
+            "range": {
+                "start": {
+                    "line": 44,
+                    "character": 13
+                },
+                "end": {
+                    "line": 44,
+                    "character": 25
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"resolve\" is Any",
+            "range": {
+                "start": {
+                    "line": 44,
+                    "character": 13
+                },
+                "end": {
+                    "line": 44,
+                    "character": 33
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"parent\" is Any",
+            "range": {
+                "start": {
+                    "line": 46,
+                    "character": 7
+                },
+                "end": {
+                    "line": 46,
+                    "character": 20
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"suffix\" is Any",
+            "range": {
+                "start": {
+                    "line": 46,
+                    "character": 42
+                },
+                "end": {
+                    "line": 46,
+                    "character": 55
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"exists\" is Any",
+            "range": {
+                "start": {
+                    "line": 46,
+                    "character": 70
+                },
+                "end": {
+                    "line": 46,
+                    "character": 83
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"collect\" is Any",
+            "range": {
+                "start": {
+                    "line": 68,
+                    "character": 7
+                },
+                "end": {
+                    "line": 68,
+                    "character": 19
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 75,
+                    "character": 12
+                },
+                "end": {
+                    "line": 77,
+                    "character": 13
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"collect\" is Any",
+            "range": {
+                "start": {
+                    "line": 100,
+                    "character": 11
+                },
+                "end": {
+                    "line": 100,
+                    "character": 23
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"parent\" is Any",
+            "range": {
+                "start": {
+                    "line": 103,
+                    "character": 4
+                },
+                "end": {
+                    "line": 103,
+                    "character": 17
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"mkdir\" is Any",
+            "range": {
+                "start": {
+                    "line": 103,
+                    "character": 4
+                },
+                "end": {
+                    "line": 103,
+                    "character": 23
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"open\" is Any",
+            "range": {
+                "start": {
+                    "line": 104,
+                    "character": 9
+                },
+                "end": {
+                    "line": 104,
+                    "character": 20
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"handle\" is Any",
+            "range": {
+                "start": {
+                    "line": 104,
+                    "character": 47
+                },
+                "end": {
+                    "line": 104,
+                    "character": 53
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"write\" is Any",
+            "range": {
+                "start": {
+                    "line": 105,
+                    "character": 8
+                },
+                "end": {
+                    "line": 105,
+                    "character": 20
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"collect\" is Any",
+            "range": {
+                "start": {
+                    "line": 110,
+                    "character": 40
+                },
+                "end": {
+                    "line": 110,
+                    "character": 52
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\collect_entry_policy_data.py",
+            "severity": "warning",
+            "message": "Type of \"collect\" is Any",
+            "range": {
+                "start": {
+                    "line": 115,
+                    "character": 16
+                },
+                "end": {
+                    "line": 115,
+                    "character": 28
+                }
+            },
+            "rule": "reportAny"
+        }
+    ],
+    "summary": {
+        "filesAnalyzed": 7,
+        "errorCount": 0,
+        "warningCount": 41,
+        "informationCount": 0,
+        "timeInSec": 1.707
+    }
+}

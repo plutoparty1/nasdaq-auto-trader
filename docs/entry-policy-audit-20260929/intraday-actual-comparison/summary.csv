@@ -1,0 +1,7 @@
+policy,cost_scenario,entries_without_entry_condition,entries_with_sell_signal,forced_entry_fills,next_evaluation_general_exit_fills,literal_five_minute_exits,realized_pnl_usd,unrealized_pnl_after_entry_cost_usd,complete_calendar_months,target_complete_calendar_months,monthly_evidence_status,period_return_pct,period_krw_return_pct,max_drawdown_pct,completed_roundtrips,average_holding_minutes,trading_cost_usd,evidence_status,monthly_return_pct,worst_month_pct,five_minute_grid_general_exit_fills
+A,base,0,6,0,5,,-0.35297076249999887,-0.04268750000000071,0,0,insufficient_full_months,-0.6707128936244594,-0.5402130132473371,-0.746996098282926,8,549.375,0.19705826249999867,observed_sample_not_probability,,,5
+A,stress,0,0,0,0,,0,0.0,0,0,insufficient_full_months,0.0,0.1313810701544238,0.0,0,,0,no_executions,,,0
+B,base,0,6,0,5,,-0.35297076249999887,-0.04268750000000071,0,0,insufficient_full_months,-0.6707128936244594,-0.5402130132473371,-0.746996098282926,8,549.375,0.19705826249999867,observed_sample_not_probability,,,5
+B,stress,0,0,0,0,,0,0.0,0,0,insufficient_full_months,0.0,0.1313810701544238,0.0,0,,0,no_executions,,,0
+C,base,0,0,0,0,,-0.23637697499999966,7.882583474838611e-15,0,0,insufficient_full_months,-0.40070207023274573,-0.26984744674631855,-0.4007020702327502,2,110.00000000000001,0.04037697499999994,observed_sample_not_probability,,,0
+C,stress,0,0,0,0,,0,0.0,0,0,insufficient_full_months,0.0,0.1313810701544238,0.0,0,,0,no_executions,,,0

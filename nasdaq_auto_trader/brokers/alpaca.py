@@ -1,15 +1,23 @@
 from __future__ import annotations
 
 import json
+import re
 from dataclasses import dataclass
 from math import isfinite
 from typing import Any
 from urllib.error import HTTPError
 from urllib.parse import urlencode
-from urllib.request import Request, urlopen
+from urllib.request import Request
 
 from ..models import AccountSnapshot, Bar, OrderRequest, Position
-from .common import BrokerCredentialError, BrokerOrderError, BrokerRequestError, JsonObject
+from .alpaca_history import AlpacaOrderHistory, read_order_history
+from .common import (
+    BrokerCredentialError,
+    BrokerOrderError,
+    BrokerRequestError,
+    JsonObject,
+)
+from .common import broker_urlopen as urlopen
 
 
 @dataclass(frozen=True, slots=True)
@@ -21,6 +29,12 @@ class AlpacaCredentials:
     paper: bool = True
     feed: str = "iex"
     timeout: int = 30
+
+
+@dataclass(frozen=True, slots=True)
+class AlpacaOpenOrder:
+    symbol: str
+    side: str
 
 
 class AlpacaClient:
@@ -65,6 +79,42 @@ class AlpacaClient:
             )
         return positions
 
+    def list_open_orders(self) -> tuple[AlpacaOpenOrder, ...]:
+        payload = self._request(
+            "GET", self.trading_base_url, "/v2/orders",
+            {"status": "open", "limit": 500, "nested": "false"},
+        )
+        if not isinstance(payload, list) or len(payload) >= 500:
+            raise BrokerRequestError("Alpaca open orders incomplete or invalid")
+        orders: list[AlpacaOpenOrder] = []
+        for item in payload:
+            if not isinstance(item, dict):
+                raise BrokerRequestError("Alpaca open order invalid")
+            symbol = item.get("symbol")
+            side = item.get("side")
+            if (
+                not isinstance(symbol, str)
+                or re.fullmatch(r"[A-Z][A-Z0-9./-]{0,31}", symbol) is None
+                or side not in ("buy", "sell")
+            ):
+                raise BrokerRequestError("Alpaca open order identity invalid")
+            raw_quantity = item.get("qty")
+            try:
+                amount = float(str(
+                    raw_quantity if raw_quantity is not None else item.get("notional")
+                ))
+                filled = float(str(item.get("filled_qty", "0")))
+            except (ValueError, OverflowError) as exc:
+                raise BrokerRequestError("Alpaca open order quantity invalid") from exc
+            if (
+                not isfinite(amount) or amount <= 0
+                or not isfinite(filled) or filled < 0
+                or (raw_quantity is not None and filled > amount)
+            ):
+                raise BrokerRequestError("Alpaca open order quantity invalid")
+            orders.append(AlpacaOpenOrder(symbol, side))
+        return tuple(orders)
+
     def submit_order(self, order: OrderRequest) -> JsonObject:
         """Submit one risk-approved order to Alpaca."""
 
@@ -81,6 +131,9 @@ class AlpacaClient:
             "/v2/orders",
             body=order.to_alpaca_payload(),
         )
+
+    def list_order_history(self, start_date: str, end_date: str) -> tuple[AlpacaOrderHistory, ...]:
+        return read_order_history(self, start_date, end_date)
 
     @staticmethod
     def _required_buy_cash(order: OrderRequest) -> float:

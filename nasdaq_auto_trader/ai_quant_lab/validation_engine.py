@@ -23,6 +23,8 @@ class ValidationResult:
     metrics: dict[str, float]
     rejection_reasons: tuple[str, ...]
     missing_advanced_metrics: tuple[str, ...]
+    paper_eligible: bool = False
+    evidence_scope: str = "single_backtest_in_sample"
 
 
 class ValidationEngine:

@@ -1,14 +1,16 @@
 from __future__ import annotations
 
-from dataclasses import dataclass
-from math import isfinite
 from collections.abc import Iterator
 from contextlib import contextmanager
+from dataclasses import dataclass
+from datetime import datetime
+from math import isfinite
 
-from .common import BrokerRequestError, JsonObject, _first_float, _format_price
-from ..live_canary_policy import CANARY_POLICY
 from ..live_canary_lease import broker_submission_guard
+from ..live_canary_policy import CANARY_POLICY
 from ..models import OrderSide
+from .common import BrokerRequestError, JsonObject, _first_float, _format_price
+from .kis_history import history_status, history_submitted_at, is_original_order
 
 
 @dataclass(frozen=True, slots=True)
@@ -32,6 +34,9 @@ class KISOrderHistory:
     quantity: float
     filled_quantity: float
     average_fill_price: float
+    status: str = "unknown"
+    submitted_at: datetime | None = None
+    is_original_order: bool = True
 
 
 @dataclass(frozen=True, slots=True)
@@ -48,6 +53,7 @@ class KISCancelOrder:
 class KISCancelResult:
 
     order_id: str
+    cancellation_order_id: str = ""
 
 
 class KISReconciliationMixin:
@@ -82,12 +88,12 @@ class KISReconciliationMixin:
             {
                 "CANO": self.credentials.account_no,
                 "ACNT_PRDT_CD": self.credentials.account_product_code,
-                "PDNO": "",
+                "PDNO": "" if self.credentials.paper else "%",
                 "ORD_STRT_DT": start_date,
                 "ORD_END_DT": end_date,
                 "SLL_BUY_DVSN": "00",
                 "CCLD_NCCS_DVSN": "00",
-                "OVRS_EXCG_CD": self.credentials.order_exchange_code,
+                "OVRS_EXCG_CD": "" if self.credentials.paper else self.credentials.order_exchange_code,
                 "SORT_SQN": "DS",
                 "ORD_DT": "",
                 "ORD_GNO_BRNO": "",
@@ -96,7 +102,7 @@ class KISReconciliationMixin:
                 "CTX_AREA_NK200": "",
             },
         )
-        return tuple(self._parse_history(row) for row in rows)
+        return tuple(self._parse_history(row, rows) for row in rows)
 
     def cancel_order(self, order: KISCancelOrder) -> KISCancelResult:
         if not order.order_id or not order.symbol or order.quantity <= 0:
@@ -121,7 +127,9 @@ class KISReconciliationMixin:
                     "ORGN_ODNO": order.order_id,
                     "RVSE_CNCL_DVSN_CD": "02",
                     "ORD_QTY": _format_price(order.quantity),
-                    "OVRS_ORD_UNPR": _format_price(order.limit_price),
+                    "OVRS_ORD_UNPR": "0",
+                    "MGCO_APTM_ODNO": "",
+                    "ORD_SVR_DVSN_CD": "0",
                 },
             )
         output = payload.get("output")
@@ -130,9 +138,12 @@ class KISReconciliationMixin:
             if isinstance(output, dict)
             else ""
         )
-        if confirmed_id != order.order_id:
+        if not confirmed_id:
             raise BrokerRequestError("cancel_order_number_missing")
-        return KISCancelResult(order_id=confirmed_id)
+        return KISCancelResult(
+            order_id=order.order_id,
+            cancellation_order_id=confirmed_id,
+        )
 
     def _read_pages(self, path: str, tr_id: str, params: dict[str, str]) -> list[JsonObject]:
         previous_deadline = getattr(self, "_reconciliation_deadline", None)
@@ -200,7 +211,7 @@ class KISReconciliationMixin:
         side = "sell" if side_code == "01" else "buy"
         return KISOpenOrder(order_id, symbol, side, quantity, filled, remaining, price)
 
-    def _parse_history(self, row: JsonObject) -> KISOrderHistory:
+    def _parse_history(self, row: JsonObject, rows: list[JsonObject]) -> KISOrderHistory:
         order_id = str(row.get("odno") or "")
         symbol = str(row.get("pdno") or "").upper()
         side_code = str(row.get("sll_buy_dvsn_cd") or "")
@@ -210,4 +221,9 @@ class KISReconciliationMixin:
         if side_code not in {"01", "02"} or not order_id or not symbol or quantity < 0 or filled < 0 or price < 0:
             raise BrokerRequestError("order_history_row_invalid")
         side = "sell" if side_code == "01" else "buy"
-        return KISOrderHistory(order_id, symbol, side, quantity, filled, price)
+        return KISOrderHistory(
+            order_id, symbol, side, quantity, filled, price,
+            status=history_status(row, rows, quantity, filled),
+            submitted_at=history_submitted_at(row),
+            is_original_order=is_original_order(row),
+        )

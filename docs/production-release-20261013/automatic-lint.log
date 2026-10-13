@@ -1,0 +1,169 @@
+warning: Invalid `# noqa` directive on nasdaq_auto_trader\automatic_risk.py:31: expected a comma-separated list of codes (e.g., `# noqa: F401, F841`).
+I001 [*] Import block is un-sorted or un-formatted
+  --> nasdaq_auto_trader\automatic_risk.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | from dataclasses import dataclass, field, replace
+ 4 | | import math
+ 5 | |
+ 6 | | from .ai_quant_lab.artifact_paths import StrategyArtifactPaths
+ 7 | | from .models import AccountSnapshot, OrderRequest, Position, TradeDecision
+ 8 | | from .risk import RiskConfig
+ 9 | | from .quant_data.symbol_selector import ResolvedStrategy
+10 | | from .automatic_risk_config import (
+11 | |     AutomaticRiskConfigBlock,
+12 | |     load_automatic_risk_config,
+13 | | )
+   | |_^
+help: Organize imports
+   |
+2  |
+3  + import math
+4  | from dataclasses import dataclass, field, replace
+   - import math
+5  |
+6  | from .ai_quant_lab.artifact_paths import StrategyArtifactPaths
+   - from .models import AccountSnapshot, OrderRequest, Position, TradeDecision
+   - from .risk import RiskConfig
+   - from .quant_data.symbol_selector import ResolvedStrategy
+7  | from .automatic_risk_config import (
+8  |     AutomaticRiskConfigBlock,
+9  |     load_automatic_risk_config,
+10 | )
+11 + from .models import AccountSnapshot, OrderRequest, Position, TradeDecision
+12 + from .quant_data.symbol_selector import ResolvedStrategy
+13 + from .risk import RiskConfig
+14 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> nasdaq_auto_trader\engine_orders.py:1:1
+   |
+ 1 | / from __future__ import annotations
+ 2 | |
+ 3 | | from dataclasses import replace
+ 4 | |
+ 5 | | from .automatic_buy_receipts import OrderHistorySource
+ 6 | | from .automatic_order_guard import (
+ 7 | |     AutomaticOrderBlock,
+ 8 | |     AutomaticOrderContext,
+ 9 | | )
+10 | | from .automatic_order_pending import automatic_pending_order_block
+11 | | from .automatic_order_types import AutomaticBlockRequest
+12 | | from .broker_response import (
+13 | |     broker_response_reconcile_required,
+14 | |     broker_response_status,
+15 | |     broker_response_submitted,
+16 | | )
+17 | | from .brokers.common import BrokerOrderRejected, BrokerRequestError
+18 | | from .config_manager import (
+19 | |     validate_order_against_settings,
+20 | | )
+21 | | from .daily_buy_objective import daily_buy_due
+22 | | from .engine_types import BrokerResponsePayload, JsonObject
+23 | | from .market_hours import EASTERN, regular_market_session
+24 | | from .models import AccountSnapshot, OrderRequest, Position, TradeDecision
+25 | | from .safe_runtime import orders_locked
+26 | | from .production_policy import production_order_block
+   | |_____________________________________________________^
+help: Organize imports
+   |
+2  |
+   - from dataclasses import replace
+   -
+   - from .automatic_buy_receipts import OrderHistorySource
+3  + from dataclasses import replace
+4  +
+5  + from .automatic_buy_receipts import OrderHistorySource
+6  | from .automatic_order_guard import (
+--------------------------------------------------------------------------------
+11 | from .automatic_order_types import AutomaticBlockRequest
+   - from .broker_response import (
+12 + from .broker_response import (
+13 |     broker_response_reconcile_required,
+14 |     broker_response_status,
+15 |     broker_response_submitted,
+   - )
+   - from .brokers.common import BrokerOrderRejected, BrokerRequestError
+   - from .config_manager import (
+16 + )
+17 + from .brokers.common import BrokerOrderRejected, BrokerRequestError
+18 + from .config_manager import (
+19 |     validate_order_against_settings,
+   - )
+   - from .daily_buy_objective import daily_buy_due
+20 + )
+21 + from .daily_buy_objective import daily_buy_due
+22 | from .engine_types import BrokerResponsePayload, JsonObject
+   - from .market_hours import EASTERN, regular_market_session
+23 + from .market_hours import EASTERN, regular_market_session
+24 | from .models import AccountSnapshot, OrderRequest, Position, TradeDecision
+25 + from .production_policy import production_order_block
+26 | from .safe_runtime import orders_locked
+   - from .production_policy import production_order_block
+27 |
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> nasdaq_auto_trader\production_service.py:2:1
+   |
+ 1 |   """Explicit preflight, approval and start lifecycle; opening never grants authority."""
+ 2 | / from __future__ import annotations
+ 3 | |
+ 4 | | import json
+ 5 | | from contextlib import ExitStack
+ 6 | | from dataclasses import replace
+ 7 | | from datetime import UTC, datetime
+ 8 | |
+ 9 | | from .ai_quant_lab.audit_logger import AuditLogger
+10 | | from .ai_quant_lab.types import JsonObject
+11 | | from .automatic_order_guard import AutomaticOrderGuard
+12 | | from .config_settings import SettingsError
+13 | | from .live_authorization import broker_authorization_digest
+14 | | from .live_authorization_store import LiveAuthorizationStore
+15 | | from .live_canary_lease import BrokerLeaseError, BrokerLiveLease
+16 | | from .live_session_authorization import SessionAuthorizationRequest
+17 | | from .market_hours import regular_market_session
+18 | | from .models import AccountSnapshot, OrderRequest, OrderSide
+19 | | from .production_authorization import (
+20 | |     ProductionApprovalRequest,
+21 | |     ProductionBinding,
+22 | |     ProductionOrderGate,
+23 | |     authorize_production_session,
+24 | | )
+25 | | from .production_baseline import ProductionBaselineStore
+26 | | from .production_fees import FeeScheduleInput, load_fee_schedule
+27 | | from .production_sizing import candidate_runtime
+28 | | from .production_checks import (
+29 | |     artifacts,
+30 | |     conflicting_processes,
+31 | |     make_client,
+32 | |     owned_sell_block,
+33 | |     preflight,
+34 | | )
+35 | | from .production_engine import ProductionController, ProductionEngineFactory
+36 | | from .production_ownership import ProductionSessionStore
+37 | | from .production_policy import configure_production_gate
+38 | | from .production_runtime import BUILD_ID, STRATEGY_ID, ProductionRuntime, load_runtime
+39 | | from .session_state_persistence import load_session_state, save_session_state
+40 | | from .trading_session_store import TradingSessionStore
+   | |______________________________________________________^
+help: Organize imports
+   |
+25 | from .production_baseline import ProductionBaselineStore
+   - from .production_fees import FeeScheduleInput, load_fee_schedule
+   - from .production_sizing import candidate_runtime
+26 | from .production_checks import (
+--------------------------------------------------------------------------------
+33 | from .production_engine import ProductionController, ProductionEngineFactory
+34 + from .production_fees import FeeScheduleInput, load_fee_schedule
+35 | from .production_ownership import ProductionSessionStore
+36 | from .production_policy import configure_production_gate
+37 | from .production_runtime import BUILD_ID, STRATEGY_ID, ProductionRuntime, load_runtime
+38 + from .production_sizing import candidate_runtime
+39 | from .session_state_persistence import load_session_state, save_session_state
+   |
+
+Found 3 errors.
+[*] 3 fixable with `--fix`.

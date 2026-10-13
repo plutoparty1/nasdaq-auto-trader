@@ -1,0 +1,31 @@
+{
+  "bars_sha256": "01a9663136e8bd2420671ebcbe160953417458fb3636d59ba5c32e70c4f6f0e1",
+  "profile_sha256": "af69e6f41baa5d0291c8fdd1f5578bfafae437df83c04d880ac1944ecc594627",
+  "costs_sha256": "23b0124bdfd10ec57f5e72c1bda711b2861ba069c80a853fdb89144957d3e11c",
+  "fx_history_sha256": null,
+  "fx_source": "QA synthetic assumption",
+  "fx_as_of": "2020-01-01T00:00:00+00:00",
+  "provenance": {
+    "synthetic": true,
+    "data_source": "generated test fixture, not market evidence"
+  },
+  "symbols": [
+    "SYNTHETIC"
+  ],
+  "bar_count": {
+    "SYNTHETIC": 300
+  },
+  "assessment": "SYNTHETIC_SMOKE_ONLY",
+  "unavailable_splits": [],
+  "omitted_split_reason": "insufficient data after fixed 64-bar warmup; boundaries not retuned",
+  "order_api_calls": 0,
+  "cancel_api_calls": 0,
+  "limitations": [
+    "A omits historical forced-entry 5% risk override; all policies use 1%",
+    "Fixed case cohort is selected with hindsight, not a historical universe selection replay",
+    "Daily signals and fills cannot measure the historical five-minute liquidation mechanism",
+    "Dividend cash is excluded; provider price adjustment policy must be reviewed",
+    "Known charges use assumptions; actual account fees and operations cost unverified",
+    "Zero executions and partial-month returns do not establish strategy quality"
+  ]
+}

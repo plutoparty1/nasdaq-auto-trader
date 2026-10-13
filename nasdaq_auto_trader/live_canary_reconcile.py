@@ -137,7 +137,11 @@ def _cancel_exact(
     confirmation = broker.cancel_order(request)
     if confirmation.order_id != known.order_id:
         return _manual(state, "cancel_order_id_mismatch")
-    return ReconciliationResult(state.cancel_known_order(known.order_id), "exact_open_order_cancelled", 1)
+    return ReconciliationResult(
+        state.require_manual_reconciliation(),
+        "cancel_finality_requires_reconciliation",
+        1,
+    )
 
 
 def _confirm_buy(

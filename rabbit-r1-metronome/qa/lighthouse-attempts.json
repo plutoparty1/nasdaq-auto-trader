@@ -1,0 +1,66 @@
+{
+  "status": "INCONCLUSIVE",
+  "reason": "At audit time C: had zero free bytes; Chrome's isolated regular profile could not initialize its persistent cache.",
+  "completedAudits": 0,
+  "plannedAudits": 12,
+  "categoryScores": null,
+  "pages": ["/", "/install.html"],
+  "profiles": ["mobile", "desktop"],
+  "plannedRunsPerPageProfile": 3,
+  "transport": {
+    "browserChannel": "chrome",
+    "playwrightControl": true,
+    "lighthouseNodeApi": true,
+    "lighthouseCli": false,
+    "serverPort": 4187,
+    "cdpPort": 9237,
+    "productionFiles": ["dist/index.html", "dist/install.html"]
+  },
+  "runtime": {
+    "node": "v24.19.0",
+    "lighthouse": "13.5.0",
+    "playwright": "1.64.0",
+    "installedChromeFileVersion": "154.0.8037.98",
+    "chromeVersionEndpointReached": false
+  },
+  "diskAtAuditTime": {
+    "device": "C:",
+    "totalBytes": 239370432512,
+    "freeBytes": 0,
+    "checks": ["Win32_LogicalDisk", "Get-Volume", "Get-PSDrive", ".NET DriveInfo"],
+    "volumeHealth": "Healthy",
+    "operationalStatus": "OK"
+  },
+  "freeBytesBeforeReportWrite": 147292160,
+  "attempts": [
+    {
+      "number": 1,
+      "stage": "First app/mobile audit; Lighthouse storage preparation",
+      "browserLaunch": "chromium.launch plus isolated newContext",
+      "error": "Protocol error (Storage.getUsageAndQuota): Protocol error (Storage.getUsageAndQuota): Quota information is not available",
+      "scoreProduced": false
+    },
+    {
+      "number": 2,
+      "stage": "Regular temporary profile initialization before any audit",
+      "browserLaunch": "chromium.launchPersistentContext('')",
+      "error": "browserType.launchPersistentContext: Failed to launch the browser process",
+      "chromeError": "Failed to create cache directory: GPUPersistentCache: 디스크 공간이 부족합니다. (0x70)",
+      "originalDiskMessage": "디스크 공간이 부족합니다. (0x70)",
+      "englishDiskMessage": "Insufficient disk space (0x70)",
+      "temporaryProfile": "C:\\Users\\u\\AppData\\Local\\Temp\\playwright_chromiumdev_profile-qS61qQ",
+      "scoreProduced": false
+    }
+  ],
+  "cleanup": {
+    "ownedServerCleanupRan": true,
+    "ownedChromeCleanupRan": true,
+    "retryTemporaryDirectoryCleanupLogged": true,
+    "retryTemporaryProfileExists": false,
+    "listenersOnOwnedPortsAtFinalCheck": 0,
+    "unrelatedFilesDeleted": false,
+    "productFilesEdited": false
+  },
+  "sdkContextReview": "PASS, evaluated separately from Lighthouse",
+  "nextAction": "Restore sufficient disk space, install required audit dependencies, and rerun node qa/lighthouse-audit.mjs for three mobile and three desktop audits per page."
+}

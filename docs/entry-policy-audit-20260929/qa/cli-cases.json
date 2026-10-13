@@ -1,0 +1,152 @@
+{
+  "frozen_output_bytes_unchanged": true,
+  "cases": [
+    {
+      "case": "reuse-frozen-output",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "output",
+      "summary_created": false
+    },
+    {
+      "case": "fx-zero",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "positive USD/KRW",
+      "summary_created": false
+    },
+    {
+      "case": "fx-negative",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "positive USD/KRW",
+      "summary_created": false
+    },
+    {
+      "case": "fx-nan",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "positive USD/KRW",
+      "summary_created": false
+    },
+    {
+      "case": "fx-infinity",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "positive USD/KRW",
+      "summary_created": false
+    },
+    {
+      "case": "operations-negative",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "operations cost",
+      "summary_created": false
+    },
+    {
+      "case": "operations-nan",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "operations cost",
+      "summary_created": false
+    },
+    {
+      "case": "operations-infinity",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "operations cost",
+      "summary_created": false
+    },
+    {
+      "case": "missing-historical-arguments",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "historical runs need",
+      "summary_created": false
+    },
+    {
+      "case": "wrong-bar-interval",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "1Day signal bars",
+      "summary_created": false
+    },
+    {
+      "case": "missing-case-cohort",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "every symbol",
+      "summary_created": false
+    },
+    {
+      "case": "nan-high",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "finite",
+      "summary_created": false
+    },
+    {
+      "case": "negative-low",
+      "exit": 1,
+      "pass": false,
+      "expected_error": "positive",
+      "summary_created": false
+    },
+    {
+      "case": "invalid-ohlc",
+      "exit": 1,
+      "pass": false,
+      "expected_error": "OHLC",
+      "summary_created": false
+    },
+    {
+      "case": "date-only",
+      "exit": 0,
+      "pass": false,
+      "expected_error": "timestamp",
+      "summary_created": true
+    },
+    {
+      "case": "duplicate-bar",
+      "exit": 1,
+      "pass": false,
+      "expected_error": "one completed bar",
+      "summary_created": false
+    },
+    {
+      "case": "short-history",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "80 daily",
+      "summary_created": false
+    },
+    {
+      "case": "changed-risk",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "prespecified",
+      "summary_created": false
+    },
+    {
+      "case": "duplicate-fx",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "unique timestamps",
+      "summary_created": false
+    },
+    {
+      "case": "late-fx",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "before the first evaluation",
+      "summary_created": false
+    },
+    {
+      "case": "nan-fx-history",
+      "exit": 1,
+      "pass": true,
+      "expected_error": "positive finite",
+      "summary_created": false
+    }
+  ]
+}

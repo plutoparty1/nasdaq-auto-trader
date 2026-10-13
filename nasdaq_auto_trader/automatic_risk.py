@@ -1,15 +1,16 @@
 from __future__ import annotations
 
-from dataclasses import dataclass, field, replace
 import math
+from dataclasses import dataclass, field, replace
 
 from .ai_quant_lab.artifact_paths import StrategyArtifactPaths
-from .models import AccountSnapshot, OrderRequest, Position, TradeDecision
-from .quant_data.symbol_selector import ResolvedStrategy
 from .automatic_risk_config import (
     AutomaticRiskConfigBlock,
     load_automatic_risk_config,
 )
+from .models import AccountSnapshot, OrderRequest, Position, TradeDecision
+from .quant_data.symbol_selector import ResolvedStrategy
+from .risk import RiskConfig
 
 
 @dataclass(frozen=True, slots=True)
@@ -69,6 +70,11 @@ class CycleReservationLedger:
         limits: AutomaticRiskLimits,
         submitted_order_count: int,
         starting_equity: float | None,
+        *,
+        integer_quantity_enabled: bool = False,
+        estimated_roundtrip_cost_pct: float = 0.0,
+        estimated_roundtrip_minimum_cost_usd: float = 0.0,
+        estimated_sell_tax_pct: float = 0.0,
     ) -> tuple[OrderRequest, str]:
         if (
             limits.max_orders_per_day > 0
@@ -129,6 +135,20 @@ class CycleReservationLedger:
                 if latest_price > 0
                 else 0.0
             )
+        if integer_quantity_enabled:
+            if (decision.risk_per_share is None or decision.risk_per_share <= 0
+                    or not math.isfinite(estimated_roundtrip_cost_pct)
+                    or estimated_roundtrip_cost_pct < 0
+                    or not math.isfinite(estimated_roundtrip_minimum_cost_usd)
+                    or estimated_roundtrip_minimum_cost_usd < 0
+                    or not math.isfinite(estimated_sell_tax_pct) or estimated_sell_tax_pct < 0
+                    or order.qty is None or int(order.qty) != order.qty):
+                return order, "learned_order_risk_unavailable"
+            budget = account.equity * limits.risk_per_trade_pct
+            risk_available = max(min(
+                budget / (decision.risk_per_share + latest_price * (estimated_roundtrip_cost_pct + estimated_sell_tax_pct)),
+                (budget - estimated_roundtrip_minimum_cost_usd) / (decision.risk_per_share + latest_price * estimated_sell_tax_pct),
+            ), 0) * latest_price
         caps = (
             (limits.max_order_notional, "learned_max_order_notional_reached"),
             (total_available, "learned_total_exposure_limit_reached"),
@@ -138,6 +158,11 @@ class CycleReservationLedger:
         allowed, reason = min(caps, key=lambda item: item[0])
         if notional <= allowed:
             return order, ""
+        if integer_quantity_enabled and order.qty is not None:
+            quantity = math.floor(allowed / latest_price)
+            if quantity > 0:
+                return replace(order, qty=float(min(quantity, order.qty))), ""
+            return order, reason
         capped_notional = math.floor(allowed * 100) / 100
         if order.notional is not None and capped_notional >= 0.01:
             return replace(order, notional=capped_notional), ""
@@ -166,6 +191,8 @@ class CycleReservationLedger:
 def resolve_automatic_risk_limits(
     paths: StrategyArtifactPaths,
     resolved: ResolvedStrategy,
+    *,
+    candidate_risk: RiskConfig | None = None,
 ) -> AutomaticRiskLimits | AutomaticRiskBlock:
     config = load_automatic_risk_config(paths.ai_config_path)
     if isinstance(config, AutomaticRiskConfigBlock):
@@ -184,7 +211,7 @@ def resolve_automatic_risk_limits(
     ):
         return AutomaticRiskBlock("strategy_risk_controls_incomplete")
     sizing = resolved.spec.position_sizing
-    return AutomaticRiskLimits(
+    limits = AutomaticRiskLimits(
         max_single_position_pct=min(
             config.max_single_position_pct,
             sizing.max_single_position_pct,
@@ -195,6 +222,17 @@ def resolve_automatic_risk_limits(
         risk_per_trade_pct=sizing.risk_per_trade_pct,
         max_daily_loss_pct=config.max_daily_loss_pct,
     )
+    if candidate_risk is not None and candidate_risk.integer_quantity_enabled:
+        total = candidate_risk.max_total_exposure_pct
+        if total is None or not math.isfinite(total) or not 0 < total <= .30:
+            return AutomaticRiskBlock("candidate_total_exposure_policy_invalid")
+        return replace(limits,
+                       max_single_position_pct=min(candidate_risk.max_position_pct, total),
+                       max_total_exposure_pct=total,
+                       risk_per_trade_pct=min(limits.risk_per_trade_pct, candidate_risk.risk_per_trade_pct),
+                       max_order_notional=min(limits.max_order_notional, candidate_risk.max_order_notional or 35, 35))
+    return limits
+
 
 
 def order_notional(order: OrderRequest, latest_price: float) -> float:

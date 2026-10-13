@@ -1,11 +1,13 @@
 {
   "schema_version": 1,
   "universe_id": "nasdaq_100",
-  "effective_date": "2026-07-10",
+  "effective_date": "2026-09-09",
   "source_url": "https://api.nasdaq.com/api/quote/list-type/nasdaq100",
   "source_notes": [
-    "Official Nasdaq API response dated 2026-07-10.",
-    "Includes the June 22, 2026 quarterly additions ALAB, CRWV, NBIS, RKLB, and TER."
+    "Complete official Nasdaq API response dated 2026-09-09, retrieved 2026-09-10: 102 unique securities.",
+    "Compared with the 2026-07-10 snapshot: EA removed; no securities added.",
+    "EA last traded 2026-08-04 and was suspended effective 2026-08-05: https://www.nasdaqtrader.com/TraderNews.aspx?id=ECA2026-545",
+    "Retrieved response SHA-256: f828df8d4b7afbc43e20b0d4eff3de02e40b5e9d68ecc5b3999a7c1219832979."
   ],
   "symbols": [
     {"symbol": "AAPL"}, {"symbol": "ABNB"}, {"symbol": "ADBE"},
@@ -19,7 +21,7 @@
     {"symbol": "COST"}, {"symbol": "CPRT"}, {"symbol": "CRWD"},
     {"symbol": "CRWV"}, {"symbol": "CSCO"}, {"symbol": "CSX"},
     {"symbol": "CTAS"}, {"symbol": "DASH"}, {"symbol": "DDOG"},
-    {"symbol": "DXCM"}, {"symbol": "EA"}, {"symbol": "EXC"},
+    {"symbol": "DXCM"}, {"symbol": "EXC"},
     {"symbol": "FANG"}, {"symbol": "FAST"}, {"symbol": "FER"},
     {"symbol": "FTNT"}, {"symbol": "GEHC"}, {"symbol": "GILD"},
     {"symbol": "GOOG"}, {"symbol": "GOOGL"}, {"symbol": "HON"},
@@ -44,5 +46,5 @@
     {"symbol": "WDAY"}, {"symbol": "WDC"}, {"symbol": "WMT"},
     {"symbol": "XEL"}
   ],
-  "checksum": "sha256:91afd48863afdedcb02f0b30675069b9de9fbd9d9cacb04716f80fbe6701d276"
+  "checksum": "sha256:2e15c29da14c98f9faa57e2450299e4edf86d16ba9bde2ac6d34e175225e0ce0"
 }

@@ -1,0 +1,10 @@
+﻿[
+    {
+        "TaskName":  "NasdaqAutoTrader-LiveCanary",
+        "State":  "Disabled"
+    },
+    {
+        "TaskName":  "NasdaqAutoTrader-Unattended",
+        "State":  "Disabled"
+    }
+]

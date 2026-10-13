@@ -1,0 +1,22 @@
+{
+  "checked_at": "2026-10-13T12:48:33.396904+00:00",
+  "orders": 0,
+  "cancels": 0,
+  "scopes": {
+    "NASD": {
+      "status": "read_complete",
+      "positions": [],
+      "open_orders": []
+    },
+    "NYSE": {
+      "status": "read_complete",
+      "positions": [],
+      "open_orders": []
+    },
+    "AMEX": {
+      "status": "read_complete",
+      "positions": [],
+      "open_orders": []
+    }
+  }
+}

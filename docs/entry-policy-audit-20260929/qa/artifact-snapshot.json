@@ -1,0 +1,62 @@
+[
+  {
+    "group": "actual-main",
+    "protocol_sha256": "1bf7796c6b3df782ac11f5b0d7646b65f5566c0ddf495bf17649e063bef647f2",
+    "input_bars_sha256": "22eb6493d51bf44b25f3c329b730a159434105a44ef96be8aa0429c23e2c147f",
+    "profile_sha256": "af69e6f41baa5d0291c8fdd1f5578bfafae437df83c04d880ac1944ecc594627",
+    "costs_sha256": "23b0124bdfd10ec57f5e72c1bda711b2861ba069c80a853fdb89144957d3e11c",
+    "fx_history_sha256": "e94a2de39bf1f2b8c0a1bfd434c0bc5c8110a1e75188fe70e766142e095884f9",
+    "artifact_sha256": {
+      "decisions.csv": "5dbc0c45f219124d5bd13f065ed754de6d3c4385f655d6a953fec9cad0714026",
+      "entry_skips.csv": "3d3dd9ba87ab8ae5b1f4ecba2dab464a9116eb285becdf7e1f4381101acce70a",
+      "equity.csv": "0e8d83022c5db335682ce1708a4a0b0608a4fceba1b682c615744dc871e29fd0",
+      "fills.csv": "c7d7d57b54813e0c4ad3e525aab002ea954296cf98f11d9aa28533c34cae4adc",
+      "manifest.json": "a41f7e5cb8308cfedca836c7b80b8d9e032f8ab9c795d18326acf11059744f6f",
+      "monthly.csv": "f54840e7a99a74943d86cd7d9a68b628629706da9ab3fb75c2eb8050b3ce8eff",
+      "order_rejections.csv": "5abd45ce1a5e1f19107f379c1d543993f144867324a2305cf4ba4d2446a30df7",
+      "protocol.json": "a5f97674bc34a13ce45f211032565b655d609c8461721568bbd50b99ac8bfa9a",
+      "reasons.csv": "bda6a472b4d8d49b6a6674e1a295da8690a7bda62fbdf5dbb182e1591d292d4b",
+      "summary.csv": "8adfded365c92791bb741fd7bd3f86bcda8a36b109661f97c5bc8999e0cfc099"
+    }
+  },
+  {
+    "group": "actual-no-action-pair",
+    "protocol_sha256": "9ddefde75b7645ce074f2bf685212ba645a5224b6d9b6a0ee967e94feb4cd96f",
+    "input_bars_sha256": "7c81968a0756ebaec29ae37e7e3ecd8b271b48d406f58e5af84e0c7cc297a14b",
+    "profile_sha256": "af69e6f41baa5d0291c8fdd1f5578bfafae437df83c04d880ac1944ecc594627",
+    "costs_sha256": "23b0124bdfd10ec57f5e72c1bda711b2861ba069c80a853fdb89144957d3e11c",
+    "fx_history_sha256": "e94a2de39bf1f2b8c0a1bfd434c0bc5c8110a1e75188fe70e766142e095884f9",
+    "artifact_sha256": {
+      "decisions.csv": "5d140bb65e2140c1ce68ed1031dadb07c3dcf4d6cb57cac964d29e3db863f095",
+      "entry_skips.csv": "50d26745897879807f2b03a352bd28189ce62c1c6b9e3ba6b71a6140c829c5fd",
+      "equity.csv": "762171236e58948a348b99d798d36ef3af434fcb2743aa1cd37013d031db78c0",
+      "fills.csv": "93960a2478ca8d3ad43b8452f87842d582b043d0b95ef249b394e2c170dc056c",
+      "manifest.json": "5cb8de83e4fecb7e9bff54f760bbfc9e7161bd71ef6aba8a116ad0185e933845",
+      "monthly.csv": "4ce8187a7ba6f1eb991d39f82926b7c2861fdb1a70e58b6404bf25cf6add9704",
+      "order_rejections.csv": "a27628bf2579baee622e4e4397ed65388d0d33658f41fc155da85cea66e0aafb",
+      "protocol.json": "adb79f5335208401b950beece691ede60bf76d213c91191d72ca3e8b9da7971f",
+      "reasons.csv": "3beeae1b31eeb688089c65389420f3123ae33e537828251dae41c59358f4ed9e",
+      "summary.csv": "325819961ea164a04b861d08d6d8c03f1697b8c9a08c6012d283c0046d1ce9a0"
+    }
+  },
+  {
+    "group": "actual-spy-control",
+    "protocol_sha256": "f59dfc3687be2f3a7a7be80095fdab313d956e632db8258779d674cc2f347a51",
+    "input_bars_sha256": "3669ba9f1e06d90888da5878f8775405b9296272b9afda6f004230cb20083321",
+    "profile_sha256": "af69e6f41baa5d0291c8fdd1f5578bfafae437df83c04d880ac1944ecc594627",
+    "costs_sha256": "23b0124bdfd10ec57f5e72c1bda711b2861ba069c80a853fdb89144957d3e11c",
+    "fx_history_sha256": "e94a2de39bf1f2b8c0a1bfd434c0bc5c8110a1e75188fe70e766142e095884f9",
+    "artifact_sha256": {
+      "decisions.csv": "0450d3e8e8c1cee6a2c44a149239e51a3b1b9a078da88343a7c1a0e3ade4e8b9",
+      "entry_skips.csv": "4cd0d45bd191d00ae6bdeb99bbd1da26bff177a156cb7b2bf197812f13bf295d",
+      "equity.csv": "edecb9bb5dfeace4221ed7137fe2d2ec9bd3632e13b39a53333adc08f3df0e0b",
+      "fills.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "manifest.json": "56001f385d8f39b5bb82d62b79e5026daf3cd6c014393381d5436ccaf95e067a",
+      "monthly.csv": "d2ea1f439e734ea8339832098e48c535264ba4bd3c3a9e7f9834591154d644f3",
+      "order_rejections.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "protocol.json": "0d12415c3081ecdcb3d0e07df34f8cf7ae1448925bbb27dc7aebb38d494a4aec",
+      "reasons.csv": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "summary.csv": "4da3dbe40879009f289c54917c600f4cbfeb1acaef2a36650dc03dcbfd4978ce"
+    }
+  }
+]

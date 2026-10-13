@@ -100,6 +100,9 @@ class _LiveBroker:
         self.orders.append(order)
         return {"status": self.status, "id": str(len(self.orders))}
 
+    def list_open_orders(self):
+        return ()
+
     def get_overseas_buying_power(self, symbol, limit_price):
         del symbol, limit_price
         return 10_000.0

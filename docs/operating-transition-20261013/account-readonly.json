@@ -1,0 +1,22 @@
+{
+  "checked_at": "2026-10-13T12:43:16.192481+00:00",
+  "source": "KIS GET only, existing cached token",
+  "orders": 0,
+  "cancels": 0,
+  "approvals": 0,
+  "account_masked": "****5376",
+  "account_fingerprint": "66bd838a60f43a1c3764c0adcf691ef50a6907c1ade9c5fb58b5ca0f2285941b",
+  "account_adapter": {
+    "cash": 62.91,
+    "equity": 62.91,
+    "buying_power": 62.91
+  },
+  "positions": {},
+  "open_orders": [],
+  "status": "read_complete",
+  "get_endpoints": [
+    "inquire-present-balance",
+    "inquire-balance",
+    "inquire-nccs"
+  ]
+}

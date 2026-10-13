@@ -1,0 +1,34 @@
+[
+  {
+    "source": "C:\\Users\\u\\AppData\\Local\\NasdaqAutoTrader\\ai_quant_lab\\strategy_registry.json",
+    "destination": "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\operating_state\\NasdaqAutoTrader\\ai_quant_lab\\strategy_registry.json",
+    "kind": "unchanged_strategy_validation_not_account_approval"
+  },
+  {
+    "source": "C:\\Users\\u\\AppData\\Local\\NasdaqAutoTrader\\ai_quant_lab\\promoted_strategy.json",
+    "destination": "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\operating_state\\NasdaqAutoTrader\\ai_quant_lab\\promoted_strategy.json",
+    "kind": "unchanged_strategy_validation_not_account_approval"
+  },
+  {
+    "source": "C:\\Users\\u\\AppData\\Local\\NasdaqAutoTrader\\ai_quant_lab\\ai_quant_config.json",
+    "destination": "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\operating_state\\NasdaqAutoTrader\\ai_quant_lab\\ai_quant_config.json",
+    "kind": "copied_then_tightened_unapproved_draft",
+    "changes": {
+      "max_single_position_pct": {
+        "old": 0.5,
+        "new": 0.05
+      },
+      "max_total_exposure_pct": {
+        "old": 0.5,
+        "new": 0.3
+      },
+      "self_improvement_enabled": false,
+      "allow_ai_strategy_generation": false
+    }
+  },
+  {
+    "source": "C:\\Users\\u\\AppData\\Local\\NasdaqAutoTrader\\ai_quant_lab\\strategy_specs\\builtin_ai_volatility_target-data-b230423351524f87-catalogue-v5.json",
+    "destination": "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\operating_state\\NasdaqAutoTrader\\ai_quant_lab\\strategy_specs\\builtin_ai_volatility_target-data-b230423351524f87-catalogue-v5.json",
+    "kind": "unchanged_strategy_validation_not_account_approval"
+  }
+]

@@ -4,7 +4,6 @@ from typing import assert_never
 
 from .quant_data.symbol_selector import SelectionReport
 
-
 REASON_LABELS = {
     "eligible_strategy_unavailable": "학습 완료 전략 없음",
     "promoted_strategy_missing": "승격된 학습 전략이 없습니다",
@@ -24,6 +23,18 @@ REASON_LABELS = {
     "promoted_strategy_digest_changed": "선택 후 승격 전략 내용이 변경되었습니다",
     "momentum": "상승 모멘텀",
     "liquidity": "거래 유동성",
+    "entry_eligibility_no_candidates": "현재 매수 조건과 투자 한도에 맞는 매수 가능한 종목이 없습니다",
+    "below_long_regime": "장기 이동평균 아래로 매수 보류",
+    "not_enough_data": "매수 판단에 필요한 시세 부족",
+    "no_signal": "매수 신호 없음",
+    "daily_minimum_due": "오늘 첫 1주 목표 미달성: 매수 가능 후보 중 최고 점수 선택 (위험 한도 5%)",
+    "daily_minimum_simulated_due": "연습 모드: 오늘 첫 1주 후보 선택 (위험 한도 5%, 실제 주문 없음)",
+    "daily_minimum_buy_filled": "오늘 매수 1주 이상 체결 확인: 기존 위험 한도 적용",
+    "daily_minimum_simulated": "연습 모드 하루 1주 시뮬레이션 완료",
+    "daily_minimum_history_unavailable": "오늘 체결 내역 조회 불가: 하루 최소 매수 보류",
+    "daily_minimum_history_invalid": "오늘 체결 내역 확인 필요: 하루 최소 매수 보류",
+    "daily_minimum_history_unresolved": "미체결·확인 중 주문 있음: 하루 최소 매수 보류",
+    "daily_minimum_best_affordable": "하루 첫 1주: 현재 매수 가능 후보 중 최고 점수",
 }
 
 REASON_GUIDANCE = {
@@ -124,6 +135,15 @@ def selection_reason_label(reason: str) -> str:
     if reason in REASON_LABELS:
         return REASON_LABELS[reason]
     signal, separator, value = reason.partition(":")
+    if signal == "entry_risk_capacity" and separator:
+        return f"{value}: 잔액 또는 투자 한도로 주문 수량을 매수할 수 없습니다"
+    if signal == "entry_technical_hold" and separator:
+        symbol, _, detail = value.partition(":")
+        return f"{symbol}: 매수 조건 미충족 ({REASON_LABELS.get(detail, detail)})"
+    if signal in ("entry_market_bars_unavailable", "entry_market_bars_missing") and separator:
+        return f"{value}: 시세를 확인할 수 없어 후보 제외"
+    if signal == "entry_market_quote_unavailable" and separator:
+        return f"{value}: 유효한 매수·매도 호가가 없어 후보 제외"
     if separator and signal in SIGNAL_LABELS:
         return f"{SIGNAL_LABELS[signal]} ({value})"
     return f"확인 필요 ({reason})"

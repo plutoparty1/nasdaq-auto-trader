@@ -1,0 +1,28 @@
+{
+  "bars_sha256": "31cdb3927c034b6d6ee87fd5ad055fec319b02be9c503b4f0b6236012b2e1d05",
+  "settings_sha256": "23b0124bdfd10ec57f5e72c1bda711b2861ba069c80a853fdb89144957d3e11c",
+  "provenance": {
+    "data_source": "TEST ONLY synthetic flat",
+    "bar_interval": "1Day",
+    "universe_source": "TEST ONLY singleton",
+    "universe_as_of": "2019-12-31",
+    "survivorship_corrected": false,
+    "synthetic": true,
+    "adjustment_policy": "TEST ONLY unadjusted"
+  },
+  "fx_source": "TEST ONLY QA assumption",
+  "fx_as_of": "2020-01-01T00:00:00+00:00",
+  "fx_history_sha256": "9fb76aa351e54bd7fc58cf19414037f2412b26b9a0606464f9801eac446a6675",
+  "timestamp_count": 100,
+  "symbols": [
+    "TEST_ONLY"
+  ],
+  "assessment": "EXPLORATORY_REQUIRES_PROVENANCE_REVIEW",
+  "limitations": [
+    "No current learned-universe or daily-minimum selection replay",
+    "Day bars cannot establish intraday protective order sequence",
+    "Partial first/last months are observation windows, not complete calendar month evidence",
+    "Monthly +10% incidence is a past sample observation, not future probability",
+    "Zero executions never establishes strategy quality; data/server/AI cost unknown unless explicitly supplied"
+  ]
+}

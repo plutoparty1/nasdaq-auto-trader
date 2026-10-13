@@ -12,14 +12,15 @@ from nasdaq_auto_trader.ai_quant_lab.audit_logger import (
     NullAuditLogger,
 )
 from nasdaq_auto_trader.automatic_order_guard import AutomaticOrderGuard
+from nasdaq_auto_trader.brokers.kis_reconciliation import KISOrderHistory
 from nasdaq_auto_trader.models import Position
 from nasdaq_auto_trader.trading_session_store import TradingSessionStore
 from tests.auto_symbol_live_guard_fixtures import (
+    _bars,
+    _live_engine,
     _LiveBroker,
     _LiveMarketData,
-    _bars,
     _SecondWriteFailsAudit,
-    _live_engine,
     _write_champion,
 )
 
@@ -59,6 +60,9 @@ class AutoSymbolLiveAuditTests(unittest.TestCase):
             market.list_positions = lambda refresh=False: {
                 bought_symbol: Position(bought_symbol, 1, 239, 100)
             }
+            broker.list_order_history = lambda start, end: (
+                KISOrderHistory("1", bought_symbol, "buy", 1, 1, 100),
+            )
             engine._clock = lambda: datetime(2026, 7, 13, 14, 35, tzinfo=timezone.utc)
             engine.run_once()
             market.list_positions = lambda refresh=False: {}
@@ -124,10 +128,12 @@ class AutoSymbolLiveAuditTests(unittest.TestCase):
                 TradingSessionStore(Path(temp_dir) / "session.json"),
                 audit,
             )
-            engine = _live_engine(paths, guard, _LiveBroker("accepted"))
+            broker = _LiveBroker("accepted")
+            engine = _live_engine(paths, guard, broker)
             engine.trading_session_state.buy_count = 10
 
             results = engine.run_once()
+            authorization = guard.authorization_store.load()
 
         self.assertTrue(
             any(
@@ -139,6 +145,10 @@ class AutoSymbolLiveAuditTests(unittest.TestCase):
             [event.event_type for event in audit.events],
             ["automatic_order_blocked"],
         )
+        self.assertEqual(broker.orders, [])
+        self.assertIsNotNone(authorization)
+        self.assertEqual(authorization.attempts, 0)
+        self.assertEqual(engine.trading_session_state.buy_count, 10)
 
     def test_live_confirmation_blocks_champion_change_during_same_engine(self):
         with tempfile.TemporaryDirectory() as temp_dir:

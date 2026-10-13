@@ -1,0 +1,239 @@
+{
+  "frozen_profile": {
+    "experiment": "sizing_entry_three",
+    "dry_run": true,
+    "broker": "offline_csv",
+    "assessment": "EXPLORATORY_ALREADY_USED_DATA",
+    "frozen_at": "2026-10-11T12:13:53.219180+00:00",
+    "starting_krw": 80000,
+    "risk_per_trade_pct": 0.02,
+    "max_position_pct": 0.5,
+    "max_total_position_pct": 0.5,
+    "max_order_usd": 35,
+    "cash_buffer_pct": 0.05,
+    "portfolio_risk_pct": 0.06,
+    "daily_loss_halt_pct": 0.02,
+    "allow_additional_buy": false,
+    "quantity_step": 1,
+    "profiles": [
+      {
+        "name": "P0",
+        "entry": "existing_C",
+        "quantity": "fixed_one",
+        "reference": "fixed_8_risk2"
+      },
+      {
+        "name": "P1",
+        "entry": "existing_C",
+        "quantity": "maximum_feasible_integer"
+      },
+      {
+        "name": "P2",
+        "entry": "daily_sma50_prior20_high_volume",
+        "quantity": "maximum_feasible_integer"
+      }
+    ],
+    "exit": {
+      "initial_stop_pct": 0.08,
+      "take_profit_pct": 0.16,
+      "trailing_activation_pct": 0.08,
+      "trailing_drawdown_pct": 0.04,
+      "general_sell_score": 4,
+      "priority": [
+        "initial_stop",
+        "fixed_take_profit",
+        "trailing",
+        "general_technical_sell"
+      ]
+    },
+    "p2": {
+      "sma_days": 50,
+      "breakout_prior_days": 20,
+      "volume_prior_days": 20,
+      "strict_comparisons": true,
+      "sma_includes_completed_current_close": true,
+      "breakout_and_volume_exclude_current_bar": true
+    },
+    "costs": [
+      {
+        "name": "base",
+        "commission_pct": 0.0025,
+        "minimum_commission": 0,
+        "spread_bps": 10,
+        "slippage_bps": 10,
+        "source": "Existing unverified illustrative base fees and impact; not account verified"
+      },
+      {
+        "name": "high_impact",
+        "commission_pct": 0.0025,
+        "minimum_commission": 0,
+        "spread_bps": 30,
+        "slippage_bps": 30,
+        "source": "Same unverified broker commission schedule; only spread/slippage widened"
+      }
+    ],
+    "legacy_minimum_fee_stress": "Preserved in prior twelve-profile results; hypothetical USD0.10 minimum, not verified actual account fee",
+    "symbols": [
+      "CMCSA",
+      "HIVE",
+      "KDP"
+    ],
+    "data_file": "actual_trade_group_after_corporate_action.csv",
+    "warmup_bars": 64,
+    "evaluation_start": "2026-04-09T20:00:00+00:00",
+    "evaluation_end": "2026-09-28T20:00:00+00:00",
+    "train_end": "2025-08-29T23:59:59+00:00",
+    "validation_end": "2026-02-27T23:59:59+00:00",
+    "signal_timeframe": "1Day",
+    "execution": "completed close signal; next admissible open plus adverse impact within limit; positive volume; close-only protective exits",
+    "sizing_loss": "q*(price-stop)+fee(q*price)+fee(q*stop)+q*(price+stop)*adverse_fraction; stop=price*0.92; no per-share minimum-fee multiplication",
+    "operations_monthly_krw": null,
+    "unverified_costs": [
+      "account_actual_commission",
+      "account_minimum_commission",
+      "sell_levies",
+      "FX_conversion",
+      "operations"
+    ],
+    "source_sha256": {
+      "experiments/entry_policy/profile.json": "af69e6f41baa5d0291c8fdd1f5578bfafae437df83c04d880ac1944ecc594627",
+      "experiments/early_exit/profiles.json": "04471547cfd612a4419aabc3a6dfa8b5ca3b11650b935324c58662eeb2decb50",
+      "experiments/early_exit/settings.json": "23b0124bdfd10ec57f5e72c1bda711b2861ba069c80a853fdb89144957d3e11c"
+    },
+    "data_sha256": {
+      "actual_trade_group.csv": "7c81968a0756ebaec29ae37e7e3ecd8b271b48d406f58e5af84e0c7cc297a14b",
+      "actual_trade_group_after_corporate_action.csv": "22eb6493d51bf44b25f3c329b730a159434105a44ef96be8aa0429c23e2c147f",
+      "usdkrw.csv": "e94a2de39bf1f2b8c0a1bfd434c0bc5c8110a1e75188fe70e766142e095884f9",
+      "comparison-provenance.json": "a9b9264db82a6773ff6b4ae92eec5ef8bf6d5f68dfcc9f34df740bb63c535714",
+      "CMCSA.yahoo.json": "93c6b7e18f6f01abd605a6f857603920a388ac8cd44b9dc662b5aef93ee8e8aa",
+      "KDP.yahoo.json": "c69af45db5e818e41d944ce6bae95eb3dced1c13a1c323da8bfe4770a392912d",
+      "HIVE.yahoo.json": "c266a4a1a54a4a6eab180484df03714a7adf57bcbf9477b089cec5d3d8dc0346"
+    },
+    "candidate_assessment": "Exploratory only. Consistent after-cost advantage over cash and executable hold in both scenarios, drawdown and trade sample considered. Zero/few trades or only one favorable cost condition is insufficient. No tuning after results."
+  },
+  "strategy": {
+    "sma_fast": 5,
+    "sma_slow": 20,
+    "ema_fast": 5,
+    "ema_slow": 20,
+    "rsi_period": 14,
+    "rsi_oversold": 30,
+    "rsi_overbought": 70,
+    "macd_fast": 12,
+    "macd_slow": 26,
+    "macd_signal": 9,
+    "bollinger_period": 20,
+    "long_sma": 20,
+    "momentum_period": 63,
+    "donchian_period": 55,
+    "stochastic_period": 14,
+    "stochastic_oversold": 20,
+    "stochastic_overbought": 80,
+    "volume_period": 20,
+    "atr_period": 14,
+    "atr_stop_multiplier": 3.0,
+    "atr_take_profit_multiplier": 5.0,
+    "buy_score": 5,
+    "sell_score": 4,
+    "stop_loss_pct": 0.03,
+    "take_profit_pct": 0.05,
+    "use_regime_filter": true,
+    "buy_trigger_enabled": false,
+    "buy_drop_rate": 0.0,
+    "buy_ma_enabled": true,
+    "trailing_stop_enabled": true,
+    "trailing_stop_activation_pct": 0.02,
+    "trailing_stop_pct": 0.01,
+    "time_based_sell_enabled": false,
+    "max_holding_minutes": 180,
+    "corrected_exits": false
+  },
+  "exit": {
+    "stop_mode": "fixed",
+    "fixed_stop_pct": 0.08,
+    "fixed_take_profit_pct": 0.16,
+    "trailing_activation_pct": 0.08,
+    "trailing_drawdown_pct": 0.04,
+    "atr_period": 14,
+    "atr_multiplier": 3.0,
+    "min_stop_pct": 0.005,
+    "max_stop_pct": 0.1,
+    "emergency_stop_pct": null,
+    "bar_interval": "1Day",
+    "block_conflicting_entry": false,
+    "completed_bar_only_general": false,
+    "minimum_general_hold_minutes": 0
+  },
+  "costs": [
+    {
+      "name": "base",
+      "commission_pct": 0.0025,
+      "minimum_commission": 0,
+      "spread_bps": 10,
+      "slippage_bps": 10,
+      "source": "Existing unverified illustrative base fees and impact; not account verified"
+    },
+    {
+      "name": "high_impact",
+      "commission_pct": 0.0025,
+      "minimum_commission": 0,
+      "spread_bps": 30,
+      "slippage_bps": 30,
+      "source": "Same unverified broker commission schedule; only spread/slippage widened"
+    }
+  ],
+  "splits": [
+    {
+      "name": "final",
+      "start": "2026-04-09T20:00:00+00:00",
+      "end": "2026-09-28T20:00:00+00:00"
+    }
+  ],
+  "manifest": {
+    "bars_sha256": "22eb6493d51bf44b25f3c329b730a159434105a44ef96be8aa0429c23e2c147f",
+    "profile_sha256": "af69e6f41baa5d0291c8fdd1f5578bfafae437df83c04d880ac1944ecc594627",
+    "costs_sha256": "23b0124bdfd10ec57f5e72c1bda711b2861ba069c80a853fdb89144957d3e11c",
+    "fx_history_sha256": "e94a2de39bf1f2b8c0a1bfd434c0bc5c8110a1e75188fe70e766142e095884f9",
+    "fx_source": "ECB-reference-KRW-per-EUR-divided-by-USD-per-EUR",
+    "fx_as_of": "2024-08-30T16:00:00+00:00",
+    "provenance": {
+      "data_source": "Yahoo public chart quote OHLC; ECB EUR crosses for USDKRW",
+      "collected_at": "2026-09-29T12:37:02.306775+00:00",
+      "bar_interval": "1Day",
+      "adjustment_policy": "Provider split-adjusted quote OHLC, not dividend-adjusted. CMCSA 2026-01-05 Versant corporate action excluded with all prior bars; no entitlement or dividend cash simulated.",
+      "universe_source": "CMCSA KDP HIVE are logged-trade case cohort selected with hindsight; SPY separate control; KDP HIVE separate no-action-pair sensitivity, not historical selection replay",
+      "timestamp_policy": "Exchange completed-session close in America/New_York converted to UTC; NYSE verified 2024-2026 calendar incl early closes and 2025-01-09 closure. Daily labels, not actual fill timestamps.",
+      "raw_manifest_sha256": "8464b401b897ac9e4a261ea3dc15aa67331546055d32b9f55ecb778c2b5c1fe5"
+    },
+    "symbols": [
+      "CMCSA",
+      "HIVE",
+      "KDP"
+    ],
+    "bar_count": {
+      "CMCSA": 183,
+      "HIVE": 183,
+      "KDP": 183
+    },
+    "assessment": "EXPLORATORY_ALREADY_USED_DATA",
+    "unavailable_splits": [
+      "train",
+      "validation"
+    ],
+    "omitted_split_reason": "insufficient data after fixed 64-bar warmup; boundaries not retuned",
+    "order_api_calls": 0,
+    "cancel_api_calls": 0,
+    "limitations": [
+      "Three profiles only: P0 fixed one, P1 dynamic integer, P2 replacement daily breakout entry",
+      "All retain fixed_8 exits, 2% trade risk and frozen common caps; no averaging down",
+      "Both costs use the same unverified commission/minimum; high_impact widens only spread/slippage",
+      "Prior USD0.10 minimum stress preserved separately; actual fees/levies/FX/operations unknown",
+      "Previously used hindsight cohort; exploratory, not independent validation",
+      "Close-only protective observation; next admissible open simulation cannot prove queue execution",
+      "Price-only dividends omitted; unrealized equity included; passive hold retains original one-share rule"
+    ],
+    "sizing_entry_profile_sha256": "68c2ba260005c550c3fe88e09e734812476df031472a43b68c65e31c057f0fc9",
+    "no_independent_holdout": true
+  },
+  "sha256": "b0b61e0749aa85471264b8ee4518962ccb7471970cf4ca64a769e1c8d89a49ab"
+}

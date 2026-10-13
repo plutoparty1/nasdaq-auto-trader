@@ -14,9 +14,9 @@ from nasdaq_auto_trader.models import OrderRequest
 from nasdaq_auto_trader.trading_session_store import TradingSessionStore
 from tests.config_engine_fixtures import compact_strategy_config
 from tests.test_auto_symbol_live_guard import (
+    _live_engine,
     _LiveBroker,
     _LiveMarketData,
-    _live_engine,
     _write_champion,
 )
 
@@ -164,10 +164,18 @@ class LiveAuthorizationLifecycleTests(unittest.TestCase):
 
             reset_reason = guard.reset_live_authorization()
             renewed_engine = _live_engine(paths, guard, broker, max_attempts=1)
-            renewed_engine.run_once()
+            renewed_results = renewed_engine.run_once()
+            renewed_authorization = guard.authorization_store.load()
 
         self.assertEqual(reset_reason, "")
         self.assertEqual(renewed_engine.last_selection_report.status, "selected")
+        self.assertEqual(renewed_results[0]["response"]["reason"], "daily_loss_state_unavailable")
+        self.assertTrue(renewed_engine.trading_session_state.daily_loss_state_unavailable)
+        self.assertEqual(renewed_engine.trading_session_state.buy_count, 1)
+        self.assertEqual(len(broker.orders), 1)
+        self.assertIsNotNone(renewed_authorization)
+        self.assertEqual(renewed_authorization.envelope.max_attempts, 1)
+        self.assertEqual(renewed_authorization.attempts, 0)
 
 
 if __name__ == "__main__":

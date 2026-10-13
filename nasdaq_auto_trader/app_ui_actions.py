@@ -38,13 +38,15 @@ class DashboardActionsMixin:
 
     def _start_auto_trading(self) -> None:
         try:
-            self.controller.start()
+            self.controller.start(
+                interval_seconds=self.controller.trading_settings.unattended_interval_minutes * 60
+            )
         except (AppConfigurationError, SettingsError) as exc:
             self.messagebox.showerror("자동매매 시작 실패", str(exc))
             self._append_log(f"자동매매 시작 실패: {exc}")
             return
 
-        self._append_log("자동매매 실행")
+        self._append_log(f"자동매매 실행: {self.controller.interval_seconds / 60:g}분 간격")
         self._start_task("auto", lambda: self.controller.run_operating_cycle(force=True))
         self._update_controls()
 

@@ -1,0 +1,167 @@
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_config.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_config.py:21:5 - warning: Type of "raw" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_config.py:23:9 - warning: Type of "relative" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_config.py:23:19 - warning: Type of "expected" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_config.py:23:31 - warning: Type of "items" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_config.py:24:27 - warning: Type of "read_bytes" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_config.py:24:27 - warning: Argument type is Any
+    인수가 "openssl_sha256" 함수의 "data" 매개 변수에 해당합니다. (reportAny)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_constraint_audit.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_constraint_audit.py:72:14 - warning: 제목 형식 "Never"에 대해 패턴이 일치하지 않습니다. (reportUnnecessaryComparison)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_constraint_audit.py:155:5 - warning: Type of "protocol" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_constraint_audit.py:159:33 - warning: Argument type is Any
+    인수가 "__init__" 함수의 "name" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_constraint_audit.py:159:33 - warning: Argument type is Any
+    인수가 "__init__" 함수의 "commission_pct" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_constraint_audit.py:159:33 - warning: Argument type is Any
+    인수가 "__init__" 함수의 "minimum_commission" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_constraint_audit.py:159:33 - warning: Argument type is Any
+    인수가 "__init__" 함수의 "spread_bps" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_constraint_audit.py:159:33 - warning: Argument type is Any
+    인수가 "__init__" 함수의 "slippage_bps" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_constraint_audit.py:159:33 - warning: Argument type is Any
+    인수가 "__init__" 함수의 "source" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_constraint_audit.py:159:43 - warning: Type of "item" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_constraint_audit.py:223:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_execution.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_execution.py:12:9 - warning: “fill_price“ 메서드가 override로 표시되지 않았지만 “BacktestCosts“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_experiment.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_experiment.py:12:42 - warning: "_write_rows"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_experiment.py:31:14 - warning: Type annotation for attribute `strategy` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_experiment.py:31:29 - warning: Type annotation for attribute `risk` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_experiment.py:31:40 - warning: Type annotation for attribute `split` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_experiment.py:31:52 - warning: Type annotation for attribute `costs` is required because this class is not decorated with `@final` (reportUnannotatedClassAttribute)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_experiment.py:86:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_experiment.py:147:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_legacy.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_legacy.py:13:59 - warning: "_write_rows"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_legacy.py:82:9 - warning: “build_order“ 메서드가 override로 표시되지 않았지만 “MatchedEntryRisk“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_legacy.py:164:9 - warning: “decide“ 메서드가 override로 표시되지 않았지만 “EntryEvaluation“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_legacy.py:172:31 - warning: ‘_risk_per_share’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_risk.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_risk.py:61:9 - warning: “build_order“ 메서드가 override로 표시되지 않았지만 “RiskManager“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_strategy.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_strategy.py:26:9 - warning: “evaluate“ 메서드가 override로 표시되지 않았지만 “EntryPolicyStrategy“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_strategy.py:49:9 - warning: “_entry_policy“ 메서드가 override로 표시되지 않았지만 “EntryPolicyStrategy“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_strategy.py:60:9 - warning: “_risk_per_share“ 메서드가 override로 표시되지 않았지만 “TechnicalStrategy“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_strategy.py:68:9 - warning: “initial_stop_for“ 메서드가 override로 표시되지 않았지만 “EntryPolicyStrategy“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_strategy.py:81:9 - warning: “_position_guard“ 메서드가 override로 표시되지 않았지만 “TechnicalStrategy“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_strategy.py:86:9 - warning: “register_entry_fill“ 메서드가 override로 표시되지 않았지만 “EntryPolicyStrategy“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_strategy.py:94:9 - warning: “register_exit_fill“ 메서드가 override로 표시되지 않았지만 “EntryPolicyStrategy“ 클래스에서 메서드를 재정의하고 있습니다. (reportImplicitOverride)
+c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:23:30 - warning: "args"에 액세스하지 않았습니다. (reportUnusedParameter)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:65:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:68:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:69:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:70:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:71:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:72:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:73:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:74:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:75:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:76:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:77:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:79:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:80:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:81:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:82:5 - warning: 호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:89:26 - warning: Type of "usdkrw" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:89:26 - warning: Argument type is Any
+    인수가 "isfinite" 함수의 "x" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:89:42 - warning: Type of "usdkrw" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:89:66 - warning: Type of "fx_source" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:89:66 - warning: Type of "strip" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:93:8 - warning: Type of "monthly_operations_krw" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:94:27 - warning: Type of "monthly_operations_krw" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:94:27 - warning: Argument type is Any
+    인수가 "isfinite" 함수의 "x" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:95:12 - warning: Type of "monthly_operations_krw" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:98:26 - warning: Type of "fx_as_of" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:98:26 - warning: Argument type is Any
+    인수가 "timestamp" 함수의 "value" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:99:33 - warning: Type of "profile" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:99:33 - warning: Argument type is Any
+    인수가 "load_entry_profile" 함수의 "path" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:102:5 - warning: Type of "output" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:102:5 - warning: Type of "mkdir" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:103:12 - warning: Type of "output" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:103:12 - warning: Type of "iterdir" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:103:12 - warning: Argument type is Any
+    인수가 "any" 함수의 "iterable" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:107:8 - warning: Type of "synthetic_smoke" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:116:13 - warning: Type of "bars" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:117:16 - warning: Type of "provenance" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:118:20 - warning: Type of "train_end" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:119:20 - warning: Type of "validation_end" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:124:9 - warning: Type of "bars_path" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:124:21 - warning: Type of "bars" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:125:9 - warning: Type of "provenance" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:125:33 - warning: Type of "provenance" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:125:33 - warning: Type of "read_text" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:125:33 - warning: Argument type is Any
+    인수가 "loads" 함수의 "s" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:145:36 - warning: Argument type is Any
+    인수가 "validate_source_timestamps" 함수의 "path" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:149:12 - warning: Type of "synthetic_smoke" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:152:16 - warning: Type of "control" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:154:36 - warning: Type of "action_free_pair" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:169:19 - warning: Type of "train_end" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:169:19 - warning: Argument type is Any
+    인수가 "timestamp" 함수의 "value" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:169:38 - warning: Type of "train_end" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:172:19 - warning: Type of "validation_end" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:172:19 - warning: Argument type is Any
+    인수가 "timestamp" 함수의 "value" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:173:12 - warning: Type of "validation_end" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:177:26 - warning: Type of "fx_history" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:177:26 - warning: Argument type is Any
+    인수가 "load_fx" 함수의 "path" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:184:42 - warning: Type of "profile" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:184:42 - warning: Type of "read_bytes" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:184:42 - warning: Argument type is Any
+    인수가 "openssl_sha256" 함수의 "data" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:186:45 - warning: Type of "fx_history" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:186:45 - warning: Type of "read_bytes" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:186:45 - warning: Argument type is Any
+    인수가 "openssl_sha256" 함수의 "data" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:187:12 - warning: Type of "fx_history" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:189:22 - warning: Type of "fx_source" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:189:22 - warning: Type of "strip" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:195:12 - warning: Type of "synthetic_smoke" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:215:8 - warning: Type of "profitability_profile" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:218:64 - warning: Type of "profitability_profile" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:223:9 - warning: Type of "output" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:223:9 - warning: Argument type is Any
+    인수가 "__call__" 함수의 "output" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:223:9 - warning: Argument type is Any
+    인수가 "run_entry_suite" 함수의 "output" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:225:17 - warning: Type of "usdkrw" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:225:17 - warning: Argument type is Any
+    인수가 "__call__" 함수의 "fx_rate" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:225:17 - warning: Argument type is Any
+    인수가 "run_entry_suite" 함수의 "fx_rate" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:230:8 - warning: Type of "synthetic_smoke" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:231:9 - warning: Type of "write_bytes" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:231:10 - warning: Type of "output" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:233:42 - warning: Type of "output" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py:234:82 - warning: Type of "synthetic_smoke" is Any (reportAny)
+c:\Users\u\nasdaq-auto-trader\tests\test_profitability_cli.py
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_cli.py:34:5 - warning: Type of "manifest" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_cli.py:44:5 - warning: Type of "raw" is Any (reportAny)
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_cli.py:47:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_cli.py:59:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+c:\Users\u\nasdaq-auto-trader\tests\test_profitability_constraint_audit.py
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_constraint_audit.py:26:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_constraint_audit.py:107:9 - warning: 호출 식의 결과가 ‘Path’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+c:\Users\u\nasdaq-auto-trader\tests\test_profitability_policy.py
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_policy.py:77:5 - warning: 호출 식의 결과가 ‘TradeDecision’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_policy.py:81:5 - warning: 호출 식의 결과가 ‘TradeDecision’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+c:\Users\u\nasdaq-auto-trader\tests\test_profitability_risk.py
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_risk.py:26:5 - warning: 호출 식의 결과가 ‘TradeDecision’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_risk.py:64:5 - warning: 호출 식의 결과가 ‘TradeDecision’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_risk.py:82:5 - warning: 호출 식의 결과가 ‘TradeDecision’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_risk.py:86:5 - warning: 호출 식의 결과가 ‘OrderRequest | None’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_risk.py:103:5 - warning: 호출 식의 결과가 ‘TradeDecision’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_risk.py:107:5 - warning: 호출 식의 결과가 ‘OrderRequest | None’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\tests\test_profitability_risk.py:124:5 - warning: 호출 식의 결과가 ‘TradeDecision’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+0 errors, 131 warnings, 0 notes

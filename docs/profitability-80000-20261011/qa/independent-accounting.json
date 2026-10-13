@@ -1,0 +1,48 @@
+{
+  "checks": {
+    "krw_fx_scale": 96,
+    "cash_all_snapshots": 13776,
+    "position_marks_all_snapshots": 13776,
+    "equity_all_snapshots": 13776,
+    "whole_share_one": 1620,
+    "next_observed_bar": 1620,
+    "open_adverse_fill": 1620,
+    "commission_formula": 1620,
+    "execution_cost_formula": 1620,
+    "positive_volume": 1620,
+    "buy_limit": 821,
+    "realized_trade_pnl": 799,
+    "net_pnl": 96,
+    "net_return": 96,
+    "total_cost": 96,
+    "commissions_total": 96,
+    "impact_total": 96,
+    "gross_net_bridge": 96,
+    "realized_total": 96,
+    "unrealized_included": 96,
+    "reason_pnl_total": 96,
+    "reason_count_total": 96,
+    "complete_roundtrips": 96
+  },
+  "assertions": 53820,
+  "failures": [],
+  "facts": {
+    "main": {
+      "summary_rows": 24,
+      "fills": 469,
+      "return_range_pct": [
+        -8.023737123453676,
+        0.4544065896498733
+      ]
+    },
+    "pair": {
+      "summary_rows": 72,
+      "fills": 1151,
+      "return_range_pct": [
+        -8.671116979710693,
+        4.676492326392669
+      ]
+    }
+  },
+  "method": "Independent CSV arithmetic; no strategy or metrics imports"
+}

@@ -1,0 +1,122 @@
+{
+  "strategy": {
+    "sma_fast": 5,
+    "sma_slow": 20,
+    "ema_fast": 5,
+    "ema_slow": 20,
+    "rsi_period": 14,
+    "rsi_oversold": 30,
+    "rsi_overbought": 70,
+    "macd_fast": 12,
+    "macd_slow": 26,
+    "macd_signal": 9,
+    "bollinger_period": 20,
+    "long_sma": 20,
+    "momentum_period": 63,
+    "donchian_period": 55,
+    "stochastic_period": 14,
+    "stochastic_oversold": 20,
+    "stochastic_overbought": 80,
+    "volume_period": 20,
+    "atr_period": 14,
+    "atr_stop_multiplier": 3.0,
+    "atr_take_profit_multiplier": 5.0,
+    "buy_score": 5,
+    "sell_score": 4,
+    "stop_loss_pct": 0.03,
+    "take_profit_pct": 0.05,
+    "use_regime_filter": true,
+    "buy_trigger_enabled": false,
+    "buy_drop_rate": 0.0,
+    "buy_ma_enabled": true,
+    "trailing_stop_enabled": true,
+    "trailing_stop_activation_pct": 0.02,
+    "trailing_stop_pct": 0.01,
+    "time_based_sell_enabled": false,
+    "max_holding_minutes": 180,
+    "corrected_exits": false
+  },
+  "policies": [
+    "A",
+    "B",
+    "C"
+  ],
+  "common_risk_pct": 0.01,
+  "starting_krw": 80000,
+  "quantity": 1,
+  "single_and_total_exposure_pct": 0.5,
+  "cash_buffer_pct": 0.05,
+  "max_order_usd": 35,
+  "daily_new_buy_loss_halt_pct": 0.02,
+  "historical_minimum_risk_override_5pct_included": false,
+  "costs": [
+    {
+      "name": "base",
+      "commission_pct": 0.0025,
+      "minimum_commission": 0.0,
+      "spread_bps": 10,
+      "slippage_bps": 10,
+      "source": "Illustrative public US online rate 0.25% per side; actual account commission, minimum fee and sell levies unverified. Not broker-exact."
+    },
+    {
+      "name": "stress",
+      "commission_pct": 0.003,
+      "minimum_commission": 0.1,
+      "spread_bps": 30,
+      "slippage_bps": 30,
+      "source": "Prespecified adverse-cost sensitivity; USD 0.10 minimum per side is an assumption, not a verified KIS fee."
+    }
+  ],
+  "splits": [
+    {
+      "name": "train",
+      "start": "2020-03-05T21:00:00+00:00",
+      "end": "2020-06-29T21:00:00+00:00"
+    },
+    {
+      "name": "validation",
+      "start": "2020-06-30T21:00:00+00:00",
+      "end": "2020-08-28T21:00:00+00:00"
+    },
+    {
+      "name": "final",
+      "start": "2020-08-29T21:00:00+00:00",
+      "end": "2020-10-26T21:00:00+00:00"
+    }
+  ],
+  "fx_rate": 1400.0,
+  "operations_monthly_krw": null,
+  "scope": "A is a matched-risk forced-entry proxy, not exact historical operating strategy",
+  "fill_model": "completed daily close signal; subsequent daily limit touch or market open fill",
+  "selection": "fixed historical-trade case cohort; symbol alphabetical processing; SPY separate control",
+  "data_manifest": {
+    "bars_sha256": "01a9663136e8bd2420671ebcbe160953417458fb3636d59ba5c32e70c4f6f0e1",
+    "profile_sha256": "af69e6f41baa5d0291c8fdd1f5578bfafae437df83c04d880ac1944ecc594627",
+    "costs_sha256": "23b0124bdfd10ec57f5e72c1bda711b2861ba069c80a853fdb89144957d3e11c",
+    "fx_history_sha256": null,
+    "fx_source": "synthetic-assumption-not-market-rate",
+    "fx_as_of": "2020-01-01T00:00:00+00:00",
+    "provenance": {
+      "synthetic": true,
+      "data_source": "generated test fixture, not market evidence"
+    },
+    "symbols": [
+      "SYNTHETIC"
+    ],
+    "bar_count": {
+      "SYNTHETIC": 300
+    },
+    "assessment": "SYNTHETIC_SMOKE_ONLY",
+    "order_api_calls": 0,
+    "cancel_api_calls": 0,
+    "limitations": [
+      "A omits historical forced-entry 5% risk override; all policies use 1%",
+      "Fixed case cohort is selected with hindsight, not a historical universe selection replay",
+      "Daily signals and fills cannot measure the historical five-minute liquidation mechanism",
+      "Dividend cash is excluded; provider price adjustment policy must be reviewed",
+      "Known charges use assumptions; actual account fees and operations cost unverified",
+      "Zero executions and partial-month returns do not establish strategy quality"
+    ]
+  },
+  "protocol_sha256": "3578c5695b83a09e9f924f8ee08843c6e6930c8a09ecccece03635ba2acf96ff"
+}

@@ -1,0 +1,16 @@
+{
+  "captured_at_utc": "2026-09-29T12:32:35.204017+00:00",
+  "source": "KIS OpenAPI",
+  "requested_daily_start": "2024-09-28",
+  "requested_daily_end": "2026-09-28",
+  "prespecified_symbols": [
+    "CMCSA",
+    "KDP",
+    "HIVE",
+    "SPY"
+  ],
+  "SPY_role": "separate_broad_market_comparator",
+  "orders_allowed": false,
+  "cancel_allowed": false,
+  "credential_presence": "complete"
+}

@@ -1,10 +1,15 @@
 from __future__ import annotations
 
-from .automatic_selection import AutomaticSelectionRequest
+from dataclasses import replace
+
+from .automatic_buy_receipts import OrderHistorySource
+from .automatic_selection import AutomaticSelectionRequest, EntryEligibilityContext
 from .automatic_selection_production import prepare_production_automatic_selection
 from .brokers.common import BrokerRequestError
+from .daily_buy_objective import daily_buy_due
 from .engine_errors import PreOrderCycleError
 from .live_authorization import LiveAuthorizationRequest, create_live_authorization
+from .market_hours import EASTERN
 from .quant_data.symbol_selector import blocked_selection_report_without_snapshot
 from .session_state_persistence import save_session_state
 
@@ -50,6 +55,20 @@ class EngineAutomaticCycleMixin:
             except (BrokerRequestError, OSError) as exc:
                 raise PreOrderCycleError("market_data_unavailable") from exc
         protective_symbols = self._protective_exit_symbols(held_bars, positions)
+        now = self._clock()
+        history = None
+        settings = self.trading_settings
+        if (
+            not protective_symbols and settings is not None
+            and settings.daily_minimum_buy_enabled and not settings.dry_run
+            and isinstance(self.broker, OrderHistorySource)
+        ):
+            market_date = now.astimezone(EASTERN).strftime("%Y%m%d")
+            try:
+                history = self.broker.list_order_history(market_date, market_date)
+            except (BrokerRequestError, OSError):
+                history = None
+        objective = daily_buy_due(settings, self.trading_session_state, now, history)
         try:
             selection = prepare_production_automatic_selection(
                 AutomaticSelectionRequest(
@@ -57,12 +76,26 @@ class EngineAutomaticCycleMixin:
                     self.market_data,
                     self.strategy_artifact_paths,
                     self._clock(),
+                    entry_context=(
+                        None if protective_symbols else EntryEligibilityContext(
+                            account, positions, self.trading_settings,
+                            self.trading_session_state, self._account_for_order,
+                            daily_minimum_due=objective.due,
+                        )
+                    ),
                 )
             )
         except (BrokerRequestError, OSError) as exc:
             raise PreOrderCycleError("market_data_unavailable") from exc
         self.last_selection_report = selection.report
+        if settings is not None and settings.daily_minimum_buy_enabled:
+            self.last_selection_report = replace(
+                selection.report, warnings=(*selection.report.warnings, objective.reason),
+            )
         self.automatic_risk_limits = selection.risk_limits
+        if selection.daily_loss_breached:
+            self.trading_session_state.observe_account(account, self._clock())
+            self.trading_session_state.daily_loss_breached = True
         if protective_symbols:
             if (
                 self.config.mode == "live"
@@ -124,9 +157,11 @@ class EngineAutomaticCycleMixin:
                 automatic_risk_limits=selection.risk_limits,
                 authorization_purpose="automatic",
                 max_daily_order_count=0,
+                daily_minimum_symbol=(selected[0] if objective.due and selected else ""),
+                entry_prices={symbol: quote[1] for symbol, quote in selection.quotes_by_symbol.items()},
             )
         for item in results:
-            item["selection_report"] = selection.report
+            item["selection_report"] = self.last_selection_report
         return results
 
     def _ensure_automatic_authorization(self) -> str:

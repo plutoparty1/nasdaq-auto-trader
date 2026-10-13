@@ -1,0 +1,24 @@
+alphaTab 1.8.4 source availability notice
+
+GP5 PDF bundles the unmodified @coderline/alphatab 1.8.4 npm release.
+alphaTab is licensed under the Mozilla Public License, version 2.0.
+Copyright © 2026, Daniel Kuschny and Contributors, All rights reserved.
+
+The corresponding source is available without charge at this exact commit:
+https://github.com/CoderLine/alphaTab/tree/022a45c8e42370f9e12e68949d11eada370da83d
+
+Download the complete corresponding source archive:
+https://github.com/CoderLine/alphaTab/archive/022a45c8e42370f9e12e68949d11eada370da83d.zip
+
+The commit is the gitHead recorded in the npm registry metadata for version 1.8.4:
+https://registry.npmjs.org/@coderline/alphatab/1.8.4
+
+Original release archive:
+https://registry.npmjs.org/@coderline/alphatab/-/alphatab-1.8.4.tgz
+
+Original release npm integrity:
+sha512-VN5rfTZZWgA63Ny1aDKCp02k3Qm9CHhg4Q9AnK0kHm7G+fNDNZo36TeToPDFoJ6VpB9+AHcCrHwHFUP1tKqdsw==
+
+No alphaTab source or runtime patches are included in this application.
+See alphaTab-MPL-2.0.txt for the full MPL license, and
+alphaTab-integrated-notices.txt for the upstream integrated-component notices.

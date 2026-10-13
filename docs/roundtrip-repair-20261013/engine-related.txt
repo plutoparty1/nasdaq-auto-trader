@@ -1,0 +1,79 @@
+F.F....F.........F...                                                    [100%]
+================================== FAILURES ===================================
+___ test_daily_minimum_chooses_best_affordable_share_below_normal_threshold ___
+
+daily_engine = <nasdaq_auto_trader.engine.TradingEngine object at 0x00000182D3278C20>
+
+    def test_daily_minimum_chooses_best_affordable_share_below_normal_threshold(daily_engine):
+        results = daily_engine.run_once()
+    
+>       assert len(results) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_daily_minimum_engine.py:47: AssertionError
+_____________ test_daily_minimum_is_due_again_on_next_market_day ______________
+
+daily_engine = <nasdaq_auto_trader.engine.TradingEngine object at 0x00000182D317EC10>
+
+    def test_daily_minimum_is_due_again_on_next_market_day(daily_engine):
+        daily_engine.trading_session_state = TradingSessionState(
+            market_date=(AUTO_TEST_NOW - timedelta(days=1)).date().isoformat(), buy_count=1,
+        )
+    
+>       assert len(daily_engine.run_once()) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+E        +    where [] = run_once()
+E        +      where run_once = <nasdaq_auto_trader.engine.TradingEngine object at 0x00000182D317EC10>.run_once
+
+tests\test_daily_minimum_engine.py:69: AssertionError
+___ test_first_daily_share_uses_five_percent_risk_then_restores_normal_risk ___
+
+daily_engine = <nasdaq_auto_trader.engine.TradingEngine object at 0x00000182D30F7240>
+
+    def test_first_daily_share_uses_five_percent_risk_then_restores_normal_risk(daily_engine):
+        _write_paper_strategy(daily_engine.strategy_artifact_paths, top_n=1, threshold=0)
+        spec_path = daily_engine.strategy_artifact_paths.spec_dir / "auto-v1.json"
+        spec = json.loads(spec_path.read_text())
+        spec["position_sizing"]["max_single_position_pct"] = .5
+        spec_path.write_text(json.dumps(spec))
+        daily_engine.strategy_artifact_paths.ai_config_path.write_text(json.dumps({
+            "max_single_position_pct": .5, "max_total_exposure_pct": .5,
+        }))
+        daily_engine._account = AccountSnapshot(63.09, 63.09, 63.09)
+        daily_engine.config = replace(
+            daily_engine.config,
+            risk=replace(daily_engine.config.risk, max_position_pct=.5),
+        )
+        daily_engine.risk_manager = RiskManager(daily_engine.config.risk)
+        daily_engine.market_data = MarketData({
+            "WBD": price_bars("WBD", [25. + index * .01 for index in range(220)]),
+        })
+    
+        results = daily_engine.run_once()
+    
+>       assert len(results) == 1
+E       assert 0 == 1
+E        +  where 0 = len([])
+
+tests\test_daily_minimum_engine.py:116: AssertionError
+____ test_current_engine_low_score_minimum_then_next_cycle_technical_sell _____
+
+current_minimum_engine = <nasdaq_auto_trader.engine.TradingEngine object at 0x00000182D3340F50>
+
+    def test_current_engine_low_score_minimum_then_next_cycle_technical_sell(
+        current_minimum_engine: TradingEngine,
+    ) -> None:
+        engine = current_minimum_engine
+>       [first] = engine.run_once()
+        ^^^^^^^
+E       ValueError: not enough values to unpack (expected 1, got 0)
+
+tests\test_entry_policy_engine.py:59: ValueError
+=========================== short test summary info ===========================
+FAILED tests/test_daily_minimum_engine.py::test_daily_minimum_chooses_best_affordable_share_below_normal_threshold
+FAILED tests/test_daily_minimum_engine.py::test_daily_minimum_is_due_again_on_next_market_day
+FAILED tests/test_daily_minimum_engine.py::test_first_daily_share_uses_five_percent_risk_then_restores_normal_risk
+FAILED tests/test_entry_policy_engine.py::test_current_engine_low_score_minimum_then_next_cycle_technical_sell
+4 failed, 17 passed in 4.78s

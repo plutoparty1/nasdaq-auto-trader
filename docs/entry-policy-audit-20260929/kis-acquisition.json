@@ -1,0 +1,183 @@
+{
+  "captured_at_utc": "2026-09-29T12:32:42.042521+00:00",
+  "source": "KIS OpenAPI",
+  "requested_daily_start": "2024-09-28",
+  "requested_daily_end": "2026-09-28",
+  "prespecified_symbols": [
+    "CMCSA",
+    "KDP",
+    "HIVE",
+    "SPY"
+  ],
+  "SPY_role": "separate_broad_market_comparator",
+  "orders_allowed": false,
+  "cancel_allowed": false,
+  "credential_presence": "complete",
+  "private_run_directory": "C:\\Users\\u\\AppData\\Local\\NasdaqAutoTrader\\research\\entry-policy-20260929\\20260929T123242044756Z",
+  "authentication": "success",
+  "history": {
+    "windows": [
+      {
+        "start": "20260701",
+        "end": "20260731",
+        "rows": 2,
+        "status": "complete"
+      },
+      {
+        "start": "20260801",
+        "end": "20260831",
+        "rows": 8,
+        "status": "complete"
+      },
+      {
+        "start": "20260901",
+        "end": "20260928",
+        "rows": 10,
+        "status": "complete"
+      }
+    ],
+    "raw_rows": 20,
+    "status_counts": {
+      "filled": 20,
+      "partially_filled": 0,
+      "accepted_or_unknown_unfilled": 0,
+      "cancel_or_revision_record": 0,
+      "invalid": 0
+    },
+    "field_names": [
+      "dmst_ord_dt",
+      "ft_ccld_amt3",
+      "ft_ccld_qty",
+      "ft_ccld_unpr3",
+      "ft_ord_qty",
+      "ft_ord_unpr3",
+      "loan_dt",
+      "loan_type_cd",
+      "mdia_dvsn_name",
+      "nccs_qty",
+      "odno",
+      "ord_dt",
+      "ord_gno_brno",
+      "ord_tmd",
+      "orgn_odno",
+      "ovrs_excg_cd",
+      "pdno",
+      "prcs_stat_name",
+      "prdt_name",
+      "rjct_rson",
+      "rjct_rson_name",
+      "rvse_cncl_dvsn",
+      "rvse_cncl_dvsn_name",
+      "sll_buy_dvsn_cd",
+      "sll_buy_dvsn_cd_name",
+      "splt_buy_attr_name",
+      "thco_ord_tmd",
+      "tr_crcy_cd",
+      "tr_mket_name",
+      "tr_natn",
+      "tr_natn_name",
+      "usa_amk_exts_rqst_yn"
+    ],
+    "confirmed_execution_timestamp_count": 0,
+    "fees_confirmed": false,
+    "roundtrip_holding_time_available": false
+  },
+  "daily": [
+    {
+      "symbol": "CMCSA",
+      "status": "requested_start_reached",
+      "rows": 500,
+      "first_session": "20240930",
+      "last_session": "20260928",
+      "duplicate_rows": 0,
+      "invalid_ohlcv_rows": 0,
+      "warmup_306_satisfied": true,
+      "timeframe": "1Day",
+      "MODP_requested": "1",
+      "adjustment_definition_independently_verified": false,
+      "split_events_available": false
+    },
+    {
+      "symbol": "KDP",
+      "status": "requested_start_reached",
+      "rows": 500,
+      "first_session": "20240930",
+      "last_session": "20260928",
+      "duplicate_rows": 0,
+      "invalid_ohlcv_rows": 0,
+      "warmup_306_satisfied": true,
+      "timeframe": "1Day",
+      "MODP_requested": "1",
+      "adjustment_definition_independently_verified": false,
+      "split_events_available": false
+    },
+    {
+      "symbol": "HIVE",
+      "status": "requested_start_reached",
+      "rows": 500,
+      "first_session": "20240930",
+      "last_session": "20260928",
+      "duplicate_rows": 0,
+      "invalid_ohlcv_rows": 0,
+      "warmup_306_satisfied": true,
+      "timeframe": "1Day",
+      "MODP_requested": "1",
+      "adjustment_definition_independently_verified": false,
+      "split_events_available": false
+    },
+    {
+      "symbol": "SPY",
+      "status": "requested_start_reached",
+      "rows": 500,
+      "first_session": "20240930",
+      "last_session": "20260928",
+      "duplicate_rows": 0,
+      "invalid_ohlcv_rows": 0,
+      "warmup_306_satisfied": true,
+      "timeframe": "1Day",
+      "MODP_requested": "1",
+      "adjustment_definition_independently_verified": false,
+      "split_events_available": false
+    }
+  ],
+  "minute": [
+    {
+      "symbol": "CMCSA",
+      "status": "incident_start_reached",
+      "rows": 600,
+      "unique_timestamps": 600,
+      "first_local_bar": "20260923122500",
+      "last_local_bar": "20260929083000",
+      "timeframe": "5Min",
+      "exact_incident_replay": false
+    },
+    {
+      "symbol": "KDP",
+      "status": "incident_start_reached",
+      "rows": 360,
+      "unique_timestamps": 360,
+      "first_local_bar": "20260923135000",
+      "last_local_bar": "20260929082500",
+      "timeframe": "5Min",
+      "exact_incident_replay": false
+    },
+    {
+      "symbol": "HIVE",
+      "status": "incident_start_reached",
+      "rows": 600,
+      "unique_timestamps": 600,
+      "first_local_bar": "20260923114000",
+      "last_local_bar": "20260929083000",
+      "timeframe": "5Min",
+      "exact_incident_replay": false
+    }
+  ],
+  "request_counts": {
+    "auth": 1,
+    "daily": 24,
+    "history": 3,
+    "minute": 13,
+    "order": 0,
+    "cancel": 0
+  }
+}

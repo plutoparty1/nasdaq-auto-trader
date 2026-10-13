@@ -1,0 +1,22 @@
+{
+  "exe": "C:\\Users\\u\\nasdaq-auto-trader\\deploy-safe\\roundtrip-20261013\\NasdaqAutoTrader\\NasdaqAutoTraderSafe.exe",
+  "sha256": "61ccd1c47252d428211f264a97129bca8f0a7a8efbd2528f0e3e07de873cdd59",
+  "runs": [
+    {
+      "case": "runtime-check",
+      "exit_code": 0
+    },
+    {
+      "case": "frozen-replay-1",
+      "exit_code": 1
+    },
+    {
+      "case": "frozen-replay-2",
+      "exit_code": 0
+    },
+    {
+      "case": "live-rejection",
+      "exit_code": 1
+    }
+  ]
+}

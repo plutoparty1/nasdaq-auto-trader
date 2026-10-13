@@ -1,0 +1,3406 @@
+
+{
+    "version": "1.40.1",
+    "time": "1790682886536",
+    "generalDiagnostics": [
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Type of \"raw\" is Any",
+            "range": {
+                "start": {
+                    "line": 42,
+                    "character": 4
+                },
+                "end": {
+                    "line": 42,
+                    "character": 7
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Type of \"get\" is Any",
+            "range": {
+                "start": {
+                    "line": 43,
+                    "character": 7
+                },
+                "end": {
+                    "line": 43,
+                    "character": 14
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Type of \"get\" is Any",
+            "range": {
+                "start": {
+                    "line": 43,
+                    "character": 41
+                },
+                "end": {
+                    "line": 43,
+                    "character": 48
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"iterable\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 45,
+                    "character": 11
+                },
+                "end": {
+                    "line": 45,
+                    "character": 14
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Type of \"value\" is Any",
+            "range": {
+                "start": {
+                    "line": 47,
+                    "character": 8
+                },
+                "end": {
+                    "line": 47,
+                    "character": 13
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"iterable\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 48,
+                    "character": 15
+                },
+                "end": {
+                    "line": 48,
+                    "character": 20
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"name\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 56,
+                    "character": 12
+                },
+                "end": {
+                    "line": 56,
+                    "character": 25
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"corrected\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 57,
+                    "character": 12
+                },
+                "end": {
+                    "line": 57,
+                    "character": 30
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"stop_mode\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"fixed_stop_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"fixed_take_profit_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"trailing_activation_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"trailing_drawdown_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"atr_period\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"atr_multiplier\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"min_stop_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"max_stop_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"emergency_stop_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"bar_interval\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"block_conflicting_entry\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"completed_bar_only_general\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"minimum_general_hold_minutes\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 58,
+                    "character": 62
+                },
+                "end": {
+                    "line": 58,
+                    "character": 77
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Type of \"value\" is Any",
+            "range": {
+                "start": {
+                    "line": 60,
+                    "character": 12
+                },
+                "end": {
+                    "line": 60,
+                    "character": 17
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `inner` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 100,
+                    "character": 13
+                },
+                "end": {
+                    "line": 100,
+                    "character": 18
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `risk` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 100,
+                    "character": 25
+                },
+                "end": {
+                    "line": 100,
+                    "character": 29
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `split` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 100,
+                    "character": 36
+                },
+                "end": {
+                    "line": 100,
+                    "character": 41
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `costs` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 100,
+                    "character": 48
+                },
+                "end": {
+                    "line": 100,
+                    "character": 53
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "“decide“ 메서드가 override로 표시되지 않았지만 “TechnicalStrategy“ 클래스에서 메서드를 재정의하고 있습니다.",
+            "range": {
+                "start": {
+                    "line": 102,
+                    "character": 8
+                },
+                "end": {
+                    "line": 102,
+                    "character": 14
+                }
+            },
+            "rule": "reportImplicitOverride"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 187,
+                    "character": 4
+                },
+                "end": {
+                    "line": 189,
+                    "character": 5
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "“__str__“ 메서드가 override로 표시되지 않았지만 “BaseException“ 클래스에서 메서드를 재정의하고 있습니다.",
+            "range": {
+                "start": {
+                    "line": 16,
+                    "character": 8
+                },
+                "end": {
+                    "line": 16,
+                    "character": 15
+                }
+            },
+            "rule": "reportImplicitOverride"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "Return type is Any",
+            "range": {
+                "start": {
+                    "line": 55,
+                    "character": 4
+                },
+                "end": {
+                    "line": 55,
+                    "character": 14
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "Return type is Any",
+            "range": {
+                "start": {
+                    "line": 57,
+                    "character": 15
+                },
+                "end": {
+                    "line": 57,
+                    "character": 32
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "Type of \"raw\" is Any",
+            "range": {
+                "start": {
+                    "line": 61,
+                    "character": 4
+                },
+                "end": {
+                    "line": 61,
+                    "character": 7
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 부분적으로 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"iterable\" 매개 변수에 해당합니다.\n  인수 형식이 \"dict[Unknown, Unknown]\"입니다.",
+            "range": {
+                "start": {
+                    "line": 74,
+                    "character": 40
+                },
+                "end": {
+                    "line": 74,
+                    "character": 43
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "\"value\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 87,
+                    "character": 8
+                },
+                "end": {
+                    "line": 87,
+                    "character": 13
+                }
+            },
+            "rule": "reportUnknownVariableType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"name\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 101,
+                    "character": 37
+                },
+                "end": {
+                    "line": 101,
+                    "character": 41
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"commission_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 101,
+                    "character": 37
+                },
+                "end": {
+                    "line": 101,
+                    "character": 41
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"minimum_commission\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 101,
+                    "character": 37
+                },
+                "end": {
+                    "line": 101,
+                    "character": 41
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"spread_bps\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 101,
+                    "character": 37
+                },
+                "end": {
+                    "line": 101,
+                    "character": 41
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"slippage_bps\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 101,
+                    "character": 37
+                },
+                "end": {
+                    "line": 101,
+                    "character": 41
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"source\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 101,
+                    "character": 37
+                },
+                "end": {
+                    "line": 101,
+                    "character": 41
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "\"cost\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 101,
+                    "character": 47
+                },
+                "end": {
+                    "line": 101,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownVariableType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "불필요한 isinstance 호출입니다. \"float | int\"은(는) 항상 \"int | float\"의 인스턴스입니다.",
+            "range": {
+                "start": {
+                    "line": 115,
+                    "character": 23
+                },
+                "end": {
+                    "line": 115,
+                    "character": 54
+                }
+            },
+            "rule": "reportUnnecessaryIsInstance"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "불필요한 isinstance 호출입니다. \"str\"은(는) 항상 \"str\"의 인스턴스입니다.",
+            "range": {
+                "start": {
+                    "line": 129,
+                    "character": 15
+                },
+                "end": {
+                    "line": 129,
+                    "character": 43
+                }
+            },
+            "rule": "reportUnnecessaryIsInstance"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"sma_fast\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"sma_slow\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"ema_fast\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"ema_slow\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"rsi_period\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"rsi_oversold\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"rsi_overbought\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"macd_fast\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"macd_slow\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"macd_signal\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"bollinger_period\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"long_sma\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"momentum_period\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"donchian_period\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"stochastic_period\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"stochastic_oversold\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"stochastic_overbought\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"volume_period\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"atr_period\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"atr_stop_multiplier\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"atr_take_profit_multiplier\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"buy_score\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"sell_score\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"stop_loss_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"take_profit_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"use_regime_filter\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"buy_trigger_enabled\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"buy_drop_rate\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"buy_ma_enabled\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"trailing_stop_enabled\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"trailing_stop_activation_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"trailing_stop_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"time_based_sell_enabled\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"max_holding_minutes\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"corrected_exits\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 132,
+                    "character": 36
+                },
+                "end": {
+                    "line": 132,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "Type of \"value\" is Any",
+            "range": {
+                "start": {
+                    "line": 136,
+                    "character": 8
+                },
+                "end": {
+                    "line": 136,
+                    "character": 13
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"max_position_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 161,
+                    "character": 8
+                },
+                "end": {
+                    "line": 161,
+                    "character": 31
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"max_total_position_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 162,
+                    "character": 8
+                },
+                "end": {
+                    "line": 162,
+                    "character": 37
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"cash_buffer_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 163,
+                    "character": 8
+                },
+                "end": {
+                    "line": 163,
+                    "character": 30
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"max_portfolio_risk_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 164,
+                    "character": 8
+                },
+                "end": {
+                    "line": 164,
+                    "character": 37
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"monthly_loss_stop_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 165,
+                    "character": 8
+                },
+                "end": {
+                    "line": 165,
+                    "character": 36
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"data_source\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 173,
+                    "character": 34
+                },
+                "end": {
+                    "line": 173,
+                    "character": 50
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"bar_interval\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 173,
+                    "character": 34
+                },
+                "end": {
+                    "line": 173,
+                    "character": 50
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"universe_source\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 173,
+                    "character": 34
+                },
+                "end": {
+                    "line": 173,
+                    "character": 50
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"universe_as_of\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 173,
+                    "character": 34
+                },
+                "end": {
+                    "line": 173,
+                    "character": 50
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"survivorship_corrected\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 173,
+                    "character": 34
+                },
+                "end": {
+                    "line": 173,
+                    "character": 50
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"synthetic\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 173,
+                    "character": 34
+                },
+                "end": {
+                    "line": 173,
+                    "character": 50
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__init__\" 함수의 \"adjustment_policy\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 173,
+                    "character": 34
+                },
+                "end": {
+                    "line": 173,
+                    "character": 50
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+            "severity": "warning",
+            "message": "불필요한 isinstance 호출입니다. \"str\"은(는) 항상 \"str\"의 인스턴스입니다.",
+            "range": {
+                "start": {
+                    "line": 181,
+                    "character": 8
+                },
+                "end": {
+                    "line": 181,
+                    "character": 30
+                }
+            },
+            "rule": "reportUnnecessaryIsInstance"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘str’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 136,
+                    "character": 8
+                },
+                "end": {
+                    "line": 136,
+                    "character": 55
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "\"month\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 146,
+                    "character": 17
+                },
+                "end": {
+                    "line": 146,
+                    "character": 22
+                }
+            },
+            "rule": "reportUnknownVariableType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "\"point\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 146,
+                    "character": 24
+                },
+                "end": {
+                    "line": 146,
+                    "character": 29
+                }
+            },
+            "rule": "reportUnknownVariableType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "인수 형식을 부분적으로 알 수 없습니다.\n  인수가 \"__new__\" 함수의 \"iterable\" 매개 변수에 해당합니다.\n  인수 형식이 \"list[tuple[Unknown, Unknown]]\"입니다.",
+            "range": {
+                "start": {
+                    "line": 146,
+                    "character": 44
+                },
+                "end": {
+                    "line": 146,
+                    "character": 70
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "인수 형식을 부분적으로 알 수 없습니다.\n  인수가 \"sorted\" 함수의 \"iterable\" 매개 변수에 해당합니다.\n  인수 형식이 \"dict_items[Unknown, Unknown]\"입니다.",
+            "range": {
+                "start": {
+                    "line": 146,
+                    "character": 51
+                },
+                "end": {
+                    "line": 146,
+                    "character": 69
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "\"timestamp\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 147,
+                    "character": 21
+                },
+                "end": {
+                    "line": 147,
+                    "character": 36
+                }
+            },
+            "rule": "reportUnknownMemberType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"fx_at\" 함수의 \"timestamp\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 147,
+                    "character": 21
+                },
+                "end": {
+                    "line": 147,
+                    "character": 36
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "\"value_krw\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 148,
+                    "character": 8
+                },
+                "end": {
+                    "line": 148,
+                    "character": 17
+                }
+            },
+            "rule": "reportUnknownVariableType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "\"equity\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 148,
+                    "character": 20
+                },
+                "end": {
+                    "line": 148,
+                    "character": 32
+                }
+            },
+            "rule": "reportUnknownMemberType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"month\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 154,
+                    "character": 16
+                },
+                "end": {
+                    "line": 154,
+                    "character": 21
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "\"equity\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 155,
+                    "character": 16
+                },
+                "end": {
+                    "line": 155,
+                    "character": 28
+                }
+            },
+            "rule": "reportUnknownMemberType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"ending_equity_usd\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 155,
+                    "character": 16
+                },
+                "end": {
+                    "line": 155,
+                    "character": 28
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"ending_equity_krw\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 156,
+                    "character": 16
+                },
+                "end": {
+                    "line": 156,
+                    "character": 25
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"usd_return_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 157,
+                    "character": 16
+                },
+                "end": {
+                    "line": 157,
+                    "character": 55
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "\"equity\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 157,
+                    "character": 17
+                },
+                "end": {
+                    "line": 157,
+                    "character": 29
+                }
+            },
+            "rule": "reportUnknownMemberType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"krw_return_pct\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 158,
+                    "character": 16
+                },
+                "end": {
+                    "line": 158,
+                    "character": 52
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "인수 형식을 부분적으로 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"after_operations_equity_krw\" 매개 변수에 해당합니다.\n  인수 형식이 \"Unknown | None\"입니다.",
+            "range": {
+                "start": {
+                    "line": 161,
+                    "character": 16
+                },
+                "end": {
+                    "line": 161,
+                    "character": 68
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "\"timestamp\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 163,
+                    "character": 16
+                },
+                "end": {
+                    "line": 163,
+                    "character": 31
+                }
+            },
+            "rule": "reportUnknownMemberType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "인수 형식을 알 수 없습니다.\n  인수가 \"__init__\" 함수의 \"observation_end\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 163,
+                    "character": 16
+                },
+                "end": {
+                    "line": 163,
+                    "character": 31
+                }
+            },
+            "rule": "reportUnknownArgumentType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "\"previous_usd\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 166,
+                    "character": 8
+                },
+                "end": {
+                    "line": 166,
+                    "character": 20
+                }
+            },
+            "rule": "reportUnknownVariableType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "\"previous_krw\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 166,
+                    "character": 22
+                },
+                "end": {
+                    "line": 166,
+                    "character": 34
+                }
+            },
+            "rule": "reportUnknownVariableType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+            "severity": "warning",
+            "message": "\"equity\" 유형을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 166,
+                    "character": 50
+                },
+                "end": {
+                    "line": 166,
+                    "character": 62
+                }
+            },
+            "rule": "reportUnknownMemberType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `max_total_position_pct` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 46,
+                    "character": 13
+                },
+                "end": {
+                    "line": 46,
+                    "character": 35
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `costs` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 47,
+                    "character": 13
+                },
+                "end": {
+                    "line": 47,
+                    "character": 18
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `sizing` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 48,
+                    "character": 13
+                },
+                "end": {
+                    "line": 48,
+                    "character": 19
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `monthly_loss_stop_pct` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 49,
+                    "character": 13
+                },
+                "end": {
+                    "line": 49,
+                    "character": 34
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `timestamp` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 50,
+                    "character": 13
+                },
+                "end": {
+                    "line": 50,
+                    "character": 22
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `month` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 51,
+                    "character": 13
+                },
+                "end": {
+                    "line": 51,
+                    "character": 18
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `month_open_equity` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 52,
+                    "character": 13
+                },
+                "end": {
+                    "line": 52,
+                    "character": 30
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `previous_equity` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 53,
+                    "character": 13
+                },
+                "end": {
+                    "line": 53,
+                    "character": 28
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "Type annotation for attribute `month_halted` is required because this class is not decorated with `@final`",
+            "range": {
+                "start": {
+                    "line": 54,
+                    "character": 13
+                },
+                "end": {
+                    "line": 54,
+                    "character": 25
+                }
+            },
+            "rule": "reportUnannotatedClassAttribute"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "“build_order“ 메서드가 override로 표시되지 않았지만 “RiskManager“ 클래스에서 메서드를 재정의하고 있습니다.",
+            "range": {
+                "start": {
+                    "line": 57,
+                    "character": 8
+                },
+                "end": {
+                    "line": 57,
+                    "character": 19
+                }
+            },
+            "rule": "reportImplicitOverride"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "\"args\"에 액세스하지 않았습니다.",
+            "range": {
+                "start": {
+                    "line": 22,
+                    "character": 29
+                },
+                "end": {
+                    "line": 22,
+                    "character": 33
+                }
+            },
+            "rule": "reportUnusedParameter"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 108,
+                    "character": 4
+                },
+                "end": {
+                    "line": 110,
+                    "character": 5
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 111,
+                    "character": 4
+                },
+                "end": {
+                    "line": 111,
+                    "character": 44
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 112,
+                    "character": 4
+                },
+                "end": {
+                    "line": 112,
+                    "character": 50
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 113,
+                    "character": 4
+                },
+                "end": {
+                    "line": 113,
+                    "character": 61
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 114,
+                    "character": 4
+                },
+                "end": {
+                    "line": 114,
+                    "character": 62
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 115,
+                    "character": 4
+                },
+                "end": {
+                    "line": 115,
+                    "character": 53
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 116,
+                    "character": 4
+                },
+                "end": {
+                    "line": 116,
+                    "character": 52
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 117,
+                    "character": 4
+                },
+                "end": {
+                    "line": 117,
+                    "character": 50
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 118,
+                    "character": 4
+                },
+                "end": {
+                    "line": 118,
+                    "character": 38
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 119,
+                    "character": 4
+                },
+                "end": {
+                    "line": 119,
+                    "character": 43
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 120,
+                    "character": 4
+                },
+                "end": {
+                    "line": 120,
+                    "character": 63
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 121,
+                    "character": 4
+                },
+                "end": {
+                    "line": 121,
+                    "character": 68
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘Action’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 122,
+                    "character": 4
+                },
+                "end": {
+                    "line": 122,
+                    "character": 65
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"usdkrw\" is Any",
+            "range": {
+                "start": {
+                    "line": 124,
+                    "character": 25
+                },
+                "end": {
+                    "line": 124,
+                    "character": 36
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"isfinite\" 함수의 \"x\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 124,
+                    "character": 25
+                },
+                "end": {
+                    "line": 124,
+                    "character": 36
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"usdkrw\" is Any",
+            "range": {
+                "start": {
+                    "line": 124,
+                    "character": 41
+                },
+                "end": {
+                    "line": 124,
+                    "character": 52
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"monthly_operations_krw\" is Any",
+            "range": {
+                "start": {
+                    "line": 126,
+                    "character": 7
+                },
+                "end": {
+                    "line": 126,
+                    "character": 34
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"monthly_operations_krw\" is Any",
+            "range": {
+                "start": {
+                    "line": 127,
+                    "character": 26
+                },
+                "end": {
+                    "line": 127,
+                    "character": 53
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"isfinite\" 함수의 \"x\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 127,
+                    "character": 26
+                },
+                "end": {
+                    "line": 127,
+                    "character": 53
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"monthly_operations_krw\" is Any",
+            "range": {
+                "start": {
+                    "line": 128,
+                    "character": 11
+                },
+                "end": {
+                    "line": 128,
+                    "character": 38
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"fx_source\" is Any",
+            "range": {
+                "start": {
+                    "line": 133,
+                    "character": 11
+                },
+                "end": {
+                    "line": 133,
+                    "character": 25
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"strip\" is Any",
+            "range": {
+                "start": {
+                    "line": 133,
+                    "character": 11
+                },
+                "end": {
+                    "line": 133,
+                    "character": 31
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"fx_as_of\" is Any",
+            "range": {
+                "start": {
+                    "line": 135,
+                    "character": 25
+                },
+                "end": {
+                    "line": 135,
+                    "character": 38
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"timestamp\" 함수의 \"value\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 135,
+                    "character": 25
+                },
+                "end": {
+                    "line": 135,
+                    "character": 38
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"settings\" is Any",
+            "range": {
+                "start": {
+                    "line": 136,
+                    "character": 29
+                },
+                "end": {
+                    "line": 136,
+                    "character": 42
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"load_settings\" 함수의 \"path\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 136,
+                    "character": 29
+                },
+                "end": {
+                    "line": 136,
+                    "character": 42
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"output\" is Any",
+            "range": {
+                "start": {
+                    "line": 137,
+                    "character": 4
+                },
+                "end": {
+                    "line": 137,
+                    "character": 15
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"mkdir\" is Any",
+            "range": {
+                "start": {
+                    "line": 137,
+                    "character": 4
+                },
+                "end": {
+                    "line": 137,
+                    "character": 21
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"exists\" is Any",
+            "range": {
+                "start": {
+                    "line": 138,
+                    "character": 7
+                },
+                "end": {
+                    "line": 138,
+                    "character": 45
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"output\" is Any",
+            "range": {
+                "start": {
+                    "line": 138,
+                    "character": 8
+                },
+                "end": {
+                    "line": 138,
+                    "character": 19
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"synthetic_smoke\" is Any",
+            "range": {
+                "start": {
+                    "line": 142,
+                    "character": 7
+                },
+                "end": {
+                    "line": 142,
+                    "character": 27
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"bars_path\" is Any",
+            "range": {
+                "start": {
+                    "line": 143,
+                    "character": 8
+                },
+                "end": {
+                    "line": 143,
+                    "character": 17
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"output\" is Any",
+            "range": {
+                "start": {
+                    "line": 143,
+                    "character": 20
+                },
+                "end": {
+                    "line": 143,
+                    "character": 31
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"make_smoke\" 함수의 \"path\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 144,
+                    "character": 19
+                },
+                "end": {
+                    "line": 144,
+                    "character": 28
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"bars\" is Any",
+            "range": {
+                "start": {
+                    "line": 151,
+                    "character": 12
+                },
+                "end": {
+                    "line": 151,
+                    "character": 21
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"provenance\" is Any",
+            "range": {
+                "start": {
+                    "line": 152,
+                    "character": 15
+                },
+                "end": {
+                    "line": 152,
+                    "character": 30
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"train_end\" is Any",
+            "range": {
+                "start": {
+                    "line": 153,
+                    "character": 19
+                },
+                "end": {
+                    "line": 153,
+                    "character": 33
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"validation_end\" is Any",
+            "range": {
+                "start": {
+                    "line": 154,
+                    "character": 19
+                },
+                "end": {
+                    "line": 154,
+                    "character": 38
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"provenance\" is Any",
+            "range": {
+                "start": {
+                    "line": 161,
+                    "character": 44
+                },
+                "end": {
+                    "line": 161,
+                    "character": 59
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"load_provenance\" 함수의 \"path\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 161,
+                    "character": 44
+                },
+                "end": {
+                    "line": 161,
+                    "character": 59
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"__new__\" 함수의 \"object\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 162,
+                    "character": 32
+                },
+                "end": {
+                    "line": 162,
+                    "character": 37
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"value\" is Any",
+            "range": {
+                "start": {
+                    "line": 162,
+                    "character": 43
+                },
+                "end": {
+                    "line": 162,
+                    "character": 48
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"bars_path\" is Any",
+            "range": {
+                "start": {
+                    "line": 166,
+                    "character": 8
+                },
+                "end": {
+                    "line": 166,
+                    "character": 17
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"bars\" is Any",
+            "range": {
+                "start": {
+                    "line": 166,
+                    "character": 20
+                },
+                "end": {
+                    "line": 166,
+                    "character": 29
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"load_bars_csv\" 함수의 \"path\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 167,
+                    "character": 25
+                },
+                "end": {
+                    "line": 167,
+                    "character": 34
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"train_end\" is Any",
+            "range": {
+                "start": {
+                    "line": 174,
+                    "character": 18
+                },
+                "end": {
+                    "line": 174,
+                    "character": 32
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"timestamp\" 함수의 \"value\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 174,
+                    "character": 18
+                },
+                "end": {
+                    "line": 174,
+                    "character": 32
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"train_end\" is Any",
+            "range": {
+                "start": {
+                    "line": 174,
+                    "character": 37
+                },
+                "end": {
+                    "line": 174,
+                    "character": 51
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"validation_end\" is Any",
+            "range": {
+                "start": {
+                    "line": 177,
+                    "character": 18
+                },
+                "end": {
+                    "line": 177,
+                    "character": 37
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"timestamp\" 함수의 \"value\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 177,
+                    "character": 18
+                },
+                "end": {
+                    "line": 177,
+                    "character": 37
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"validation_end\" is Any",
+            "range": {
+                "start": {
+                    "line": 178,
+                    "character": 11
+                },
+                "end": {
+                    "line": 178,
+                    "character": 30
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"synthetic_smoke\" is Any",
+            "range": {
+                "start": {
+                    "line": 186,
+                    "character": 12
+                },
+                "end": {
+                    "line": 186,
+                    "character": 32
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"fx_history\" is Any",
+            "range": {
+                "start": {
+                    "line": 203,
+                    "character": 22
+                },
+                "end": {
+                    "line": 203,
+                    "character": 37
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"load_fx\" 함수의 \"path\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 203,
+                    "character": 22
+                },
+                "end": {
+                    "line": 203,
+                    "character": 37
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"output\" is Any",
+            "range": {
+                "start": {
+                    "line": 212,
+                    "character": 8
+                },
+                "end": {
+                    "line": 212,
+                    "character": 19
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"run_suite\" 함수의 \"output\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 212,
+                    "character": 8
+                },
+                "end": {
+                    "line": 212,
+                    "character": 19
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"usdkrw\" is Any",
+            "range": {
+                "start": {
+                    "line": 213,
+                    "character": 16
+                },
+                "end": {
+                    "line": 213,
+                    "character": 27
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"run_suite\" 함수의 \"fx_rate\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 213,
+                    "character": 16
+                },
+                "end": {
+                    "line": 213,
+                    "character": 27
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"compare_entry_gate\" is Any",
+            "range": {
+                "start": {
+                    "line": 216,
+                    "character": 27
+                },
+                "end": {
+                    "line": 216,
+                    "character": 50
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"run_suite\" 함수의 \"compare_entry_gate\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 216,
+                    "character": 27
+                },
+                "end": {
+                    "line": 216,
+                    "character": 50
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"read_bytes\" is Any",
+            "range": {
+                "start": {
+                    "line": 219,
+                    "character": 38
+                },
+                "end": {
+                    "line": 219,
+                    "character": 58
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"openssl_sha256\" 함수의 \"data\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 219,
+                    "character": 38
+                },
+                "end": {
+                    "line": 219,
+                    "character": 60
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"settings\" is Any",
+            "range": {
+                "start": {
+                    "line": 220,
+                    "character": 42
+                },
+                "end": {
+                    "line": 220,
+                    "character": 55
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"read_bytes\" is Any",
+            "range": {
+                "start": {
+                    "line": 220,
+                    "character": 42
+                },
+                "end": {
+                    "line": 220,
+                    "character": 66
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"openssl_sha256\" 함수의 \"data\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 220,
+                    "character": 42
+                },
+                "end": {
+                    "line": 220,
+                    "character": 68
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"fx_source\" is Any",
+            "range": {
+                "start": {
+                    "line": 222,
+                    "character": 21
+                },
+                "end": {
+                    "line": 222,
+                    "character": 35
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"strip\" is Any",
+            "range": {
+                "start": {
+                    "line": 222,
+                    "character": 21
+                },
+                "end": {
+                    "line": 222,
+                    "character": 41
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"fx_history\" is Any",
+            "range": {
+                "start": {
+                    "line": 224,
+                    "character": 44
+                },
+                "end": {
+                    "line": 224,
+                    "character": 59
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"read_bytes\" is Any",
+            "range": {
+                "start": {
+                    "line": 224,
+                    "character": 44
+                },
+                "end": {
+                    "line": 224,
+                    "character": 70
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Argument type is Any\n  인수가 \"openssl_sha256\" 함수의 \"data\" 매개 변수에 해당합니다.",
+            "range": {
+                "start": {
+                    "line": 224,
+                    "character": 44
+                },
+                "end": {
+                    "line": 224,
+                    "character": 72
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"fx_history\" is Any",
+            "range": {
+                "start": {
+                    "line": 225,
+                    "character": 11
+                },
+                "end": {
+                    "line": 225,
+                    "character": 26
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"synthetic_smoke\" is Any",
+            "range": {
+                "start": {
+                    "line": 230,
+                    "character": 11
+                },
+                "end": {
+                    "line": 230,
+                    "character": 31
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"write_text\" is Any",
+            "range": {
+                "start": {
+                    "line": 240,
+                    "character": 4
+                },
+                "end": {
+                    "line": 240,
+                    "character": 46
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"output\" is Any",
+            "range": {
+                "start": {
+                    "line": 240,
+                    "character": 5
+                },
+                "end": {
+                    "line": 240,
+                    "character": 16
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+            "severity": "warning",
+            "message": "Type of \"output\" is Any",
+            "range": {
+                "start": {
+                    "line": 243,
+                    "character": 43
+                },
+                "end": {
+                    "line": 243,
+                    "character": 54
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\tests\\test_exit_experiment_cli.py",
+            "severity": "warning",
+            "message": "Type of \"manifest\" is Any",
+            "range": {
+                "start": {
+                    "line": 39,
+                    "character": 4
+                },
+                "end": {
+                    "line": 39,
+                    "character": 12
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\tests\\test_exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘OrderRequest | None’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 64,
+                    "character": 4
+                },
+                "end": {
+                    "line": 66,
+                    "character": 5
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\tests\\test_exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 88,
+                    "character": 4
+                },
+                "end": {
+                    "line": 88,
+                    "character": 79
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\tests\\test_exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘ExperimentSettings’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 90,
+                    "character": 8
+                },
+                "end": {
+                    "line": 90,
+                    "character": 37
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\tests\\test_exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "매개 변수 \"value\"의 형식을 알 수 없습니다.",
+            "range": {
+                "start": {
+                    "line": 148,
+                    "character": 46
+                },
+                "end": {
+                    "line": 148,
+                    "character": 51
+                }
+            },
+            "rule": "reportUnknownParameterType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\tests\\test_exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "‘value’ 매개 변수에 대한 형식 주석이 없습니다.",
+            "range": {
+                "start": {
+                    "line": 148,
+                    "character": 46
+                },
+                "end": {
+                    "line": 148,
+                    "character": 51
+                }
+            },
+            "rule": "reportMissingParameterType"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\tests\\test_exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "Type of \"raw\" is Any",
+            "range": {
+                "start": {
+                    "line": 157,
+                    "character": 4
+                },
+                "end": {
+                    "line": 157,
+                    "character": 7
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\tests\\test_exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "Type of \"target\" is Any",
+            "range": {
+                "start": {
+                    "line": 158,
+                    "character": 4
+                },
+                "end": {
+                    "line": 158,
+                    "character": 10
+                }
+            },
+            "rule": "reportAny"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\tests\\test_exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 161,
+                    "character": 4
+                },
+                "end": {
+                    "line": 161,
+                    "character": 36
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\tests\\test_exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘ExperimentSettings’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 163,
+                    "character": 8
+                },
+                "end": {
+                    "line": 163,
+                    "character": 27
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        },
+        {
+            "file": "c:\\Users\\u\\nasdaq-auto-trader\\tests\\test_exit_experiment_risk.py",
+            "severity": "warning",
+            "message": "호출 식의 결과가 ‘OrderRequest | None’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요.",
+            "range": {
+                "start": {
+                    "line": 177,
+                    "character": 4
+                },
+                "end": {
+                    "line": 179,
+                    "character": 5
+                }
+            },
+            "rule": "reportUnusedCallResult"
+        }
+    ],
+    "summary": {
+        "filesAnalyzed": 8,
+        "errorCount": 0,
+        "warningCount": 212,
+        "informationCount": 0,
+        "timeInSec": 2.428
+    }
+}

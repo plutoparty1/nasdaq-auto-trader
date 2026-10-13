@@ -5,30 +5,29 @@ from datetime import datetime, timedelta, timezone
 
 from .ai_quant_lab.artifact_paths import default_strategy_artifact_paths
 from .app_types import EngineResult
-from .automation_coordinator import AutomationCoordinator, PreflightHealth
+from .automation_coordinator import AutomationCoordinator, PreflightHealth, TransitionResult
 from .brokers.common import BrokerRequestError
 from .dry_run_market_data import DryRunMarketData
 from .engine_errors import PreOrderCycleError
 from .learning_data import collect_completed_learning_bars
+from .learning_history import LearningHistoryError
 from .intraday_shadow_scan import orderless_market_data_view, run_intraday_shadow_scan
-from .learning_runner import (
-    LearningCancellation,
-    LearningProgress,
-    LearningRunResult,
-    run_learning_only,
-)
+from .learning_runner import LearningCancellation, LearningProgress, LearningRunResult, run_learning_only
 from .operating_state import OperatingState, OperatingStateStore, StateTransitionError
 from .market_hours import EASTERN, latest_completed_market_date
 from .quant_data.resources import application_data_root
-from .quant_data.symbol_selector import StrategyResolutionBlock, resolve_strategy
+from .quant_data.symbol_selector import StrategyResolution, StrategyResolutionBlock, resolve_strategy
 from .quant_data.universe_snapshot import load_default_universe
 from .unattended_policy import is_recoverable_preorder_failure
 
 
 class ControllerOperationsMixin:
     def _initialize_operations(self) -> None:
+        self.last_operating_transition: TransitionResult | None = None
+        self.last_strategy_resolution: StrategyResolution | None = None
         self._learning_cancellation: LearningCancellation | None = None
         self.last_learning_progress: LearningProgress | None = None
+        self.last_automatic_learning_result: LearningRunResult | None = None
         self.operating_store = OperatingStateStore(
             application_data_root() / "runtime" / "operating_state.json"
         )
@@ -36,6 +35,11 @@ class ControllerOperationsMixin:
 
     def run_operating_cycle(self, force: bool = False) -> list[EngineResult] | None:
         with self._lock:
+            self.last_automatic_learning_result = None
+            self.last_learning_progress = None
+            self.last_selection_report = None
+            self.last_operating_transition = None
+            self.last_strategy_resolution = None
             if self.state != "running":
                 return None
         now = self._clock()
@@ -63,6 +67,7 @@ class ControllerOperationsMixin:
         except Exception:  # noqa: BROAD_EXCEPT_OK
             self._handle_operating_failure("operating_preflight_failed", now)
             return []
+        self.last_operating_transition = transition
         if current.state is not transition.state:
             self.runtime_recorder.transition(
                 now,
@@ -107,10 +112,14 @@ class ControllerOperationsMixin:
                 result = self._execute_learning(
                     LearningCancellation(self._record_learning_progress)
                 )
+            except LearningHistoryError as exc:
+                self._enter_safe_halt(exc.reason, now)
+                return []
             except (BrokerRequestError, OSError):
                 self._enter_safe_halt("market_data_unavailable", now)
                 return []
             self._record_completed_learning(result, completed_market_date)
+            self.last_automatic_learning_result = result
         if transition.state in (
             OperatingState.SAFE_HALT,
             OperatingState.EMERGENCY_STOP,
@@ -257,6 +266,7 @@ class ControllerOperationsMixin:
         paths = default_strategy_artifact_paths()
         mode = "live" if self.config.mode == "live" else "paper"
         resolution = resolve_strategy(mode, paths)
+        self.last_strategy_resolution = resolution
         return PreflightHealth(
             model_ok=not isinstance(resolution, StrategyResolutionBlock),
             risk_config_ok=self.settings_error is None and self.session_error is None,

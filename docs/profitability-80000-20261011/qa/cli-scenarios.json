@@ -1,0 +1,130 @@
+[
+  {
+    "scenario": "01-help",
+    "returncode": 0,
+    "passed": true,
+    "expected_substring": "--profitability-profile"
+  },
+  {
+    "scenario": "02-missing-required",
+    "returncode": 2,
+    "passed": true,
+    "expected_substring": "required"
+  },
+  {
+    "scenario": "04-drift-risk",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "frozen"
+  },
+  {
+    "scenario": "05-drift-quantity",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "frozen"
+  },
+  {
+    "scenario": "06-drift-currency",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "frozen"
+  },
+  {
+    "scenario": "07-preserve-existing",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "existing files cannot be overwritten"
+  },
+  {
+    "scenario": "07-sentinel-hash",
+    "passed": true,
+    "sha256": "02f52e9999ce2df152aca34871c0f683d284cae9dffd941752652bf80415f2d1"
+  },
+  {
+    "scenario": "19-fx-0",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "positive USD/KRW"
+  },
+  {
+    "scenario": "19-fx--1",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "positive USD/KRW"
+  },
+  {
+    "scenario": "19-fx-nan",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "positive USD/KRW"
+  },
+  {
+    "scenario": "19-fx-inf",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "positive USD/KRW"
+  },
+  {
+    "scenario": "19-empty-source",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "nonblank FX source"
+  },
+  {
+    "scenario": "21-operations-cost",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "unverified operating charges unknown"
+  },
+  {
+    "scenario": "24-conflicting-cohorts",
+    "returncode": 2,
+    "passed": true,
+    "expected_substring": "not allowed with argument"
+  },
+  {
+    "scenario": "02-missing-historical",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "historical runs need"
+  },
+  {
+    "scenario": "08-changed-bars",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "frozen cohort hash",
+    "summary_absent": true
+  },
+  {
+    "scenario": "09-changed-boundary",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "evaluation windows differ",
+    "summary_absent": true
+  },
+  {
+    "scenario": "10-changed-fx",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "frozen reference history",
+    "summary_absent": true
+  },
+  {
+    "scenario": "20-intraday-rejected",
+    "returncode": 1,
+    "passed": true,
+    "expected_substring": "1Day signal bars are required",
+    "summary_absent": true
+  },
+  {
+    "scenario": "03-synthetic-plumbing",
+    "returncode": 0,
+    "passed": true
+  },
+  {
+    "scenario": "23-repeat-output",
+    "returncode": 1,
+    "passed": true,
+    "files_preserved": 18
+  }
+]

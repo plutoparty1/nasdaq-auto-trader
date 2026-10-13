@@ -51,9 +51,11 @@ class TradingSettings:
     sell_only: bool = False
     allow_additional_buy: bool = False
     auto_symbol_selection_enabled: bool = False
+    daily_minimum_buy_enabled: bool = False
     daily_forced_order_enabled: bool = False
     automatic_session_authorization_enabled: bool = False
     ticker: str = "QQQ"
+    integer_quantity_enabled: bool = False
     order_qty: int = 1
     max_position_qty: int = 1
     min_cash_to_buy: float = 0.0

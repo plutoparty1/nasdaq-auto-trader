@@ -1,0 +1,16 @@
+{
+  "exe": "C:\\Users\\u\\nasdaq-auto-trader\\deploy-safe\\roundtrip-20261013\\NasdaqAutoTrader\\NasdaqAutoTraderSafe.exe",
+  "sha256": "61ccd1c47252d428211f264a97129bca8f0a7a8efbd2528f0e3e07de873cdd59",
+  "preserved_files": 42,
+  "preservation_mismatches": [],
+  "tests": "73 final + 152 offline focused",
+  "frozen_fresh_exits": [
+    0,
+    0
+  ],
+  "live_rejection_exit": 1,
+  "gui_pid_tested": 37612,
+  "original_pid": 43856,
+  "gui_visual_screenshot": "not claimed",
+  "initial_write_failure": "retained; successful fresh pair verified; OS cause not confirmed"
+}

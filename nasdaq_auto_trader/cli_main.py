@@ -128,6 +128,7 @@ def main(argv: list[str] | None = None) -> int:
             trade_interval_seconds=args.trade_interval_minutes * 60,
             portfolio_refresh_seconds=args.portfolio_refresh_seconds,
             settings_path=args.trading_config,
+            start_paused=args.start_paused,
         )
         return 0
 

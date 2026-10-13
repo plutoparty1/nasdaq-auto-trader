@@ -1,0 +1,9 @@
+{
+  "data_source": "REPLACE: vendor/file provenance and retrieval date",
+  "bar_interval": "1Day",
+  "universe_source": "REPLACE: point-in-time selection, delisted symbols and eligible dates",
+  "universe_as_of": "2000-01-01T00:00:00+00:00",
+  "survivorship_corrected": false,
+  "synthetic": false,
+  "adjustment_policy": "REPLACE: split/dividend handling; do not mix adjusted and raw prices"
+}

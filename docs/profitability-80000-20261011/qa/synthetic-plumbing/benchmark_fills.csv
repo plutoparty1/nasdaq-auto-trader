@@ -1,0 +1,7 @@
+split,benchmark,cost_scenario,signal_timestamp,timestamp,symbol,side,price,qty,notional,reasons,pnl,fee,gross_pnl,allocated_entry_fee,execution_cost
+train,integer_buy_hold,base,2020-03-05T21:00:00+00:00,2020-03-06T21:00:00+00:00,SYNTHETIC,buy,9.845826818566016,1,9.845826818566016,"('predetermined_next_open_buy_hold',)",0.0,0.02461456704641504,0.0,0.0,0.014746620297403368
+train,integer_buy_hold,stress,2020-03-05T21:00:00+00:00,2020-03-06T21:00:00+00:00,SYNTHETIC,buy,9.87532005916082,1,9.87532005916082,"('predetermined_next_open_buy_hold',)",0.0,0.1,0.0,0.0,0.04423986089220833
+validation,integer_buy_hold,base,2020-06-30T21:00:00+00:00,2020-07-01T21:00:00+00:00,SYNTHETIC,buy,10.366860717673472,1,10.366860717673472,"('predetermined_next_open_buy_hold',)",0.0,0.02591715179418368,0.0,0.0,0.01552700057564671
+validation,integer_buy_hold,stress,2020-06-30T21:00:00+00:00,2020-07-01T21:00:00+00:00,SYNTHETIC,buy,10.397914718824765,1,10.397914718824765,"('predetermined_next_open_buy_hold',)",0.0,0.1,0.0,0.0,0.04658100172694013
+final,integer_buy_hold,base,2020-08-29T21:00:00+00:00,2020-08-30T21:00:00+00:00,SYNTHETIC,buy,10.59844968273805,1,10.59844968273805,"('predetermined_next_open_buy_hold',)",0.0,0.026496124206845124,0.0,0.0,0.015873863728515403
+final,integer_buy_hold,stress,2020-08-29T21:00:00+00:00,2020-08-30T21:00:00+00:00,SYNTHETIC,buy,10.630197410195077,1,10.630197410195077,"('predetermined_next_open_buy_hold',)",0.0,0.1,0.0,0.0,0.047621591185542655

@@ -1,0 +1,76 @@
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:14:55 - warning: "_approve"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:14:65 - warning: "_engine"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:14:74 - warning: "_gate"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:14:81 - warning: "_summary"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:55:20 - warning: ‘_clock’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:82:9 - warning: "results"의 형식을 부분적으로 알 수 없습니다.
+    ‘results’의 유형이 ‘list[dict[Unknown, Unknown]]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:82:19 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:83:48 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "_summary" 함수의 "results" 매개 변수에 해당합니다.
+    인수 형식이 "list[dict[Unknown, Unknown]]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:91:92 - warning: "item"의 형식을 부분적으로 알 수 없습니다.
+    ‘item’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:100:13 - warning: 호출 식의 결과가 ‘ProductionOrderGate’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:102:68 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_candidate_replay.py:102:68 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "_summary" 함수의 "results" 매개 변수에 해당합니다.
+    인수 형식이 "list[dict[Unknown, Unknown]]"입니다. (reportUnknownArgumentType)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:19:55 - warning: "_approve"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:19:65 - warning: "_engine"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:19:74 - warning: "_gate"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:19:81 - warning: "_summary"은(는) 프라이빗이며 선언된 모듈 외부에서 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:69:17 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:74:28 - warning: ‘_clock’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:83:25 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:99:21 - warning: 호출 식의 결과가 ‘ClaimDecision’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:113:69 - warning: ‘_clock’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:115:17 - warning: "results"의 형식을 부분적으로 알 수 없습니다.
+    ‘results’의 유형이 ‘list[dict[Unknown, Unknown]]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:115:27 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:116:56 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "_summary" 함수의 "results" 매개 변수에 해당합니다.
+    인수 형식이 "list[dict[Unknown, Unknown]]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:119:100 - warning: "item"의 형식을 부분적으로 알 수 없습니다.
+    ‘item’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:129:21 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:129:21 - warning: 호출 식의 결과가 ‘list[dict[Unknown, Unknown]]’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:131:21 - warning: 호출 식의 결과가 ‘ProductionOrderGate’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:132:21 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:132:21 - warning: 호출 식의 결과가 ‘list[dict[Unknown, Unknown]]’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:147:21 - warning: 호출 식의 결과가 ‘ProductionOrderGate’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:149:21 - warning: "restart_results"의 형식을 부분적으로 알 수 없습니다.
+    ‘restart_results’의 유형이 ‘list[dict[Unknown, Unknown]]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:149:39 - warning: "run_once"의 형식을 부분적으로 알 수 없습니다.
+    ‘run_once’의 유형이 ‘() -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:150:76 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "_summary" 함수의 "results" 매개 변수에 해당합니다.
+    인수 형식이 "list[dict[Unknown, Unknown]]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:160:61 - warning: "action" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:160:61 - warning: 인수 형식을 부분적으로 알 수 없습니다.
+    인수가 "any" 함수의 "iterable" 매개 변수에 해당합니다.
+    인수 형식이 "Generator[Unknown, None, None]"입니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:160:99 - warning: "item"의 형식을 부분적으로 알 수 없습니다.
+    ‘item’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay.py:169:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_market.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_market.py:102:9 - warning: 함수 "_request"에 액세스하지 않았습니다. (reportUnusedFunction)
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:43:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:44:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:50:5 - warning: 함수 "_engine"에 액세스하지 않았습니다. (reportUnusedFunction)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:68:5 - warning: 함수 "_approve"에 액세스하지 않았습니다. (reportUnusedFunction)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:84:5 - warning: 함수 "_gate"에 액세스하지 않았습니다. (reportUnusedFunction)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:111:5 - warning: 함수 "_summary"에 액세스하지 않았습니다. (reportUnusedFunction)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:115:41 - warning: Argument type is Any
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportAny)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\production_replay_support.py:116:38 - warning: Argument type is Any
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportAny)
+0 errors, 47 warnings, 0 notes

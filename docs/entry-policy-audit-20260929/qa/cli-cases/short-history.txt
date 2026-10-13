@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 224, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 78, in main
+    return execute(args, Path(staging))
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 155, in execute
+    raise ExperimentInputError(
+        "at least 80 daily observations are needed including warmup"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: at least 80 daily observations are needed including warmup

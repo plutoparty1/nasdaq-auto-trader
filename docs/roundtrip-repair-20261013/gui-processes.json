@@ -1,0 +1,16 @@
+﻿[
+    {
+        "Id":  43856,
+        "ProcessName":  "NasdaqAutoTrader",
+        "Responding":  true,
+        "MainWindowTitle":  "NASDAQ Auto Trader",
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\dist\\NasdaqAutoTrader\\NasdaqAutoTrader.exe"
+    },
+    {
+        "Id":  37612,
+        "ProcessName":  "NasdaqAutoTraderSafe",
+        "Responding":  true,
+        "MainWindowTitle":  "NASDAQ Auto Trader",
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\deploy-safe\\roundtrip-20261013\\NasdaqAutoTrader\\NasdaqAutoTraderSafe.exe"
+    }
+]

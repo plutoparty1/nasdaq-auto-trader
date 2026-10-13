@@ -1,0 +1,12 @@
+{
+  "surface": "actual_tk_window",
+  "status": "paused",
+  "buttons": [
+    "자동 사전점검 후 시작",
+    "신규 진입 중지",
+    "전체 종료"
+  ],
+  "preflight_calls": 0,
+  "approval_calls": 0,
+  "operating_start_calls": 0
+}

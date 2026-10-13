@@ -1,0 +1,38 @@
+command: C:\Python314\python.exe C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py --help
+exit: 0
+stdout:
+usage: run_entry_policy_comparison.py [-h] [--profile PROFILE] [--bars BARS]
+                                      [--provenance PROVENANCE]
+                                      --output OUTPUT --usdkrw USDKRW
+                                      --fx-source FX_SOURCE
+                                      --fx-as-of FX_AS_OF
+                                      [--fx-history FX_HISTORY]
+                                      [--train-end TRAIN_END]
+                                      [--validation-end VALIDATION_END]
+                                      [--monthly-operations-krw MONTHLY_OPERATIONS_KRW]
+                                      [--control | --action-free-pair]
+                                      [--synthetic-smoke]
+                                      [--profitability-profile PROFITABILITY_PROFILE]
+
+OFFLINE ONLY: matched-risk A/B/C entry policy comparison
+
+options:
+  -h, --help            show this help message and exit
+  --profile PROFILE
+  --bars BARS
+  --provenance PROVENANCE
+  --output OUTPUT
+  --usdkrw USDKRW
+  --fx-source FX_SOURCE
+  --fx-as-of FX_AS_OF
+  --fx-history FX_HISTORY
+  --train-end TRAIN_END
+  --validation-end VALIDATION_END
+  --monthly-operations-krw MONTHLY_OPERATIONS_KRW
+  --control
+  --action-free-pair
+  --synthetic-smoke
+  --profitability-profile PROFITABILITY_PROFILE
+                        Frozen offline twelve-profile profitability experiment
+
+stderr:

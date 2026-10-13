@@ -12,7 +12,7 @@ from nasdaq_auto_trader.trading_session_store import (
 
 
 class ActiveRoundtripSessionSafetyTests(unittest.TestCase):
-    def test_runtime_date_advance_clears_previous_session_claims(self):
+    def test_runtime_date_advance_preserves_unresolved_session_claims(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             store = TradingSessionStore(Path(temp_dir) / "session.json")
             store.save_safety_state(
@@ -29,9 +29,10 @@ class ActiveRoundtripSessionSafetyTests(unittest.TestCase):
                 _reservation("2026-07-14"),
             )
 
-        self.assertTrue(decision.granted)
+        self.assertFalse(decision.granted)
+        self.assertEqual(decision.reason, "automatic_order_reconciliation_required")
 
-    def test_previous_market_date_uncertain_claim_does_not_block_new_session(self):
+    def test_previous_market_date_uncertain_claim_requires_resolution_before_new_session(self):
         with tempfile.TemporaryDirectory() as temp_dir:
             store = TradingSessionStore(Path(temp_dir) / "session.json")
             store.save_safety_state(
@@ -45,6 +46,13 @@ class ActiveRoundtripSessionSafetyTests(unittest.TestCase):
                 first_key,
                 _reservation("2026-07-14"),
             )
+            self.assertFalse(decision.granted)
+            self.assertEqual(decision.reason, "automatic_order_reconciliation_required")
+            store.complete(_key("2026-07-13"), ClaimStatus.SUBMITTED)
+            reconciled = store.claim_and_reserve_safety(
+                first_key,
+                _reservation("2026-07-14"),
+            )
             store.complete(first_key, ClaimStatus.SUBMITTED)
             second = store.claim_and_reserve_safety(
                 _key("2026-07-14", "MSFT"),
@@ -52,7 +60,7 @@ class ActiveRoundtripSessionSafetyTests(unittest.TestCase):
             )
             safety = store.load_safety_state()
 
-        self.assertTrue(decision.granted)
+        self.assertTrue(reconciled.granted)
         self.assertTrue(second.granted)
         self.assertEqual(safety.market_date, "2026-07-14")
         self.assertEqual(safety.buy_count, 2)
@@ -94,7 +102,8 @@ class ActiveRoundtripSessionSafetyTests(unittest.TestCase):
             same_day.reason,
             "automatic_order_reconciliation_required",
         )
-        self.assertTrue(next_day.granted)
+        self.assertFalse(next_day.granted)
+        self.assertEqual(next_day.reason, "automatic_order_reconciliation_required")
 
 
 def _key(market_date: str, symbol: str = "AAPL") -> SignalKey:

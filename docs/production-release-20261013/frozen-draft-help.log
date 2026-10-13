@@ -1,0 +1,25 @@
+usage: NasdaqAutoTrader.exe draft-limits [-h]
+                                         [--single-position-pct SINGLE_POSITION_PCT]
+                                         [--total-exposure-pct TOTAL_EXPOSURE_PCT]
+                                         [--max-order-usd MAX_ORDER_USD]
+                                         [--risk-per-trade-pct RISK_PER_TRADE_PCT]
+                                         [--stop-loss-pct STOP_LOSS_PCT]
+                                         [--daily-loss-pct DAILY_LOSS_PCT]
+                                         [--roundtrip-cost-pct ROUNDTRIP_COST_PCT]
+
+options:
+  -h, --help            show this help message and exit
+  --single-position-pct SINGLE_POSITION_PCT
+                        백분율은 5=5%; 금액은 USD. 변경 후 재점검·재승인 필요
+  --total-exposure-pct TOTAL_EXPOSURE_PCT
+                        백분율은 5=5%; 금액은 USD. 변경 후 재점검·재승인 필요
+  --max-order-usd MAX_ORDER_USD
+                        백분율은 5=5%; 금액은 USD. 변경 후 재점검·재승인 필요
+  --risk-per-trade-pct RISK_PER_TRADE_PCT
+                        백분율은 5=5%; 금액은 USD. 변경 후 재점검·재승인 필요
+  --stop-loss-pct STOP_LOSS_PCT
+                        백분율은 5=5%; 금액은 USD. 변경 후 재점검·재승인 필요
+  --daily-loss-pct DAILY_LOSS_PCT
+                        백분율은 5=5%; 금액은 USD. 변경 후 재점검·재승인 필요
+  --roundtrip-cost-pct ROUNDTRIP_COST_PCT
+                        백분율은 5=5%; 금액은 USD. 변경 후 재점검·재승인 필요

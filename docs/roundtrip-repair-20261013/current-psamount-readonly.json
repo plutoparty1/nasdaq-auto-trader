@@ -1,0 +1,32 @@
+{
+  "observed_utc": "2026-10-13T14:24:26.877776+00:00",
+  "symbol": "CMCSA",
+  "reference_order_price": 20.61,
+  "price_is_current_quote": false,
+  "buying_power_helper_result": 62.45,
+  "response_field_names": [
+    "echm_af_ord_psbl_amt",
+    "echm_af_ord_psbl_qty",
+    "exrt",
+    "frcr_ord_psbl_amt1",
+    "max_ord_psbl_qty",
+    "ord_psbl_frcr_amt",
+    "ord_psbl_qty",
+    "ovrs_max_ord_psbl_qty",
+    "ovrs_ord_psbl_amt",
+    "sll_ruse_psbl_amt",
+    "tr_crcy_cd"
+  ],
+  "safe_response": {
+    "ord_psbl_frcr_amt": "62.80",
+    "ovrs_ord_psbl_amt": "62.45",
+    "max_ord_psbl_qty": "3",
+    "ord_psbl_qty": "3",
+    "exrt": "1335.8000000000",
+    "frcr_ord_psbl_amt1": "0.000000",
+    "ovrs_max_ord_psbl_qty": "0"
+  },
+  "orders": 0,
+  "cancels": 0,
+  "source": "GET inquire-psamount TTTS3007R"
+}

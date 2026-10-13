@@ -1,0 +1,28 @@
+F                                                                        [100%]
+================================== FAILURES ===================================
+________ test_replay_generates_real_normal_entry_plan_but_never_sends _________
+
+tmp_path = WindowsPath('C:/Users/u/AppData/Local/Temp/pytest-of-u/pytest-181/test_replay_generates_real_nor0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x000001B04C710C30>
+
+    def test_replay_generates_real_normal_entry_plan_but_never_sends(tmp_path, monkeypatch):
+        # Given the actual deployed effective settings and an irrevocably locked test process.
+        release = Path('deploy-safe/roundtrip-20261013/NasdaqAutoTrader')
+        for name in ('config.safe.json', 'trading_config.json'):
+            shutil.copyfile(release / name, tmp_path / name)
+        monkeypatch.setattr(safe_runtime, 'orders_locked', lambda: True)
+        monkeypatch.setattr('nasdaq_auto_trader.engine_orders.orders_locked', lambda: True)
+        output = tmp_path / 'result.json'
+        # When only the offline replay creates a positive technical OHLCV fixture.
+        run_replay(output, tmp_path)
+        payload = json.loads(output.read_text(encoding='utf8'))
+>       case = next(item for item in payload['cases'] if item['case'] == 'normal_entry_order_plan')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       StopIteration
+
+tests\test_safe_normal_entry_replay.py:20: StopIteration
+---------------------------- Captured stdout call -----------------------------
+FROZEN_REPLAY {"build_id": "roundtrip-repair-20261013-r1", "mode": "dry_run", "order_lock": true, "broker_submission_count": 0, "no_signal_buys": 0, "protective_sell": "preserved", "mandatory_risk_order": null, "restart_action": "buy"}
+=========================== short test summary info ===========================
+FAILED tests/test_safe_normal_entry_replay.py::test_replay_generates_real_normal_entry_plan_but_never_sends
+1 failed in 3.93s

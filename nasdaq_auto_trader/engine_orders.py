@@ -2,16 +2,28 @@ from __future__ import annotations
 
 from dataclasses import replace
 
+from .automatic_buy_receipts import OrderHistorySource
 from .automatic_order_guard import (
     AutomaticOrderBlock,
     AutomaticOrderContext,
 )
+from .automatic_order_pending import automatic_pending_order_block
 from .automatic_order_types import AutomaticBlockRequest
-from .broker_response import broker_response_status, broker_response_submitted
-from .config_manager import TradingSessionState, TradingSettings, validate_order_against_settings
+from .broker_response import (
+    broker_response_reconcile_required,
+    broker_response_status,
+    broker_response_submitted,
+)
+from .brokers.common import BrokerOrderRejected, BrokerRequestError
+from .config_manager import (
+    validate_order_against_settings,
+)
+from .daily_buy_objective import daily_buy_due
 from .engine_types import BrokerResponsePayload, JsonObject
-from .market_hours import regular_market_session
+from .market_hours import EASTERN, regular_market_session
 from .models import AccountSnapshot, OrderRequest, Position, TradeDecision
+from .production_policy import production_order_block
+from .safe_runtime import orders_locked
 
 
 class EngineOrderMixin:
@@ -19,9 +31,20 @@ class EngineOrderMixin:
         self,
         order: OrderRequest,
         automatic_context: AutomaticOrderContext | None = None,
+        latest_price: float = 0.0,
+        *,
+        daily_minimum_buy: bool = False,
+        risk_per_share: float | None = None,
     ) -> BrokerResponsePayload:
         """Submit an order only when the configured session gate permits it."""
 
+        if orders_locked():
+            return {"status": "blocked", "reason": "safe_release_order_lock", "submitted_order": False}
+        production_reason = production_order_block(
+            self, order, self._clock(),
+        )
+        if production_reason:
+            return {"status": "blocked", "reason": production_reason, "submitted_order": False}
         automatic_live = bool(
             self.config.mode == "live"
             and self.trading_settings is not None
@@ -105,18 +128,66 @@ class EngineOrderMixin:
                     "reason": permit.reason,
                     "terminal": permit.terminal,
                 }
-            final_block = self.automatic_order_guard.confirm(
-                permit,
-                order,
-                self._clock(),
+            pending_block = automatic_pending_order_block(
+                self, order, latest_price, risk_per_share=risk_per_share,
             )
+            if isinstance(pending_block, AutomaticOrderBlock):
+                outcome_block = self.automatic_order_guard.finish(
+                    permit, {"status": "blocked", "reason": pending_block.reason},
+                )
+                block = outcome_block or pending_block
+                return {"status": "blocked", "reason": block.reason, "terminal": block.terminal}
+            permit = replace(permit, initial_position_qty=pending_block.initial_position_qty)
+        if daily_minimum_buy:
+            now = self._clock()
+            history = None
+            if isinstance(self.broker, OrderHistorySource):
+                market_date = now.astimezone(EASTERN).strftime("%Y%m%d")
+                try:
+                    history = self.broker.list_order_history(market_date, market_date)
+                except (BrokerRequestError, OSError):
+                    history = None
+            objective = daily_buy_due(
+                self.trading_settings, self.trading_session_state, self._clock(), history,
+            )
+            reason = "" if objective.due else (
+                "daily_minimum_objective_changed"
+                if objective.reason == "daily_minimum_buy_filled" else objective.reason
+            )
+            if (order.side != "buy" or order.qty != 1 or order.notional is not None
+                or self.trading_settings is None or self.trading_settings.dry_run):
+                reason = "daily_minimum_settings_invalid"
+            if (self.config.regular_market_hours_only
+                and not regular_market_session(self._clock()).is_open):
+                reason = "regular_market_closed"
+            if reason:
+                block = AutomaticOrderBlock(reason)
+                if permit is not None:
+                    outcome_block = self.automatic_order_guard.finish(
+                        permit, {"status": "blocked", "reason": reason},
+                    )
+                    block = outcome_block or block
+                return {"status": "blocked", "reason": block.reason, "terminal": block.terminal}
+        if permit is not None:
+            final_block = self.automatic_order_guard.confirm(permit, order, self._clock())
             if final_block is not None:
                 return {
-                    "status": "blocked",
-                    "reason": final_block.reason,
+                    "status": "blocked", "reason": final_block.reason,
                     "terminal": final_block.terminal,
                 }
-        response = self.broker.submit_order(order)
+        production_reason = production_order_block(
+            self, order, self._clock(),
+        )
+        if production_reason:
+            if permit is not None:
+                self.automatic_order_guard.finish(
+                    permit, {"status": "blocked", "reason": production_reason},
+                )
+            return {"status": "blocked", "reason": production_reason, "submitted_order": False}
+        try:
+            response = self.broker.submit_order(order)
+        except BrokerOrderRejected as exc:
+            response = {"status": "rejected", "msg_cd": exc.code}
         if permit is not None:
             outcome_block = self.automatic_order_guard.finish(permit, response)
             if outcome_block is not None:
@@ -129,7 +200,7 @@ class EngineOrderMixin:
         if self.config.mode == "dry_run" or broker_response_submitted(response):
             return response
         response_status = broker_response_status(response)
-        if response_status == "order_response_missing_status":
+        if broker_response_reconcile_required(response):
             return {
                 "status": "blocked",
                 "reason": "order_response_reconcile_required",

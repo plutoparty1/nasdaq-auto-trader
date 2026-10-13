@@ -6,23 +6,41 @@ from collections.abc import Callable
 from dataclasses import dataclass, replace
 from pathlib import Path
 
-from nasdaq_auto_trader.ai_quant_lab.artifact_paths import default_strategy_artifact_paths
+from nasdaq_auto_trader.ai_quant_lab.artifact_paths import (
+    default_strategy_artifact_paths,
+)
 from nasdaq_auto_trader.ai_quant_lab.audit_logger import AuditLogger
-from nasdaq_auto_trader.ai_quant_lab.backtest_engine import BacktestEngine, BacktestRequest
-from nasdaq_auto_trader.ai_quant_lab.backtest_market_data import validate_backtest_market_data
+from nasdaq_auto_trader.ai_quant_lab.backtest_engine import (
+    BacktestEngine,
+    BacktestRequest,
+)
+from nasdaq_auto_trader.ai_quant_lab.backtest_market_data import (
+    validate_backtest_market_data,
+)
 from nasdaq_auto_trader.ai_quant_lab.config import AIQuantConfig, load_ai_quant_config
+from nasdaq_auto_trader.ai_quant_lab.holdout_validation import (
+    evaluate_fixed_rule_holdout,
+)
 from nasdaq_auto_trader.ai_quant_lab.operator_market_data import BarsBySymbol
 from nasdaq_auto_trader.ai_quant_lab.operator_models import OperatorPaths
 from nasdaq_auto_trader.ai_quant_lab.registry import StrategyRegistry
 from nasdaq_auto_trader.ai_quant_lab.registry_models import StrategyStatus
 from nasdaq_auto_trader.ai_quant_lab.scoring_engine import ScoringEngine
-from nasdaq_auto_trader.ai_quant_lab.strategy_schema_validation import parse_strategy_spec_json
+from nasdaq_auto_trader.ai_quant_lab.strategy_schema_validation import (
+    parse_strategy_spec_json,
+)
 from nasdaq_auto_trader.ai_quant_lab.validation_engine import ValidationEngine
 from nasdaq_auto_trader.file_lock import FileLockTimeout, exclusive_file_lock
-from nasdaq_auto_trader.learning_strategy_template import candidate_payload
+from nasdaq_auto_trader.learning_data_alignment import prepare_learning_data
 from nasdaq_auto_trader.learning_report import (
     save_learning_report,
     save_strategy_artifact,
+)
+from nasdaq_auto_trader.learning_strategy_template import candidate_payload
+from nasdaq_auto_trader.learning_validation import (
+    apply_holdout_screen,
+    holdout_diagnostics,
+    report_matches_policy,
 )
 
 
@@ -58,6 +76,7 @@ class LearningRunResult:
     reasons: tuple[str, ...]
     submitted_orders: int
     artifact_root: Path
+    data_diagnostics: tuple[str, ...] = ()
 
 
 def run_learning_only(
@@ -71,7 +90,13 @@ def run_learning_only(
         return _result(runtime_paths, "cancelled", 0, ("learning_cancelled",))
     try:
         with exclusive_file_lock(runtime_paths.spec_dir.parent / "learning.lock", 0.0):
-            return _run_locked(runtime_paths, bars_by_symbol or {}, control)
+            control.report("data_validation", 10, _data_range(bars_by_symbol or {}))
+            prepared = prepare_learning_data(bars_by_symbol or {})
+            if prepared.reason is not None:
+                result = _result(runtime_paths, "blocked", 0, (prepared.reason,))
+            else:
+                result = _run_locked(runtime_paths, prepared.bars, control)
+            return replace(result, data_diagnostics=(*prepared.diagnostics, *result.data_diagnostics))
     except FileLockTimeout:
         return _result(runtime_paths, "blocked", 0, ("learning_already_running",))
 
@@ -81,7 +106,6 @@ def _run_locked(
     bars_by_symbol: BarsBySymbol,
     control: LearningCancellation,
 ) -> LearningRunResult:
-    control.report("data_validation", 10, _data_range(bars_by_symbol))
     _, market_data_reason = validate_backtest_market_data(bars_by_symbol, 100_000.0)
     if market_data_reason:
         return _result(paths, "blocked", 0, (market_data_reason,))
@@ -124,6 +148,8 @@ def _run_locked(
         and artifact_path.exists()
         and existing_record is not None
         and existing_record.status in (StrategyStatus.PAPER_CANDIDATE, StrategyStatus.REJECTED)
+        and "audit_log_write_failed" not in existing_record.rejection_reasons
+        and report_matches_policy(report_path, config, validation.spec)
     ):
         return _result(paths, "completed", 0, ("data_unchanged",))
 
@@ -135,7 +161,9 @@ def _run_locked(
         return _result(paths, "cancelled", 0, ("learning_cancelled",))
     control.report("validation", 70, validation.spec.version)
     verified = ValidationEngine(audit).validate(backtest)
-    score = ScoringEngine(audit).score(backtest, verified)
+    evidence = evaluate_fixed_rule_holdout(validation.spec, bars_by_symbol, config)
+    verified = apply_holdout_screen(verified, evidence)
+    score = ScoringEngine(audit).score(evidence.backtest or backtest, verified)
     reasons = tuple(
         dict.fromkeys(
             (*backtest.rejection_reasons, *verified.rejection_reasons, *score.rejection_reasons)
@@ -153,12 +181,19 @@ def _run_locked(
         score,
         requested_status=StrategyStatus.PAPER_CANDIDATE,
     )
-    save_learning_report(paths.spec_dir / "reports", validation.spec, bars_by_symbol, score)
+    save_learning_report(
+        paths.spec_dir / "reports", validation.spec, bars_by_symbol,
+        replace(score, rejection_reasons=tuple(dict.fromkeys((*score.rejection_reasons, *promotion.reasons)))),
+        evidence=evidence, config=config,
+    )
     if not promotion.allowed:
         control.report("completed", 100, "research_saved_promotion_blocked")
-        return _result(paths, "completed", 0, tuple(dict.fromkeys((*reasons, *promotion.reasons))))
+        return replace(
+            _result(paths, "completed", 0, tuple(dict.fromkeys((*reasons, *promotion.reasons)))),
+            data_diagnostics=holdout_diagnostics(evidence),
+        )
     control.report("completed", 100, "validation_passed")
-    return _result(paths, "completed", 1, ())
+    return replace(_result(paths, "completed", 1, ()), data_diagnostics=holdout_diagnostics(evidence))
 
 
 def _ensure_learning_config(path: Path | None) -> AIQuantConfig:

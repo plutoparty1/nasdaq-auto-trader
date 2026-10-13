@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 227, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 79, in main
+    return execute(args, Path(staging))
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 91, in execute
+    raise ExperimentInputError("operations cost must be finite and nonnegative")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: operations cost must be finite and nonnegative

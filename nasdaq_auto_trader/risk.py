@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
-from math import isfinite
+from math import floor, isfinite
 
 from .models import AccountSnapshot, OrderRequest, Position, TradeDecision
 
@@ -21,6 +21,12 @@ class RiskConfig:
     max_position_qty: int | None = None
     allow_additional_buy: bool = True
     min_cash_to_buy: float = 0.0
+    estimated_roundtrip_cost_pct: float = 0.0
+    integer_quantity_enabled: bool = False
+    estimated_roundtrip_minimum_cost_usd: float = 0.0
+    estimated_sell_tax_pct: float = 0.0
+    max_total_exposure_pct: float | None = None
+    estimated_cost_source: str = "unverified_planning_assumption"
 
 
 class RiskManager:
@@ -89,6 +95,31 @@ class RiskManager:
         if risk_notional is not None:
             notional = min(notional, risk_notional)
 
+        if self.config.integer_quantity_enabled:
+            if current_qty > 0 and not self.config.allow_additional_buy:
+                return None
+            if (decision.risk_per_share is None or decision.risk_per_share <= 0
+                    or self.config.risk_per_trade_pct <= 0
+                    or account.cash < self.config.min_cash_to_buy):
+                return None
+            cost_pct = self.config.estimated_roundtrip_cost_pct
+            minimum_cost = self.config.estimated_roundtrip_minimum_cost_usd
+            tax_pct = self.config.estimated_sell_tax_pct
+            if (not isfinite(cost_pct) or cost_pct < 0
+                    or not isfinite(minimum_cost) or minimum_cost < 0
+                    or not isfinite(tax_pct) or tax_pct < 0):
+                return None
+            available_cash = min(cash_after_buffer, account.buying_power)
+            cash_cap = min(available_cash / (1 + cost_pct + tax_pct),
+                           (available_cash - minimum_cost) / (1 + tax_pct))
+            qty = floor(min(notional, cash_cap) / latest_price)
+            if self.config.max_position_qty is not None:
+                qty = min(qty, floor(self.config.max_position_qty - current_qty))
+            if qty <= 0 or qty * latest_price < self.config.min_order_notional:
+                return None
+            return OrderRequest(symbol=decision.symbol, side="buy", type="limit",
+                                qty=float(qty), limit_price=latest_price)
+
         if self.config.order_qty is not None:
             if self.config.order_qty <= 0:
                 return None
@@ -133,8 +164,18 @@ class RiskManager:
             or latest_price <= 0
         ):
             return None
+        cost_pct = self.config.estimated_roundtrip_cost_pct
+        minimum_cost = self.config.estimated_roundtrip_minimum_cost_usd
+        tax_pct = self.config.estimated_sell_tax_pct
+        if (not isfinite(cost_pct) or cost_pct < 0
+                or not isfinite(minimum_cost) or minimum_cost < 0
+                or not isfinite(tax_pct) or tax_pct < 0):
+            return 0.0
         risk_budget = account.equity * self.config.risk_per_trade_pct
-        qty = risk_budget / decision.risk_per_share
+        qty = min(
+            risk_budget / (decision.risk_per_share + latest_price * (cost_pct + tax_pct)),
+            (risk_budget - minimum_cost) / (decision.risk_per_share + latest_price * tax_pct),
+        )
         return max(qty * latest_price, 0.0)
 
     def _sell_order(

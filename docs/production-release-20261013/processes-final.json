@@ -1,0 +1,16 @@
+﻿{
+    "checked_at":  "2026-10-13T22:57:52.5863982+09:00",
+    "processes":  [
+
+                  ],
+    "scheduled_tasks":  [
+                            {
+                                "TaskName":  "NasdaqAutoTrader-LiveCanary",
+                                "State":  1
+                            },
+                            {
+                                "TaskName":  "NasdaqAutoTrader-Unattended",
+                                "State":  1
+                            }
+                        ]
+}

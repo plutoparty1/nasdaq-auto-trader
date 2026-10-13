@@ -1,0 +1,8 @@
+usage: NasdaqAutoTrader.exe authorize-live-session [-h] --confirm CONFIRM
+                                                   --review-digest REVIEW_DIGEST
+
+options:
+  -h, --help            show this help message and exit
+  --confirm CONFIRM     사전점검에 표시된 정확한 승인 문구
+  --review-digest REVIEW_DIGEST
+                        사전점검에서 확인한 조건 해시

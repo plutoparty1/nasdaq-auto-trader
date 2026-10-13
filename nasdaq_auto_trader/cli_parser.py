@@ -52,6 +52,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
 
     gui = subparsers.add_parser("gui", help="Launch the desktop management app")
+    gui.add_argument("--start-paused", action="store_true", help="Wait for manual start")
     gui.add_argument(
         "--trade-interval-minutes",
         type=float,

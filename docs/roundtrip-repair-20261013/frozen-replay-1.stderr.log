@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "safe_launcher.py", line 158, in <module>
+  File "safe_launcher.py", line 142, in main
+  File "nasdaq_auto_trader\roundtrip_replay.py", line 138, in run_replay
+AssertionError: cross_process_persistence_failed
+[PYI-15072:ERROR] Failed to execute script 'safe_launcher' due to unhandled exception!

@@ -1,0 +1,25 @@
+{
+  "checked_at": "2026-09-09T12:15:14.506241+00:00",
+  "settings_valid": true,
+  "mode": "live",
+  "environment_live_authorized": true,
+  "unattended_live_trading_enabled": true,
+  "automatic_session_authorization_enabled": true,
+  "live_strategy_resolved": true,
+  "strategy_block": "",
+  "session": {
+    "is_open": false,
+    "reason": "before_regular_open",
+    "market_time": "2026-09-09T08:15:14.506241-04:00",
+    "opens_at": "2026-09-09T09:30:00-04:00",
+    "closes_at": "2026-09-09T16:00:00-04:00",
+    "timezone": "America/New_York"
+  },
+  "saved_authorization_market_date": "2026-09-08",
+  "submitted_order": false,
+  "broker_read_ok": true,
+  "cash_positive": true,
+  "equity_positive": true,
+  "position_count": 0,
+  "open_order_count": 0
+}

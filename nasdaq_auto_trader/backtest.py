@@ -1,293 +1,174 @@
-"""Event-driven CSV backtesting with close-signal, next-open execution."""
+"""Event-driven CSV backtesting with close signals and subsequent-bar fills."""
 
 from __future__ import annotations
 
 from collections import defaultdict
-from dataclasses import dataclass, replace
-from math import isfinite, sqrt
+from collections.abc import Callable
+from dataclasses import replace
+from math import isfinite
+from typing import Protocol
 
+from .backtest_costs import BacktestCosts
+from .backtest_execution import ExecutionBook
+from .backtest_types import (
+    BacktestFillObserver,
+    BacktestRejection,
+    BacktestResult,
+    BacktestTrade,
+    EquityPoint,
+)
 from .models import AccountSnapshot, Bar, OrderRequest, Position, TradeDecision
-from .risk import RiskManager
-from .strategy import TechnicalStrategy
+
+__all__ = [
+    "BacktestCosts",
+    "BacktestFillObserver",
+    "BacktestRejection",
+    "BacktestResult",
+    "BacktestTrade",
+    "Backtester",
+    "EquityPoint",
+]
 
 
-@dataclass(frozen=True, slots=True)
-class BacktestTrade:
-    """A simulated trade execution."""
-
-    signal_timestamp: str
-    timestamp: str
-    symbol: str
-    side: str
-    price: float
-    qty: float
-    notional: float
-    reasons: tuple[str, ...]
-    pnl: float = 0.0
+class BacktestStrategy(Protocol):
+    def decide(
+        self, symbol: str, bars: list[Bar], position: Position | None
+    ) -> TradeDecision: ...
 
 
-@dataclass(frozen=True, slots=True)
-class EquityPoint:
-    """Portfolio value after one market timestamp."""
-
-    timestamp: str
-    equity: float
-    cash: float
-    positions_value: float
-
-
-@dataclass(frozen=True, slots=True)
-class BacktestResult:
-    """Backtest summary, trade blotter, and equity curve."""
-
-    starting_cash: float
-    ending_value: float
-    trades: tuple[BacktestTrade, ...] = ()
-    equity_curve: tuple[EquityPoint, ...] = ()
-
-    @property
-    def return_pct(self) -> float:
-        """Return total percentage gain or loss."""
-
-        if self.starting_cash == 0:
-            return 0.0
-        return (self.ending_value - self.starting_cash) / self.starting_cash * 100
-
-    @property
-    def max_drawdown_pct(self) -> float:
-        """Return the largest peak-to-trough equity decline."""
-
-        peak = self.starting_cash
-        max_drawdown = 0.0
-        for point in self.equity_curve:
-            peak = max(peak, point.equity)
-            if peak > 0:
-                max_drawdown = min(max_drawdown, point.equity / peak - 1)
-        return max_drawdown * 100
-
-    @property
-    def sharpe_ratio(self) -> float:
-        """Return annualized Sharpe using daily risk-free rate of zero."""
-
-        if len(self.equity_curve) < 2:
-            return 0.0
-        returns: list[float] = []
-        previous = self.equity_curve[0].equity
-        for point in self.equity_curve[1:]:
-            if previous > 0:
-                returns.append(point.equity / previous - 1)
-            previous = point.equity
-        if len(returns) < 2:
-            return 0.0
-        mean_return = sum(returns) / len(returns)
-        variance = sum((value - mean_return) ** 2 for value in returns) / (
-            len(returns) - 1
-        )
-        if variance == 0:
-            return 0.0
-        return mean_return / sqrt(variance) * sqrt(252)
-
-    @property
-    def trade_count(self) -> int:
-        """Return the number of simulated executions."""
-
-        return len(self.trades)
-
-    @property
-    def win_rate(self) -> float:
-        """Return percentage of profitable closed trades."""
-
-        closed = [trade for trade in self.trades if trade.side == "sell"]
-        if not closed:
-            return 0.0
-        wins = sum(1 for trade in closed if trade.pnl > 0)
-        return wins / len(closed) * 100
+class BacktestRisk(Protocol):
+    def build_order(
+        self,
+        decision: TradeDecision,
+        account: AccountSnapshot,
+        position: Position | None,
+        latest_price: float,
+    ) -> OrderRequest | None: ...
 
 
 class Backtester:
-    """Apply the strategy and risk rules to historical bars in timestamp order."""
+    """Offline simulator; daily OHLC does not reconstruct intrabar protective exits."""
 
-    def __init__(self, strategy: TechnicalStrategy, risk_manager: RiskManager) -> None:
+    def __init__(
+        self,
+        strategy: BacktestStrategy,
+        risk_manager: BacktestRisk,
+        *,
+        costs: BacktestCosts | None = None,
+        max_portfolio_risk_pct: float | None = None,
+        max_trade_risk_pct: float | None = None,
+        fill_observer: BacktestFillObserver | None = None,
+        risk_includes_costs: bool = False,
+        max_total_position_pct: float | None = None,
+        execution_book_type: type[ExecutionBook] = ExecutionBook,
+        on_book_created: Callable[[ExecutionBook], None] | None = None,
+    ) -> None:
+        self.execution_book_type = execution_book_type
+        self.on_book_created = on_book_created
         self.strategy = strategy
         self.risk_manager = risk_manager
+        self.costs = costs or BacktestCosts()
+        for limit in (
+            max_portfolio_risk_pct,
+            max_trade_risk_pct,
+            max_total_position_pct,
+        ):
+            if limit is not None and (not isfinite(limit) or not 0 < limit <= 1):
+                raise ValueError("backtest risk limits must be fractions in (0, 1]")
+        self.max_portfolio_risk_pct = max_portfolio_risk_pct
+        self.max_trade_risk_pct = max_trade_risk_pct
+        self.fill_observer = fill_observer
+        self.risk_includes_costs = risk_includes_costs
+        self.max_total_position_pct: float | None = max_total_position_pct
 
     def run(
-        self,
-        bars_by_symbol: dict[str, list[Bar]],
-        starting_cash: float = 10_000,
+        self, bars_by_symbol: dict[str, list[Bar]], starting_cash: float = 10_000
     ) -> BacktestResult:
-        """Run a close-signal, next-open execution simulation."""
-
         if not isfinite(starting_cash) or starting_cash <= 0:
             raise ValueError("starting_cash must be a finite number greater than zero")
-        cash = starting_cash
+        book = self.execution_book_type(
+            starting_cash,
+            self.costs,
+            self.max_portfolio_risk_pct,
+            self.max_trade_risk_pct,
+            self.fill_observer,
+            self.risk_includes_costs,
+            max_total_position_pct=self.max_total_position_pct,
+        )
+        if self.on_book_created is not None:
+            self.on_book_created(book)
         histories: dict[str, list[Bar]] = defaultdict(list)
-        latest_prices: dict[str, float] = {}
-        positions: dict[str, Position] = {}
-        pending_orders: dict[str, tuple[OrderRequest, TradeDecision, str]] = {}
-        trades: list[BacktestTrade] = []
-        equity_curve: list[EquityPoint] = []
-
-        events_by_timestamp: dict[str, list[Bar]] = defaultdict(list)
+        curve: list[EquityPoint] = []
+        events: dict[str, list[Bar]] = defaultdict(list)
         for symbol, bars in bars_by_symbol.items():
-            for bar in sorted(bars, key=lambda item: item.timestamp):
-                events_by_timestamp[bar.timestamp].append(bar)
-
-        for timestamp in sorted(events_by_timestamp):
-            bars_at_timestamp = sorted(
-                events_by_timestamp[timestamp],
-                key=lambda item: item.symbol,
-            )
-
-            for bar in bars_at_timestamp:
-                cash = self._execute_pending(
-                    bar,
-                    cash,
-                    positions,
-                    pending_orders,
-                    trades,
-                )
+            seen: set[str] = set()
+            for bar in bars:
+                if bar.symbol != symbol or not bar.timestamp or bar.timestamp in seen:
+                    raise ValueError(
+                        "bars must have matching symbols and unique nonempty timestamps"
+                    )
+                if not all(
+                    isfinite(v) and v > 0
+                    for v in (bar.open, bar.high, bar.low, bar.close)
+                ):
+                    raise ValueError("OHLC prices must be positive finite values")
+                if bar.low > min(bar.open, bar.close) or bar.high < max(
+                    bar.open, bar.close
+                ):
+                    raise ValueError("OHLC bounds are inconsistent")
+                seen.add(bar.timestamp)
+                events[bar.timestamp].append(bar)
+        for timestamp in sorted(events):
+            current = sorted(events[timestamp], key=lambda bar: bar.symbol)
+            # Opening fills cannot use current-bar closing prices in risk equity.
+            for bar in current:
+                if bar.symbol in book.positions:
+                    position = book.positions[bar.symbol]
+                    book.positions[bar.symbol] = replace(
+                        position, market_value=position.qty * bar.open
+                    )
+            for bar in current:
+                book.execute(bar)
+            for bar in current:
                 histories[bar.symbol].append(bar)
-                latest_prices[bar.symbol] = bar.close
-                if bar.symbol in positions:
-                    position = positions[bar.symbol]
-                    positions[bar.symbol] = replace(
+                if bar.symbol in book.positions:
+                    position = book.positions[bar.symbol]
+                    book.positions[bar.symbol] = replace(
                         position,
                         market_value=position.qty * bar.close,
+                        high_water_price=max(
+                            position.high_water_price or position.avg_entry_price,
+                            bar.close,
+                        ),
                     )
-
-            account = self._account(cash, positions, latest_prices)
-            for bar in bars_at_timestamp:
-                position = positions.get(bar.symbol)
+            for bar in current:
+                if bar.symbol in book.pending:
+                    continue
+                position = book.positions.get(bar.symbol)
                 decision = self.strategy.decide(
-                    bar.symbol,
-                    histories[bar.symbol],
-                    position,
+                    bar.symbol, histories[bar.symbol], position
                 )
                 order = self.risk_manager.build_order(
                     decision,
-                    account,
+                    book.account(available=True),
                     position,
                     decision.latest_price,
                 )
                 if order is not None:
-                    pending_orders[bar.symbol] = (order, decision, timestamp)
-
-            equity_curve.append(self._equity_point(timestamp, cash, positions, latest_prices))
-
-        ending_value = self._account(cash, positions, latest_prices).equity
-        return BacktestResult(starting_cash, ending_value, tuple(trades), tuple(equity_curve))
-
-    def _execute_pending(
-        self,
-        bar: Bar,
-        cash: float,
-        positions: dict[str, Position],
-        pending_orders: dict[str, tuple[OrderRequest, TradeDecision, str]],
-        trades: list[BacktestTrade],
-    ) -> float:
-        """Execute yesterday's signal at today's opening price."""
-
-        pending = pending_orders.pop(bar.symbol, None)
-        if pending is None:
-            return cash
-
-        order, decision, signal_timestamp = pending
-        execution_price = bar.open
-        if execution_price <= 0:
-            return cash
-
-        if order.side == "buy" and order.notional is not None:
-            notional = min(order.notional, cash)
-            if notional <= 0:
-                return cash
-            qty = notional / execution_price
-            positions[bar.symbol] = Position(
-                symbol=bar.symbol,
-                qty=qty,
-                market_value=qty * bar.close,
-                avg_entry_price=execution_price,
-            )
-            trades.append(
-                BacktestTrade(
-                    signal_timestamp,
-                    bar.timestamp,
-                    bar.symbol,
-                    "buy",
-                    execution_price,
-                    qty,
-                    notional,
-                    tuple(decision.reasons),
+                    book.submit(order, decision, timestamp)
+            account = book.account()
+            curve.append(
+                EquityPoint(
+                    timestamp, account.equity, book.cash, account.equity - book.cash
                 )
             )
-            return cash - notional
-
-        if order.side == "sell":
-            position = positions.get(bar.symbol)
-            if position is None:
-                return cash
-            qty = min(order.qty or position.qty, position.qty)
-            notional = qty * execution_price
-            pnl = qty * (execution_price - position.avg_entry_price)
-            remaining_qty = position.qty - qty
-            if remaining_qty <= 1e-12:
-                positions.pop(bar.symbol, None)
-            else:
-                positions[bar.symbol] = Position(
-                    bar.symbol,
-                    remaining_qty,
-                    remaining_qty * bar.close,
-                    position.avg_entry_price,
-                )
-            trades.append(
-                BacktestTrade(
-                    signal_timestamp,
-                    bar.timestamp,
-                    bar.symbol,
-                    "sell",
-                    execution_price,
-                    qty,
-                    notional,
-                    tuple(decision.reasons),
-                    pnl,
-                )
-            )
-            return cash + notional
-
-        return cash
-
-    def _account(
-        self,
-        cash: float,
-        positions: dict[str, Position],
-        latest_prices: dict[str, float],
-    ) -> AccountSnapshot:
-        """Build an account snapshot from current simulated state."""
-
-        positions_value = self._positions_value(positions, latest_prices)
-        equity = cash + positions_value
-        return AccountSnapshot(cash=cash, equity=equity, buying_power=cash)
-
-    def _equity_point(
-        self,
-        timestamp: str,
-        cash: float,
-        positions: dict[str, Position],
-        latest_prices: dict[str, float],
-    ) -> EquityPoint:
-        """Capture one portfolio-equity observation."""
-
-        positions_value = self._positions_value(positions, latest_prices)
-        return EquityPoint(timestamp, cash + positions_value, cash, positions_value)
-
-    def _positions_value(
-        self,
-        positions: dict[str, Position],
-        latest_prices: dict[str, float],
-    ) -> float:
-        """Mark open positions to the latest seen close."""
-
-        total = 0.0
-        for symbol, position in positions.items():
-            total += position.qty * latest_prices.get(symbol, position.avg_entry_price)
-        return total
+        for pending in book.pending.values():
+            book.reject(pending, curve[-1].timestamp, "end_of_data_unfilled")
+        return BacktestResult(
+            starting_cash,
+            book.account().equity,
+            tuple(book.trades),
+            tuple(curve),
+            tuple(book.rejections),
+            tuple(book.positions.values()),
+        )

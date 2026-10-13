@@ -1,0 +1,8 @@
+policy,cost_scenario,reason,sell_fills,net_pnl_usd
+A,base,fixed_stop_loss,2,-0.23943821249999986
+A,base,technical_sell_signal,5,-0.14721277499999924
+A,base,trailing_profit_protection,1,0.03368022500000022
+B,base,fixed_stop_loss,2,-0.23943821249999986
+B,base,technical_sell_signal,5,-0.14721277499999924
+B,base,trailing_profit_protection,1,0.03368022500000022
+C,base,fixed_stop_loss,2,-0.23637697499999966

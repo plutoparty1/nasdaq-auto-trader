@@ -1,0 +1,101 @@
+{
+  "status": "PASS",
+  "source_limit": "No private input files opened; checks use simulated ledgers, decision marks, and protocol only. Intraday raw data hashes not independently rehashed.",
+  "protocol_sha256": "bb0e27315642facf1e29df3ce6c0b58f5a0f28f87bc888830e18b2491439ce76",
+  "artifact_sha256": {
+    "decisions.csv": "fd2c04512b141493c9719d9c490bf438f3b154dc6923b42e8bd19ec2aafadb9d",
+    "entry_skips.csv": "a6f3c33fe367674e8d56e1085d35e58d63ef902ec6b77538eac97e0d53ceabd0",
+    "equity.csv": "97c2bd56a731fb25e14b386f31cbfc459b512d63dc91ea995047bdf519eb9e68",
+    "fills.csv": "98861444cd148d032303dd87ef0da1a51fa9fa3f41e83d07f5d33a11085ea7a5",
+    "order_rejections.csv": "f6cf3e4ea78b122d9bfc4995ea5893d42180eae41cd55bca676b0c26fd122804",
+    "protocol.json": "8218e5c3dd292621603981137ae207d6d261c3f8546f3e958dd8e8c297c86ec8",
+    "reasons.csv": "f2863a59d12cd65e70b786477b6545422783f95eec955a8072017afd0c987a6b",
+    "summary.csv": "1c0a5809838c7ece48e6060870b59fbc9d823bf026eafdfb10df5f3e65f37775"
+  },
+  "results": [
+    {
+      "policy": "A",
+      "cost": "base",
+      "fills": 17,
+      "roundtrips": 8,
+      "conflicting_buys": 6,
+      "forced_buys": 0,
+      "five_minute_grid_general_exits": 5,
+      "realized_usd": -0.3529707624999988,
+      "unrealized_usd": -0.04268750000000088,
+      "fees_usd": 0.14198326250000004,
+      "execution_cost_usd": 0.05507499999999865,
+      "equity_change_usd": -0.3956582624999996
+    },
+    {
+      "policy": "A",
+      "cost": "stress",
+      "fills": 0,
+      "roundtrips": 0,
+      "conflicting_buys": 0,
+      "forced_buys": 0,
+      "five_minute_grid_general_exits": 0,
+      "realized_usd": 0.0,
+      "unrealized_usd": 0.0,
+      "fees_usd": 0.0,
+      "execution_cost_usd": 0.0,
+      "equity_change_usd": 0.0
+    },
+    {
+      "policy": "B",
+      "cost": "base",
+      "fills": 17,
+      "roundtrips": 8,
+      "conflicting_buys": 6,
+      "forced_buys": 0,
+      "five_minute_grid_general_exits": 5,
+      "realized_usd": -0.3529707624999988,
+      "unrealized_usd": -0.04268750000000088,
+      "fees_usd": 0.14198326250000004,
+      "execution_cost_usd": 0.05507499999999865,
+      "equity_change_usd": -0.3956582624999996
+    },
+    {
+      "policy": "B",
+      "cost": "stress",
+      "fills": 0,
+      "roundtrips": 0,
+      "conflicting_buys": 0,
+      "forced_buys": 0,
+      "five_minute_grid_general_exits": 0,
+      "realized_usd": 0.0,
+      "unrealized_usd": 0.0,
+      "fees_usd": 0.0,
+      "execution_cost_usd": 0.0,
+      "equity_change_usd": 0.0
+    },
+    {
+      "policy": "C",
+      "cost": "base",
+      "fills": 4,
+      "roundtrips": 2,
+      "conflicting_buys": 0,
+      "forced_buys": 0,
+      "five_minute_grid_general_exits": 0,
+      "realized_usd": -0.23637697499999966,
+      "unrealized_usd": 0.0,
+      "fees_usd": 0.031166975000000003,
+      "execution_cost_usd": 0.00920999999999994,
+      "equity_change_usd": -0.23637697499999177
+    },
+    {
+      "policy": "C",
+      "cost": "stress",
+      "fills": 0,
+      "roundtrips": 0,
+      "conflicting_buys": 0,
+      "forced_buys": 0,
+      "five_minute_grid_general_exits": 0,
+      "realized_usd": 0.0,
+      "unrealized_usd": 0.0,
+      "fees_usd": 0.0,
+      "execution_cost_usd": 0.0,
+      "equity_change_usd": 0.0
+    }
+  ]
+}

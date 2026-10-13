@@ -1,0 +1,211 @@
+{
+  "synthetic_only": true,
+  "actual_broker_calls": 0,
+  "rows": [
+    {
+      "policy": "A",
+      "scenario": "generated_declining_prices_manual_fill_if_buy",
+      "first": {
+        "symbol": "TEST",
+        "action": "buy",
+        "score": 0,
+        "latest_price": 78.1,
+        "reasons": [
+          "below_long_regime",
+          "daily_minimum_best_affordable"
+        ],
+        "risk_per_share": 2.3429999999999995
+      },
+      "next_cycle": {
+        "symbol": "TEST",
+        "action": "sell",
+        "score": 9,
+        "latest_price": 78.1,
+        "reasons": [
+          "below_long_regime",
+          "sma_downtrend",
+          "ema_downtrend",
+          "macd_negative",
+          "momentum_negative",
+          "donchian_breakdown"
+        ],
+        "risk_per_share": null
+      },
+      "records": [
+        {
+          "symbol": "TEST",
+          "policy": "A",
+          "evaluation_timestamp": "2025-08-08T21:00:00+00:00",
+          "completed_bar_id": "2025-08-08T21:00:00+00:00",
+          "data_fingerprint": "40525d8a2bbb8a4e7237351395385fbf19e945c3f21ef98d00a62473b239d098",
+          "buy_score": 0,
+          "sell_score": 9,
+          "base_action": "hold",
+          "final_action": "buy",
+          "forced": true,
+          "no_trade": false,
+          "reason": "daily_minimum_best_affordable",
+          "entry_condition_met": false,
+          "duplicate_general_evaluation": false,
+          "protective_evaluation": false,
+          "indicator_price": 78.1,
+          "protective_mark": null,
+          "stress_risk_distance": 2.3429999999999995
+        },
+        {
+          "symbol": "TEST",
+          "policy": "A",
+          "evaluation_timestamp": "2025-08-08T21:05:00+00:00",
+          "completed_bar_id": "2025-08-08T21:00:00+00:00",
+          "data_fingerprint": "40525d8a2bbb8a4e7237351395385fbf19e945c3f21ef98d00a62473b239d098",
+          "buy_score": 0,
+          "sell_score": 9,
+          "base_action": "sell",
+          "final_action": "sell",
+          "forced": false,
+          "no_trade": false,
+          "reason": "donchian_breakdown",
+          "entry_condition_met": false,
+          "duplicate_general_evaluation": true,
+          "protective_evaluation": false,
+          "indicator_price": 78.1,
+          "protective_mark": 78.1,
+          "stress_risk_distance": null
+        }
+      ]
+    },
+    {
+      "policy": "B",
+      "scenario": "generated_declining_prices_manual_fill_if_buy",
+      "first": {
+        "symbol": "TEST",
+        "action": "hold",
+        "score": 0,
+        "latest_price": 78.1,
+        "reasons": [
+          "below_long_regime"
+        ],
+        "risk_per_share": null
+      },
+      "next_cycle": {
+        "symbol": "TEST",
+        "action": "hold",
+        "score": 0,
+        "latest_price": 78.1,
+        "reasons": [
+          "below_long_regime"
+        ],
+        "risk_per_share": null
+      },
+      "records": [
+        {
+          "symbol": "TEST",
+          "policy": "B",
+          "evaluation_timestamp": "2025-08-08T21:00:00+00:00",
+          "completed_bar_id": "2025-08-08T21:00:00+00:00",
+          "data_fingerprint": "40525d8a2bbb8a4e7237351395385fbf19e945c3f21ef98d00a62473b239d098",
+          "buy_score": 0,
+          "sell_score": 9,
+          "base_action": "hold",
+          "final_action": "hold",
+          "forced": false,
+          "no_trade": true,
+          "reason": "below_long_regime",
+          "entry_condition_met": false,
+          "duplicate_general_evaluation": false,
+          "protective_evaluation": false,
+          "indicator_price": 78.1,
+          "protective_mark": null,
+          "stress_risk_distance": null
+        },
+        {
+          "symbol": "TEST",
+          "policy": "B",
+          "evaluation_timestamp": "2025-08-08T21:05:00+00:00",
+          "completed_bar_id": "2025-08-08T21:00:00+00:00",
+          "data_fingerprint": "40525d8a2bbb8a4e7237351395385fbf19e945c3f21ef98d00a62473b239d098",
+          "buy_score": 0,
+          "sell_score": 9,
+          "base_action": "hold",
+          "final_action": "hold",
+          "forced": false,
+          "no_trade": true,
+          "reason": "below_long_regime",
+          "entry_condition_met": false,
+          "duplicate_general_evaluation": true,
+          "protective_evaluation": false,
+          "indicator_price": 78.1,
+          "protective_mark": null,
+          "stress_risk_distance": null
+        }
+      ]
+    },
+    {
+      "policy": "C",
+      "scenario": "generated_declining_prices_manual_fill_if_buy",
+      "first": {
+        "symbol": "TEST",
+        "action": "hold",
+        "score": 0,
+        "latest_price": 78.1,
+        "reasons": [
+          "below_long_regime"
+        ],
+        "risk_per_share": null
+      },
+      "next_cycle": {
+        "symbol": "TEST",
+        "action": "hold",
+        "score": 0,
+        "latest_price": 78.1,
+        "reasons": [
+          "below_long_regime",
+          "completed_bar_already_evaluated"
+        ],
+        "risk_per_share": null
+      },
+      "records": [
+        {
+          "symbol": "TEST",
+          "policy": "C",
+          "evaluation_timestamp": "2025-08-08T21:00:00+00:00",
+          "completed_bar_id": "2025-08-08T21:00:00+00:00",
+          "data_fingerprint": "40525d8a2bbb8a4e7237351395385fbf19e945c3f21ef98d00a62473b239d098",
+          "buy_score": 0,
+          "sell_score": 9,
+          "base_action": "hold",
+          "final_action": "hold",
+          "forced": false,
+          "no_trade": true,
+          "reason": "below_long_regime",
+          "entry_condition_met": false,
+          "duplicate_general_evaluation": false,
+          "protective_evaluation": false,
+          "indicator_price": 78.1,
+          "protective_mark": null,
+          "stress_risk_distance": null
+        },
+        {
+          "symbol": "TEST",
+          "policy": "C",
+          "evaluation_timestamp": "2025-08-08T21:05:00+00:00",
+          "completed_bar_id": "2025-08-08T21:00:00+00:00",
+          "data_fingerprint": "40525d8a2bbb8a4e7237351395385fbf19e945c3f21ef98d00a62473b239d098",
+          "buy_score": 0,
+          "sell_score": 9,
+          "base_action": "hold",
+          "final_action": "hold",
+          "forced": false,
+          "no_trade": true,
+          "reason": "completed_bar_already_evaluated",
+          "entry_condition_met": false,
+          "duplicate_general_evaluation": true,
+          "protective_evaluation": false,
+          "indicator_price": 78.1,
+          "protective_mark": null,
+          "stress_risk_distance": null
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,590 @@
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_cli_numbers_and_d0', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--usdkrw', '0']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 126, in main
+    raise ExperimentInputError("positive finite USD/KRW is required")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: positive finite USD/KRW is required
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_cli_numbers_and_d1', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--usdkrw', '-1']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 126, in main
+    raise ExperimentInputError("positive finite USD/KRW is required")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: positive finite USD/KRW is required
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_cli_numbers_and_d2', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--usdkrw', 'nan']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 126, in main
+    raise ExperimentInputError("positive finite USD/KRW is required")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: positive finite USD/KRW is required
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_cli_numbers_and_d3', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--usdkrw', 'inf']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 126, in main
+    raise ExperimentInputError("positive finite USD/KRW is required")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: positive finite USD/KRW is required
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_cli_numbers_and_d4', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--monthly-operations-krw', '-1']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 131, in main
+    raise ExperimentInputError(
+        "monthly operations cost must be finite and nonnegative"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: monthly operations cost must be finite and nonnegative
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_cli_numbers_and_d5', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--monthly-operations-krw', 'nan']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 131, in main
+    raise ExperimentInputError(
+        "monthly operations cost must be finite and nonnegative"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: monthly operations cost must be finite and nonnegative
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_cli_numbers_and_d6', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--monthly-operations-krw', 'inf']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 131, in main
+    raise ExperimentInputError(
+        "monthly operations cost must be finite and nonnegative"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: monthly operations cost must be finite and nonnegative
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_cli_numbers_and_d7', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--train-end', '2020-09-30']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 181, in main
+    raise ExperimentInputError(
+        "split boundaries must increase strictly inside the supplied data"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: split boundaries must increase strictly inside the supplied data
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_cli_numbers_and_d8', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--validation-end', '2020-01-01']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 181, in main
+    raise ExperimentInputError(
+        "split boundaries must increase strictly inside the supplied data"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: split boundaries must increase strictly inside the supplied data
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_cli_numbers_and_d9', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-as-of', 'not-a-date']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 134, in main
+    fx_as_of = timestamp(args.fx_as_of)
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 53, in timestamp
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+ValueError: Invalid isoformat string: 'not-a-date'
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_offline_settings_0\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--settings', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_offline_settings_0\\settings.json']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 135, in main
+    settings = load_settings(args.settings)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\exit_experiment_config.py", line 80, in load_settings
+    raise ExperimentInputError("dry_run=true and broker=offline_csv are mandatory")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: dry_run=true and broker=offline_csv are mandatory
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_offline_settings_1\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--settings', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_offline_settings_1\\settings.json']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 135, in main
+    settings = load_settings(args.settings)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\exit_experiment_config.py", line 80, in load_settings
+    raise ExperimentInputError("dry_run=true and broker=offline_csv are mandatory")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: dry_run=true and broker=offline_csv are mandatory
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_offline_settings_2\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--settings', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_offline_settings_2\\settings.json']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 135, in main
+    settings = load_settings(args.settings)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\exit_experiment_config.py", line 80, in load_settings
+    raise ExperimentInputError("dry_run=true and broker=offline_csv are mandatory")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: dry_run=true and broker=offline_csv are mandatory
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_offline_settings_3\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--settings', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_offline_settings_3\\settings.json']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 135, in main
+    settings = load_settings(args.settings)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\exit_experiment_config.py", line 99, in load_settings
+    raise ExperimentInputError(
+        "this prespecified experiment starts with exactly 80000 KRW"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: this prespecified experiment starts with exactly 80000 KRW
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_offline_settings_4\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--settings', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_invalid_offline_settings_4\\settings.json']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 135, in main
+    settings = load_settings(args.settings)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\exit_experiment_config.py", line 95, in load_settings
+    raise ExperimentInputError(
+        f"{name} must be a decimal fraction between zero and one"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: max_position_pct must be a decimal fraction between zero and one
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_missing_history_inputs0', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 155, in main
+    raise ExperimentInputError(
+        "historical runs require bars, provenance, train-end and validation-end"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: historical runs require bars, provenance, train-end and validation-end
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\smoke-base', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 138, in main
+    raise ExperimentInputError(
+        "output already contains a frozen protocol; choose a fresh directory"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: output already contains a frozen protocol; choose a fresh directory
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_fx_history_failures_rows00\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-history', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_fx_history_failures_rows00\\fx.csv']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 202, in main
+    history = load_fx(args.fx_history)
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 101, in load_fx
+    raise ExperimentInputError("FX history must be nonempty with unique timestamps")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: FX history must be nonempty with unique timestamps
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_fx_history_failures_rows10\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-history', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_fx_history_failures_rows10\\fx.csv']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 202, in main
+    history = load_fx(args.fx_history)
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 101, in load_fx
+    raise ExperimentInputError("FX history must be nonempty with unique timestamps")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: FX history must be nonempty with unique timestamps
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_fx_history_failures_rows20\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-history', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_fx_history_failures_rows20\\fx.csv']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 204, in main
+    raise ExperimentInputError(
+        "historical FX needs a rate at or before the first data timestamp"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: historical FX needs a rate at or before the first data timestamp
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_fx_history_failures_rows30\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-history', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_fx_history_failures_rows30\\fx.csv']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 202, in main
+    history = load_fx(args.fx_history)
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 98, in load_fx
+    raise ExperimentInputError("FX rates must be finite and positive")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: FX rates must be finite and positive
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_fx_history_failures_rows40\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-history', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_fx_history_failures_rows40\\fx.csv']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 202, in main
+    history = load_fx(args.fx_history)
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 101, in load_fx
+    raise ExperimentInputError("FX history must be nonempty with unique timestamps")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: FX history must be nonempty with unique timestamps
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_blank_fx_provenance_rejec0', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-source', '   ']
+EXIT 0
+Offline comparison written to C:\Users\u\nasdaq-auto-trader\docs\early-exit-audit-20260929\qa-review\cli-fixtures\test_blank_fx_provenance_rejec0; SYNTHETIC_SMOKE_ONLY
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_insufficient_bars_0_0\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--bars', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_insufficient_bars_0_0\\TEST-ONLY-flat.csv', '--provenance', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_insufficient_bars_0_0\\TEST-ONLY-provenance.json', '--train-end', '2020-01-04', '--validation-end', '2020-01-06']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 166, in main
+    bars = load_bars_csv(bars_path)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\data.py", line 88, in load_bars_csv
+    raise InvalidCsvDataError("CSV must contain at least one bar")
+nasdaq_auto_trader.data.InvalidCsvDataError: CSV must contain at least one bar
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_insufficient_bars_9_0\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--bars', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_insufficient_bars_9_0\\TEST-ONLY-flat.csv', '--provenance', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures\\test_insufficient_bars_9_0\\TEST-ONLY-provenance.json', '--train-end', '2020-01-04', '--validation-end', '2020-01-06']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 247, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 169, in main
+    raise ExperimentInputError(
+        "at least ten timestamps are required even for smoke execution"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: at least ten timestamps are required even for smoke execution
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\no-trade-fx', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--bars', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\flat-fixtures\\TEST-ONLY-flat.csv', '--provenance', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\flat-fixtures\\TEST-ONLY-provenance.json', '--train-end', '2020-02-10', '--validation-end', '2020-03-10', '--fx-history', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\flat-fixtures\\TEST-ONLY-fx.csv', '--monthly-operations-krw', '1000']
+EXIT 0
+Offline comparison written to C:\Users\u\nasdaq-auto-trader\docs\early-exit-audit-20260929\qa-review\no-trade-fx; EXPLORATORY_REQUIRES_PROVENANCE_REVIEW
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_cli_numbers_and_d0', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--usdkrw', '0']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 126, in main
+    raise ExperimentInputError("positive finite USD/KRW is required")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: positive finite USD/KRW is required
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_cli_numbers_and_d1', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--usdkrw', '-1']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 126, in main
+    raise ExperimentInputError("positive finite USD/KRW is required")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: positive finite USD/KRW is required
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_cli_numbers_and_d2', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--usdkrw', 'nan']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 126, in main
+    raise ExperimentInputError("positive finite USD/KRW is required")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: positive finite USD/KRW is required
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_cli_numbers_and_d3', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--usdkrw', 'inf']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 126, in main
+    raise ExperimentInputError("positive finite USD/KRW is required")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: positive finite USD/KRW is required
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_cli_numbers_and_d4', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--monthly-operations-krw', '-1']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 131, in main
+    raise ExperimentInputError(
+        "monthly operations cost must be finite and nonnegative"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: monthly operations cost must be finite and nonnegative
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_cli_numbers_and_d5', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--monthly-operations-krw', 'nan']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 131, in main
+    raise ExperimentInputError(
+        "monthly operations cost must be finite and nonnegative"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: monthly operations cost must be finite and nonnegative
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_cli_numbers_and_d6', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--monthly-operations-krw', 'inf']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 131, in main
+    raise ExperimentInputError(
+        "monthly operations cost must be finite and nonnegative"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: monthly operations cost must be finite and nonnegative
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_cli_numbers_and_d7', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--train-end', '2020-09-30']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 183, in main
+    raise ExperimentInputError(
+        "split boundaries must increase strictly inside the supplied data"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: split boundaries must increase strictly inside the supplied data
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_cli_numbers_and_d8', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--validation-end', '2020-01-01']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 183, in main
+    raise ExperimentInputError(
+        "split boundaries must increase strictly inside the supplied data"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: split boundaries must increase strictly inside the supplied data
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_cli_numbers_and_d9', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-as-of', 'not-a-date']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 136, in main
+    fx_as_of = timestamp(args.fx_as_of)
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 53, in timestamp
+    parsed = datetime.fromisoformat(value.replace("Z", "+00:00"))
+ValueError: Invalid isoformat string: 'not-a-date'
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_offline_settings_0\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--settings', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_offline_settings_0\\settings.json']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 137, in main
+    settings = load_settings(args.settings)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\exit_experiment_config.py", line 80, in load_settings
+    raise ExperimentInputError("dry_run=true and broker=offline_csv are mandatory")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: dry_run=true and broker=offline_csv are mandatory
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_offline_settings_1\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--settings', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_offline_settings_1\\settings.json']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 137, in main
+    settings = load_settings(args.settings)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\exit_experiment_config.py", line 80, in load_settings
+    raise ExperimentInputError("dry_run=true and broker=offline_csv are mandatory")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: dry_run=true and broker=offline_csv are mandatory
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_offline_settings_2\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--settings', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_offline_settings_2\\settings.json']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 137, in main
+    settings = load_settings(args.settings)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\exit_experiment_config.py", line 80, in load_settings
+    raise ExperimentInputError("dry_run=true and broker=offline_csv are mandatory")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: dry_run=true and broker=offline_csv are mandatory
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_offline_settings_3\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--settings', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_offline_settings_3\\settings.json']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 137, in main
+    settings = load_settings(args.settings)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\exit_experiment_config.py", line 99, in load_settings
+    raise ExperimentInputError(
+        "this prespecified experiment starts with exactly 80000 KRW"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: this prespecified experiment starts with exactly 80000 KRW
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_offline_settings_4\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--settings', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_invalid_offline_settings_4\\settings.json']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 137, in main
+    settings = load_settings(args.settings)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\exit_experiment_config.py", line 95, in load_settings
+    raise ExperimentInputError(
+        f"{name} must be a decimal fraction between zero and one"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: max_position_pct must be a decimal fraction between zero and one
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_missing_history_inputs0', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 157, in main
+    raise ExperimentInputError(
+        "historical runs require bars, provenance, train-end and validation-end"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: historical runs require bars, provenance, train-end and validation-end
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\smoke-base', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 140, in main
+    raise ExperimentInputError(
+        "output already contains a frozen protocol; choose a fresh directory"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: output already contains a frozen protocol; choose a fresh directory
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_fx_history_failures_rows00\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-history', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_fx_history_failures_rows00\\fx.csv']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 204, in main
+    history = load_fx(args.fx_history)
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 101, in load_fx
+    raise ExperimentInputError("FX history must be nonempty with unique timestamps")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: FX history must be nonempty with unique timestamps
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_fx_history_failures_rows10\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-history', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_fx_history_failures_rows10\\fx.csv']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 204, in main
+    history = load_fx(args.fx_history)
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 101, in load_fx
+    raise ExperimentInputError("FX history must be nonempty with unique timestamps")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: FX history must be nonempty with unique timestamps
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_fx_history_failures_rows20\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-history', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_fx_history_failures_rows20\\fx.csv']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 206, in main
+    raise ExperimentInputError(
+        "historical FX needs a rate at or before the first data timestamp"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: historical FX needs a rate at or before the first data timestamp
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_fx_history_failures_rows30\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-history', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_fx_history_failures_rows30\\fx.csv']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 204, in main
+    history = load_fx(args.fx_history)
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 98, in load_fx
+    raise ExperimentInputError("FX rates must be finite and positive")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: FX rates must be finite and positive
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_fx_history_failures_rows40\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-history', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_fx_history_failures_rows40\\fx.csv']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 204, in main
+    history = load_fx(args.fx_history)
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 101, in load_fx
+    raise ExperimentInputError("FX history must be nonempty with unique timestamps")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: FX history must be nonempty with unique timestamps
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_blank_fx_provenance_rejec0', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--synthetic-smoke', '--fx-source', '   ']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 135, in main
+    raise ExperimentInputError("FX source must not be blank")
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: FX source must not be blank
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_insufficient_bars_0_0\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--bars', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_insufficient_bars_0_0\\TEST-ONLY-flat.csv', '--provenance', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_insufficient_bars_0_0\\TEST-ONLY-provenance.json', '--train-end', '2020-01-04', '--validation-end', '2020-01-06']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 168, in main
+    bars = load_bars_csv(bars_path)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\data.py", line 88, in load_bars_csv
+    raise InvalidCsvDataError("CSV must contain at least one bar")
+nasdaq_auto_trader.data.InvalidCsvDataError: CSV must contain at least one bar
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_insufficient_bars_9_0\\out', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--bars', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_insufficient_bars_9_0\\TEST-ONLY-flat.csv', '--provenance', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_insufficient_bars_9_0\\TEST-ONLY-provenance.json', '--train-end', '2020-01-04', '--validation-end', '2020-01-06']
+EXIT 1
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 249, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_exit_experiments.py", line 171, in main
+    raise ExperimentInputError(
+        "at least ten timestamps are required even for smoke execution"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: at least ten timestamps are required even for smoke execution
+
+COMMAND ['C:\\Python314\\python.exe', 'C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py', '--output', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_no_trade_fx_operations_cl0\\no-trade-fx', '--usdkrw', '1400', '--fx-source', 'TEST ONLY QA assumption', '--fx-as-of', '2020-01-01', '--bars', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_no_trade_fx_operations_cl0\\flat-fixtures\\TEST-ONLY-flat.csv', '--provenance', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_no_trade_fx_operations_cl0\\flat-fixtures\\TEST-ONLY-provenance.json', '--train-end', '2020-02-10', '--validation-end', '2020-03-10', '--fx-history', 'C:\\Users\\u\\nasdaq-auto-trader\\docs\\early-exit-audit-20260929\\qa-review\\cli-fixtures-final\\test_no_trade_fx_operations_cl0\\flat-fixtures\\TEST-ONLY-fx.csv', '--monthly-operations-krw', '1000']
+EXIT 0
+Offline comparison written to C:\Users\u\nasdaq-auto-trader\docs\early-exit-audit-20260929\qa-review\cli-fixtures-final\test_no_trade_fx_operations_cl0\no-trade-fx; EXPLORATORY_REQUIRES_PROVENANCE_REVIEW
+

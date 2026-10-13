@@ -54,6 +54,11 @@ class HiveSellMonitor(
                     {"session": session.to_dict()},
                 )
 
+            if self.log.has_unresolved_sell(self.config.symbol):
+                return self._finish(
+                    "blocked", "order_submission_outcome_unknown", market_date
+                )
+
             try:
                 snapshot = self._snapshot(session.to_dict())
             except Exception as exc:  # noqa: BROAD_EXCEPT_OK

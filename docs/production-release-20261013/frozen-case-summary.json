@@ -1,0 +1,245 @@
+{
+  "approval_none": {
+    "fake_transmissions": 0,
+    "decisions": [],
+    "responses": [],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "approval_expired": {
+    "fake_transmissions": 0,
+    "decisions": [
+      "buy"
+    ],
+    "responses": [
+      {
+        "status": "blocked",
+        "reason": "production_approval_expired",
+        "submitted_order": false
+      }
+    ],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "account_mismatch": {
+    "fake_transmissions": 0,
+    "decisions": [
+      "buy"
+    ],
+    "responses": [
+      {
+        "status": "blocked",
+        "reason": "production_account_mismatch",
+        "submitted_order": false
+      }
+    ],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "config_mismatch": {
+    "fake_transmissions": 0,
+    "decisions": [
+      "buy"
+    ],
+    "responses": [
+      {
+        "status": "blocked",
+        "reason": "production_config_mismatch",
+        "submitted_order": false
+      }
+    ],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "settings_mismatch": {
+    "fake_transmissions": 0,
+    "decisions": [
+      "buy"
+    ],
+    "responses": [
+      {
+        "status": "blocked",
+        "reason": "production_settings_mismatch",
+        "submitted_order": false
+      }
+    ],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "build_mismatch": {
+    "fake_transmissions": 0,
+    "decisions": [
+      "buy"
+    ],
+    "responses": [
+      {
+        "status": "blocked",
+        "reason": "production_build_mismatch",
+        "submitted_order": false
+      }
+    ],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "valid": {
+    "fake_transmissions": 1,
+    "decisions": [
+      "buy"
+    ],
+    "responses": [
+      {
+        "status": "accepted",
+        "id": "test-only-1"
+      }
+    ],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "score_zero": {
+    "fake_transmissions": 0,
+    "decisions": [],
+    "responses": [],
+    "history_queries": 1,
+    "persisted": true
+  },
+  "cash_limit": {
+    "fake_transmissions": 0,
+    "decisions": [],
+    "responses": [],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "single_position_limit": {
+    "fake_transmissions": 0,
+    "decisions": [],
+    "responses": [],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "risk_limit": {
+    "fake_transmissions": 0,
+    "decisions": [],
+    "responses": [],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "ambiguous": {
+    "fake_transmissions": 1,
+    "decisions": [
+      "buy"
+    ],
+    "responses": [
+      {
+        "status": "blocked",
+        "reason": "order_response_reconcile_required",
+        "terminal": true,
+        "broker_submitted": false
+      }
+    ],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "ambiguous_restart": {
+    "fake_transmissions": 1,
+    "decisions": [
+      "buy"
+    ],
+    "responses": [
+      {
+        "status": "blocked",
+        "reason": "automatic_order_reconciliation_required",
+        "terminal": true
+      }
+    ],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "partial_fill": {
+    "fake_transmissions": 1,
+    "decisions": [
+      "buy"
+    ],
+    "responses": [
+      {
+        "status": "partially_filled",
+        "id": "test-only-1"
+      }
+    ],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "partial_fill_restart": {
+    "fake_transmissions": 1,
+    "decisions": [
+      "buy"
+    ],
+    "responses": [
+      {
+        "status": "blocked",
+        "reason": "automatic_buy_receipt_reconciliation_pending",
+        "terminal": false
+      }
+    ],
+    "history_queries": 1,
+    "persisted": true
+  },
+  "entries_paused": {
+    "fake_transmissions": 0,
+    "decisions": [
+      "buy"
+    ],
+    "responses": [
+      {
+        "status": "blocked",
+        "reason": "production_entries_paused",
+        "submitted_order": false
+      }
+    ],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "protective_sell": {
+    "fake_transmissions": 1,
+    "decisions": [
+      "sell"
+    ],
+    "responses": [
+      {
+        "status": "accepted",
+        "id": "test-only-1"
+      }
+    ],
+    "history_queries": 3,
+    "persisted": true
+  },
+  "all_orders_paused": {
+    "fake_transmissions": 0,
+    "decisions": [
+      "sell"
+    ],
+    "responses": [
+      {
+        "status": "blocked",
+        "reason": "production_start_required",
+        "submitted_order": false
+      }
+    ],
+    "history_queries": 0,
+    "persisted": true
+  },
+  "foreign_position": {
+    "fake_transmissions": 0,
+    "decisions": [
+      "sell"
+    ],
+    "responses": [
+      {
+        "status": "blocked",
+        "reason": "production_position_not_owned",
+        "submitted_order": false
+      }
+    ],
+    "history_queries": 1,
+    "persisted": true
+  }
+}

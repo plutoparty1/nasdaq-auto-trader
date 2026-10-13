@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 224, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 78, in main
+    return execute(args, Path(staging))
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 136, in execute
+    loaded = load_bars_csv(bars_path)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\data.py", line 64, in load_bars_csv
+    high_price = _parse_price("high", row["high"])
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\data.py", line 117, in _parse_price
+    parsed = _parse_number(name, value)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\data.py", line 133, in _parse_number
+    raise InvalidCsvDataError(f"{name} must be a finite number")
+nasdaq_auto_trader.data.InvalidCsvDataError: high must be a finite number

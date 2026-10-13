@@ -14,6 +14,7 @@ from .app_format import (
 from .app_types import EngineResult, PortfolioSnapshot
 from .ai_quant_lab.operator_gui_presenter import human_reason
 from .learning_runner import LearningRunResult
+from .operating_feedback import operating_wait_lines
 from .daily_report_models import DailyReportResult
 from .selection_presenter import selection_report_lines, selection_report_summary
 from .quant_data.resources import application_data_root
@@ -62,6 +63,30 @@ class DashboardRenderMixin:
         if results is None:
             self.status_var.set("자동매매 대기")
             return
+        learning = getattr(self.controller, "last_automatic_learning_result", None)
+        if learning is not None:
+            self._append_log("[자동 장외 학습]")
+            self._render_learning_result(learning)
+            next_run = self.controller.next_run_at
+            if next_run is not None:
+                self._append_log(
+                    f"다음 자동운영: {next_run.astimezone():%Y-%m-%d %H:%M:%S}"
+                )
+            if self.controller.last_error:
+                message = human_reason(self.controller.last_error)
+                if _has_recoverable_retry(self.controller):
+                    message = f"자동운영 재시도 예약: {message}"
+                elif self.controller.state == "paused":
+                    message = f"자동매매 안전정지: {message}"
+                self.status_var.set(message)
+                self._append_log(message)
+            return
+        wait_lines = operating_wait_lines(
+            getattr(self.controller, "last_operating_transition", None),
+            getattr(self.controller, "last_strategy_resolution", None),
+        ) if not results else ()
+        for line in wait_lines:
+            self._append_log(line)
         report = (
             self.controller.last_selection_report
             if self.controller.trading_settings.auto_symbol_selection_enabled
@@ -84,6 +109,8 @@ class DashboardRenderMixin:
             self._append_log(f"스캔 보고서: {shadow.report_path}")
         if self.controller.state == "paused" and self.controller.last_error:
             message = f"자동매매 안전정지: {human_reason(self.controller.last_error)}"
+            if self.controller.last_error.startswith("learning_history_"):
+                message = f"자동매매 안전정지: 학습 데이터 수집 차단 [{self.controller.last_error}]"
             self.status_var.set(message)
             self._append_log(message)
         elif _has_recoverable_retry(self.controller):
@@ -96,8 +123,12 @@ class DashboardRenderMixin:
             self.status_var.set(
                 f"장중 무주문 스캔 완료 ({len(shadow.eligible_symbols)}/{len(shadow.scanned_symbols)}개 통과)"
             )
+        elif wait_lines:
+            self.status_var.set(wait_lines[0])
         else:
             self.status_var.set(f"자동매매 1회 실행 완료 ({len(results)}개 종목)")
+            if not results:
+                self._append_log("자동운영 1회 실행 완료: 매매 결과 0개, 다음 주기 대기")
         for item in results:
             self._append_log(_summarize_trade_result(item))
 
@@ -113,10 +144,16 @@ class DashboardRenderMixin:
             self._append_log("학습 결과 사유:")
             for reason in result.reasons:
                 self._append_log(f"  {human_reason(reason)}")
+        for diagnostic in result.data_diagnostics:
+            self._append_log(f"학습 데이터: {diagnostic}")
         if result.accepted_candidates == 0:
             self._append_log(
-                "자동 선택에 사용할 학습 완료 전략은 아직 없습니다. "
-                "후보 전략과 시장 데이터가 검증을 통과해야 자동 선택이 켜집니다."
+                "이번 학습에서 새로 검증을 통과한 모의운영 후보는 없습니다."
+            )
+        else:
+            self._append_log(
+                f"모의운영 후보 {result.accepted_candidates}개 등록 완료. "
+                "실거래에는 모의운영 성과 검증과 별도 승인이 필요합니다."
             )
 
     def _render_daily_report(self, result: DailyReportResult) -> None:

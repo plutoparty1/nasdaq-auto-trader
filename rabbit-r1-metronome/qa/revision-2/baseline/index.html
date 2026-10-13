@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="rabbit r1 메트로놈. 휠 템포 조절, 4/4·8비트·셋잇단음표, 10초 탭 측정과 곡 저장.">
+  <meta name="theme-color" content="#07080a">
+  <title>PULSE · r1 메트로놈</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <div class="device-wrap">
+    <div class="preview-label" aria-hidden="true">PULSE <span>r1 metronome</span></div>
+    <div id="app">
+      <header class="topbar"><span class="brand">PULSE<span class="brand-dot"></span></span><span class="meter">4/4</span><button id="mute" aria-pressed="false" aria-label="무음 모드">소리</button></header>
+      <main>
+        <section id="home" class="page home" aria-label="메트로놈">
+          <p id="song-label" class="eyebrow">나만의 리듬</p>
+          <div class="tempo"><button id="minus" class="tempo-step" aria-label="템포 1 감소">−</button><label class="tempo-number"><input id="bpm" inputmode="numeric" pattern="[0-9]*" value="120" maxlength="3" aria-label="템포 BPM" autocomplete="off"><span>BPM <span class="wheel-hint">· 휠로 조절</span></span></label><button id="plus" class="tempo-step" aria-label="템포 1 증가">+</button></div>
+          <div class="beats" aria-label="강조할 박자 선택"><button data-beat="0" aria-label="1박 강조" aria-pressed="true">1</button><button data-beat="1" aria-label="2박 강조" aria-pressed="false">2</button><button data-beat="2" aria-label="3박 강조" aria-pressed="false">3</button><button data-beat="3" aria-label="4박 강조" aria-pressed="false">4</button></div>
+          <div class="segments subdivision" aria-label="박자 분할"><button data-sub="1" aria-pressed="true">4분</button><button data-sub="2" aria-pressed="false">8비트</button><button data-sub="3" aria-pressed="false">셋잇단</button></div>
+          <button id="play" class="primary transport" disabled>불러오는 중</button>
+        </section>
+        <section id="tap" class="page padded" aria-label="탭 템포 측정" hidden>
+          <div class="page-title"><h1>탭 템포</h1><span id="tap-count" class="small">0회</span></div>
+          <p id="tap-instruction" class="secondary">첫 탭부터 10초간 박자를 탭하세요.</p>
+          <button id="tap-pad" class="tap-pad"><strong>TAP</strong><span id="tap-time">10초 측정</span></button>
+          <div class="tap-actions"><button id="tap-reset">다시 측정</button><button id="tap-apply" class="primary" disabled>템포 적용</button></div>
+        </section>
+        <section id="settings" class="page padded" aria-label="소리 설정" hidden>
+          <div class="page-title"><h1>소리 설정</h1><span class="small">4/4</span></div>
+          <p class="field-label">비트 소리</p><div class="segments sound"><button data-sound="drum" aria-pressed="true">드럼</button><button data-sound="melody" aria-pressed="false">멜로디</button></div>
+          <label class="volume-label" for="volume">음량 <output id="volume-label">65%</output></label><input id="volume" type="range" min="0" max="100" step="1" value="65">
+          <label class="switch-row"><span>무음 · 화면 박자</span><input id="mute-setting" type="checkbox"></label>
+          <p class="secondary help">1–4 숫자를 눌러 강조 박자를 바꾸세요.<br>우측 버튼: 재생 / 일시정지</p>
+        </section>
+        <section id="library" class="page padded" aria-label="저장한 곡" hidden>
+          <div class="page-title"><h1>내 곡</h1><span id="song-count" class="small">0곡</span></div>
+          <form id="save-form"><label for="song-title" class="field-label">현재 템포 저장</label><div class="save-row"><input id="song-title" placeholder="곡 제목 · 예: music1" maxlength="40" required autocomplete="off"><button id="save-song" class="primary" type="submit">저장</button></div></form>
+          <p id="library-empty" class="secondary empty">저장한 곡이 없어요.<br>제목을 입력해 첫 곡을 저장하세요.</p>
+          <div id="song-list" class="song-list"></div>
+        </section>
+      </main>
+      <nav aria-label="화면 선택"><button data-page="home" aria-current="page">박자</button><button data-page="tap">탭 측정</button><button data-page="settings">소리</button><button data-page="library">내 곡</button></nav>
+      <div id="status" role="status" aria-live="polite" hidden></div>
+    </div>
+    <p class="preview-help">휠로 템포 조절 · 우측 버튼으로 재생<br><span>PC: ↑ ↓ 템포 · Space 재생</span></p>
+  </div>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

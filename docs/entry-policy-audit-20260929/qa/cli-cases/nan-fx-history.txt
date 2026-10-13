@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 224, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 78, in main
+    return execute(args, Path(staging))
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 167, in execute
+    fx_history = load_fx(args.fx_history)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\entry_comparison_inputs.py", line 55, in load_fx
+    raise ExperimentInputError(
+        "FX history rates must be positive finite numbers"
+    )
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: FX history rates must be positive finite numbers

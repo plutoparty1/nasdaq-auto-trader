@@ -1,0 +1,55 @@
+{
+  "scope": "10 named files only; not a whole-tree snapshot",
+  "files": [
+    {
+      "path": "dist/NasdaqAutoTrader/NasdaqAutoTrader.exe",
+      "sha256": "b34486f790bc45d0f6e73189999f197760c77da482c20dd1a14b94d768617cea",
+      "matches_audit": true
+    },
+    {
+      "path": "dist/NasdaqAutoTrader/config.kis.json",
+      "sha256": "74b5ad66c031a43473b09a8084e714278ee48eb6cac12c06e16253afaef0ed5c",
+      "matches_audit": true
+    },
+    {
+      "path": "C:/Users/u/AppData/Local/NasdaqAutoTrader/trading_config.json",
+      "sha256": "a852d2ed357a368cb3e5b526adf11ce3448b61297ab4b4c80c7769c9c783c8bf",
+      "matches_audit": true
+    },
+    {
+      "path": "trading_config.json",
+      "sha256": "313e4bc503aba2a84a3173fa521b974b0e9456978a50da9b94d7f3b8576e7358",
+      "matches_audit": true
+    },
+    {
+      "path": "nasdaq_auto_trader/daily_buy_objective.py",
+      "sha256": "2b1bb8779dd96ef49314403b04cf54c749d9e019c136cc583c6c0af25ee1256a",
+      "matches_audit": true
+    },
+    {
+      "path": "nasdaq_auto_trader/engine_automatic_cycle.py",
+      "sha256": "87fa17df58c5e16ae8b6e31d4abc0a33a9b80f89f453fbadb5edf75c1065b4ca",
+      "matches_audit": true
+    },
+    {
+      "path": "nasdaq_auto_trader/engine_cycle.py",
+      "sha256": "74ea8a41bb17da76c5f0089e5a50bc3f4192d6c91569bd1b6e63bdfccbc9f7d6",
+      "matches_audit": true
+    },
+    {
+      "path": "nasdaq_auto_trader/config_runtime.py",
+      "sha256": "a9f5a5a5e94687c926e7b0f5de1177a45be63560bf1a3aded3b7d29707444c09",
+      "matches_audit": true
+    },
+    {
+      "path": "nasdaq_auto_trader/gui_launcher.py",
+      "sha256": "4f070277e75dda8bca5a4c2e5a683796c4f39b1fcd2654a451cde8a988d52643",
+      "matches_audit": true
+    },
+    {
+      "path": "README.md",
+      "sha256": "4f0268a6b2620dfa9f2611573599a8cc52656f6dcb2682bff940505110d6e19e",
+      "matches_audit": true
+    }
+  ]
+}

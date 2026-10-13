@@ -1,0 +1,155 @@
+{
+  "status": "PASS",
+  "assessment": "EXPLORATORY_ALREADY_USED_DATA",
+  "historical_suite_executions": 1,
+  "historical_cases": 6,
+  "focused_regression": {
+    "passed": 77,
+    "seconds": 15.87,
+    "receipt": "../../../.omo/evidence/sizing-entry-20261011/pre-run-tests-green.txt"
+  },
+  "static_checks": {
+    "ruff": "PASS",
+    "basedpyright_errors": 0,
+    "basedpyright_warnings": 112,
+    "warnings_receipt": "../../../.omo/evidence/sizing-entry-20261011/types.txt"
+  },
+  "reviews": {
+    "code": "PASS; independent exhaustive 144 synthetic quantity combinations",
+    "security": "PASS; synthetic CLI imports, sensitive-file guard, socket/subprocess denial, no broker module",
+    "qa": "PASS; 28 scenarios; independent saved-result reconciliation",
+    "goal": "PASS; exact P0 preservation and four answers",
+    "context": "PASS; limited sizing hypothesis, partial months and FX caveats"
+  },
+  "qa_receipt": "../../../.omo/evidence/sizing-entry-20261011/qa.json",
+  "historical_reconciliation": {
+    "p0_original_full_path_identity_rows": {
+      "fills": 25,
+      "equity": 119,
+      "orders": 25,
+      "order_rejections": 12,
+      "decisions": 357,
+      "constraints": 318
+    },
+    "method": "Read-only independent arithmetic on saved CSV ledgers and public daily OHLC. No strategy evaluation or historical simulation rerun.",
+    "maximum_integer_rows": 2099,
+    "selected_dynamic_orders": 58,
+    "zero_maximum_rows": 1464,
+    "independent_breakout_rows": 714
+  },
+  "p0_p1_same_fill_events_prices_reasons": {
+    "base": true,
+    "high_impact": true
+  },
+  "performance_identity": [
+    {
+      "profile": "P0",
+      "cost": "base",
+      "full_months": 4,
+      "full_months_compounded_return_pct": -0.513972400945728,
+      "unrealized_included": true
+    },
+    {
+      "profile": "P1",
+      "cost": "base",
+      "full_months": 4,
+      "full_months_compounded_return_pct": -0.8850749002490721,
+      "unrealized_included": true
+    },
+    {
+      "profile": "P2",
+      "cost": "base",
+      "full_months": 4,
+      "full_months_compounded_return_pct": 0.06036319784228361,
+      "unrealized_included": true
+    },
+    {
+      "profile": "P0",
+      "cost": "high_impact",
+      "full_months": 4,
+      "full_months_compounded_return_pct": -1.2170232694626026,
+      "unrealized_included": true
+    },
+    {
+      "profile": "P1",
+      "cost": "high_impact",
+      "full_months": 4,
+      "full_months_compounded_return_pct": -1.528394922441756,
+      "unrealized_included": true
+    },
+    {
+      "profile": "P2",
+      "cost": "high_impact",
+      "full_months": 4,
+      "full_months_compounded_return_pct": -0.8126314136725377,
+      "unrealized_included": true
+    }
+  ],
+  "runtime_hypotheses": [
+    {
+      "hypothesis": "H1 per-share minimum fee multiplication or double counting",
+      "finding": "Rejected: quantity-specific minimum fee boundary regressions and independent cash/fee/risk reconciliation passed; no q*fee(one share)."
+    },
+    {
+      "hypothesis": "H2 breakout contains today/future high or legacy buy gate",
+      "finding": "Rejected: prefix/replacement regressions and 714 independent saved breakout predicates passed; next observed bar execution checked."
+    },
+    {
+      "hypothesis": "H3 optional execution injection changes fixed-one baseline",
+      "finding": "Rejected: P0 base fills/equity/orders/rejections/decisions/constraints exactly equal prior fixed_8_risk2; default path preserved."
+    }
+  ],
+  "preservation": {
+    "files_checked": 1025,
+    "changed_existing": [
+      "nasdaq_auto_trader/backtest.py",
+      "scripts/run_entry_policy_comparison.py"
+    ],
+    "missing": []
+  },
+  "offline": {
+    "order_api_calls": 0,
+    "cancel_api_calls": 0,
+    "live_module_imports_in_guarded_smoke": 0,
+    "sensitive_file_open_attempts_in_guarded_smoke": 0,
+    "no_live_settings_or_exe_change": true,
+    "no_git_stage_or_commit": true
+  },
+  "candidate_decision": "P1 only: provisional independent paper verification of sizing; P2 insufficient; no live promotion or new evaluation authorized/executed.",
+  "code_and_profile_sha256": {
+    "nasdaq_auto_trader/sizing_entry_config.py": "4a3690fe44c4bc6dab7ac96c9d3a28a49ba4298c0b6cb443d33732e2c52bb740",
+    "nasdaq_auto_trader/sizing_entry_execution.py": "e79a22a1ff2c92452e2236e301779bc4cd49f3024c01c3e9694b7115c0dcf43d",
+    "nasdaq_auto_trader/sizing_entry_experiment.py": "195faffe47c3e0a2f8268cf29e39c70a9910c90910097a63627ebad51ab18cdb",
+    "nasdaq_auto_trader/sizing_entry_risk.py": "fc3d43e81a3ee787a9858e69ceaca1a7cc36c0cb5f6fc363e211639027adf9e3",
+    "nasdaq_auto_trader/sizing_entry_strategy.py": "a49d11e9f91ac33dfd1e576767858a4106509ca091026cd806aee4a63e23414f",
+    "tests/test_sizing_entry_backtester.py": "a768bf8c9796cd1bf90506239dd79adfeef16079ca11d5a2febd2bbf3e0ff220",
+    "tests/test_sizing_entry_cli.py": "61a4f10c601b87f40e55b068f48c893788ae6fdbdfdd2762b86fb875381c63f9",
+    "tests/test_sizing_entry_execution.py": "dded487c1076b818bc4e1d0e42f9bea41b5ab98642d618e48065947d7474dc24",
+    "tests/test_sizing_entry_risk.py": "0df4a2b61a969abd912c349ca85e16f6e08c0fba961cfe39fd68892edf1a9468",
+    "tests/test_sizing_entry_strategy.py": "351639b59902edaa2f8a64f0e1b2d59ae7cc3a7d5c040ea11a462921112e3a56",
+    "nasdaq_auto_trader/backtest.py": "5498776511e072699d4bc2eca501af39fe473053576c493688ee7f453529e8b6",
+    "scripts/run_entry_policy_comparison.py": "50941d6ebf2fa63b9fb3cde57dba1e3ab5896f2b2e89f8045f95aeb904641381",
+    "experiments/sizing_entry_80000/profile.json": "68c2ba260005c550c3fe88e09e734812476df031472a43b68c65e31c057f0fc9"
+  },
+  "saved_results_sha256": {
+    "benchmark_equity.csv": "481f388d3f7aa883bd283d96980cf59ca7fe0fea8148c3dabefc9c80263e077f",
+    "benchmark_feasibility.csv": "dee6b1fc381478c7c9e6fe2883d4f895a5e4acecb6cf7fa8b0993bf7adc24410",
+    "benchmark_fills.csv": "25ceae16746575d7ec2156350b7ba7b28cd78abd4170c1be6c45be8d7e3abcca",
+    "benchmark_monthly.csv": "368cf12978eb81651c786d96ef0fc104cdf0dce519ee9f98a696ee342c70f2d7",
+    "benchmarks.csv": "9b8f56d5fe37cbe7a1e809a8ea36258ad528ad34ac8600aaea2881919c14f755",
+    "blockers.csv": "98edefec69c87f95832b16856a9af70ed60638bdbd5ada934abcd5c053a4201a",
+    "breakout.csv": "2649caf4b10cd0cd43530987313fea62c4e64d50756e5a9a670fd1a4b4dc991d",
+    "constraints.csv": "a3cde34aba9f38fe79999bb8a88cecb1dd163b0533f10d55db57792399c6ead9",
+    "decisions.csv": "09585e76fe5b45693951d6b04f23c59dd6178564d28a3569eb2fd619e4497f29",
+    "equity.csv": "e8f861672023e0ea644b7b4903cf37c43f0b24bc7fd1dba6688903c9d3596c61",
+    "fills.csv": "f55d460760e736ef467a48cf8dc219d1ff11725ad0ac86bcef9437ab6569dd84",
+    "manifest.json": "50f60a82db6698e80c9963cddb48188f9915e4df728c9880f56b6128ca9bc783",
+    "monthly.csv": "4c63f4bc8e483dbcb0101b79e5221e0c25ca198aacf3241ba443d244c7845fa1",
+    "order_rejections.csv": "c378ea9e5ef9d69795847d3d280a196338a019ab97d94017053c274430a4ca75",
+    "orders.csv": "4c35b63b9e295403c864258b2ede02d7603edaadb76855c70a74829a3e7c4ac3",
+    "protocol.json": "8d41e9b1706481f245eefbb8d5181f646c4e0e887f8203e0c88b3f91a972625f",
+    "reasons.csv": "02b88cce1099b0ac591f141a7f6dfb8eb7cfb3618b7fa5c9c94ba6d8a51e5dfa",
+    "sizing.csv": "a0ffa75725ff861bcce817b612e64ca09fc1893cea21ca3e979795f06c22db6f",
+    "summary.csv": "e6e6e7dd7e035f6329c29311577a5944f0884fd0814b32b7f11688d1eabe6e95"
+  }
+}

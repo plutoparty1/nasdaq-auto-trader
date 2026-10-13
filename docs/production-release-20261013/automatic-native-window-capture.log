@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\docs\production-release-20261013\capture_frozen_window.py", line 26, in <module>
+    image=ImageGrab.grab(window=int(hwnd))
+  File "C:\Users\u\AppData\Roaming\Python\Python314\site-packages\PIL\ImageGrab.py", line 93, in grab
+    offset, size, data = Image.core.grabscreen_win32(
+                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        include_layered_windows,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+        all_screens,
+        ^^^^^^^^^^^^
+        int(window) if window is not None else 0,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+OSError: unable to get device context for handle

@@ -1,0 +1,21 @@
+[
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-b230423351524f87-catalogue-v5",
+    "status": "paper_candidate",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "동료심사 또는 학술 연구로 근거가 확인된 화이트리스트 전략"
+    },
+    "score": 0.6663422394774094,
+    "rejection_reasons": []
+  }
+]

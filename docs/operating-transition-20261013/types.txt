@@ -1,0 +1,78 @@
+Installed 2 packages in 4.16s
+c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py: error: 가져오기 체인에서 순환이 검색되었습니다.
+    c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py
+    c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\safe_launcher.py (reportImportCycles)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:25:28 - warning: "order"에 액세스하지 않았습니다. (reportUnusedParameter)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:39:9 - warning: "append"의 형식을 부분적으로 알 수 없습니다.
+    ‘append’의 유형이 ‘(object: Unknown, /) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:41:12 - warning: 반환 형식 "list[Unknown]"을(를) 부분적으로 알 수 없습니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:74:14 - warning: "item"의 형식을 부분적으로 알 수 없습니다.
+    ‘item’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:74:22 - warning: "_run_rule_decision_cycle"의 형식을 부분적으로 알 수 없습니다.
+    ‘_run_rule_decision_cycle’의 유형이 ‘(bars_by_symbol: dict[str, list[Bar]], account: AccountSnapshot, positions: dict[str, Position], symbols: list[str] | None = None, entry_symbols: set[str] | None = None, automatic_risk_limits: Unknown | None = None, authorization_purpose: str = "automatic", max_daily_order_count: int | None = None, daily_minimum_symbol: str = "", entry_prices: dict[str, float] | None = None) -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:74:29 - warning: ‘_run_rule_decision_cycle’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:78:16 - warning: "action" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:80:13 - warning: "append"의 형식을 부분적으로 알 수 없습니다.
+    ‘append’의 유형이 ‘(object: Unknown, /) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:81:46 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:88:10 - warning: "entry"의 형식을 부분적으로 알 수 없습니다.
+    ‘entry’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:88:19 - warning: "_run_rule_decision_cycle"의 형식을 부분적으로 알 수 없습니다.
+    ‘_run_rule_decision_cycle’의 유형이 ‘(bars_by_symbol: dict[str, list[Bar]], account: AccountSnapshot, positions: dict[str, Position], symbols: list[str] | None = None, entry_symbols: set[str] | None = None, automatic_risk_limits: Unknown | None = None, authorization_purpose: str = "automatic", max_daily_order_count: int | None = None, daily_minimum_symbol: str = "", entry_prices: dict[str, float] | None = None) -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:88:32 - warning: ‘_run_rule_decision_cycle’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:91:13 - warning: "action" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:92:20 - warning: "qty" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:96:9 - warning: "append"의 형식을 부분적으로 알 수 없습니다.
+    ‘append’의 유형이 ‘(object: Unknown, /) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:97:69 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:98:39 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:101:10 - warning: "opposite"의 형식을 부분적으로 알 수 없습니다.
+    ‘opposite’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:101:22 - warning: "_run_rule_decision_cycle"의 형식을 부분적으로 알 수 없습니다.
+    ‘_run_rule_decision_cycle’의 유형이 ‘(bars_by_symbol: dict[str, list[Bar]], account: AccountSnapshot, positions: dict[str, Position], symbols: list[str] | None = None, entry_symbols: set[str] | None = None, automatic_risk_limits: Unknown | None = None, authorization_purpose: str = "automatic", max_daily_order_count: int | None = None, daily_minimum_symbol: str = "", entry_prices: dict[str, float] | None = None) -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:101:32 - warning: ‘_run_rule_decision_cycle’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:105:12 - warning: "action" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:107:9 - warning: "append"의 형식을 부분적으로 알 수 없습니다.
+    ‘append’의 유형이 ‘(object: Unknown, /) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:108:42 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:111:10 - warning: "new_risk"의 형식을 부분적으로 알 수 없습니다.
+    ‘new_risk’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:111:22 - warning: "_run_rule_decision_cycle"의 형식을 부분적으로 알 수 없습니다.
+    ‘_run_rule_decision_cycle’의 유형이 ‘(bars_by_symbol: dict[str, list[Bar]], account: AccountSnapshot, positions: dict[str, Position], symbols: list[str] | None = None, entry_symbols: set[str] | None = None, automatic_risk_limits: Unknown | None = None, authorization_purpose: str = "automatic", max_daily_order_count: int | None = None, daily_minimum_symbol: str = "", entry_prices: dict[str, float] | None = None) -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:111:31 - warning: ‘_run_rule_decision_cycle’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:115:12 - warning: "action" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:117:9 - warning: "append"의 형식을 부분적으로 알 수 없습니다.
+    ‘append’의 유형이 ‘(object: Unknown, /) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:118:42 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:120:10 - warning: "protective"의 형식을 부분적으로 알 수 없습니다.
+    ‘protective’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:120:24 - warning: "_run_rule_decision_cycle"의 형식을 부분적으로 알 수 없습니다.
+    ‘_run_rule_decision_cycle’의 유형이 ‘(bars_by_symbol: dict[str, list[Bar]], account: AccountSnapshot, positions: dict[str, Position], symbols: list[str] | None = None, entry_symbols: set[str] | None = None, automatic_risk_limits: Unknown | None = None, authorization_purpose: str = "automatic", max_daily_order_count: int | None = None, daily_minimum_symbol: str = "", entry_prices: dict[str, float] | None = None) -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:120:34 - warning: ‘_run_rule_decision_cycle’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:124:13 - warning: "action" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:127:9 - warning: "append"의 형식을 부분적으로 알 수 없습니다.
+    ‘append’의 유형이 ‘(object: Unknown, /) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:128:42 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:131:10 - warning: "profit"의 형식을 부분적으로 알 수 없습니다.
+    ‘profit’의 유형이 ‘dict[Unknown, Unknown]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:131:20 - warning: "_run_rule_decision_cycle"의 형식을 부분적으로 알 수 없습니다.
+    ‘_run_rule_decision_cycle’의 유형이 ‘(bars_by_symbol: dict[str, list[Bar]], account: AccountSnapshot, positions: dict[str, Position], symbols: list[str] | None = None, entry_symbols: set[str] | None = None, automatic_risk_limits: Unknown | None = None, authorization_purpose: str = "automatic", max_daily_order_count: int | None = None, daily_minimum_symbol: str = "", entry_prices: dict[str, float] | None = None) -> list[dict[Unknown, Unknown]]’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:131:30 - warning: ‘_run_rule_decision_cycle’은(는) 선언된 클래스 외부에서 보호되고 사용됩니다. (reportPrivateUsage)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:135:12 - warning: "action" 유형을 알 수 없습니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:137:9 - warning: "append"의 형식을 부분적으로 알 수 없습니다.
+    ‘append’의 유형이 ‘(object: Unknown, /) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:138:42 - warning: 인수 형식을 알 수 없습니다.
+    인수가 "asdict" 함수의 "obj" 매개 변수에 해당합니다. (reportUnknownArgumentType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:143:13 - warning: "append"의 형식을 부분적으로 알 수 없습니다.
+    ‘append’의 유형이 ‘(object: Unknown, /) -> None’입니다. (reportUnknownMemberType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:157:5 - warning: "payload"의 형식을 부분적으로 알 수 없습니다.
+    ‘payload’의 유형이 ‘dict[str, str | bool | dict[str, Any] | int | dict[str, int | str] | dict[str, float | None] | list[Unknown]]’입니다. (reportUnknownVariableType)
+  c:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\roundtrip_replay.py:174:5 - warning: 호출 식의 결과가 ‘int’ 형식이므로 사용되지 않습니다. 의도적인 경우 변수 ‘_’에 할당하세요. (reportUnusedCallResult)
+1 error, 44 warnings, 0 notes

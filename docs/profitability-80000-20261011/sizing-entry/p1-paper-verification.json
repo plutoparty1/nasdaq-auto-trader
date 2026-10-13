@@ -1,0 +1,120 @@
+{
+  "status": "PREPARATION_VERIFIED_NO_INDEPENDENT_PERFORMANCE",
+  "recorded_at": "2026-10-11T13:49:19.405073+00:00",
+  "profile": "P1",
+  "protocol_sha256": "26b85599e129c874d3da67da9cd8ea8a02acc7cf93ab04eb79c0ec08b556690c",
+  "effective_settings_sha256": "1a9423ee33d73cbefe1d5a35461eb0ce88773bdb2f526c9952216d723ce05fd3",
+  "frozen_at": "2026-10-11T13:40:56.577754+00:00",
+  "source_files": 65,
+  "independent_evaluation": {
+    "started": false,
+    "sessions": 0,
+    "new_market_data_collected": false,
+    "performance": null,
+    "initial_usd": 54.072814354631596,
+    "initial_fx": null,
+    "starting_krw": null,
+    "initial_positions": [],
+    "pending_orders": []
+  },
+  "account_preparation": {
+    "initialized": true,
+    "phase": "not_started",
+    "directory": "%LOCALAPPDATA%/NasdaqAutoTrader/research/p1-paper-v1",
+    "power_shell_checked": true,
+    "evidence": ".omo/evidence/p1-paper-20261011/prepared-status.json",
+    "initial_cash_exact_python_json_check": true,
+    "powershell_assertion_tolerance_usd": 1e-12
+  },
+  "regressions": {
+    "focused_passed": 152,
+    "full_suite_run": false,
+    "historical_comparisons_rerun": false,
+    "evidence": ".omo/evidence/p1-paper-20261011/focused-final.txt"
+  },
+  "static_checks": {
+    "ruff": "PASS",
+    "basedpyright_errors": 0,
+    "basedpyright_warnings": 27,
+    "basedpyright_default_exit_code": 1,
+    "warnings_disposition": "nonblocking code review: persistence adapter private state, mutable attributes, JSON boundary, exhaustive-match hygiene; no type-ignore added"
+  },
+  "preservation": {
+    "before_count": 1141,
+    "changed_existing_files": [
+      "nasdaq_auto_trader/research_public_bars.py",
+      "nasdaq_auto_trader/research_public_fx.py",
+      "nasdaq_auto_trader/research_public_transport.py",
+      "scripts/collect_public_entry_data.py",
+      "scripts/run_entry_policy_comparison.py"
+    ],
+    "missing_count": 0,
+    "unexpected_changes": [],
+    "pass": true
+  },
+  "review_lanes": {
+    "goal": "PASS",
+    "manual_qa": "PASS",
+    "code": "PASS_WITH_NONBLOCKING_WARNINGS",
+    "security": "PASS",
+    "context": "PASS"
+  },
+  "runtime_hypotheses": [
+    {
+      "hypothesis": "Restart could lose pending, stops, high water, daily halt or dedup",
+      "result": "PASS: uninterrupted/resumed state equality and protective/pending restart tests",
+      "tests": [
+        "test_restart_matches_uninterrupted_execution_with_pending_reservation",
+        "test_restart_preserves_high_water_daily_halt_and_protective_pending",
+        "test_duplicate_retry_is_idempotent_and_conflicting_bar_is_rejected"
+      ]
+    },
+    {
+      "hypothesis": "Delayed daily receipt could create retroactive signals/fills",
+      "result": "PASS: actual decision must precede modeled open; missing history is indicator-only; stale/missing entries blocked",
+      "tests": [
+        "test_actual_decision_clock_prevents_retroactive_open_fill",
+        "test_missed_history_appends_indicators_without_replaying_trading",
+        "test_bad_current_data_blocks_an_otherwise_valid_new_entry"
+      ]
+    },
+    {
+      "hypothesis": "Source/input drift or crash could silently replace evaluation state",
+      "result": "PASS: strict fingerprints/hash checks, immutable checkpoint and interrupted publication retry",
+      "tests": [
+        "test_checkpoint_preserves_previous_and_detects_corruption",
+        "test_interrupted_checkpoint_publication_keeps_previous",
+        "test_conflicting_bar_rejects_candidate_copy_without_changing_committed_state"
+      ],
+      "manual_evidence": "PowerShell tampered receipt rejection, logged fault, duplicate unchanged checkpoint, protocol-copy corruption rejection"
+    }
+  ],
+  "repaired_before_freeze": [
+    "Partial-cohort history gap no longer expires another symbols timely protective sell; missing own next-session orders still expire",
+    "Source archive includes executed package initializers and transitive imports"
+  ],
+  "guard_validation": {
+    "broker_modules_loaded": 0,
+    "order_api_calls": 0,
+    "cancel_api_calls": 0,
+    "socket_probe": "BLOCKED",
+    "subprocess_probe": "BLOCKED",
+    "scheduled_or_resident_execution_started": false,
+    "live_authorization": false
+  },
+  "not_verified": [
+    "new independent market performance",
+    "actual account fee and minimum commission",
+    "real queue, partial fills and liquidity",
+    "intraday protective performance",
+    "actual public data fetch in this preparation"
+  ],
+  "manual_commands_guide": "docs/profitability-80000-20261011/sizing-entry/P1-PAPER.md",
+  "manual_qa": {
+    "surface": "Windows PowerShell, actual existing CLI",
+    "passed_cases": 9,
+    "receipt": ".omo/evidence/p1-paper-20261011/qa-manualQa.json",
+    "synthetic_market_inputs_only": true,
+    "actual_public_network_fetch": false
+  }
+}

@@ -1,0 +1,62 @@
+﻿[
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\scripts\\run_exit_experiments.py",
+        "Hash":  "6A6D98B525CF878001BE6187A1B6E03771C403C00F7D7F83ED6BA5D1EA33F8EB"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\experiments\\early_exit\\settings.json",
+        "Hash":  "23B0124BDFD10EC57F5E72C1BDA711B2861BA069C80A853FDB89144957D3E11C"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\experiments\\early_exit\\profiles.json",
+        "Hash":  "04471547CFD612A4419AABC3A6DFA8B5CA3B11650B935324C58662EEB2DECB50"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment.py",
+        "Hash":  "897E1395B827E781C88FD87FFFA30B4953D095FD441E6CC4884EC3F45CC112F5"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_config.py",
+        "Hash":  "017A5D5246116FF5CD92BA05FFCDC889A6DAFDDD29C9931EED7C08289AD8A924"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_metrics.py",
+        "Hash":  "DD246C83B69183A0BA0C76D2478855E245C45DCE4FC5AA3752DDBF739FDBBF1C"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\exit_experiment_risk.py",
+        "Hash":  "B0B714B0C34668BC22FB4FEE4CBC396DA006981E544DDAF6F5F102322F69BD14"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\backtest.py",
+        "Hash":  "994E5799D1FC73E072477FFE5813BA1C50C9E7186459321273499A35E3893865"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\backtest_costs.py",
+        "Hash":  "8F78BCCB2B4D508D103A2E308FAE81CE0D1DF262FCEB2E66F87BE5C810F4558D"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\backtest_execution.py",
+        "Hash":  "88A210B5EF3E532DB176D0E2C18815CF2DC9926D7F6AD0207E55BD0FEE93177A"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\backtest_types.py",
+        "Hash":  "C308C1F6C93E35ABC71280A3E856DB0598FAAA2B8E16C73371114CB315610138"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\experimental_exit.py",
+        "Hash":  "D5340978563FE8FAF08B9FCD71E25BF81ED0B8DE78CAA773EE4C331F81DE7072"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\experimental_exit_diagnostics.py",
+        "Hash":  "727950BF3A350583C5ACFF4B7F6A3B59337B6B25B2841A745835E9A132E19FF9"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\experimental_exit_models.py",
+        "Hash":  "56576ED45EA6F5A2AE21B4226E65D3535CD2D9CAA08B2D7456853032343AA7EA"
+    },
+    {
+        "Path":  "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\experimental_exit_state.py",
+        "Hash":  "DA014822E4A204BC14EAC6C88CB95F57BAF74B2B3C62FD7230965BD012798807"
+    }
+]

@@ -1,0 +1,4 @@
+split,policy,cost_scenario,common_risk_pct,signal_timestamp,timestamp,symbol,reason
+train,A,base,0.01,2020-06-29T21:00:00+00:00,2020-06-29T21:00:00+00:00,SYNTHETIC,end_of_data_unfilled
+train,B,base,0.01,2020-06-29T21:00:00+00:00,2020-06-29T21:00:00+00:00,SYNTHETIC,end_of_data_unfilled
+validation,A,base,0.01,2020-08-28T21:00:00+00:00,2020-08-28T21:00:00+00:00,SYNTHETIC,end_of_data_unfilled

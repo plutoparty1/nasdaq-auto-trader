@@ -1,0 +1,43 @@
+# Production context and deployment review
+
+Date: 2026-09-09. Reviewer lane: context/history/operations. Owned edits: this report and the parent-assigned README corrections below. Baseline HEAD: `2b37034ad2beef04d0e8f403cb502bff7fa6f7a7` (`260909`, committed 2026-09-09 07:27:01 +0900). The initial worktree was clean; other reviewers may change it during this audit.
+
+Coverage verdict: PASS for the assigned repository context, history, defaults, launcher, build, and watchdog inspection. Unconditional LIVE readiness verdict: FAIL pending current deployment/runtime/authorization evidence. This lane did not send an order, issue authorization, change account settings, start the GUI, or register/start a task.
+
+## Findings
+
+1. **P1: Existing dist is not the artifact verified by the latest runtime refactor.** `docs/LIVE-RUNTIME-REFACTOR-2026-09-08.md:91` names the staged artifact; line 95 explicitly states dist and running software were not replaced or restarted. Direct `certutil -hashfile` checks in this review returned:
+   - `dist/NasdaqAutoTrader/NasdaqAutoTrader.exe`: `81078c6b4ed05b05b685e24cd60bff7e00894a11e28f0d720cf2d0224ca383e1`.
+   - `deploy-staging/live-runtime-20260908/NasdaqAutoTrader/NasdaqAutoTrader.exe`: `a3c9d601e21289c4e00c8ea3d51626b37215386bdf605b5945bd803c7f6d2fa0`, matching the report at line 93.
+   The differing hash alone does not identify every old behavior. It proves that latest source/staged QA cannot establish the installed dist behavior. Confirm the actual process, shortcut, and scheduled-task target against the final reviewed build before calling the deployment ready. Full onedir content is required, not only its EXE.
+
+2. **P2, FIXED in this lane: README described removed validation proxies as current behavior.** The original `README.md:755` candidate-screening subsection claimed that time-split and combination stability, overfit-risk and deflated-Sharpe proxy values permit PAPER registration. Current `nasdaq_auto_trader/ai_quant_lab/validation_engine.py:58` sets `promotion_eligible=False`, and lines 65-66 report `independent_validation_required` and all missing advanced metrics. Replaced the obsolete flow/table with the current rejected-research contract, corrected the accepted-candidate explanation, and distinguished CLI research from the GUI's deterministic candidate. The undated current-LIVE table also incorrectly claimed then-current account gates were disabled; its row now requires a fresh account check. Clearly dated historical reports are preserved. Verified final source-contract text and `git diff --check` (exit 0; only LF/CRLF warning). No new tests were needed for this documentation-only change.
+
+3. **Operational headroom concern, observed during this review:** PowerShell initialization failed with `System.OutOfMemoryException`; later `git diff -- README.md` failed with exit 128, `Out of memory, malloc failed (tried to allocate 7555587 bytes)`. These failures do not establish the cause or a trading-engine defect, but the host must demonstrate sufficient memory and stable process startup before unattended production use. Reported to the parent for runtime inspection.
+
+Parent handoff update: the parent reports it confirmed the old dist runtime had LIVE enabled, disabled both scheduled tasks, and requested normal GUI close during repairs. This lane did not independently repeat or perform those operations. Parent owns package-audit credential-content hardening, isolated release creation, and deployment provenance resolution; final review must use that resulting artifact.
+
+## Required context to preserve
+
+- The most recent completed work deliberately removed forced one-share buys and fake validation claims. `docs/prd/PRD-live-runtime-refactor.md:11`, line 25, and `docs/LIVE-RUNTIME-REFACTOR-2026-09-08.md:55` are the current intent. Historical daily-minimum-order PRDs/Todo tickets are superseded context, not remaining work to restore.
+- Historical `docs/PRODUCTION-READINESS-2026-07-17.md:5` and README tables about an absent CHAMPION are not current account truth. The latest report at line 64 records `live_strategy_resolved=true`. This only proves then-current artifact resolution. It does not establish current approval, independent strategy evidence, available cash, quote quality, or readiness today.
+- The latest report at line 7 recorded canary preflight `ready=false`, `existing_position`, and `cash_below_canary_gate`. Canary requires a different no-position/cash contract; its failure must not be substituted for the general strategy path's readiness verdict.
+- Independent strategy validation remains absent by design (`validation_engine.py:58`, `docs/LIVE-RUNTIME-REFACTOR-2026-09-08.md:103`). Existing approved strategy artifacts are preserved, but the present research implementation cannot supply new independent evidence. Do not promote by editing registry flags or weaken its rejection gate to meet the three-hour deadline.
+- Current settings defaults are dry-run, LIVE off, confirmation required, and automatic session authorization off (`nasdaq_auto_trader/config_settings.py:52`). Saved settings can override defaults. GUI startup chooses AppData trading settings and loads AppData/private environment before CLI (`nasdaq_auto_trader/gui_launcher.py`, `_default_argv`, `_load_exe_env`, `run`). A normal GUI launch can therefore activate existing autonomous configuration; help/diagnostic QA is not equivalent to starting it safely.
+- The CLI `ai-quant live-cycle` remains blocked pending the shared order gateway; README line 779 says so. It is not a fallback production order surface.
+
+## Build and operations review
+
+- `scripts/build_gui_exe.ps1:29` uses PyInstaller `--noconfirm --clean` against default dist, then deletes selected old dist state and copies configuration. It is unsuitable as an isolated candidate build command without controlled staging. The latest PRD at line 47 requires a new folder and preservation of existing deployment/configuration.
+- `NasdaqAutoTrader.spec` includes the bundled NASDAQ universe, `pandas_market_calendars` hidden import, and onedir collection. `requirements-runtime.txt` pins `pandas-market-calendars==5.3.1.2`. This review did not rebuild, re-resolve dependencies, or rerun the parent lane's tests.
+- `scripts/install_unattended_task.ps1:37` and line 96 use `InteractiveToken`; the task requires an existing Windows login. Line 121 immediately starts the newly registered task. `-DescribeOnly` is the nonmutating inspection surface.
+- `scripts/ensure_unattended_running.ps1:13` through line 26 is a process-existence watchdog: same EXE path and command line excluding `live-canary`. It does not check engine heartbeat or distinguish all other CLI roles. A surviving but stuck GUI is not proven healthy by this check. This is a pre-existing reliability limitation, not a demonstrated current hang.
+- `nasdaq_auto_trader/package_audit.py:28` through line 35 checks forbidden names/directories, not credential contents. `scripts/build_gui_exe.ps1:74` copies `config.kis.json` verbatim, and config loading supports inline credential values. Thus a clean filename audit alone is insufficient evidence that packaged JSON has no credentials. No current credential exposure is asserted here; a boolean-only check of sensitive JSON fields is needed by the packaging/security lane.
+
+## Evidence and scope
+
+Inspected current README, latest runtime PRD/report/tickets, historical readiness/session-authorization/automatic-daily-order PRDs, prior context review, source config/defaults and launcher, automatic strategy selection, validation, session authorization, package auditor, PyInstaller spec, build/install/watchdog scripts, runtime requirement manifest, and targeted Git history. Git evidence: `git status --short`, `git log -12 --oneline`, `git log -6 --oneline -- scripts docs NasdaqAutoTrader.spec`, `git show --format=fuller --no-patch 2b37034`, and targeted `git ls-files`.
+
+Applied `omo:git-master` HISTORY and `commitlore:commitlore-query` skills. CommitLore CLI is unavailable (`commitlore` not recognized); `git notes --ref=refs/notes/commitlore list` returned no notes. Therefore no CommitLore decision coverage is claimed. OMO git_bash was attempted but unavailable; read-only native command execution was used. No external communications, unrelated sessions, Git writes, live orders, or private state mutations were performed.
+
+Final LIVE approval requires the parent audit's fresh runtime/account state, final build provenance, repaired-path tests, manual surface QA, and applicable operational authority. Previous 802-test and staged no-order results are historical evidence, not a new full production certification.

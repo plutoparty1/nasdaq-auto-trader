@@ -1,0 +1,25 @@
+{
+  "exe": "C:\\Users\\u\\nasdaq-auto-trader\\deploy-safe\\operating-transition-20261013\\NasdaqAutoTrader\\NasdaqAutoTraderSafe.exe",
+  "sha256": "fc3909f258a56b67b795d77b993062c220896ec3db040c89635b7add1aa883ed",
+  "build_id": "roundtrip-repair-20261013-r2",
+  "results": [
+    {
+      "case": "runtime-check",
+      "exit": 0
+    },
+    {
+      "case": "replay-1",
+      "exit": 0
+    },
+    {
+      "case": "replay-2",
+      "exit": 0
+    },
+    {
+      "case": "live-rejection",
+      "exit": 1
+    }
+  ],
+  "live_approval_inherited": false,
+  "live_unlock_available": false
+}

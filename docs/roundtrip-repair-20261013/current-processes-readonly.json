@@ -1,0 +1,12 @@
+﻿{
+    "observed_kst":  "2026-10-13T23:23:15.6202041+09:00",
+    "processes":  [
+                      {
+                          "ProcessId":  29816,
+                          "ParentProcessId":  15112,
+                          "Name":  "NasdaqAutoTrader.exe",
+                          "ExecutablePath":  "C:\\Users\\u\\nasdaq-auto-trader\\deploy-operating\\NasdaqAutoTrader\\NasdaqAutoTrader.exe",
+                          "CreationDate":  "\/Date(1791900171667)\/"
+                      }
+                  ]
+}

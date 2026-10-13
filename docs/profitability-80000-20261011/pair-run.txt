@@ -1,0 +1,5 @@
+Execution receipt transcribed from tool result in this task.
+Exit code: 0
+Stdout: Offline comparison written to docs/profitability-80000-20261011/pair; EXPLORATORY_ALREADY_USED_DATA
+Command: see reproduce.sh (pair invocation).
+Numerical outputs were evaluated once. Metadata-only correction documented separately.

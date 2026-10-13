@@ -1,0 +1,1 @@
+PRODUCTION_RUNTIME {"build_id": "formal-production-20261013-r1", "status": "paused", "mode": "waiting", "approval_status": "production_approval_required", "strategy_id": "builtin_ai_volatility_target", "entries_enabled": true, "submission_enabled": false, "real_fill_validation": "not_performed"}

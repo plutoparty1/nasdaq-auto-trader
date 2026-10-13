@@ -2,16 +2,23 @@ from __future__ import annotations
 
 from dataclasses import replace
 
+from .ai_quant_lab.audit_logger import AuditEvent, AuditLogger
 from .automatic_order_context import automatic_order_context
 from .automatic_order_types import AutomaticBlockRequest
 from .automatic_risk import CycleReservationLedger
 from .broker_response import broker_response_submitted
 from .brokers.common import BrokerRequestError
 from .config_manager import ai_features_enabled, record_submitted_order
+from .daily_buy_objective import daily_minimum_decision
 from .engine_automatic_cycle import EngineAutomaticCycleMixin
 from .engine_errors import PreOrderCycleError
-from .models import AccountSnapshot, Bar, OrderRequest, Position, TradeDecision
+from .entry_pricing import price_entry_decision
+from .exit_diagnostics import exit_diagnostics
+from .models import AccountSnapshot, Bar, Position, TradeDecision
+from .operational_signal_gate import gate_decision, prepare_completed_bars
+from .order_decision_diagnostics import decision_risk_costs
 from .trading_agents import apply_trading_agents_policy
+from .trading_session_store import TradingSessionStore
 
 
 class EngineCycleMixin(EngineAutomaticCycleMixin):
@@ -82,6 +89,8 @@ class EngineCycleMixin(EngineAutomaticCycleMixin):
         automatic_risk_limits=None,
         authorization_purpose: str = "automatic",
         max_daily_order_count: int | None = None,
+        daily_minimum_symbol: str = "",
+        entry_prices: dict[str, float] | None = None,
     ) -> list[dict]:
         """Run the existing rule-based cycle unchanged."""
 
@@ -97,8 +106,15 @@ class EngineCycleMixin(EngineAutomaticCycleMixin):
                 position,
             )
             protective_decision = self.strategy.protective_exit(symbol, bars, position)
-            decision = protective_decision or self.strategy.decide(symbol, bars, position)
+            signal_bars = (
+                prepare_completed_bars(bars, self.config.timeframe, self._clock())
+                if entry_symbols is not None else bars
+            )
+            decision = protective_decision or self.strategy.decide(symbol, signal_bars, position)
             decision = self._time_based_sell_decision(symbol, decision, position)
+            decision = daily_minimum_decision(
+                self.strategy, decision, bars, position, due=symbol == daily_minimum_symbol,
+            )
             trading_agents_advice = None
             if protective_decision is None:
                 trading_agents_advice = self._trading_agents_advice(symbol)
@@ -107,6 +123,19 @@ class EngineCycleMixin(EngineAutomaticCycleMixin):
                     trading_agents_advice,
                     self.config.trading_agents,
                 )
+            if (entry_symbols is not None and protective_decision is None
+                    and "max_holding_minutes" not in decision.reasons):
+                report = self.last_selection_report
+                decision = gate_decision(
+                    TradingSessionStore(self.automatic_order_guard.session_store.path.with_name(
+                        "completed_decision_session.json")),
+                    report.strategy_id if report else "technical_strategy",
+                    report.strategy_version if report else "operational-v1",
+                    symbol, signal_bars, decision, self._clock(),
+                )
+            decision = price_entry_decision(
+                decision, (entry_prices or {}).get(symbol), self.config.strategy.stop_loss_pct,
+            )
             if (
                 entry_symbols is not None
                 and symbol not in entry_symbols
@@ -120,18 +149,23 @@ class EngineCycleMixin(EngineAutomaticCycleMixin):
                     [*decision.reasons, "not_selected_for_entry"],
                     decision.risk_per_share,
                 )
-            order_account, buying_power_check = self._account_for_order(
-                account,
-                symbol,
-                decision.latest_price,
-            )
+            order_account, buying_power_check = account, None
+            if decision.action == "buy":
+                order_account, buying_power_check = self._account_for_order(
+                    account,
+                    symbol,
+                    decision.latest_price,
+                )
             order_account = reservations.adjusted_account(order_account)
-            order = self.risk_manager.build_order(
+            risk_manager = self.risk_manager
+            order = risk_manager.build_order(
                 decision,
                 order_account,
                 position,
                 decision.latest_price,
             )
+            if order is None and decision.action == "buy":
+                decision = replace(decision, action="hold", reasons=[*decision.reasons, "entry_risk_capacity"])
 
             response = None
             if order is not None:
@@ -166,6 +200,10 @@ class EngineCycleMixin(EngineAutomaticCycleMixin):
                         self.trading_session_state.buy_count
                         + self.trading_session_state.sell_count,
                         self.trading_session_state.starting_equity,
+                        integer_quantity_enabled=self.config.risk.integer_quantity_enabled,
+                        estimated_roundtrip_cost_pct=self.config.risk.estimated_roundtrip_cost_pct,
+                        estimated_roundtrip_minimum_cost_usd=self.config.risk.estimated_roundtrip_minimum_cost_usd,
+                        estimated_sell_tax_pct=self.config.risk.estimated_sell_tax_pct,
                     )
                     if risk_reason:
                         if risk_reason == "learned_daily_loss_limit_reached":
@@ -184,7 +222,11 @@ class EngineCycleMixin(EngineAutomaticCycleMixin):
                         )
                     )
                 if response is None:
-                    response = self._submit_or_block_order(order, automatic_context)
+                    response = self._submit_or_block_order(
+                        order, automatic_context, decision.latest_price,
+                        daily_minimum_buy=(symbol == daily_minimum_symbol and order.side == "buy"),
+                        risk_per_share=decision.risk_per_share,
+                    )
                     record_submitted_order(
                         order,
                         response,
@@ -199,6 +241,24 @@ class EngineCycleMixin(EngineAutomaticCycleMixin):
                     ):
                         reservations.reserve(order, decision.latest_price)
 
+            planned_quantity = (
+                order.qty if order.qty is not None else
+                (order.notional or 0.0) / decision.latest_price
+            ) if order is not None and decision.latest_price > 0 else 0.0
+            risk_costs = decision_risk_costs(
+                decision, order_account, position, risk_manager.config,
+                planned_quantity=planned_quantity,
+            )
+            if entry_symbols is not None:
+                AuditLogger(self.strategy_artifact_paths.audit_log_path).append(AuditEvent(
+                    "operational_decision", payload={
+                        "symbol": symbol, "action": decision.action,
+                        "reasons": list(decision.reasons), "score": decision.score,
+                        "evaluation_timestamp": self._clock().isoformat(),
+                        "completed_bar_timestamp": signal_bars[-1].timestamp if signal_bars else None,
+                        "risk_costs": risk_costs,
+                    },
+                ))
             results.append(
                 {
                     "symbol": symbol,
@@ -208,6 +268,10 @@ class EngineCycleMixin(EngineAutomaticCycleMixin):
                     "account": order_account,
                     "buying_power_check": buying_power_check,
                     "trading_agents": trading_agents_advice,
+                    "exit_diagnostics": exit_diagnostics(self.strategy, bars, position),
+                    "evaluation_timestamp": self._clock().isoformat(),
+                    "indicator_timeframe": self.config.timeframe,
+                    "risk_costs": risk_costs,
                 }
             )
             if isinstance(response, dict) and response.get("terminal") is True:

@@ -35,6 +35,8 @@ from .live_authorization import broker_authorization_digest
 from .quant_data.symbol_selector import SelectionReport
 from .quant_data.resources import application_data_root
 from .risk import RiskManager
+from .production_authorization import ProductionOrderGate
+from .safe_runtime import orders_locked, sanitize_config, sanitize_settings
 from .session_state_persistence import load_session_state
 from .strategy import TechnicalStrategy
 from .trading_session_store import TradingSessionStore
@@ -61,9 +63,15 @@ class TradingEngine(
         live_order_confirmation: bool = False,
         strategy_artifact_paths: StrategyArtifactPaths | None = None,
         automatic_order_guard: AutomaticOrderGuard | None = None,
+        production_order_gate: ProductionOrderGate | None = None,
     ) -> None:
+        if orders_locked():
+            config = sanitize_config(config)
+            if trading_settings is not None:
+                trading_settings = sanitize_settings(trading_settings)
         validate_trading_mode(config)
         self.config = config
+        self.production_order_gate = production_order_gate
         self.strategy = TechnicalStrategy(config.strategy)
         self.risk_manager = RiskManager(config.risk)
         self.trading_agents = TradingAgentsAdvisor(config.trading_agents)

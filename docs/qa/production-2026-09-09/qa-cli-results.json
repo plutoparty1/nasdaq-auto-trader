@@ -1,0 +1,233 @@
+[
+  {
+    "scenario": "root-help",
+    "result": "PASS",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "-m",
+      "nasdaq_auto_trader",
+      "--help"
+    ],
+    "checks": {
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "no_traceback": true
+    },
+    "stdout": "usage: nasdaq-auto-trader [-h] [--config CONFIG]\n                          {show-config,authorize-live-session,revoke-live-session,select-symbols,gui,backtest,once,loop,buying-power,day-test,sell-monitor,live-canary-preflight,live-canary-arm,live-canary,trading-agents} ...\n\nNASDAQ rule-based auto trading helper\n\npositional arguments:\n  {show-config,authorize-live-session,revoke-live-session,select-symbols,gui,backtest,once,loop,buying-power,day-test,sell-monitor,live-canary-preflight,live-canary-arm,live-canary,trading-agents}\n    show-config         Print effective configuration as JSON\n    authorize-live-session\n                        Authorize automatic live orders for one NASDAQ regular\n                        session\n    revoke-live-session\n                        Revoke the stored automatic live-session authorization\n    select-symbols      Preview learned symbol selection without constructing\n                        orders\n    gui                 Launch the desktop management app\n    backtest            Run a CSV historical backtest\n    once                Run one live decision cycle\n    loop                Repeat decision cycles on an interval\n    buying-power        Check KIS overseas buying power without submitting an\n                        order\n    day-test            Plan a one-share same-day KIS buy/sell test\n    sell-monitor        Monitor and sell the existing HIVE 1-share position\n                        only\n    live-canary-preflight\n                        Run trading-API GET-only checks; OAuth token POST may\n                        occur\n    live-canary-arm     Issue a one-market-date authorization for the bounded\n                        live canary\n    live-canary         Run the unattended bounded KIS live canary role\n    trading-agents      Run optional TradingAgents analysis without submitting\n                        orders\n\noptions:\n  -h, --help            show this help message and exit\n  --config CONFIG       Path to a JSON configuration file\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "unknown-argument",
+    "result": "PASS",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "-m",
+      "nasdaq_auto_trader",
+      "--definitely-invalid"
+    ],
+    "checks": {
+      "expected_exit": 2,
+      "actual_exit": 2,
+      "no_traceback": true
+    },
+    "stdout": "",
+    "stderr": "usage: nasdaq-auto-trader [-h] [--config CONFIG]\n                          {show-config,authorize-live-session,revoke-live-session,select-symbols,gui,backtest,once,loop,buying-power,day-test,sell-monitor,live-canary-preflight,live-canary-arm,live-canary,trading-agents} ...\nnasdaq-auto-trader: error: the following arguments are required: command\n"
+  },
+  {
+    "scenario": "masked-show-config",
+    "result": "PASS",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "-m",
+      "nasdaq_auto_trader",
+      "--config",
+      "<temporary-fixture>\\masked.json",
+      "show-config"
+    ],
+    "checks": {
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "no_traceback": true,
+      "masked": true
+    },
+    "stdout": "{\n  \"mode\": \"dry_run\",\n  \"broker\": \"alpaca\",\n  \"symbols\": [\n    \"QQQ\"\n  ],\n  \"timeframe\": \"1Day\",\n  \"lookback_days\": 260,\n  \"bar_limit\": 1000,\n  \"allow_live_trading\": false,\n  \"live_environment_authorized\": false,\n  \"regular_market_hours_only\": true,\n  \"alpaca\": {\n    \"api_key\": \"***\",\n    \"secret_key\": \"***\",\n    \"paper\": true,\n    \"feed\": \"iex\",\n    \"timeout\": 30\n  },\n  \"kis\": {\n    \"app_key\": \"\",\n    \"app_secret\": \"\",\n    \"account_no\": \"\",\n    \"account_product_code\": \"01\",\n    \"paper\": true,\n    \"order_exchange_code\": \"NASD\",\n    \"price_exchange_code\": \"NAS\",\n    \"currency\": \"USD\",\n    \"timeout\": 30\n  },\n  \"strategy\": {\n    \"sma_fast\": 20,\n    \"sma_slow\": 50,\n    \"ema_fast\": 12,\n    \"ema_slow\": 26,\n    \"rsi_period\": 14,\n    \"rsi_oversold\": 30,\n    \"rsi_overbought\": 70,\n    \"macd_fast\": 12,\n    \"macd_slow\": 26,\n    \"macd_signal\": 9,\n    \"bollinger_period\": 20,\n    \"long_sma\": 200,\n    \"momentum_period\": 63,\n    \"donchian_period\": 55,\n    \"stochastic_period\": 14,\n    \"stochastic_oversold\": 20,\n    \"stochastic_overbought\": 80,\n    \"volume_period\": 20,\n    \"atr_period\": 14,\n    \"atr_stop_multiplier\": 3.0,\n    \"atr_take_profit_multiplier\": 5.0,\n    \"buy_score\": 5,\n    \"sell_score\": 4,\n    \"stop_loss_pct\": 0.07,\n    \"take_profit_pct\": 0.18,\n    \"use_regime_filter\": true,\n    \"buy_trigger_enabled\": false,\n    \"buy_drop_rate\": 0.0,\n    \"buy_ma_enabled\": true,\n    \"trailing_stop_enabled\": true,\n    \"trailing_stop_activation_pct\": 0.02,\n    \"trailing_stop_pct\": 0.01,\n    \"time_based_sell_enabled\": false,\n    \"max_holding_minutes\": 180\n  },\n  \"risk\": {\n    \"max_position_pct\": 0.1,\n    \"min_cash_buffer_pct\": 0.05,\n    \"min_order_notional\": 50.0,\n    \"max_order_notional\": null,\n    \"risk_per_trade_pct\": 0.01,\n    \"order_qty\": null,\n    \"max_position_qty\": null,\n    \"allow_additional_buy\": true,\n    \"min_cash_to_buy\": 0.0\n  },\n  \"trading_agents\": {\n    \"enabled\": false,\n    \"decision_policy\": \"advisory\",\n    \"fail_closed\": true,\n    \"selected_analysts\": [\n      \"market\",\n      \"social\",\n      \"news\",\n      \"fundamentals\"\n    ],\n    \"analysis_date\": null,\n    \"asset_type\": \"stock\",\n    \"llm_provider\": null,\n    \"deep_think_llm\": null,\n    \"quick_think_llm\": null,\n    \"backend_url\": null,\n    \"output_language\": null,\n    \"max_debate_rounds\": 1,\n    \"max_risk_discuss_rounds\": 1,\n    \"results_dir\": \"logs/tradingagents\",\n    \"data_cache_dir\": \"logs/tradingagents/cache\",\n    \"memory_log_path\": \"logs/tradingagents/memory/trading_memory.md\",\n    \"checkpoint_enabled\": false,\n    \"debug\": false\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "bom-show-config",
+    "result": "PASS",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "-m",
+      "nasdaq_auto_trader",
+      "--config",
+      "<temporary-fixture>\\bom.json",
+      "show-config"
+    ],
+    "checks": {
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "no_traceback": true,
+      "mode": "dry_run"
+    },
+    "stdout": "{\n  \"mode\": \"dry_run\",\n  \"broker\": \"alpaca\",\n  \"symbols\": [\n    \"QQQ\"\n  ],\n  \"timeframe\": \"1Day\",\n  \"lookback_days\": 260,\n  \"bar_limit\": 1000,\n  \"allow_live_trading\": false,\n  \"live_environment_authorized\": false,\n  \"regular_market_hours_only\": true,\n  \"alpaca\": {\n    \"api_key\": \"\",\n    \"secret_key\": \"\",\n    \"paper\": true,\n    \"feed\": \"iex\",\n    \"timeout\": 30\n  },\n  \"kis\": {\n    \"app_key\": \"\",\n    \"app_secret\": \"\",\n    \"account_no\": \"\",\n    \"account_product_code\": \"01\",\n    \"paper\": true,\n    \"order_exchange_code\": \"NASD\",\n    \"price_exchange_code\": \"NAS\",\n    \"currency\": \"USD\",\n    \"timeout\": 30\n  },\n  \"strategy\": {\n    \"sma_fast\": 20,\n    \"sma_slow\": 50,\n    \"ema_fast\": 12,\n    \"ema_slow\": 26,\n    \"rsi_period\": 14,\n    \"rsi_oversold\": 30,\n    \"rsi_overbought\": 70,\n    \"macd_fast\": 12,\n    \"macd_slow\": 26,\n    \"macd_signal\": 9,\n    \"bollinger_period\": 20,\n    \"long_sma\": 200,\n    \"momentum_period\": 63,\n    \"donchian_period\": 55,\n    \"stochastic_period\": 14,\n    \"stochastic_oversold\": 20,\n    \"stochastic_overbought\": 80,\n    \"volume_period\": 20,\n    \"atr_period\": 14,\n    \"atr_stop_multiplier\": 3.0,\n    \"atr_take_profit_multiplier\": 5.0,\n    \"buy_score\": 5,\n    \"sell_score\": 4,\n    \"stop_loss_pct\": 0.07,\n    \"take_profit_pct\": 0.18,\n    \"use_regime_filter\": true,\n    \"buy_trigger_enabled\": false,\n    \"buy_drop_rate\": 0.0,\n    \"buy_ma_enabled\": true,\n    \"trailing_stop_enabled\": true,\n    \"trailing_stop_activation_pct\": 0.02,\n    \"trailing_stop_pct\": 0.01,\n    \"time_based_sell_enabled\": false,\n    \"max_holding_minutes\": 180\n  },\n  \"risk\": {\n    \"max_position_pct\": 0.1,\n    \"min_cash_buffer_pct\": 0.05,\n    \"min_order_notional\": 50.0,\n    \"max_order_notional\": null,\n    \"risk_per_trade_pct\": 0.01,\n    \"order_qty\": null,\n    \"max_position_qty\": null,\n    \"allow_additional_buy\": true,\n    \"min_cash_to_buy\": 0.0\n  },\n  \"trading_agents\": {\n    \"enabled\": false,\n    \"decision_policy\": \"advisory\",\n    \"fail_closed\": true,\n    \"selected_analysts\": [\n      \"market\",\n      \"social\",\n      \"news\",\n      \"fundamentals\"\n    ],\n    \"analysis_date\": null,\n    \"asset_type\": \"stock\",\n    \"llm_provider\": null,\n    \"deep_think_llm\": null,\n    \"quick_think_llm\": null,\n    \"backend_url\": null,\n    \"output_language\": null,\n    \"max_debate_rounds\": 1,\n    \"max_risk_discuss_rounds\": 1,\n    \"results_dir\": \"logs/tradingagents\",\n    \"data_cache_dir\": \"logs/tradingagents/cache\",\n    \"memory_log_path\": \"logs/tradingagents/memory/trading_memory.md\",\n    \"checkpoint_enabled\": false,\n    \"debug\": false\n  }\n}\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "malformed-config",
+    "result": "PASS",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "-m",
+      "nasdaq_auto_trader",
+      "--config",
+      "<temporary-fixture>\\bad.json",
+      "once"
+    ],
+    "checks": {
+      "expected_exit": 2,
+      "actual_exit": 2,
+      "no_traceback": true
+    },
+    "stdout": "",
+    "stderr": "invalid configuration: <temporary-fixture>\\bad.json: Expecting property name enclosed in double quotes: line 1 column 3 (char 2)\n"
+  },
+  {
+    "scenario": "missing-csv",
+    "result": "PASS",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "-m",
+      "nasdaq_auto_trader",
+      "--config",
+      "<temporary-fixture>\\offline.json",
+      "backtest",
+      "--csv",
+      "<temporary-fixture>\\missing.csv"
+    ],
+    "checks": {
+      "expected_exit": 2,
+      "actual_exit": 2,
+      "no_traceback": true
+    },
+    "stdout": "",
+    "stderr": "CSV file could not be opened: <temporary-fixture>\\missing.csv\n"
+  },
+  {
+    "scenario": "offline-once",
+    "result": "PASS",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "-m",
+      "nasdaq_auto_trader",
+      "--config",
+      "<temporary-fixture>\\offline.json",
+      "once",
+      "--mode",
+      "dry_run"
+    ],
+    "checks": {
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "no_traceback": true,
+      "no_submission": true,
+      "qqq_present": true
+    },
+    "stdout": "[\n  {\n    \"symbol\": \"QQQ\",\n    \"decision\": {\n      \"symbol\": \"QQQ\",\n      \"action\": \"hold\",\n      \"score\": 0,\n      \"latest_price\": 100.0,\n      \"reasons\": [\n        \"below_long_regime\"\n      ],\n      \"risk_per_share\": null\n    },\n    \"order\": null,\n    \"response\": null,\n    \"account\": {\n      \"cash\": 10000.0,\n      \"equity\": 10000,\n      \"buying_power\": 10000.0\n    },\n    \"buying_power_check\": null,\n    \"trading_agents\": null,\n    \"ai_decision\": null\n  }\n]\n",
+    "stderr": ""
+  },
+  {
+    "scenario": "bounded-offline-loop",
+    "result": "FAIL",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "-m",
+      "nasdaq_auto_trader",
+      "--config",
+      "<temporary-fixture>\\offline.json",
+      "loop",
+      "--mode",
+      "dry_run",
+      "--interval-minutes",
+      "1",
+      "--max-runs",
+      "1"
+    ],
+    "checks": {
+      "expected_exit": 0,
+      "actual_exit": 1,
+      "no_traceback": false,
+      "no_submission": true,
+      "qqq_present": false
+    },
+    "stdout": "",
+    "stderr": "Error in sitecustomize; set PYTHONVERBOSE for traceback:\nMemoryError: \nCould not import runpy._run_module_as_main\nTraceback (most recent call last):\n  File \"<frozen importlib._bootstrap>\", line 1371, in _find_and_load\n  File \"<frozen importlib._bootstrap>\", line 1342, in _find_and_load_unlocked\n  File \"<frozen importlib._bootstrap>\", line 938, in _load_unlocked\n  File \"<frozen importlib._bootstrap>\", line 1179, in exec_module\n  File \"<frozen runpy>\", line 15, in <module>\n  File \"<frozen importlib._bootstrap>\", line 1371, in _find_and_load\n  File \"<frozen importlib._bootstrap>\", line 1342, in _find_and_load_unlocked\n  File \"<frozen importlib._bootstrap>\", line 938, in _load_unlocked\n  File \"<frozen importlib._bootstrap>\", line 1179, in exec_module\n  File \"<frozen importlib.util>\", line 2, in <module>\n  File \"<frozen importlib._bootstrap>\", line 1371, in _find_and_load\n  File \"<frozen importlib._bootstrap>\", line 1342, in _find_and_load_unlocked\n  File \"<frozen importlib._bootstrap>\", line 938, in _load_unlocked\n  File \"<frozen importlib._bootstrap_external>\", line 755, in exec_module\n  File \"<frozen importlib._bootstrap_external>\", line 851, in get_code\n  File \"<frozen importlib._bootstrap_external>\", line 950, in get_data\nMemoryError\n"
+  },
+  {
+    "scenario": "nonfinite-interval",
+    "result": "PASS",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "-m",
+      "nasdaq_auto_trader",
+      "--config",
+      "<temporary-fixture>\\offline.json",
+      "loop",
+      "--interval-minutes",
+      "nan",
+      "--max-runs",
+      "1"
+    ],
+    "checks": {
+      "expected_exit": 2,
+      "actual_exit": 2,
+      "no_traceback": true
+    },
+    "stdout": "",
+    "stderr": "usage: nasdaq-auto-trader loop [-h] [--mode {dry_run,paper,live}]\n                               [--interval-minutes INTERVAL_MINUTES]\n                               [--max-runs MAX_RUNS] [--confirm-live-orders]\n                               [--auto-select]\n                               [--trading-config TRADING_CONFIG]\nnasdaq-auto-trader loop: error: argument --interval-minutes: must be a finite number greater than zero\n"
+  },
+  {
+    "scenario": "negative-cash",
+    "result": "PASS",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "-m",
+      "nasdaq_auto_trader",
+      "--config",
+      "<temporary-fixture>\\offline.json",
+      "backtest",
+      "--cash",
+      "-1",
+      "--csv",
+      "<temporary-fixture>\\missing.csv"
+    ],
+    "checks": {
+      "expected_exit": 2,
+      "actual_exit": 2,
+      "no_traceback": true
+    },
+    "stdout": "",
+    "stderr": "usage: nasdaq-auto-trader backtest [-h] --csv CSV [--cash CASH]\nnasdaq-auto-trader backtest: error: argument --cash: must be a finite number greater than zero\n"
+  },
+  {
+    "scenario": "source-diagnostic",
+    "result": "PASS",
+    "command": [
+      "C:\\Python314\\python.exe",
+      "-m",
+      "nasdaq_auto_trader.gui_launcher",
+      "--diagnostic-output",
+      "<temporary-fixture>\\diagnostic.json"
+    ],
+    "checks": {
+      "expected_exit": 0,
+      "actual_exit": 0,
+      "no_traceback": true,
+      "diagnostic_status": "complete",
+      "submitted_order": false,
+      "network_client_constructed": false
+    },
+    "stdout": "",
+    "stderr": ""
+  }
+]

@@ -1,0 +1,33 @@
+{
+  "numerical_csvs_unchanged": true,
+  "changes": [
+    {
+      "dataset": "main",
+      "file": "manifest.json",
+      "initial_sha256": "ecd4afa44820e427d0e84806bed00b8f8f2c69d719898c4255bf6c6bb7f87910",
+      "corrected_sha256": "5736c1d576c34dd68aff31ba7476e9dd01de230bc73ed3e3ef39cb5102680372",
+      "reason": "Inherited old 1% A/B/C text corrected to frozen new 1/2/4% experiment; numerical data unchanged"
+    },
+    {
+      "dataset": "main",
+      "file": "protocol.json",
+      "initial_sha256": "5689de423dbae8b9560920dbc1d8c2bd73b4684048d0c38ac7c1ef52a0eeba32",
+      "corrected_sha256": "eef3cef77b54362cf2005f54c7906d91f09be615b11071b3a35528ef5cab0cef",
+      "reason": "Inherited old 1% A/B/C text corrected to frozen new 1/2/4% experiment; numerical data unchanged"
+    },
+    {
+      "dataset": "pair",
+      "file": "manifest.json",
+      "initial_sha256": "3755eb657533a559a04d9617f0f60cd90031aca685de3e2eeb19966fd9b50cf0",
+      "corrected_sha256": "4e9552477754bd10da18effaa4ffcc8d100bbc87ee61a2b1a7b9bb8015924dc1",
+      "reason": "Inherited old 1% A/B/C text corrected to frozen new 1/2/4% experiment; numerical data unchanged"
+    },
+    {
+      "dataset": "pair",
+      "file": "protocol.json",
+      "initial_sha256": "c897edc3a7ea908ce9dc8d40937a18a6f549bcd6d11addee9f4ef9c1b9dd7f7a",
+      "corrected_sha256": "941bbb13270c7de9b345efaf6829051ec22370293fe4a4c9e54045c4b38faaa6",
+      "reason": "Inherited old 1% A/B/C text corrected to frozen new 1/2/4% experiment; numerical data unchanged"
+    }
+  ]
+}

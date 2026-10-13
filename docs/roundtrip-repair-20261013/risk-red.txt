@@ -1,0 +1,17 @@
+.F                                                                       [100%]
+================================== FAILURES ===================================
+_________ test_estimated_roundtrip_cost_is_part_of_planned_stop_loss __________
+
+    def test_estimated_roundtrip_cost_is_part_of_planned_stop_loss() -> None:
+        # Given a stop that fits only when expected costs are omitted.
+        account = AccountSnapshot(100, 100, 100)
+        decision = TradeDecision("CMCSA", "buy", 5, 20, ["signal"], 0.99)
+>       risk = RiskManager(RiskConfig(max_position_pct=1, order_qty=1,
+                                      risk_per_trade_pct=0.01,
+                                      estimated_roundtrip_cost_pct=0.005))
+E       TypeError: RiskConfig.__init__() got an unexpected keyword argument 'estimated_roundtrip_cost_pct'
+
+tests\test_roundtrip_risk_costs.py:19: TypeError
+=========================== short test summary info ===========================
+FAILED tests/test_roundtrip_risk_costs.py::test_estimated_roundtrip_cost_is_part_of_planned_stop_loss
+1 failed, 1 passed in 3.98s

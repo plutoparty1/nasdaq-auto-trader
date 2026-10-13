@@ -9,7 +9,10 @@ from typing import Literal, TypeAlias
 
 from nasdaq_auto_trader.ai_quant_lab.artifact_paths import StrategyArtifactPaths
 from nasdaq_auto_trader.ai_quant_lab.registry import StrategyRegistry
-from nasdaq_auto_trader.ai_quant_lab.registry_models import StrategyRecord, StrategyStatus
+from nasdaq_auto_trader.ai_quant_lab.registry_models import (
+    StrategyRecord,
+    StrategyStatus,
+)
 from nasdaq_auto_trader.ai_quant_lab.storage import safe_artifact_path
 from nasdaq_auto_trader.ai_quant_lab.strategy_schema import (
     StrategySpec,
@@ -21,7 +24,6 @@ from nasdaq_auto_trader.strategies.strategy_library import build_strategy
 
 from .features import PriceBar, calculate_feature_rows
 from .universe_snapshot import UniverseSnapshot
-
 
 SelectionStatus: TypeAlias = Literal["selected", "no_trade", "blocked"]
 PAPER_ELIGIBLE = frozenset(
@@ -93,6 +95,9 @@ def select_symbols(
     resolved: ResolvedStrategy,
     bars_by_symbol: dict[str, list[PriceBar]],
     warnings: tuple[str, ...] = (),
+    *,
+    eligible_symbols: frozenset[str] | None = None,
+    daily_minimum_due: bool = False,
 ) -> SelectionReport:
     members = {item.symbol for item in snapshot.symbols}
     normalized = {
@@ -105,6 +110,8 @@ def select_symbols(
     features = calculate_feature_rows(normalized)
     strategy = build_strategy(resolved.spec)
     signals = strategy.generate_signals(features)
+    if eligible_symbols is not None:
+        signals = tuple(signal for signal in signals if signal.symbol in eligible_symbols)
     selected_signals = strategy.rank_and_select(signals)
     ranked = tuple(
         RankedSymbol(
@@ -128,6 +135,8 @@ def select_symbols(
         ranked=ranked,
         selected_symbols=selected_symbols,
         warnings=warnings,
+        blocked_reasons=("entry_eligibility_no_candidates",)
+        if eligible_symbols == frozenset() else (),
         universe_version=snapshot.checksum,
     )
 

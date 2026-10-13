@@ -1,0 +1,1922 @@
+[
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "C_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "C_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "C_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_8_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_8_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_8_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_10_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_10_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_10_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "C_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "C_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "C_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_8_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_8_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_8_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_10_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_10_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_10_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "C_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "C_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "C_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_8_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_8_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_8_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_10_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_10_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_10_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "C_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "C_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "C_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_8_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_8_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_8_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_10_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_10_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "fixed_10_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "main",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "C_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "C_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "C_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_8_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_8_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_8_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_10_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_10_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_10_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "C_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "C_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "C_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_8_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_8_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_8_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_10_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_10_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_10_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "C_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "C_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "C_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_8_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_8_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_8_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_10_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_10_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_10_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "C_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "C_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "C_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_8_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_8_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_8_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_10_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_10_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "fixed_10_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "train",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 7,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "C_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "C_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "C_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_8_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_8_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_8_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_10_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_10_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_10_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "C_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "C_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "C_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_8_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_8_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_8_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_10_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_10_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_10_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "C_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "C_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "C_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_8_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_8_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_8_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_10_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_10_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_10_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "C_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "C_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "C_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_8_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_8_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_8_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_10_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_10_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "fixed_10_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "validation",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 4,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "C_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "C_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "C_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_8_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_8_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_8_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_10_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_10_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_10_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "base",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "C_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "C_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "C_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_8_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_8_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_8_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_10_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_10_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_10_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "base",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "C_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "C_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "C_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_8_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_8_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_8_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_10_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_10_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_10_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "stress",
+    "currency": "USD",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "C_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "C_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "C_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_8_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_8_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_8_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_10_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_10_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "fixed_10_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk1",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk2",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  },
+  {
+    "dataset": "pair",
+    "split": "final",
+    "profile": "entry_atr14x3_1day_risk4",
+    "cost": "stress",
+    "currency": "KRW",
+    "complete_months": 5,
+    "target10_months": 0,
+    "all_observed_target10_months": 0
+  }
+]

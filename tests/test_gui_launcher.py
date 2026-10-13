@@ -74,16 +74,23 @@ class GuiLauncherTests(unittest.TestCase):
             else:
                 os.environ["LOCALAPPDATA"] = original_local_app_data
 
-    def test_dashboard_app_starts_with_internal_interval(self):
+    def test_dashboard_app_starts_with_configured_interval(self) -> None:
+        # Given a GUI configured to check trading conditions every five minutes.
         app = DashboardApp.__new__(DashboardApp)
-        app.controller = Mock()
+        app.controller = Mock(
+            trading_settings=TradingSettings(unattended_interval_minutes=5),
+            interval_seconds=300,
+        )
         app._append_log = Mock()
         app._start_task = Mock()
         app._update_controls = Mock()
 
+        # When the user starts automatic operation.
         app._start_auto_trading()
 
-        app.controller.start.assert_called_once_with()
+        # Then the configured interval is applied and reported before one task starts.
+        app.controller.start.assert_called_once_with(interval_seconds=300)
+        app._append_log.assert_called_once_with("자동매매 실행: 5분 간격")
         app._start_task.assert_called_once()
 
     def test_launch_gui_uses_safe_defaults_when_settings_loading_fails(self):

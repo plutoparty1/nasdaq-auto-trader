@@ -1,11 +1,18 @@
 from __future__ import annotations
 
+from collections.abc import Iterator
 from contextlib import contextmanager
+from dataclasses import replace
 from pathlib import Path
-from typing import Iterator
 
 from .file_lock import FileLockTimeout, exclusive_file_lock
-from .session_claims import ClaimDecision, ClaimRecord, ClaimStatus, SignalKey
+from .session_claims import (
+    AcceptedBuyReceipt,
+    ClaimDecision,
+    ClaimRecord,
+    ClaimStatus,
+    SignalKey,
+)
 from .session_safety_merge import merge_persisted_safety_state
 from .session_safety_reservation import (
     PersistedSafetyState,
@@ -14,15 +21,15 @@ from .session_safety_reservation import (
     SafetyReservationRequest,
     reserve_safety_state,
 )
-from .session_store_io import (
-    SessionPayloadError,
-    read_session_payload,
-    write_session_payload,
-)
 from .session_state_codec import (
     ParsedSafetyState,
     SessionStateCodecError,
     validate_safety_state,
+)
+from .session_store_io import (
+    SessionPayloadError,
+    read_session_payload,
+    write_session_payload,
 )
 
 
@@ -86,8 +93,6 @@ class TradingSessionStore:
             current_claims = (
                 record.status
                 for record in claims.values()
-                if not record.market_date
-                or record.market_date == request.market_date
             )
             current_statuses = set(current_claims)
             if ClaimStatus.UNCERTAIN in current_statuses:
@@ -125,7 +130,10 @@ class TradingSessionStore:
             self._write_unlocked(updated, claims)
             return decision
 
-    def complete(self, key: SignalKey, status: ClaimStatus) -> None:
+    def complete(
+        self, key: SignalKey, status: ClaimStatus,
+        buy_receipt: AcceptedBuyReceipt | None = None,
+    ) -> None:
         if status not in (
             ClaimStatus.SUBMITTED,
             ClaimStatus.REJECTED,
@@ -137,7 +145,21 @@ class TradingSessionStore:
             digest = key.digest()
             if digest not in claims:
                 raise SessionStoreError("signal_key_missing")
-            claims[digest] = ClaimRecord(status, claims[digest].market_date)
+            claims[digest] = ClaimRecord(status, claims[digest].market_date, buy_receipt)
+            self._write_unlocked(safety, claims)
+
+    def load_buy_receipts(self) -> tuple[tuple[str, AcceptedBuyReceipt], ...]:
+        with self._locked():
+            _, claims = self._read_unlocked()
+            return tuple(
+                (digest, record.buy_receipt) for digest, record in claims.items()
+                if record.buy_receipt is not None
+            )
+
+    def resolve_buy_receipt(self, digest: str) -> None:
+        with self._locked():
+            safety, claims = self._read_unlocked()
+            claims[digest] = replace(claims[digest], buy_receipt=None)
             self._write_unlocked(safety, claims)
 
     def recover_interrupted_claims(self) -> int:

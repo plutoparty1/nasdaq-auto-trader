@@ -1,0 +1,2 @@
+PRODUCTION_RUNTIME {"build_id": "formal-production-20261013-r1", "status": "paused", "mode": "waiting", "approval_status": "production_approval_required", "strategy_id": "builtin_ai_volatility_target", "entries_enabled": true, "submission_enabled": false, "real_fill_validation": "not_performed"}
+{"executable": "C:\\Users\\u\\nasdaq-auto-trader\\nasdaq_auto_trader\\production_launcher.py", "draft": true, "strategy": "builtin_ai_volatility_target", "minimum_buy": false, "fixed_qty": 1, "actual_orders": 0, "actual_approvals": 0}

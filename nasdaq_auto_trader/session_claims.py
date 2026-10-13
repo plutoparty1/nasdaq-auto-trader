@@ -44,6 +44,16 @@ class ClaimDecision:
 
 
 @dataclass(frozen=True, slots=True)
+class AcceptedBuyReceipt:
+    order_id: str
+    symbol: str
+    market_date: str
+    initial_position_qty: float
+    planned_quantity: float = 1.0
+
+
+@dataclass(frozen=True, slots=True)
 class ClaimRecord:
     status: ClaimStatus
     market_date: str
+    buy_receipt: AcceptedBuyReceipt | None = None

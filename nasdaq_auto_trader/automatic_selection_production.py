@@ -7,15 +7,15 @@ from datetime import timedelta
 from pathlib import Path
 
 from .ai_quant_lab.audit_logger import AuditEvent, AuditLogger
+from .automatic_risk import AutomaticRiskBlock, resolve_automatic_risk_limits
 from .automatic_selection import (
-    AutomaticSelectionResult,
     AutomaticSelectionRequest,
+    AutomaticSelectionResult,
     _load_bars,
     _load_quotes,
     _price_bar,
     prepare_automatic_selection,
 )
-from .automatic_risk import AutomaticRiskBlock, resolve_automatic_risk_limits
 from .brokers.common import BrokerRequestError
 from .quant_data.market_quality import filter_tradeable_symbols
 from .quant_data.resources import application_data_root
@@ -24,8 +24,8 @@ from .quant_data.symbol_selector import (
     ResolvedStrategy,
     SelectionReport,
     StrategyResolutionBlock,
-    resolve_strategy,
     blocked_selection_report_without_snapshot,
+    resolve_strategy,
 )
 from .quant_data.universe_snapshot import (
     UniverseSnapshot,
@@ -38,7 +38,6 @@ def prepare_production_automatic_selection(
     request: AutomaticSelectionRequest,
 ) -> AutomaticSelectionResult:
     config = request.config
-    market_data = request.market_data
     paths = request.paths
     now = request.now
     started = time.monotonic()
@@ -51,7 +50,11 @@ def prepare_production_automatic_selection(
         return AutomaticSelectionResult(report, {})
     _audit_universe(audit, snapshot, started)
     resolution = resolve_strategy(config.mode, paths)
-    if config.mode == "live" or isinstance(resolution, StrategyResolutionBlock):
+    if (
+        config.mode == "live"
+        or request.entry_context is not None
+        or isinstance(resolution, StrategyResolutionBlock)
+    ):
         result = prepare_automatic_selection(request)
         _audit_shortlist(audit, result.report, started)
         _audit_selection_result(audit, result.report, started)
@@ -63,7 +66,7 @@ def prepare_production_automatic_selection(
     )
     cached = cache.read(identity, now)
     if cached is not None:
-        risk_limits = resolve_automatic_risk_limits(paths, resolution)
+        risk_limits = resolve_automatic_risk_limits(paths, resolution, candidate_risk=config.risk)
         cached_result = (
             None
             if isinstance(risk_limits, AutomaticRiskBlock)

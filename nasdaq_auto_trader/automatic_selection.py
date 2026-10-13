@@ -1,21 +1,31 @@
 from __future__ import annotations
 
 from dataclasses import dataclass, field, replace
-from datetime import datetime, timedelta
-import math
-from typing import Protocol, runtime_checkable
+from datetime import datetime
 
 from nasdaq_auto_trader.ai_quant_lab.artifact_paths import StrategyArtifactPaths
-from nasdaq_auto_trader.ai_quant_lab.types import JsonObject, JsonValue
-from nasdaq_auto_trader.brokers.common import BrokerRequestError
-from nasdaq_auto_trader.config import AppConfig
-from nasdaq_auto_trader.models import Bar
+from nasdaq_auto_trader.automatic_entry_eligibility import EntryEligibilityContext
 from nasdaq_auto_trader.automatic_risk import (
     AutomaticRiskBlock,
     AutomaticRiskLimits,
     resolve_automatic_risk_limits,
 )
-from nasdaq_auto_trader.quant_data.features import PriceBar
+from nasdaq_auto_trader.automatic_selection_data import (
+    BatchQuoteMarketData,
+    BestQuoteMarketData,
+    KISLiquidityMarketData,
+    SelectionMarketData,
+    _first_number,
+    _load_bars,
+    _load_quotes,
+    _parsed_quotes,
+    _price_bar,
+    _quote_prices,
+    load_entry_market_data,
+)
+from nasdaq_auto_trader.brokers.common import BrokerRequestError
+from nasdaq_auto_trader.config import AppConfig
+from nasdaq_auto_trader.models import Bar
 from nasdaq_auto_trader.quant_data.market_quality import filter_tradeable_symbols
 from nasdaq_auto_trader.quant_data.symbol_selector import (
     SelectionReport,
@@ -27,40 +37,27 @@ from nasdaq_auto_trader.quant_data.symbol_selector import (
 )
 from nasdaq_auto_trader.quant_data.universe_snapshot import (
     UniverseSnapshotError,
+    UniverseSymbol,
     load_default_universe,
     universe_freshness,
-    UniverseSymbol,
 )
 
-
-class SelectionMarketData(Protocol):
-    def get_stock_bars(
-        self,
-        symbols: list[str],
-        timeframe: str,
-        start: str,
-        end: str | None = None,
-        limit: int = 1000,
-    ) -> dict[str, list[Bar]]: ...
-
-
-@runtime_checkable
-class KISLiquidityMarketData(Protocol):
-    def get_liquid_overseas_symbols(
-        self,
-        universe: set[str],
-        limit: int = 30,
-    ) -> tuple[str, ...]: ...
-
-
-@runtime_checkable
-class BatchQuoteMarketData(Protocol):
-    def get_latest_quotes(self, symbols: list[str]) -> dict[str, JsonObject]: ...
-
-
-@runtime_checkable
-class BestQuoteMarketData(Protocol):
-    def get_best_quote(self, symbol: str) -> JsonObject: ...
+__all__ = [
+    "AutomaticSelectionRequest",
+    "AutomaticSelectionResult",
+    "BatchQuoteMarketData",
+    "BestQuoteMarketData",
+    "EntryEligibilityContext",
+    "KISLiquidityMarketData",
+    "SelectionMarketData",
+    "_first_number",
+    "_load_bars",
+    "_load_quotes",
+    "_parsed_quotes",
+    "_price_bar",
+    "_quote_prices",
+    "prepare_automatic_selection",
+]
 
 
 @dataclass(frozen=True, slots=True)
@@ -69,6 +66,7 @@ class AutomaticSelectionResult:
     bars_by_symbol: dict[str, list[Bar]]
     risk_limits: AutomaticRiskLimits | None = None
     quotes_by_symbol: dict[str, tuple[float, float]] = field(default_factory=dict)
+    daily_loss_breached: bool = False
 
 
 @dataclass(frozen=True, slots=True)
@@ -77,6 +75,7 @@ class AutomaticSelectionRequest:
     market_data: SelectionMarketData
     paths: StrategyArtifactPaths
     now: datetime
+    entry_context: EntryEligibilityContext | None = None
 
 
 def prepare_automatic_selection(
@@ -105,7 +104,7 @@ def prepare_automatic_selection(
             warnings=freshness.warnings,
         )
         return AutomaticSelectionResult(report, {})
-    risk_limits = resolve_automatic_risk_limits(paths, resolution)
+    risk_limits = resolve_automatic_risk_limits(paths, resolution, candidate_risk=config.risk)
     if isinstance(risk_limits, AutomaticRiskBlock):
         report = blocked_selection_report(
             snapshot,
@@ -114,10 +113,24 @@ def prepare_automatic_selection(
             freshness.warnings,
         )
         return AutomaticSelectionResult(report, {})
+    daily_minimum_due = bool(
+        request.entry_context is not None and request.entry_context.daily_minimum_due
+    )
+    data_warnings: tuple[str, ...] = ()
     try:
-        symbols = _shortlist_symbols(config, market_data, snapshot.symbols)
-        legacy_bars = _load_bars(request, symbols)
-        quotes = _load_quotes(request, symbols)
+        symbols = (
+            sorted(item.symbol for item in snapshot.symbols)
+            if request.entry_context is not None
+            else _shortlist_symbols(config, market_data, snapshot.symbols)
+        )
+        if request.entry_context is None:
+            legacy_bars = _load_bars(request, symbols)
+            quotes = _load_quotes(request, symbols)
+        else:
+            entry_data = load_entry_market_data(request, symbols)
+            legacy_bars = entry_data.bars_by_symbol
+            quotes = entry_data.quotes_by_symbol
+            data_warnings = entry_data.warnings
     except BrokerRequestError as exc:
         report = blocked_selection_report(
             snapshot,
@@ -145,19 +158,39 @@ def prepare_automatic_selection(
             -(price_bars[symbol][-1].close * price_bars[symbol][-1].volume),
             symbol,
         ),
-    )[:30]
+    )
+    if request.entry_context is None:
+        ranked_quality = ranked_quality[:30]
     selected_bars = {symbol: price_bars[symbol] for symbol in ranked_quality}
+    eligible_symbols = None
+    daily_loss_breached = False
+    warnings = (*freshness.warnings, *data_warnings)
+    if request.entry_context is not None:
+        context = replace(
+            request.entry_context,
+            entry_prices={symbol: quote[1] for symbol, quote in quotes.items()},
+        )
+        eligibility = context.evaluate(
+            config, {symbol: legacy_bars[symbol] for symbol in ranked_quality},
+            risk_limits, now,
+        )
+        eligible_symbols = eligibility.eligible_symbols
+        daily_loss_breached = eligibility.daily_loss_breached
+        warnings = (*warnings, *eligibility.warnings)
     report = select_symbols(
         snapshot,
         resolution,
         selected_bars,
-        freshness.warnings,
+        warnings,
+        eligible_symbols=eligible_symbols,
+        daily_minimum_due=daily_minimum_due,
     )
     return AutomaticSelectionResult(
         report,
         {symbol: legacy_bars[symbol] for symbol in ranked_quality},
         risk_limits,
         {symbol: quotes[symbol] for symbol in ranked_quality if symbol in quotes},
+        daily_loss_breached,
     )
 
 
@@ -170,85 +203,3 @@ def _shortlist_symbols(
     if config.broker == "kis" and isinstance(market_data, KISLiquidityMarketData):
         return list(market_data.get_liquid_overseas_symbols(members, 30))
     return sorted(members)
-
-
-def _load_bars(
-    request: AutomaticSelectionRequest,
-    symbols: list[str],
-) -> dict[str, list[Bar]]:
-    config = request.config
-    now = request.now
-    start = now - timedelta(days=config.lookback_days)
-    return dict(
-        request.market_data.get_stock_bars(
-            symbols,
-            config.timeframe,
-            start.date().isoformat(),
-            now.date().isoformat(),
-            config.bar_limit,
-        )
-    )
-
-
-def _load_quotes(
-    request: AutomaticSelectionRequest,
-    symbols: list[str],
-) -> dict[str, tuple[float, float]]:
-    config = request.config
-    market_data = request.market_data
-    if config.mode == "dry_run":
-        return {}
-    if isinstance(market_data, BatchQuoteMarketData):
-        return _parsed_quotes(symbols, market_data.get_latest_quotes(symbols))
-    if isinstance(market_data, BestQuoteMarketData):
-        return _parsed_quotes(
-            symbols,
-            {symbol: market_data.get_best_quote(symbol) for symbol in symbols},
-        )
-    raise BrokerRequestError("market_quote_provider_unavailable")
-
-
-def _parsed_quotes(
-    symbols: list[str],
-    payloads: dict[str, JsonObject],
-) -> dict[str, tuple[float, float]]:
-    if set(payloads) != set(symbols):
-        raise BrokerRequestError("market_quote_batch_incomplete")
-    return {
-        symbol: _quote_prices(payloads[symbol])
-        for symbol in symbols
-    }
-
-
-def _quote_prices(payload: JsonObject) -> tuple[float, float]:
-    bid = _first_number(payload, ("bp", "pbid1", "bid"))
-    ask = _first_number(payload, ("ap", "pask1", "ask"))
-    if bid <= 0 or ask < bid:
-        raise BrokerRequestError("market_quote_invalid")
-    return bid, ask
-
-
-def _first_number(payload: JsonObject, keys: tuple[str, ...]) -> float:
-    for key in keys:
-        value: JsonValue | None = payload.get(key)
-        if value in (None, ""):
-            continue
-        try:
-            number = float(str(value).replace(",", ""))
-        except ValueError:
-            continue
-        if math.isfinite(number):
-            return number
-    return 0.0
-
-
-def _price_bar(bar: Bar) -> PriceBar:
-    return PriceBar(
-        symbol=bar.symbol,
-        timestamp=bar.timestamp,
-        open=bar.open,
-        high=bar.high,
-        low=bar.low,
-        close=bar.close,
-        volume=bar.volume,
-    )

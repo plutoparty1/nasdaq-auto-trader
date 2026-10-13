@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="rabbit r1 metronome with wheel tempo control, tap tempo, and saved songs.">
+  <meta name="theme-color" content="#07080a">
+  <title>PULSE · r1 Metronome</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+  <div class="device-wrap">
+    <div class="preview-label" aria-hidden="true">PULSE <span>r1 metronome</span></div>
+    <div id="app">
+      <header class="topbar"><span class="brand">PULSE<span class="brand-dot"></span></span><span class="meter">4/4</span><button id="mute" aria-pressed="false" aria-label="Silent mode">Sound</button></header>
+      <main>
+        <section id="home" class="page home" aria-label="Metronome">
+          <div class="tempo"><button id="minus" class="tempo-step" aria-label="Decrease tempo by 1">−</button><label class="tempo-number"><input id="bpm" type="number" min="20" max="300" step="1" inputmode="numeric" pattern="[0-9]*" value="120" maxlength="3" aria-label="Tempo BPM" autocomplete="off"><span>BPM</span></label><button id="plus" class="tempo-step" aria-label="Increase tempo by 1">+</button></div>
+          <div class="beats" aria-label="Accent beats"><button data-beat="0" aria-label="Accent beat 1" aria-pressed="true">1</button><button data-beat="1" aria-label="Accent beat 2" aria-pressed="false">2</button><button data-beat="2" aria-label="Accent beat 3" aria-pressed="false">3</button><button data-beat="3" aria-label="Accent beat 4" aria-pressed="false">4</button></div>
+          <div class="segments subdivision" aria-label="Subdivision"><button data-sub="1" aria-label="Quarter notes" aria-pressed="true">♩</button><button data-sub="2" aria-label="Eighth notes" aria-pressed="false">♪</button><button data-sub="3" aria-label="Triplets" aria-pressed="false">3</button></div>
+        </section>
+        <section id="tap" class="page padded" aria-label="Tap tempo" hidden>
+          <div class="page-title"><h1>Tap</h1><span id="tap-count" class="small">0 taps</span></div>
+          <p id="tap-instruction" class="secondary">Tap steadily to set the tempo.</p>
+          <button id="tap-pad" class="tap-pad"><strong>TAP</strong><span id="tap-time"></span></button>
+          <div class="tap-actions"><button id="tap-reset">Reset</button><button id="tap-apply" class="primary" disabled>Use tempo</button></div>
+        </section>
+        <section id="settings" class="page padded" aria-label="Settings" hidden>
+          <div class="segments sound"><button data-sound="drum" aria-pressed="true">Drum</button><button data-sound="melody" aria-pressed="false">Melody</button></div>
+          <p class="secondary sound-note">Accent and regular tones in each mode.</p>
+          <label class="flash-option"><input id="flash-with-sound" type="checkbox"><span>Flash with sound</span></label>
+          <p class="secondary help">Tap 1–4 to set accent beats.</p>
+        </section>
+        <section id="library" class="page padded" aria-label="Saved songs" hidden>
+          <div class="page-title"><h1>★</h1><span id="song-count" class="small">0 songs</span></div>
+          <form id="save-form"><label for="song-title" class="field-label">Save current tempo</label><div class="save-row"><input id="song-title" placeholder="Song title · e.g. music1" maxlength="40" required autocomplete="off"><button id="save-song" class="primary" type="submit" disabled>Save</button></div></form>
+          <p id="library-empty" class="secondary empty">No saved songs yet.<br>Name a song to save this tempo.</p>
+          <div id="song-list" class="song-list"></div>
+        </section>
+      </main>
+      <nav aria-label="Pages"><button data-page="home" aria-current="page">Tempo</button><button data-page="tap">Tap</button><button data-page="settings">Setting</button><button data-page="library" aria-label="Saved songs">★</button></nav>
+      <div id="status" role="status" aria-live="polite" hidden></div>
+    </div>
+  </div>
+  <script type="module" src="src/app.js"></script>
+</body>
+</html>

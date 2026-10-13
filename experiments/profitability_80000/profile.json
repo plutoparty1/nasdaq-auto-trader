@@ -1,0 +1,51 @@
+{
+  "dry_run": true,
+  "broker": "offline_csv",
+  "assessment": "EXPLORATORY_ALREADY_USED_DATA",
+  "starting_krw": 80000,
+  "risk_budgets": [
+    0.01,
+    0.02,
+    0.04
+  ],
+  "candidates": [
+    "C",
+    "fixed_8",
+    "fixed_10",
+    "entry_atr14x3_1day"
+  ],
+  "portfolio_risk_pct": 0.06,
+  "order_qty": 1,
+  "max_position_qty": 1,
+  "max_position_pct": 0.5,
+  "max_total_position_pct": 0.5,
+  "cash_buffer_pct": 0.05,
+  "max_order_usd": 35,
+  "minimum_order_usd": 0,
+  "daily_loss_halt_pct": 0.02,
+  "warmup_bars": 64,
+  "train_end": "2025-08-29T23:59:59+00:00",
+  "validation_end": "2026-02-27T23:59:59+00:00",
+  "quantity_step": 1,
+  "signal_timeframe": "1Day",
+  "execution_timeframe": "1Day",
+  "buy_fill": "next_open_plus_adverse_cost_within_limit_positive_volume",
+  "c_initial_sizing": "first_initial_stop_plus_roundtrip_cost",
+  "benchmark": "equal_initial_cash_budgets_whole_shares_no_reallocation_price_only",
+  "operations_monthly_krw": null,
+  "source_sha256": {
+    "experiments/entry_policy/profile.json": "af69e6f41baa5d0291c8fdd1f5578bfafae437df83c04d880ac1944ecc594627",
+    "experiments/early_exit/profiles.json": "04471547cfd612a4419aabc3a6dfa8b5ca3b11650b935324c58662eeb2decb50",
+    "experiments/early_exit/settings.json": "23b0124bdfd10ec57f5e72c1bda711b2861ba069c80a853fdb89144957d3e11c"
+  },
+  "data_sha256": {
+    "actual_trade_group.csv": "7c81968a0756ebaec29ae37e7e3ecd8b271b48d406f58e5af84e0c7cc297a14b",
+    "actual_trade_group_after_corporate_action.csv": "22eb6493d51bf44b25f3c329b730a159434105a44ef96be8aa0429c23e2c147f",
+    "usdkrw.csv": "e94a2de39bf1f2b8c0a1bfd434c0bc5c8110a1e75188fe70e766142e095884f9",
+    "comparison-provenance.json": "a9b9264db82a6773ff6b4ae92eec5ef8bf6d5f68dfcc9f34df740bb63c535714",
+    "CMCSA.yahoo.json": "93c6b7e18f6f01abd605a6f857603920a388ac8cd44b9dc662b5aef93ee8e8aa",
+    "KDP.yahoo.json": "c69af45db5e818e41d944ce6bae95eb3dced1c13a1c323da8bfe4770a392912d",
+    "HIVE.yahoo.json": "c266a4a1a54a4a6eab180484df03714a7adf57bcbf9477b089cec5d3d8dc0346"
+  },
+  "frozen_at": "2026-10-11T02:07:08.454333+00:00"
+}

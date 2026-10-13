@@ -8,12 +8,16 @@ from nasdaq_auto_trader.ai_quant_lab.audit_logger import AuditEvent, NullAuditLo
 from nasdaq_auto_trader.ai_quant_lab.backtest_market_data import (
     validate_backtest_market_data,
 )
-from nasdaq_auto_trader.ai_quant_lab.backtest_metrics import MetricTiming, calculate_backtest_metrics
+from nasdaq_auto_trader.ai_quant_lab.backtest_metrics import (
+    MetricTiming,
+    calculate_backtest_metrics,
+)
+from nasdaq_auto_trader.ai_quant_lab.backtest_position_state import OpenPosition
 from nasdaq_auto_trader.ai_quant_lab.backtest_sizing import backtest_position_quantity
 from nasdaq_auto_trader.ai_quant_lab.config import AIQuantConfig
-from nasdaq_auto_trader.ai_quant_lab.strategy_schema import ExitRule, StrategySpec
-from nasdaq_auto_trader.quant_data.features import PriceBar, calculate_feature_rows
+from nasdaq_auto_trader.ai_quant_lab.strategy_schema import StrategySpec
 from nasdaq_auto_trader.quant_data.feature_statistics import normalized_timestamps
+from nasdaq_auto_trader.quant_data.features import PriceBar, calculate_feature_rows
 from nasdaq_auto_trader.strategies.strategy_library import build_strategy
 
 
@@ -25,36 +29,6 @@ class TradeLog:
     price: float
     qty: int
     cost: float
-
-
-@dataclass(frozen=True, slots=True)
-class OpenPosition:
-    entry_price: float
-    entry_index: int
-    peak_price: float
-    risk_distance: float
-
-    def observe(self, price: float) -> OpenPosition:
-        return OpenPosition(
-            self.entry_price,
-            self.entry_index,
-            max(self.peak_price, price),
-            self.risk_distance,
-        )
-
-    def should_exit(self, price: float, index: int, rule: ExitRule) -> bool:
-        held_too_long = index - self.entry_index >= rule.max_holding_days
-        stop_hit = price <= self.entry_price - self.risk_distance
-        atr_distance = self.risk_distance / rule.stop_loss_atr_multiple
-        take_profit_hit = (
-            price
-            >= self.entry_price + (atr_distance * rule.take_profit_atr_multiple)
-        )
-        trailing_hit = (
-            rule.trailing_stop
-            and price <= self.peak_price - self.risk_distance
-        )
-        return held_too_long or stop_hit or take_profit_hit or trailing_hit
 
 
 @dataclass(frozen=True, slots=True)
@@ -76,6 +50,7 @@ class BacktestRequest:
     bars_by_symbol: dict[str, list[PriceBar]]
     initial_cash: float = 100_000.0
     benchmark_symbol: str = "QQQ"
+    trade_start_index: int = 1
 
 
 class BacktestEngine:
@@ -103,6 +78,8 @@ class BacktestEngine:
         )
         if market_data_reason is not None:
             return self._failed(request, experiment_id, market_data_reason)
+        if not 1 <= request.trade_start_index < bars_count - 1:
+            return self._failed(request, experiment_id, "invalid_trade_start_index")
         strategy = build_strategy(request.spec)
         cash = request.initial_cash
         positions: dict[str, int] = {}
@@ -110,6 +87,9 @@ class BacktestEngine:
         trades: list[TradeLog] = []
         equity_curve: list[float] = [cash, cash]
         for index in range(1, bars_count - 1):
+            if index < request.trade_start_index:
+                equity_curve.append(cash)
+                continue
             known = {
                 symbol: bars[: index + 1]
                 for symbol, bars in request.bars_by_symbol.items()

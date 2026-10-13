@@ -1,0 +1,3 @@
+split,benchmark,cost_scenario,signal_timestamp,timestamp,symbol,side,price,qty,notional,reasons,pnl,fee,gross_pnl,allocated_entry_fee,execution_cost
+final,integer_buy_hold,base,2026-04-09T20:00:00+00:00,2026-04-10T20:00:00+00:00,HIVE,buy,2.113164894938469,1,2.113164894938469,"('predetermined_next_open_buy_hold',)",0.0,0.005282912237346172,0.0,0.0,0.0031649998426437342
+final,integer_buy_hold,high_impact,2026-04-09T20:00:00+00:00,2026-04-10T20:00:00+00:00,HIVE,buy,2.1194948946237564,1,2.1194948946237564,"('predetermined_next_open_buy_hold',)",0.0,0.005298737236559391,0.0,0.0,0.009494999527931203

@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 224, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 78, in main
+    return execute(args, Path(staging))
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 136, in execute
+    loaded = load_bars_csv(bars_path)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\data.py", line 59, in load_bars_csv
+    raise InvalidCsvDataError(
+        f"duplicate symbol and timestamp: {symbol}, {timestamp}"
+    )
+nasdaq_auto_trader.data.InvalidCsvDataError: duplicate symbol and timestamp: SPY, 2026-09-28T20:00:00+00:00

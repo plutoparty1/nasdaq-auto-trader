@@ -150,6 +150,7 @@ class SettingsWindow:
         self.ttk.Button(buttons, text="저장", command=self._save).grid(row=0, column=5)
 
     def _load_into_variables(self, settings: TradingSettings) -> None:
+        self._loaded_settings = settings
         values = settings.to_dict()
         for name, variable in self.variables.items():
             value = values[name]
@@ -168,7 +169,7 @@ class SettingsWindow:
         self.widgets["ai_candidate_tickers"].configure(state=state)
 
     def _read_settings(self) -> TradingSettings:
-        raw = {}
+        raw = self._loaded_settings.to_dict()
         for name, variable in self.variables.items():
             raw[name] = variable.get()
         return settings_from_dict(raw)

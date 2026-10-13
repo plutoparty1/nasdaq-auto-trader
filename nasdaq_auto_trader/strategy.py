@@ -2,6 +2,8 @@
 
 from __future__ import annotations
 
+from math import isfinite
+
 from .indicators import (
     atr,
     average_volume,
@@ -41,6 +43,8 @@ class TechnicalStrategy:
             stop_decision = self._position_guard(symbol, bars, position)
             if stop_decision is not None:
                 return stop_decision
+        if not isfinite(latest_price) or latest_price <= 0:
+            return TradeDecision(symbol, "hold", 0, 0, ["invalid_price"])
 
         minimum_bars = self._minimum_bars()
         if len(bars) < minimum_bars:
@@ -48,6 +52,13 @@ class TechnicalStrategy:
 
         buy_score, buy_reasons = self._buy_score(closes, bars, latest_price)
         sell_score, sell_reasons = self._sell_score(closes, bars, latest_price)
+
+        if (position is None and buy_score >= self.config.buy_score
+                and sell_score >= self.config.sell_score):
+            return TradeDecision(
+                symbol, "hold", buy_score, latest_price,
+                [*buy_reasons, "conflicting_entry_exit_signal"],
+            )
 
         if position is None and buy_score >= self.config.buy_score:
             return TradeDecision(
@@ -107,6 +118,10 @@ class TechnicalStrategy:
         if position.qty > 0 and position.market_value > 0:
             latest_price = position.market_value / position.qty
         entry = position.avg_entry_price
+        if not isfinite(latest_price) or latest_price <= 0:
+            return TradeDecision(symbol, "hold", 0, 0, ["invalid_price"])
+        if not isfinite(entry) or entry <= 0:
+            return TradeDecision(symbol, "hold", 0, latest_price, ["invalid_entry_price"])
         if latest_price <= entry * (1 - self.config.stop_loss_pct):
             return TradeDecision(symbol, "sell", 99, latest_price, ["fixed_stop_loss"])
         if latest_price >= entry * (1 + self.config.take_profit_pct):
@@ -120,7 +135,9 @@ class TechnicalStrategy:
             and high_water is not None
             and high_water
             >= entry * (1 + self.config.trailing_stop_activation_pct)
-            and entry < latest_price <= high_water * (1 - self.config.trailing_stop_pct)
+            and isfinite(high_water)
+            and (self.config.corrected_exits or entry < latest_price)
+            and latest_price <= high_water * (1 - self.config.trailing_stop_pct)
         ):
             return TradeDecision(
                 symbol,
@@ -132,6 +149,8 @@ class TechnicalStrategy:
 
         if len(bars) >= self.config.atr_period + 1:
             atr_value = atr(bars, self.config.atr_period)
+            if self.config.corrected_exits and (not isfinite(atr_value) or atr_value <= 0):
+                return None
             if latest_price <= entry - atr_value * self.config.atr_stop_multiplier:
                 return TradeDecision(symbol, "sell", 98, latest_price, ["atr_stop_loss"])
             if latest_price >= entry + atr_value * self.config.atr_take_profit_multiplier:

@@ -1,0 +1,24 @@
+{
+  "amends": "comparison-frozen-plan.json",
+  "reason": "DATA QUALITY BEFORE ANY REAL STRATEGY RETURNS: CMCSA Versant spinoff 2026-01-05, provider quote adjustment 1067:1000 is not a share-count ratio; entitlement unsupported",
+  "main_group_data_start": "2026-01-06",
+  "main_group_warmup_bars_per_symbol": 64,
+  "original_split_boundaries_unchanged": true,
+  "main_group_expected_available_split": [
+    "final"
+  ],
+  "supplementary_no_action_pair": [
+    "KDP",
+    "HIVE"
+  ],
+  "supplementary_control": [
+    "SPY"
+  ],
+  "supplementary_period": "2024-09-03..2026-09-28",
+  "main_input_sha256": "22eb6493d51bf44b25f3c329b730a159434105a44ef96be8aa0429c23e2c147f",
+  "no_return_computation_before_amendment": true,
+  "official_sources": [
+    "https://www.cmcsa.com/shareholder-services/cost-basis-guide",
+    "https://www.sec.gov/Archives/edgar/data/1166691/000095010326000079/dp239108_ex9901.htm"
+  ]
+}

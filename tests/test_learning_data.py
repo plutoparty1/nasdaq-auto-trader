@@ -12,6 +12,8 @@ class RecordingMarketData:
 
     def get_stock_bars(self, symbols, timeframe, start, end=None, limit=1000):
         self.calls.append((symbols, timeframe, start, end, limit))
+        if end is not None and end < "2026-06-25":
+            return {symbol: [] for symbol in symbols}
         return {symbol: [Bar(symbol, "2026-06-25T20:00:00+00:00", 100, 101, 99, 100, 1000)] for symbol in symbols}
 
 

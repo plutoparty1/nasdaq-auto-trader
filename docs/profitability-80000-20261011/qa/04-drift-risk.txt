@@ -1,0 +1,26 @@
+command: C:\Python314\python.exe C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py --synthetic-smoke --usdkrw 1400 --fx-source synthetic-test-only --fx-as-of 2020-01-01 --profitability-profile C:\Users\u\AppData\Local\Temp\profitability-qa-mkf4_nfl\04-drift-risk.json --output C:\Users\u\AppData\Local\Temp\profitability-qa-mkf4_nfl\04-drift-risk
+exit: 1
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 240, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 85, in main
+    return execute(args, Path(staging))
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 219, in execute
+    runner(
+    ~~~~~~^
+        config,
+        ^^^^^^^
+    ...<7 lines>...
+        operations_monthly_krw=args.monthly_operations_krw,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_experiment.py", line 52, in run_profitability_suite
+    policies = frozen_candidates(profile_path, manifest)
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_config.py", line 20, in frozen_candidates
+    raise ExperimentInputError('profitability profile differs from the frozen twelve-profile protocol')
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: profitability profile differs from the frozen twelve-profile protocol

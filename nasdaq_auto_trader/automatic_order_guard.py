@@ -181,7 +181,7 @@ class AutomaticOrderGuard:
                     == "automatic_order_reconciliation_required",
                 )
             )
-        return AutomaticOrderPermit(key, context, started)
+        return AutomaticOrderPermit(key, context, started, planned_quantity=order.qty or 1.0)
 
     def confirm(
         self,

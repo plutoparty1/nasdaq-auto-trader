@@ -7,6 +7,12 @@ def validate_settings(settings: TradingSettings) -> ValidationResult:
     errors: list[str] = []
     warnings: list[str] = []
 
+    if settings.daily_minimum_buy_enabled:
+        if not settings.auto_symbol_selection_enabled:
+            errors.append("daily_minimum_buy_enabled requires auto_symbol_selection_enabled")
+        if settings.order_qty != 1:
+            errors.append("daily_minimum_buy_enabled requires order_qty to equal 1")
+
     if not settings.auto_symbol_selection_enabled and not settings.ticker.strip():
         errors.append("ticker must not be empty")
     if (

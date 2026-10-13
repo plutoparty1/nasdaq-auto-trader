@@ -114,7 +114,9 @@ def test_cancel_order_uses_original_order_number_once() -> None:
         "ORGN_ODNO": "9001",
         "RVSE_CNCL_DVSN_CD": "02",
         "ORD_QTY": "2",
-        "OVRS_ORD_UNPR": "19.5",
+        "OVRS_ORD_UNPR": "0",
+        "MGCO_APTM_ODNO": "",
+        "ORD_SVR_DVSN_CD": "0",
     }
 
 

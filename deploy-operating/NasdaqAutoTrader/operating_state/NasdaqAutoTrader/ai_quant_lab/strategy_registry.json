@@ -1,0 +1,2112 @@
+[
+  {
+    "strategy_id": "nasdaq_research_ensemble_20260711",
+    "version": "v1",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-ensemble"
+      ],
+      "source_ids": [
+        "source-ensemble"
+      ],
+      "summary": "Combines independently scored signals and applies explicit volatility and exit controls."
+    },
+    "score": 0.053229959456732936,
+    "rejection_reasons": [
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high",
+      "deflated_sharpe_ratio_too_low"
+    ]
+  },
+  {
+    "strategy_id": "nasdaq_mean_reversion_rsi_20260711",
+    "version": "v1",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion"
+      ],
+      "source_ids": [
+        "source-mean-reversion"
+      ],
+      "summary": "Uses independently documented mean-reversion evidence with an oscillator confirmation and explicit risk controls."
+    },
+    "score": 0.08809706783362913,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "promotion_score_below_threshold"
+    ]
+  },
+  {
+    "strategy_id": "local_bootstrap_trend",
+    "version": "v1",
+    "status": "validation_passed",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "local-research-trend-following"
+      ],
+      "source_ids": [
+        "local-source-trend-following"
+      ],
+      "summary": "\ub85c\uceec \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uc5f0\uad6c \uadfc\uac70\ub97c \uc0ac\uc6a9\ud55c \uac80\uc99d \ud6c4\ubcf4"
+    },
+    "score": 0.5426384417341713,
+    "rejection_reasons": []
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-590891bb4a849b21",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.42948080517560605,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-590891bb4a849b21",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.2765632982999398,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "purged_cross_validation_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-590891bb4a849b21",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.41631031533069307,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-590891bb4a849b21",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.3053464258593486,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-590891bb4a849b21",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.41631031533069307,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-590891bb4a849b21",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.014268899393346145,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high",
+      "deflated_sharpe_ratio_too_low"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-590891bb4a849b21-catalogue-v2",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.43106473682992497,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-590891bb4a849b21-catalogue-v2",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.16823567870800532,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high",
+      "deflated_sharpe_ratio_too_low"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-590891bb4a849b21-catalogue-v2",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.4245683181403117,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-590891bb4a849b21-catalogue-v2",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.4116449737440363,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-590891bb4a849b21-catalogue-v2",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.4245683181403117,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-590891bb4a849b21-catalogue-v2",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.06035065517964491,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high",
+      "deflated_sharpe_ratio_too_low"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-22b5fb7856a52207-catalogue-v3",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.10071493406616658,
+    "rejection_reasons": [
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high",
+      "deflated_sharpe_ratio_too_low"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-22b5fb7856a52207-catalogue-v3",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.3977918399946241,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "purged_cross_validation_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-22b5fb7856a52207-catalogue-v3",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.08932304326450047,
+    "rejection_reasons": [
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high",
+      "deflated_sharpe_ratio_too_low"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-22b5fb7856a52207-catalogue-v3",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.41560934425679535,
+    "rejection_reasons": [
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-22b5fb7856a52207-catalogue-v3",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.08932304326450047,
+    "rejection_reasons": [
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high",
+      "deflated_sharpe_ratio_too_low"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-22b5fb7856a52207-catalogue-v3",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.395823400566398,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "purged_cross_validation_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-22b5fb7856a52207-catalogue-v4",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.15071493406616657,
+    "rejection_reasons": [
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high",
+      "deflated_sharpe_ratio_too_low"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-22b5fb7856a52207-catalogue-v4",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.4449637978277241,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "purged_cross_validation_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-22b5fb7856a52207-catalogue-v4",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.13932304326450046,
+    "rejection_reasons": [
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high",
+      "deflated_sharpe_ratio_too_low"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-22b5fb7856a52207-catalogue-v4",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.4641828338778554,
+    "rejection_reasons": [
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-22b5fb7856a52207-catalogue-v4",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.13932304326450046,
+    "rejection_reasons": [
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high",
+      "deflated_sharpe_ratio_too_low"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-22b5fb7856a52207-catalogue-v4",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.44310197543749796,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "purged_cross_validation_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-590891bb4a849b21-catalogue-v4",
+    "status": "paper_candidate",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6289115459904734,
+    "rejection_reasons": []
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-590891bb4a849b21-catalogue-v4",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.2730392313630906,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-590891bb4a849b21-catalogue-v4",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.607126265240974,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-590891bb4a849b21-catalogue-v4",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.5015970296452683,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-590891bb4a849b21-catalogue-v4",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.607126265240974,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-590891bb4a849b21-catalogue-v4",
+    "status": "champion",
+    "allowed_for_live": true,
+    "manual_approval": true,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6557188941863599,
+    "rejection_reasons": []
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-590891bb4a849b21-catalogue-v5",
+    "status": "paper_candidate",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6289115459904734,
+    "rejection_reasons": []
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-590891bb4a849b21-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.2730392313630906,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-590891bb4a849b21-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.607126265240974,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-590891bb4a849b21-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.5015970296452683,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-590891bb4a849b21-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.607126265240974,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-590891bb4a849b21-catalogue-v5",
+    "status": "champion",
+    "allowed_for_live": true,
+    "manual_approval": true,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6525725991039957,
+    "rejection_reasons": []
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-189544ffc492a573-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.5891991713155824,
+    "rejection_reasons": [
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-189544ffc492a573-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.3025578777575325,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "cpcv_score_too_low"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-189544ffc492a573-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.5660626310114181,
+    "rejection_reasons": [
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-189544ffc492a573-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.46567467791205314,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-189544ffc492a573-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.5660626310114181,
+    "rejection_reasons": [
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-189544ffc492a573-catalogue-v5",
+    "status": "champion",
+    "allowed_for_live": true,
+    "manual_approval": true,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6663422394774094,
+    "rejection_reasons": []
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-b230423351524f87-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.5891914748628693,
+    "rejection_reasons": [
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-b230423351524f87-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.30196004355888206,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "cpcv_score_too_low"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-b230423351524f87-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.566052783079291,
+    "rejection_reasons": [
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-b230423351524f87-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.4682661880799733,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-b230423351524f87-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.566052783079291,
+    "rejection_reasons": [
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-b230423351524f87-catalogue-v5",
+    "status": "champion",
+    "allowed_for_live": true,
+    "manual_approval": true,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6663422394774094,
+    "rejection_reasons": []
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-20bcbd4964c5dad9-catalogue-v5",
+    "status": "paper_candidate",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.629269413354398,
+    "rejection_reasons": []
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-20bcbd4964c5dad9-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.26417229373839257,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-20bcbd4964c5dad9-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.5250434015945071,
+    "rejection_reasons": [
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-20bcbd4964c5dad9-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.1304222680628944,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high",
+      "deflated_sharpe_ratio_too_low"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-20bcbd4964c5dad9-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.5250434015945071,
+    "rejection_reasons": [
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-20bcbd4964c5dad9-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.4061285036299299,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-02cd9c885b12fef0-catalogue-v5",
+    "status": "paper_candidate",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6273987768942688,
+    "rejection_reasons": []
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-02cd9c885b12fef0-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.3218859288457421,
+    "rejection_reasons": [
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-02cd9c885b12fef0-catalogue-v5",
+    "status": "paper_candidate",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6183425213252213,
+    "rejection_reasons": []
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-02cd9c885b12fef0-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6337598086838578,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-02cd9c885b12fef0-catalogue-v5",
+    "status": "paper_candidate",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6183425213252213,
+    "rejection_reasons": []
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-02cd9c885b12fef0-catalogue-v5",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.5711499485598857,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-3a8856dc9a762738-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.4158891042808919,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-3a8856dc9a762738-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.346230569415659,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-3a8856dc9a762738-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.480916528389556,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-3a8856dc9a762738-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.1975738934565265,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-3a8856dc9a762738-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.480916528389556,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-3a8856dc9a762738-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.45189792707047644,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-03d941406a268f1c-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6239389488475193,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-03d941406a268f1c-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.32679881533364097,
+    "rejection_reasons": [
+      "turnover_too_high",
+      "purged_cross_validation_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-03d941406a268f1c-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6376541314725193,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-03d941406a268f1c-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.5529432923648611,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-03d941406a268f1c-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6376541314725193,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-03d941406a268f1c-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.3996472741545489,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_trend",
+    "version": "data-0ed06b2bd73e68df-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6217758022151663,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_cross_momentum",
+    "version": "data-0ed06b2bd73e68df-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-cross-sectional-momentum-jegadeesh-titman-1993"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1993.tb04702.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.2546304126597577,
+    "rejection_reasons": [
+      "max_drawdown_too_high",
+      "turnover_too_high",
+      "purged_cross_validation_score_too_low",
+      "cpcv_score_too_low",
+      "pbo_probability_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_time_momentum",
+    "version": "data-0ed06b2bd73e68df-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-time-series-momentum-moskowitz-ooi-pedersen-2012"
+      ],
+      "source_ids": [
+        "doi:10.1016/j.jfineco.2011.11.003"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6323688356726662,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_mean_reversion",
+    "version": "data-0ed06b2bd73e68df-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-mean-reversion-poterba-summers-1988"
+      ],
+      "source_ids": [
+        "doi:10.1016/0304-405X(88)90021-9"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.43600253309980586,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_breakout",
+    "version": "data-0ed06b2bd73e68df-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-breakout-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6323688356726662,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_ai_volatility_target",
+    "version": "data-0ed06b2bd73e68df-catalogue-v6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-volatility-targeting-harvey-hoyle-korgaonkar-2018"
+      ],
+      "source_ids": [
+        "doi:10.3905/jpm.2018.45.1.014"
+      ],
+      "summary": "\ub3d9\ub8cc\uc2ec\uc0ac \ub610\ub294 \ud559\uc220 \uc5f0\uad6c\ub85c \uadfc\uac70\uac00 \ud655\uc778\ub41c \ud654\uc774\ud2b8\ub9ac\uc2a4\ud2b8 \uc804\ub7b5"
+    },
+    "score": 0.6161953945313182,
+    "rejection_reasons": [
+      "turnover_too_high"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-889bebe422af29dd",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.0020737013961165344,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-f53c32728d66265d",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.0010055434001607633,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-cdaa1b8086114153",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.0004621372325324131,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-3752d2e7a03af8bf",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.009637059351793433,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-2273965604071462",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": -0.0005733749151033574,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-4b6e4ca53c0ed98f",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.002711097972549469,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-5494c272dcb27346",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.006714886937762017,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-59d37952fe3a6201",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": -0.0015110358133172703,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-d161bf16aa0db9e6",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.009630244543321377,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-4f2aeb6cb30f8a38",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.010713790668758348,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-d704dca696211bab",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.01052603053705197,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-7c47b85ffeac8afe",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.01348921767565606,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-84f6b08a211c48fe",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.014017753293163782,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-8605b8f0388c6c8a",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.008013155191309834,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  },
+  {
+    "strategy_id": "builtin_trend_following",
+    "version": "data-012434f8a19aba5c",
+    "status": "rejected",
+    "allowed_for_live": false,
+    "manual_approval": false,
+    "research_basis": {
+      "provider": "insane_search",
+      "research_ids": [
+        "research-trend-following-brock-lakonishok-lebaron-1992"
+      ],
+      "source_ids": [
+        "doi:10.1111/j.1540-6261.1992.tb04681.x"
+      ],
+      "summary": "\uc774\ub3d9\ud3c9\uade0\uacfc \uac70\ub798\ubc94\uc704 \ub3cc\ud30c \uaddc\uce59\uc758 \ubd80\ud2b8\uc2a4\ud2b8\ub7a9 \uac80\uc99d \uc5f0\uad6c\ub97c \ud6c4\ubcf4 \uadfc\uac70\ub85c \uc0ac\uc6a9"
+    },
+    "score": 0.0037216854081494645,
+    "rejection_reasons": [
+      "independent_validation_required",
+      "holdout_history_insufficient",
+      "overfit_metrics_missing"
+    ]
+  }
+]

@@ -1,0 +1,34 @@
+﻿[
+    {
+        "file":  "scripts/run_entry_policy_comparison.py",
+        "sha256":  "5044789173f99d6fcf138c799637e8ec27cfc70f19d261f6fe6b587afcca140a"
+    },
+    {
+        "file":  "nasdaq_auto_trader/entry_comparison.py",
+        "sha256":  "7b7e5abc42fb22bf8b8763c7399d27045ef3d914aa2d0c3d78df994139183577"
+    },
+    {
+        "file":  "nasdaq_auto_trader/entry_comparison_inputs.py",
+        "sha256":  "82096ff61d77fcfac49d9abd7cb8e1098765cd8e92a6778aefbfdcab03383f34"
+    },
+    {
+        "file":  "nasdaq_auto_trader/entry_intraday_replay.py",
+        "sha256":  "c817bb9c0b79a255fa14eaf1baf765f5c824bed64d2488aa8587bb09986e3c14"
+    },
+    {
+        "file":  "nasdaq_auto_trader/entry_policy_experiment.py",
+        "sha256":  "f283856466d42547330b7760956a8b37c71237cbaa3fbd2f98d7c5c2fe7a20af"
+    },
+    {
+        "file":  "nasdaq_auto_trader/entry_policy_experiment_models.py",
+        "sha256":  "0c54a59771890774997079dc5dee011db2d2b478c79481ec748c73a72f0d25f6"
+    },
+    {
+        "file":  "nasdaq_auto_trader/entry_comparison_metrics.py",
+        "sha256":  "6b4dea54a5a3c420e7cbead8166fecd876489665977df1265139f5a17fc8b43c"
+    },
+    {
+        "file":  "nasdaq_auto_trader/entry_comparison_risk.py",
+        "sha256":  "2b08a8df85130def4f96bf4fae7c20b454a8ba9c023984629dbaeb2f76a5668f"
+    }
+]

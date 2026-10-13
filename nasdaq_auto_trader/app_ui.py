@@ -30,6 +30,7 @@ def launch_gui(
     trade_interval_seconds: float = 60 * 60,
     portfolio_refresh_seconds: float = 15,
     settings_path: str | Path | None = None,
+    start_paused: bool = False,
 ) -> None:
     """Launch the Tkinter management GUI."""
 
@@ -77,6 +78,7 @@ def launch_gui(
         messagebox_module=messagebox,
         config_path=config_path,
         portfolio_refresh_seconds=portfolio_refresh_seconds,
+        start_paused=start_paused,
     )
     root.mainloop()
 
@@ -95,6 +97,7 @@ class DashboardApp(
         messagebox_module,
         config_path: str | Path | None,
         portfolio_refresh_seconds: float,
+        start_paused: bool = False,
     ) -> None:
         self.root = root
         self.controller = controller
@@ -129,7 +132,9 @@ class DashboardApp(
                 + self.controller.settings_error,
             )
         self._render_mode()
-        if not self._start_unattended_operation():
+        if start_paused:
+            self._append_log("자동매매 시작 대기: '자동매매 실행'을 눌러 시작하세요.")
+        if start_paused or not self._start_unattended_operation():
             self._start_task("portfolio", self.controller.refresh_portfolio)
         self._poll_results()
         self._tick()

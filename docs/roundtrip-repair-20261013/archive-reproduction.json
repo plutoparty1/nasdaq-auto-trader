@@ -1,0 +1,121 @@
+{
+  "old_sha256": "b34486f790bc45d0f6e73189999f197760c77da482c20dd1a14b94d768617cea",
+  "old_contains_p1": false,
+  "old_engine_cycle_functions": [
+    {
+      "name": "_run_rule_decision_cycle",
+      "references": [
+        "CycleReservationLedger",
+        "config",
+        "symbols",
+        "get",
+        "adjusted_position",
+        "trading_session_state",
+        "observe_position",
+        "_clock",
+        "position_with_high_water",
+        "strategy",
+        "protective_exit",
+        "decide",
+        "_time_based_sell_decision",
+        "daily_minimum_decision",
+        "action",
+        "replace",
+        "list",
+        "dict",
+        "fromkeys",
+        "reasons",
+        "_trading_agents_advice",
+        "apply_trading_agents_policy",
+        "trading_agents",
+        "price_entry_decision",
+        "stop_loss_pct",
+        "TradeDecision",
+        "score",
+        "latest_price",
+        "risk_per_share",
+        "_account_for_order",
+        "adjusted_account",
+        "risk_manager",
+        "RiskManager",
+        "DAILY_MINIMUM_RISK_PCT",
+        "build_order",
+        "automatic_order_context",
+        "max_daily_order_count",
+        "_settings_block_response",
+        "apply_limits",
+        "buy_count",
+        "sell_count",
+        "starting_equity",
+        "daily_loss_breached",
+        "mode",
+        "automatic_order_guard",
+        "record_block",
+        "AutomaticBlockRequest",
+        "str",
+        "_submit_or_block_order",
+        "side",
+        "record_submitted_order",
+        "broker_response_submitted",
+        "reserve",
+        "append",
+        "isinstance"
+      ]
+    }
+  ],
+  "input_scope": "synthetic_OHLCV_not_historical_bars",
+  "old_raw": {
+    "symbol": "CMCSA",
+    "action": "hold",
+    "score": 0,
+    "latest_price": 20.61,
+    "reasons": [
+      "below_long_regime"
+    ],
+    "risk_per_share": null
+  },
+  "old_forced": {
+    "symbol": "CMCSA",
+    "action": "buy",
+    "score": 0,
+    "latest_price": 20.61,
+    "reasons": [
+      "below_long_regime",
+      "daily_minimum_best_affordable"
+    ],
+    "risk_per_share": 0.6183
+  },
+  "old_held": {
+    "symbol": "CMCSA",
+    "action": "sell",
+    "score": 9,
+    "latest_price": 20.61,
+    "reasons": [
+      "below_long_regime",
+      "sma_downtrend",
+      "ema_downtrend",
+      "macd_negative",
+      "momentum_negative",
+      "donchian_breakdown"
+    ],
+    "risk_per_share": null
+  },
+  "new_flat": {
+    "symbol": "CMCSA",
+    "action": "hold",
+    "score": 0,
+    "latest_price": 20.61,
+    "reasons": [
+      "below_long_regime"
+    ],
+    "risk_per_share": null
+  },
+  "toggle_proof": {
+    "due_false": "hold",
+    "due_true": "buy",
+    "new_same_signal": "hold"
+  },
+  "file_mtime_utc": "2026-09-23T13:58:26.737499+00:00",
+  "old_mandatory_budget_0.02": false,
+  "old_mandatory_budget_0.05": true
+}

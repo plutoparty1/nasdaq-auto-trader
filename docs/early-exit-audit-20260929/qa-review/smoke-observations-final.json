@@ -1,0 +1,21 @@
+﻿{
+    "label":  "TEST ONLY - not historical evidence",
+    "comparison_rows":  168,
+    "fill_rows":  1460,
+    "equity_rows":  16800,
+    "entry_skip_rows":  1056,
+    "candidates":  [
+                       "technical_intended_exits",
+                       "technical_corrected_exits",
+                       "fixed_8",
+                       "fixed_10",
+                       "entry_atr14x3_1day",
+                       "SEPARATE_entry_conflict_gate_fixed8",
+                       "SEPARATE_completed_bar_general_fixed8"
+                   ],
+    "skip_reasons":  [
+                         "one_share_exceeds_risk_budget"
+                     ],
+    "no_execution_rows":  22,
+    "open_position_rows":  100
+}

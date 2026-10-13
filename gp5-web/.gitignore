@@ -1,0 +1,7 @@
+node_modules/
+dist/
+qa/
+release/
+test-results/
+playwright-report/
+.omo/

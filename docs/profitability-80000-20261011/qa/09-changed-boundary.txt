@@ -1,0 +1,24 @@
+command: C:\Python314\python.exe C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py --bars C:\Users\u\AppData\Local\NasdaqAutoTrader\research\entry-policy-20260929\public\actual_trade_group.csv --action-free-pair --provenance C:\Users\u\AppData\Local\NasdaqAutoTrader\research\entry-policy-20260929\public\comparison-provenance.json --usdkrw 1333.6339857490755 --fx-source ECB-reference-KRW-per-EUR-divided-by-USD-per-EUR --fx-as-of 2024-08-30T16:00:00+00:00 --train-end 2025-09-01T23:59:59+00:00 --validation-end 2026-02-27T23:59:59+00:00 --fx-history C:\Users\u\AppData\Local\NasdaqAutoTrader\research\entry-policy-20260929\public\usdkrw.csv --profitability-profile C:\Users\u\nasdaq-auto-trader\experiments\profitability_80000\profile.json --output C:\Users\u\AppData\Local\Temp\profitability-qa-historical-lw3kxoba\09-changed-boundary
+exit: 1
+stdout:
+
+stderr:
+Traceback (most recent call last):
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 240, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 85, in main
+    return execute(args, Path(staging))
+  File "C:\Users\u\nasdaq-auto-trader\scripts\run_entry_policy_comparison.py", line 219, in execute
+    runner(
+    ~~~~~~^
+        config,
+        ^^^^^^^
+    ...<7 lines>...
+        operations_monthly_krw=args.monthly_operations_krw,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\u\nasdaq-auto-trader\nasdaq_auto_trader\profitability_experiment.py", line 57, in run_profitability_suite
+    raise ExperimentInputError('evaluation windows differ from the frozen protocol')
+nasdaq_auto_trader.exit_experiment_config.ExperimentInputError: evaluation windows differ from the frozen protocol

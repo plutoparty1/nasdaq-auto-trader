@@ -1,0 +1,26 @@
+{
+  "name": "gp5-pdf-web",
+  "version": "1.1.2",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22.12.0" },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "node scripts/licenses.mjs && vite build",
+    "preview": "vite preview --host 127.0.0.1",
+    "test": "node --test test/*.test.js",
+    "test:browser": "playwright test",
+    "check": "node scripts/check.mjs",
+    "package": "node scripts/package.mjs"
+  },
+  "dependencies": {
+    "@coderline/alphatab": "1.8.4",
+    "fflate": "0.8.3",
+    "pdfkit": "0.20.2",
+    "svg-to-pdfkit": "0.1.8"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.63.0",
+    "vite": "8.3.1"
+  }
+}

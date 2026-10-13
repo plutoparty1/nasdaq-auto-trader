@@ -1,0 +1,28 @@
+{
+  "capture": "PIL_windows_PrintWindow_by_exact_own_process_hwnd",
+  "exit": 0,
+  "windows": {
+    "main": {
+      "hwnd": 659696,
+      "title": "NASDAQ Auto Trader · 정식 운영",
+      "pid": 55884,
+      "path": "C:\\Users\\u\\nasdaq-auto-trader\\docs\\production-release-20261013\\frozen-gui-native.png",
+      "size": [
+        1160,
+        720
+      ]
+    },
+    "review": {
+      "hwnd": 266488,
+      "title": "최종 조건 검토 · 미승인 초안",
+      "pid": 55884,
+      "path": "C:\\Users\\u\\nasdaq-auto-trader\\docs\\production-release-20261013\\frozen-gui-native-review.png",
+      "size": [
+        760,
+        620
+      ]
+    }
+  },
+  "input_actions": 0,
+  "approval_or_start_actions": 0
+}

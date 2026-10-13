@@ -1,0 +1,131 @@
+{
+  "strategy": {
+    "sma_fast": 5,
+    "sma_slow": 20,
+    "ema_fast": 5,
+    "ema_slow": 20,
+    "rsi_period": 14,
+    "rsi_oversold": 30,
+    "rsi_overbought": 70,
+    "macd_fast": 12,
+    "macd_slow": 26,
+    "macd_signal": 9,
+    "bollinger_period": 20,
+    "long_sma": 20,
+    "momentum_period": 63,
+    "donchian_period": 55,
+    "stochastic_period": 14,
+    "stochastic_oversold": 20,
+    "stochastic_overbought": 80,
+    "volume_period": 20,
+    "atr_period": 14,
+    "atr_stop_multiplier": 3.0,
+    "atr_take_profit_multiplier": 5.0,
+    "buy_score": 5,
+    "sell_score": 4,
+    "stop_loss_pct": 0.03,
+    "take_profit_pct": 0.05,
+    "use_regime_filter": true,
+    "buy_trigger_enabled": false,
+    "buy_drop_rate": 0.0,
+    "buy_ma_enabled": true,
+    "trailing_stop_enabled": true,
+    "trailing_stop_activation_pct": 0.02,
+    "trailing_stop_pct": 0.01,
+    "time_based_sell_enabled": false,
+    "max_holding_minutes": 180,
+    "corrected_exits": false
+  },
+  "policies": [
+    "A",
+    "B",
+    "C"
+  ],
+  "common_risk_pct": 0.01,
+  "starting_krw": 80000,
+  "quantity": 1,
+  "single_and_total_exposure_pct": 0.5,
+  "cash_buffer_pct": 0.05,
+  "max_order_usd": 35,
+  "daily_new_buy_loss_halt_pct": 0.02,
+  "historical_minimum_risk_override_5pct_included": false,
+  "costs": [
+    {
+      "name": "base",
+      "commission_pct": 0.0025,
+      "minimum_commission": 0.0,
+      "spread_bps": 10,
+      "slippage_bps": 10,
+      "source": "Illustrative public US online rate 0.25% per side; actual account commission, minimum fee and sell levies unverified. Not broker-exact."
+    },
+    {
+      "name": "stress",
+      "commission_pct": 0.003,
+      "minimum_commission": 0.1,
+      "spread_bps": 30,
+      "slippage_bps": 30,
+      "source": "Prespecified adverse-cost sensitivity; USD 0.10 minimum per side is an assumption, not a verified KIS fee."
+    }
+  ],
+  "splits": [
+    {
+      "name": "train",
+      "start": "2024-12-03T21:00:00+00:00",
+      "end": "2025-08-29T23:59:59+00:00"
+    },
+    {
+      "name": "validation",
+      "start": "2025-09-02T20:00:00+00:00",
+      "end": "2026-02-27T23:59:59+00:00"
+    },
+    {
+      "name": "final",
+      "start": "2026-03-02T21:00:00+00:00",
+      "end": "2026-09-28T20:00:00+00:00"
+    }
+  ],
+  "fx_rate": 1333.6339857490755,
+  "operations_monthly_krw": null,
+  "scope": "A is a matched-risk forced-entry proxy, not exact historical operating strategy",
+  "fill_model": "completed daily close signal; subsequent daily limit touch or market open fill",
+  "selection": "fixed historical-trade case cohort; symbol alphabetical processing; SPY separate control",
+  "data_manifest": {
+    "bars_sha256": "7c81968a0756ebaec29ae37e7e3ecd8b271b48d406f58e5af84e0c7cc297a14b",
+    "profile_sha256": "af69e6f41baa5d0291c8fdd1f5578bfafae437df83c04d880ac1944ecc594627",
+    "costs_sha256": "23b0124bdfd10ec57f5e72c1bda711b2861ba069c80a853fdb89144957d3e11c",
+    "fx_history_sha256": "e94a2de39bf1f2b8c0a1bfd434c0bc5c8110a1e75188fe70e766142e095884f9",
+    "fx_source": "ECB-reference-KRW-per-EUR-divided-by-USD-per-EUR",
+    "fx_as_of": "2024-08-30T16:00:00+00:00",
+    "provenance": {
+      "data_source": "Yahoo public chart quote OHLC; ECB EUR crosses for USDKRW",
+      "collected_at": "2026-09-29T12:37:02.306775+00:00",
+      "bar_interval": "1Day",
+      "adjustment_policy": "Provider split-adjusted quote OHLC, not dividend-adjusted. CMCSA 2026-01-05 Versant corporate action excluded with all prior bars; no entitlement or dividend cash simulated.",
+      "universe_source": "CMCSA KDP HIVE are logged-trade case cohort selected with hindsight; SPY separate control; KDP HIVE separate no-action-pair sensitivity, not historical selection replay",
+      "timestamp_policy": "Exchange completed-session close in America/New_York converted to UTC; NYSE verified 2024-2026 calendar incl early closes and 2025-01-09 closure. Daily labels, not actual fill timestamps.",
+      "raw_manifest_sha256": "8464b401b897ac9e4a261ea3dc15aa67331546055d32b9f55ecb778c2b5c1fe5"
+    },
+    "symbols": [
+      "HIVE",
+      "KDP"
+    ],
+    "bar_count": {
+      "HIVE": 519,
+      "KDP": 519
+    },
+    "assessment": "HISTORICAL_CASE_COHORT_MATCHED_RISK_PROXY",
+    "unavailable_splits": [],
+    "omitted_split_reason": "insufficient data after fixed 64-bar warmup; boundaries not retuned",
+    "order_api_calls": 0,
+    "cancel_api_calls": 0,
+    "limitations": [
+      "A omits historical forced-entry 5% risk override; all policies use 1%",
+      "Fixed case cohort is selected with hindsight, not a historical universe selection replay",
+      "Daily signals and fills cannot measure the historical five-minute liquidation mechanism",
+      "Dividend cash is excluded; provider price adjustment policy must be reviewed",
+      "Known charges use assumptions; actual account fees and operations cost unverified",
+      "Zero executions and partial-month returns do not establish strategy quality"
+    ]
+  },
+  "protocol_sha256": "9ddefde75b7645ce074f2bf685212ba645a5224b6d9b6a0ee967e94feb4cd96f"
+}

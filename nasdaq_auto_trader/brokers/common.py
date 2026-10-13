@@ -1,6 +1,8 @@
 from __future__ import annotations
 
+from http.client import HTTPMessage, HTTPResponse
 from typing import Any
+from urllib.request import HTTPRedirectHandler, Request, build_opener
 
 JsonObject = dict[str, Any]
 
@@ -15,6 +17,29 @@ class BrokerOrderError(ValueError):
 
 class BrokerRequestError(RuntimeError):
     pass
+
+
+class BrokerOrderRejected(BrokerRequestError):
+    def __init__(self, code: str) -> None:
+        self.code = code
+        super().__init__(f"broker_order_rejected:{code}")
+
+
+class _RejectBrokerRedirects(HTTPRedirectHandler):
+    def redirect_request(
+        self,
+        req: Request,
+        fp: HTTPResponse,
+        code: int,
+        msg: str,
+        headers: HTTPMessage,
+        newurl: str,
+    ) -> None:
+        return None
+
+
+def broker_urlopen(request: Request, *, timeout: float) -> HTTPResponse:
+    return build_opener(_RejectBrokerRedirects()).open(request, timeout=timeout)
 
 
 def _first_float(payload: JsonObject, *keys: str, default: float = 0.0) -> float:

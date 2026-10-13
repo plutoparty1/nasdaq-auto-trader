@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from .app_types import EngineResult
-
+from .exit_diagnostics import ExitDiagnostics
 
 AI_FAILURE_MESSAGES = {
     "ai_provider_unavailable": (
@@ -40,6 +40,7 @@ def _summarize_trade_result(item: EngineResult) -> str:
     action = getattr(decision, "action", None) or "-"
     score = getattr(decision, "score", None)
     price = getattr(decision, "latest_price", None)
+    reasons = ",".join(getattr(decision, "reasons", ())) or "-"
     order = item.get("order")
     response = item.get("response")
 
@@ -58,9 +59,17 @@ def _summarize_trade_result(item: EngineResult) -> str:
     elif response is not None:
         response_text = str(response)
 
+    diagnostics = item.get("exit_diagnostics")
+    context = ""
+    if isinstance(diagnostics, ExitDiagnostics):
+        context = (
+            f", exit_context={diagnostics.to_json()}, "
+            f"evaluated_at={item.get('evaluation_timestamp')}, "
+            f"indicator_timeframe={item.get('indicator_timeframe')}"
+        )
     return (
         f"{symbol}: action={action}, score={score}, price={_format_optional_currency(price)}, "
-        f"{order_text}, response={response_text}"
+        f"{order_text}, response={response_text}, reasons={reasons}{context}"
     )
 
 

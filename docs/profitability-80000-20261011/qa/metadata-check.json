@@ -1,0 +1,30 @@
+[
+  {
+    "cohort": "main",
+    "csv_unchanged": true,
+    "protocol_checksum_valid": true,
+    "original_metadata_preserved": true,
+    "limitations": [
+      "Original A/B/C used 1%; these twelve C-entry profiles use 1%, 2%, 4% trade risk with fixed one-share cap",
+      "All historical windows and the hindsight-selected cohort are development/exploratory data",
+      "Close-only protective observation and next-open execution cannot validate intraday stops or limit queue fills",
+      "Modelled commissions and impact are assumptions; exact account levies, FX conversion and operations fees unverified",
+      "Whole-share passive benchmark can omit unaffordable constituents; fractional full basket is nonexecutable",
+      "Dividend cash omitted; overlap audited separately; open equity included; no monthly extrapolation from intraday data"
+    ]
+  },
+  {
+    "cohort": "pair",
+    "csv_unchanged": true,
+    "protocol_checksum_valid": true,
+    "original_metadata_preserved": true,
+    "limitations": [
+      "Original A/B/C used 1%; these twelve C-entry profiles use 1%, 2%, 4% trade risk with fixed one-share cap",
+      "All historical windows and the hindsight-selected cohort are development/exploratory data",
+      "Close-only protective observation and next-open execution cannot validate intraday stops or limit queue fills",
+      "Modelled commissions and impact are assumptions; exact account levies, FX conversion and operations fees unverified",
+      "Whole-share passive benchmark can omit unaffordable constituents; fractional full basket is nonexecutable",
+      "Dividend cash omitted; overlap audited separately; open equity included; no monthly extrapolation from intraday data"
+    ]
+  }
+]

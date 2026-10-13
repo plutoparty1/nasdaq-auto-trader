@@ -1,12 +1,51 @@
 from __future__ import annotations
 
 import json
+from pathlib import Path
+
+import pytest
 
 from nasdaq_auto_trader.live_canary_audit import (
     MAX_AUDIT_BYTES,
     BoundedCanaryAuditLog,
     CanaryAuditEvent,
 )
+
+
+@pytest.mark.parametrize(
+    "message",
+    (
+        'KIS error: {"appsecret": "synthetic secret with spaces"}',
+        "KIS error: {'app_secret': 'synthetic secret with spaces'}",
+        'Alpaca error: {"APCA-API-SECRET-KEY": "synthetic secret with spaces"}',
+        'KIS error: {"appkey": "synthetic secret with spaces"}',
+        'error: {"account_no": "synthetic secret with spaces"}',
+        'error: {"authorization": "Bearer synthetic secret with spaces"}',
+    ),
+)
+def test_audit_redacts_embedded_quoted_secret_assignments(
+    tmp_path: Path, message: str
+) -> None:
+    audit = BoundedCanaryAuditLog(tmp_path)
+
+    assert audit.append(CanaryAuditEvent("2026-09-09", "broker.error", {"message": message}))
+
+    raw = audit.path_for("2026-09-09").read_text(encoding="utf-8")
+    assert "synthetic secret with spaces" not in raw
+    assert "[REDACTED]" in raw
+
+
+def test_audit_redacts_kis_credential_aliases_in_structured_fields(tmp_path: Path) -> None:
+    audit = BoundedCanaryAuditLog(tmp_path)
+
+    assert audit.append(CanaryAuditEvent(
+        "2026-09-09", "broker.error",
+        {"nested": {"appkey": "synthetic-key", "appsecret": "synthetic-secret"}},
+    ))
+
+    raw = audit.path_for("2026-09-09").read_text(encoding="utf-8")
+    assert "synthetic-key" not in raw
+    assert "synthetic-secret" not in raw
 
 
 def test_audit_writes_date_partitioned_jsonl_and_redacts_secrets(tmp_path) -> None:
